@@ -1,0 +1,57 @@
+
+#customize-theme-controls #accordion-section-mystore-favicon-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-site-layout-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-header-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-slider-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-website-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-social-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-blog-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-typography-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-mystore-footer-section .accordion-section-title:hover,
+#customize-theme-controls #accordion-section-colors .accordion-section-title:hover {
+    background-color: #006CC9;
+    color: #FFF;
+}
+
+#customize-theme-controls #accordion-section-mystore-favicon-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-site-layout-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-header-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-slider-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-website-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-social-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-blog-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-typography-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-mystore-footer-section.control-section.open .customize-section-title,
+#customize-theme-controls #accordion-section-colors.control-section.open .customize-section-title {
+    background-color: #006CC9 !important;
+    color: #FFF !important;
+}
+
+#customize-controls .control-section .customize-section-title h3 {
+    color: inherit;
+}
+
+.kaira-upsell {
+    padding: 10px 0 5px;
+}
+.kaira-upsell-title {
+    font-weight: 600;
+}
+.kaira-upsell-btn {
+    background-color: #006CC9;
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    margin: 8px 0 0;
+    padding: 8px 20px 10px;
+    color: #ECECEC !important;
+}
+.kaira-upsell-btn:hover {
+    background-color: #0952A9;
+    color: #FFF !important;
+}
+.kaira-upsell-desc {
+    font-size: 12px;
+    padding: 4px 0 0;
+}

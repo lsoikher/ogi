@@ -1,0 +1,833 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: myStore\n"
+"POT-Creation-Date: 2016-05-27 15:52+0200\n"
+"PO-Revision-Date: 2016-05-27 15:52+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: js\n"
+
+#: 404.php:20 customizer/customizer-options.php:340
+msgid "Oops! <span>404</span>"
+msgstr ""
+
+#: 404.php:25 customizer/customizer-options.php:348
+msgid ""
+"It looks like that page does not exist. <br />Return home or try a search"
+msgstr ""
+
+#: comments.php:38 comments.php:59
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:41 comments.php:62
+msgid "Older Comments"
+msgstr ""
+
+#: comments.php:42 comments.php:63
+msgid "Newer Comments"
+msgstr ""
+
+#: comments.php:75
+msgid "Comments are closed."
+msgstr ""
+
+#: customizer/customizer-library/custom-controls/upsell.php:27
+msgid "Buy myStore Premium"
+msgstr ""
+
+#: customizer/customizer-library/custom-controls/upsell.php:28
+msgid "See the premium features"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:18
+msgid "Standard Fonts"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:20
+msgid "Google Fonts"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:125
+msgid "All"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:126
+msgid "Cyrillic"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:127
+msgid "Cyrillic Extended"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:128
+msgid "Devanagari"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:129
+msgid "Greek"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:130
+msgid "Greek Extended"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:131
+msgid "Khmer"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:132
+msgid "Latin"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:133
+msgid "Latin Extended"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:134
+msgid "Vietnamese"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:194
+msgctxt "font style"
+msgid "Serif"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:198
+msgctxt "font style"
+msgid "Sans Serif"
+msgstr ""
+
+#: customizer/customizer-library/extensions/fonts.php:202
+msgctxt "font style"
+msgid "Monospaced"
+msgstr ""
+
+#: customizer/customizer-options.php:38
+msgid "Favicon"
+msgstr ""
+
+#: customizer/customizer-options.php:45
+msgid "Uplod a favicon"
+msgstr ""
+
+#: customizer/customizer-options.php:48
+msgid "Favicon size is 16 X 16 pixels."
+msgstr ""
+
+#: customizer/customizer-options.php:58
+msgid "Layout Options"
+msgstr ""
+
+#: customizer/customizer-options.php:66
+msgid "Page Styling - Flat / Blocks"
+msgstr ""
+
+#: customizer/customizer-options.php:73
+msgid "Remove the Site Border"
+msgstr ""
+
+#: customizer/customizer-options.php:82
+msgid "Extra WooCommerce Layout"
+msgstr ""
+
+#: customizer/customizer-options.php:93
+msgid "Header Options"
+msgstr ""
+
+#: customizer/customizer-options.php:104
+msgid "Header Layout"
+msgstr ""
+
+#: customizer/customizer-options.php:113
+msgid "Header Background Color"
+msgstr ""
+
+#: customizer/customizer-options.php:121
+msgid "Show the Top Bar"
+msgstr ""
+
+#: customizer/customizer-options.php:129
+msgid "Menu Button Text"
+msgstr ""
+
+#: customizer/customizer-options.php:133
+msgid "This is the text for the menu button"
+msgstr ""
+
+#: customizer/customizer-options.php:138
+msgid "Show Search"
+msgstr ""
+
+#: customizer/customizer-options.php:141
+msgid "Enable a search box on your site"
+msgstr ""
+
+#: customizer/customizer-options.php:151
+msgid "Slider Options"
+msgstr ""
+
+#: customizer/customizer-options.php:162
+msgid "Choose a Slider"
+msgstr ""
+
+#: customizer/customizer-options.php:170
+msgid "Slider Categories"
+msgstr ""
+
+#: customizer/customizer-options.php:173
+msgid ""
+"Enter the ID's of the post categories you want to display in the slider. Eg: "
+"\"13,17,19\" (no spaces and only comma's)<br /><a href=\"http://kairaweb.com/"
+"support/topic/setting-up-the-default-slider/\" target=\"_blank\"><b>Follow "
+"instructions here</b></a>"
+msgstr ""
+
+#: customizer/customizer-options.php:177
+msgid "Slider Shortcode"
+msgstr ""
+
+#: customizer/customizer-options.php:180
+msgid "Enter the shortcode give by meta slider."
+msgstr ""
+
+#: customizer/customizer-options.php:186
+msgid "Extra Slider Settings"
+msgstr ""
+
+#: customizer/customizer-options.php:197
+msgid "Colors"
+msgstr ""
+
+#: customizer/customizer-options.php:203
+msgid "Primary Color"
+msgstr ""
+
+#: customizer/customizer-options.php:211
+msgid "Secondary Color"
+msgstr ""
+
+#: customizer/customizer-options.php:219
+msgid "Site Border Color"
+msgstr ""
+
+#: customizer/customizer-options.php:231
+msgid "Font Options"
+msgstr ""
+
+#: customizer/customizer-options.php:237
+msgid "Body Font"
+msgstr ""
+
+#: customizer/customizer-options.php:245
+msgid "Body Font Color"
+msgstr ""
+
+#: customizer/customizer-options.php:253
+msgid "Heading Font"
+msgstr ""
+
+#: customizer/customizer-options.php:261
+msgid "Heading Font Color"
+msgstr ""
+
+#: customizer/customizer-options.php:273
+msgid "Blog Options"
+msgstr ""
+
+#: customizer/customizer-options.php:280
+msgid "Blog Layout & full width option"
+msgstr ""
+
+#: customizer/customizer-options.php:287
+msgid "Blog Page Title"
+msgstr ""
+
+#: customizer/customizer-options.php:294
+msgid "Exclude Blog Categories"
+msgstr ""
+
+#: customizer/customizer-options.php:297
+msgid ""
+"Enter the ID's of the post categories you'd like to EXCLUDE from the Blog, "
+"enter only the ID's with a minus sign (-) before them, separated by a comma "
+"(,)<br />Eg: \"-13, -17, -19\"<br />If you enter the ID's without the minus "
+"then it'll show ONLY posts in those categories."
+msgstr ""
+
+#: customizer/customizer-options.php:306
+msgid "Footer Layout Options"
+msgstr ""
+
+#: customizer/customizer-options.php:313
+msgid "Different Footer Layouts & remove bottom bar"
+msgstr ""
+
+#: customizer/customizer-options.php:323
+msgid "Website Text"
+msgstr ""
+
+#: customizer/customizer-options.php:330
+msgid "Change CopyRight Text"
+msgstr ""
+
+#: customizer/customizer-options.php:337
+msgid "404 Error Page Heading"
+msgstr ""
+
+#: customizer/customizer-options.php:341
+msgid "Enter the heading for the 404 Error page"
+msgstr ""
+
+#: customizer/customizer-options.php:345
+msgid "Error 404 Message"
+msgstr ""
+
+#: customizer/customizer-options.php:349
+msgid "Enter the default text on the 404 error page (Page not found)"
+msgstr ""
+
+#: customizer/customizer-options.php:353
+msgid "No Search Results"
+msgstr ""
+
+#: customizer/customizer-options.php:356 templates/contents/content-none.php:24
+#: templates/contents/content-none.php:28
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: customizer/customizer-options.php:357
+msgid "Enter the default text for when no search results are found"
+msgstr ""
+
+#: customizer/customizer-options.php:366
+msgid "Social Links"
+msgstr ""
+
+#: customizer/customizer-options.php:373
+msgid "Add Social Links"
+msgstr ""
+
+#: functions.php:74
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:75
+msgid "Top Bar Menu"
+msgstr ""
+
+#: functions.php:122
+msgid "Sidebar"
+msgstr ""
+
+#: functions.php:132
+msgid "Sidebar Menu"
+msgstr ""
+
+#: functions.php:134
+msgid "These widgets are placed in the slide out menu under the navigation."
+msgstr ""
+
+#: functions.php:138
+msgid "myStore Footer Standard"
+msgstr ""
+
+#: functions.php:140
+msgid "The footer will divide into however many widgets are placed here."
+msgstr ""
+
+#: functions.php:213
+#, php-format
+msgid ""
+"<p>Install the plugins we at <a href=\"http://www.kairaweb.com/\" target="
+"\"_blank\">Kaira</a> recommended | <a href=\"%1$s\">Hide Notice</a></p>"
+msgstr ""
+
+#: functions.php:214
+msgid "WooCommerce"
+msgstr ""
+
+#: functions.php:215
+msgid "SiteOrigin's Page Builder"
+msgstr ""
+
+#: functions.php:216
+msgid "Meta Slider"
+msgstr ""
+
+#: functions.php:217
+msgid "Breadcrumb NavXT"
+msgstr ""
+
+#: includes/inc/extras.php:52
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:22
+msgid "Posts navigation"
+msgstr ""
+
+#: includes/inc/template-tags.php:26
+msgid "Older posts"
+msgstr ""
+
+#: includes/inc/template-tags.php:30
+msgid "Newer posts"
+msgstr ""
+
+#: includes/inc/template-tags.php:55
+msgid "Post navigation"
+msgstr ""
+
+#: includes/inc/template-tags.php:85
+#, php-format
+msgctxt "post date"
+msgid "Posted on %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:90
+#, php-format
+msgctxt "post author"
+msgid "by %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:107 includes/inc/template-tags.php:113
+msgid ", "
+msgstr ""
+
+#: includes/inc/template-tags.php:109
+#, php-format
+msgid "Posted in %1$s"
+msgstr ""
+
+#: includes/inc/template-tags.php:115
+#, php-format
+msgid "Tagged %1$s"
+msgstr ""
+
+#: includes/inc/template-tags.php:121
+msgid "Leave a comment"
+msgstr ""
+
+#: includes/inc/template-tags.php:121
+msgid "1 Comment"
+msgstr ""
+
+#: includes/inc/template-tags.php:121
+msgid "% Comments"
+msgstr ""
+
+#: includes/inc/template-tags.php:125 templates/contents/content-page.php:22
+msgid "Edit"
+msgstr ""
+
+#: includes/inc/template-tags.php:142
+#, php-format
+msgid "Category: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:144
+#, php-format
+msgid "Tag: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:146
+#, php-format
+msgid "Author: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:148
+#, php-format
+msgid "Year: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:148
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: includes/inc/template-tags.php:150
+#, php-format
+msgid "Month: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:150
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: includes/inc/template-tags.php:152
+#, php-format
+msgid "Day: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:152
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr ""
+
+#: includes/inc/template-tags.php:155
+msgctxt "post format archive title"
+msgid "Asides"
+msgstr ""
+
+#: includes/inc/template-tags.php:157
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr ""
+
+#: includes/inc/template-tags.php:159
+msgctxt "post format archive title"
+msgid "Images"
+msgstr ""
+
+#: includes/inc/template-tags.php:161
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr ""
+
+#: includes/inc/template-tags.php:163
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr ""
+
+#: includes/inc/template-tags.php:165
+msgctxt "post format archive title"
+msgid "Links"
+msgstr ""
+
+#: includes/inc/template-tags.php:167
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr ""
+
+#: includes/inc/template-tags.php:169
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr ""
+
+#: includes/inc/template-tags.php:171
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr ""
+
+#: includes/inc/template-tags.php:174
+#, php-format
+msgid "Archives: %s"
+msgstr ""
+
+#: includes/inc/template-tags.php:178
+#, php-format
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: includes/inc/template-tags.php:180
+msgid "Archives"
+msgstr ""
+
+#: includes/inc/woocommerce-header-inc.php:9
+#: templates/header/header-layout-centered.php:40
+#: templates/header/header-layout-standard.php:52
+msgid "View your shopping cart"
+msgstr ""
+
+#: includes/inc/woocommerce-header-inc.php:11
+#: templates/header/header-layout-centered.php:42
+#: templates/header/header-layout-standard.php:54
+#, php-format
+msgid "(%d)"
+msgid_plural "(%d)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search.php:16
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: searchform.php:9
+msgctxt "placeholder"
+msgid "Search &amp; hit enter&hellip;"
+msgstr ""
+
+#: searchform.php:11
+msgctxt "submit button"
+msgid "&nbsp;"
+msgstr ""
+
+#: sidebar-menu.php:15
+msgid "Menu"
+msgstr ""
+
+#: templates/contents/content-none.php:14
+msgid "Nothing Found"
+msgstr ""
+
+#: templates/contents/content-none.php:20
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: templates/contents/content-page.php:15
+#: templates/contents/content-single.php:20 templates/contents/content.php:40
+msgid "Pages:"
+msgstr ""
+
+#: templates/contents/content.php:33
+#, php-format
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: templates/footers/footer-standard.php:11
+msgid "Add your own widgets here"
+msgstr ""
+
+#: templates/footers/footer-standard.php:15
+#, php-format
+msgid ""
+"<div class=\"clearboth\"></div></div></div><div class=\"site-footer-bottom-"
+"bar\"><div class=\"site-container\"><div class=\"site-footer-bottom-bar-left"
+"\">Theme: %1$s by %2$s"
+msgstr ""
+
+#: templates/slider/homepage-slider.php:76
+msgid "Highly Customizable"
+msgstr ""
+
+#: templates/slider/homepage-slider.php:78
+msgid ""
+"Integrated with WooCommerce, SiteOrigin's Page Builder, Comtact Form 7 and "
+"more..."
+msgstr ""
+
+#: templates/slider/homepage-slider.php:89
+msgid "Beautiful online store"
+msgstr ""
+
+#: templates/slider/homepage-slider.php:91
+msgid "Easily create your online presence with our myStore WordPress theme"
+msgstr ""
+
+#: templates/titlebar.php:7
+msgid "Blog"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:4
+msgid "Premium Upgrade"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:12
+#, php-format
+msgid ""
+"Sometimes emails take a while... Please <a href='%s' target='_blank'>Read "
+"here</a> for an easy upgrade."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:17
+msgid "<span>Purchase Now </span><em>$22</em>"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:19
+msgid "Already have one?"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:23
+msgid "Enter your Order Number"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:26
+msgid "After purchase you should receive an email with your order number."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:29
+msgid "Please be patient as this email can take a few minutes to come through."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:36
+msgid "Get Upgrade"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:42
+#, php-format
+msgid ""
+"If you need to look up your order number, please <a href='%s' "
+"target='_blank'>search here</a> using your <strong>PayPal email address</"
+"strong>.<br />"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:43
+msgid "Also, be sure to check your spam folder if you can't find it."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:53 upgrade/tpl/upgrade-page.php:59
+msgid "Upgrade to Premium"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:56
+msgid ""
+"If you've enjoyed using our myStore theme to build your website, then you "
+"should love the premium version which comes with a bunch of extra features "
+"for a low cost of <strong>$22</strong>.<br /><br />With myStore premium we "
+"offer continued updates and you'll get prioritized support to help you build "
+"the website you want."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:64 upgrade/tpl/upgrade-page.php:70
+msgid "Continued Updates"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:67
+msgid ""
+"Once you upgrade to myStore Premium, you'll then support and move over to "
+"our premium updates system which will ensure mystore works with all future "
+"versions of WordPress that are released."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:75 upgrade/tpl/upgrade-page.php:81
+msgid "Get Premium Support"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:78
+msgid ""
+"Upgrading to mystore Premium will also give you prioritized support, "
+"ensuring we get to your queries first.<br /><br />We have a growing <a "
+"href='https://kairaweb.com/support/' target='_blank'>support forum</a> on "
+"our website as well as <a href='https://kairaweb.com/support-contact/' "
+"target='_blank'>email support</a> to sort out any queries you may have."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:92
+msgid ""
+"We aim to keep our prices low, all our themes are under <strong>$30</"
+"strong>, while still offering you great WordPress themes."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:94
+msgid ""
+"Upgrading will support us and enable us to keep building WordPress themes."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:96
+#, php-format
+msgid ""
+"If you like our themes and/or found our support helpful, please let us know "
+"by <a href='%s' target='_blank'>giving us a review</a>."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:100
+msgid "Theme Ratings"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:112
+msgid "SpySunny"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:115
+msgid "Very user-friendly theme with excellent support."
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:121
+msgid "Fitoni"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:124
+msgid ""
+"What a great theme!! been using it for a long time, very clean code, easy to "
+"use, easy to customize, really cant say any wrong about it!!!<br /><br /"
+">Give it a try and you will not be dissapointed! this theme is THE BEST!!"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:130
+msgid "NayWordPress"
+msgstr ""
+
+#: upgrade/tpl/upgrade-page.php:133
+msgid ""
+"I've purchased the Premium Theme for my Online Store. Very awesome! Support "
+"assistance 100&#37; available, easy to customize. I recommend it to everyone "
+"who want to build a Store Online. Really practicable for E-commerce."
+msgstr ""
+
+#: upgrade/update.php:93
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+
+#: upgrade/update.php:98
+msgid "An unknown error occurred"
+msgstr ""
+
+#: upgrade/upgrade.php:13
+msgid "Premium"
+msgstr ""
+
+#: upgrade/upgrade.php:76
+msgid "Order Number"
+msgstr ""
+
+#: upgrade/upgrade.php:83
+msgid "Order Number: "
+msgstr ""
+
+#: upgrade/upgrade.php:88
+msgid "There was a problem contacting our validation servers."
+msgstr ""
+
+#: upgrade/upgrade.php:89 upgrade/upgrade.php:126
+msgid ""
+"Please try again later, or upgrade manually using the ZIP file we sent you."
+msgstr ""
+
+#: upgrade/upgrade.php:93 upgrade/upgrade.php:130
+msgid "Back"
+msgstr ""
+
+#: upgrade/upgrade.php:102
+msgid "We've validated your order number, and it works!"
+msgstr ""
+
+#: upgrade/upgrade.php:106
+#, php-format
+msgid ""
+"You can now update your theme on the <a href=\"%s\">Themes page</a>,<br /"
+">but <strong>please note</strong> this can take a few minutes to show up so "
+"please be patient :)"
+msgstr ""
+
+#: upgrade/upgrade.php:110
+msgid "This update will add all the premium features."
+msgstr ""
+
+#: upgrade/upgrade.php:115
+msgid ""
+"Updating may lose the theme settings you've made to the free version. Click "
+"'OK' to update."
+msgstr ""
+
+#: upgrade/upgrade.php:117
+msgid "Update Theme Now"
+msgstr ""
+
+#: upgrade/upgrade.php:124
+msgid "We couldn't validate your order number."
+msgstr ""
+
+#: upgrade/upgrade.php:125
+msgid "There might be a problem with our validation server."
+msgstr ""

@@ -1,0 +1,81 @@
+/*--------------------------------------------------------------
+myStore - Footer Split Styling
+--------------------------------------------------------------*/
+
+.site-footer-split {
+    background-color: #4D4C4C;
+    color: #A1A1A1;
+}
+
+.site-footer-split .site-footer-bottom-bar {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+    padding: 14px 0 18px;
+}
+
+.site-footer-split .site-footer-widgets {
+    padding: 40px 0 50px;
+}
+
+.site-footer-widgets-left {
+    float: left;
+    text-align: left;
+    max-width: 35%;
+}
+.site-footer-widgets-left > ul {
+    margin: 0;
+    padding: 0;
+}
+.site-footer-widgets-left > ul > li {
+    margin: 20px 0;
+    padding: 0;
+    list-style-type: none;
+}
+.site-footer-widgets-right {
+    float: right;
+    text-align: right;
+    max-width: 35%;
+}
+.site-footer-widgets-right > ul {
+    margin: 0;
+    padding: 0;
+}
+.site-footer-widgets-right > ul > li {
+    margin: 20px 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.site-footer-split .widgettitle {
+    border-bottom: 1px dotted #C7C7C7;
+    margin: 0 0 14px;
+    padding: 0 0 6px;
+    color: #C7C7C7;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 960px) {
+    
+    .site-footer-widgets-left,
+    .site-footer-widgets-right {
+        max-width: 44%;
+        text-align: left;
+    }
+    
+}
+
+@media only screen and (max-width: 782px) {
+    
+    .site-footer-widgets-left,
+    .site-footer-widgets-right {
+        max-width: 100%;
+        float: none;
+    }
+    
+    .site-footer-widgets-left > ul > li {
+        margin: 0 0 40px;
+    }
+    
+}

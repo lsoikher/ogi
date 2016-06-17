@@ -1,0 +1,45 @@
+/*--------------------------------------------------------------
+myStore - Footer Centered Styling
+--------------------------------------------------------------*/
+
+.site-footer-centered {
+    background-color: #4D4C4C;
+    color: #A1A1A1;
+    text-align: center;
+}
+
+.site-footer-centered .site-footer-bottom-bar {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+    padding: 14px 0 18px;
+}
+
+.site-footer-centered .site-container > ul {
+    margin: 0;
+    padding: 50px 0 20px;
+}
+.site-footer-centered .site-container > ul > li {
+    margin: 0 auto 40px;
+    padding: 0;
+    list-style-type: none;
+    display: block;
+    max-width: 600px;
+}
+
+.site-footer-centered .widgettitle {
+    border-bottom: 1px dotted #C7C7C7;
+    margin: 0 0 14px;
+    padding: 0 0 6px;
+    color: #C7C7C7;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 782px) {
+    
+    .site-footer-centered .site-container > ul > li {
+        margin: 0 0 40px;
+    }
+    
+}

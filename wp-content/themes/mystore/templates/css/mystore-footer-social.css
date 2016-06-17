@@ -1,0 +1,70 @@
+/*--------------------------------------------------------------
+myStore - Footer Social Styling
+--------------------------------------------------------------*/
+
+.site-footer-social {
+    background-color: #4D4C4C;
+    text-align: center;
+    color: #333;
+}
+
+.site-footer-icons {
+    padding: 90px 0 90px;
+}
+
+.footer-social-icon {
+    display: inline-block;
+    font-size: 96px;
+    line-height: 14px;
+    margin: 0 30px 15px;
+    text-align: center;
+    color: inherit;
+}
+.footer-social-icon i {
+    font-size: 96px;
+}
+.site-footer-icon-text {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.site-footer-social .site-footer-bottom-bar {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+    padding: 14px 0 18px;
+}
+
+@media only screen and (max-width: 960px) {
+    
+    .site-footer-icons {
+        padding: 70px 0 60px;
+    }
+    .footer-social-icon {
+        font-size: 60px;
+        line-height: 14px;
+        margin: 0 20px 15px;
+    }
+    .footer-social-icon i {
+        font-size: 60px;
+    }
+    
+}
+
+@media only screen and (max-width: 782px) {
+    
+    .site-footer-icons {
+        padding: 60px 0 45px;
+    }
+    .footer-social-icon {
+        font-size: 40px;
+        line-height: 24px;
+        margin: 0 10px 15px;
+    }
+    .footer-social-icon i {
+        font-size: 40px;
+    }
+    
+}
