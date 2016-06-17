@@ -280,7 +280,7 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 				'date_created'  => wc_rest_prepare_date_response( $attachment_post->post_date_gmt ),
 				'date_modified' => wc_rest_prepare_date_response( $attachment_post->post_modified_gmt ),
 				'src'           => current( $attachment ),
-				'title'         => get_the_title( $attachment_id ),
+				'name'          => get_the_title( $attachment_id ),
 				'alt'           => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
 				'position'      => (int) $position,
 			);
@@ -293,7 +293,7 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 				'date_created'  => wc_rest_prepare_date_response( current_time( 'mysql' ) ), // Default to now.
 				'date_modified' => wc_rest_prepare_date_response( current_time( 'mysql' ) ),
 				'src'           => wc_placeholder_img_src(),
-				'title'         => __( 'Placeholder', 'woocommerce' ),
+				'name'          => __( 'Placeholder', 'woocommerce' ),
 				'alt'           => __( 'Placeholder', 'woocommerce' ),
 				'position'      => 0,
 			);
@@ -346,6 +346,23 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 	}
 
 	/**
+	 * Get attribute options.
+	 *
+	 * @param int $product_id
+	 * @param array $attribute
+	 * @return array
+	 */
+	protected function get_attribute_options( $product_id, $attribute ) {
+		if ( isset( $attribute['is_taxonomy'] ) && $attribute['is_taxonomy'] ) {
+			return wc_get_product_terms( $product_id, $attribute['name'], array( 'fields' => 'names' ) );
+		} elseif ( isset( $attribute['value'] ) ) {
+			return array_map( 'trim', explode( '|', $attribute['value'] ) );
+		}
+
+		return array();
+	}
+
+	/**
 	 * Get the attributes for a product or product variation.
 	 *
 	 * @param WC_Product|WC_Product_Variation $product
@@ -376,15 +393,14 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 			}
 		} else {
 			foreach ( $product->get_attributes() as $attribute ) {
-				// Taxonomy-based attributes are comma-separated, others are pipe (|) separated.
 				if ( $attribute['is_taxonomy'] ) {
 					$attributes[] = array(
-						'id'        => $attribute['is_taxonomy'] ? wc_attribute_taxonomy_id_by_name( $attribute['name'] ) : 0,
+						'id'        => wc_attribute_taxonomy_id_by_name( $attribute['name'] ),
 						'name'      => $this->get_attribute_taxonomy_label( $attribute['name'] ),
 						'position'  => (int) $attribute['position'],
 						'visible'   => (bool) $attribute['is_visible'],
 						'variation' => (bool) $attribute['is_variation'],
-						'options'   => array_map( 'trim', explode( ',', $product->get_attribute( $attribute['name'] ) ) ),
+						'options'   => $this->get_attribute_options( $product->id, $attribute ),
 					);
 				} else {
 					$attributes[] = array(
@@ -393,7 +409,7 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 						'position'  => (int) $attribute['position'],
 						'visible'   => (bool) $attribute['is_visible'],
 						'variation' => (bool) $attribute['is_variation'],
-						'options'   => array_map( 'trim', explode( '|', $product->get_attribute( $attribute['name'] ) ) ),
+						'options'   => $this->get_attribute_options( $product->id, $attribute ),
 					);
 				}
 			}
@@ -746,9 +762,9 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 					update_post_meta( $attachment_id, '_wp_attachment_image_alt', wc_clean( $image['alt'] ) );
 				}
 
-				// Set the image title if present.
-				if ( ! empty( $image['title'] ) && $attachment_id ) {
-					wp_update_post( array( 'ID' => $attachment_id, 'post_title' => $image['title'] ) );
+				// Set the image name if present.
+				if ( ! empty( $image['name'] ) && $attachment_id ) {
+					wp_update_post( array( 'ID' => $attachment_id, 'post_title' => $image['name'] ) );
 				}
 			}
 
@@ -1366,9 +1382,9 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 							update_post_meta( $attachment_id, '_wp_attachment_image_alt', wc_clean( $image['alt'] ) );
 						}
 
-						// Set the image title if present.
-						if ( ! empty( $image['title'] ) ) {
-							wp_update_post( array( 'ID' => $attachment_id, 'post_title' => $image['title'] ) );
+						// Set the image name if present.
+						if ( ! empty( $image['name'] ) ) {
+							wp_update_post( array( 'ID' => $attachment_id, 'post_title' => $image['name'] ) );
 						}
 
 						update_post_meta( $variation_id, '_thumbnail_id', $attachment_id );
@@ -2483,7 +2499,7 @@ class WC_REST_Products_Controller extends WC_REST_Posts_Controller {
 						),
 					),
 				),
-				'grouped_products_ids' => array(
+				'grouped_products' => array(
 					'description' => __( 'List of grouped products ID.', 'woocommerce' ),
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit' ),

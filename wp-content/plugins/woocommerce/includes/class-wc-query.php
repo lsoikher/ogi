@@ -624,9 +624,25 @@ class WC_Query {
 		$tax_query = isset( $args['tax_query'] ) ? $args['tax_query'] : array();
 
 		if ( ! empty( $args['taxonomy'] ) && ! empty( $args['term'] ) ) {
-			$tax_query[] = array(
+			$tax_query[ $args['taxonomy'] ] = array(
 				'taxonomy' => $args['taxonomy'],
 				'terms'    => array( $args['term'] ),
+				'field'    => 'slug',
+			);
+		}
+
+		if ( ! empty( $args['product_cat'] ) ) {
+			$tax_query[ 'product_cat' ] = array(
+				'taxonomy' => 'product_cat',
+				'terms'    => array( $args['product_cat'] ),
+				'field'    => 'slug',
+			);
+		}
+
+		if ( ! empty( $args['product_tag'] ) ) {
+			$tax_query[ 'product_tag' ] = array(
+				'taxonomy' => 'product_tag',
+				'terms'    => array( $args['product_tag'] ),
 				'field'    => 'slug',
 			);
 		}
