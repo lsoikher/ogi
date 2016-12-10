@@ -34,6 +34,18 @@ final class WPN_Helper
     }
 
     /**
+     * @param $input
+     * @return array|string
+     */
+    public static function utf8_decode( $input ){
+        if ( is_array( $input ) )    {
+            return array_map( array( 'self', 'utf8_decode' ), $input );
+        }else{
+            return utf8_decode( $input );
+        }
+    }
+
+    /**
      * @param $search
      * @param $replace
      * @param $subject
@@ -197,6 +209,22 @@ final class WPN_Helper
             return array_map( array( 'self', 'sanitize_text_field' ), $data );
         }
         return sanitize_text_field( $data );
+    }
+
+    public static function get_plugin_version( $plugin )
+    {
+        $plugins = get_plugins();
+
+        if( ! isset( $plugins[ $plugin ] ) ) return false;
+
+        return $plugins[ $plugin ][ 'Version' ];
+    }
+
+    public static function is_func_disabled( $function )
+    {
+        if( ! function_exists( $function ) ) return true;
+        $disabled = explode( ',',  ini_get( 'disable_functions' ) );
+        return in_array( $function, $disabled );
     }
 
 } // End Class WPN_Helper

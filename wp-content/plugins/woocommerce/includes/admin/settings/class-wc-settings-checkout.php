@@ -109,7 +109,7 @@ class WC_Settings_Payment_Gateways extends WC_Settings_Page {
 				'type'            => 'checkbox',
 				'checkboxgroup'   => '',
 				'show_if_checked' => 'option',
-				'desc_tip'        => __( 'Force SSL (HTTPS) on the checkout pages (an SSL Certificate is required).', 'woocommerce' ),
+				'desc_tip'        => sprintf( __( 'Force SSL (HTTPS) on the checkout pages (<a href="%s">an SSL Certificate is required</a>).', 'woocommerce' ), 'https://docs.woocommerce.com/document/ssl-and-https/#section-3' ),
 			),
 
 			'unforce_ssl_checkout' => array(
@@ -317,7 +317,7 @@ class WC_Settings_Payment_Gateways extends WC_Settings_Page {
 									case 'name' :
 										$method_title = $gateway->get_title() ? $gateway->get_title() : __( '(no title)', 'woocommerce' );
 										echo '<td class="name">
-											<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=' . strtolower( get_class( $gateway ) ) ) . '">' . esc_html( $method_title ) . '</a>
+											<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=' . strtolower( $gateway->id ) ) . '">' . esc_html( $method_title ) . '</a>
 										</td>';
 										break;
 

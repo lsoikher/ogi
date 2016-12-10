@@ -1,0 +1,351 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: YITH WooCommerce Order Tracking\n"
+"POT-Creation-Date: 2016-05-04 10:46+0200\n"
+"PO-Revision-Date: 2015-04-22 12:59+0100\n"
+"Last-Translator: \n"
+"Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
+"X-Poedit-KeywordsList: __ ;_e;_n:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: plugin-fw\n"
+
+#: functions.php:51
+msgid ""
+"YITH WooCommerce Gift Cards is enabled but not effective. It requires "
+"WooCommerce in order to work."
+msgstr ""
+
+#: functions.php:85
+msgid ""
+"You can't activate the free version of YITH WooCommerce Gift Cards while you "
+"are using the premium one."
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:146
+#, php-format
+msgid "Gift card code: %s"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:264
+msgid "Gift card"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:290
+msgid "You don't have configured any gift card yet"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:320
+msgid "Gift card amount"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:324
+msgid "Add"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:468
+msgid "Do you have a coupon or a gift card?"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:468
+msgid "Click here to enter your code"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:476
+#: lib/class.yith-woocommerce-gift-cards.php:477
+msgid "Gift Cards"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:560
+msgid "Discount code: "
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:562
+msgid "Discount code"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:564
+msgid "Apply discount"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:592
+msgid "Gift card code"
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:681
+#, php-format
+msgid "The gift card identified by the code %s has no credit left."
+msgstr ""
+
+#: lib/class.yith-woocommerce-gift-cards.php:814
+msgid "Create your first gift card"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:121
+msgid "General"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:122
+#: lib/class.ywgc-plugin-fw-loader.php:180
+msgid "Premium Version"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:177
+msgid "Settings"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:206
+msgid "Plugin Documentation"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:219
+msgid ""
+"YITH WooCommerce Gift Cards is available in an outstanding PREMIUM version "
+"with many new options, discover it now."
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:220
+msgid "Premium version"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:227
+msgid "YITH WooCommerce Gift Cards"
+msgstr ""
+
+#: lib/class.ywgc-plugin-fw-loader.php:228
+msgid ""
+"In YIT Plugins tab you can find YITH WooCommerce Gift Cards options.<br> "
+"From this menu you can access all settings of YITH plugins activated."
+msgstr ""
+
+#: lib/class.ywgc-product-gift-card.php:88
+#, php-format
+msgctxt "Price range: from-to"
+msgid "%1$s&ndash;%2$s"
+msgstr ""
+
+#: lib/class.ywgc-product-gift-card.php:101
+msgid "Select amount"
+msgstr ""
+
+#: plugin-options/general-options.php:20
+msgid "General settings"
+msgstr ""
+
+#: plugin-options/general-options.php:24
+msgid "Enable plugin"
+msgstr ""
+
+#: plugin-options/general-options.php:27
+msgid "Uncheck this if you want to disable temporarly the plugin"
+msgstr ""
+
+#: plugin-options/general-options.php:31
+msgid "Create a gift card"
+msgstr ""
+
+#: plugin-options/general-options.php:33
+msgid ""
+"You're able to create your own gift cards. In order to sell gift cards you "
+"need to create a product and set the product type to 'gift card' (you can "
+"find the gift card option in the same dropdown that allows you to choose "
+"between simple or variable product)"
+msgstr ""
+
+#: templates/admin/premium.php:241 templates/admin/premium.php:463
+#, php-format
+msgid ""
+"Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Gift Cards%2$s to "
+"benefit from all features!"
+msgstr ""
+
+#: templates/admin/premium.php:244 templates/admin/premium.php:466
+msgid "UPGRADE"
+msgstr ""
+
+#: templates/admin/premium.php:245 templates/admin/premium.php:467
+msgid "to the premium version"
+msgstr ""
+
+#: templates/admin/premium.php:251
+msgid "Premium Features"
+msgstr ""
+
+#: templates/admin/premium.php:259
+msgid "Fixed or variable amount?"
+msgstr ""
+
+#: templates/admin/premium.php:262
+#, php-format
+msgid ""
+"Choose the %1$samount of the gift cards%2$s you want to sell in your shop. "
+"The choice is simple and for everybody's needs. Set the amounts available "
+"for the gift cards, or let users decide the amount they want. Two different "
+"options for two positive outcomes."
+msgstr ""
+
+#: templates/admin/premium.php:272
+msgid " Who will receive the gift?"
+msgstr ""
+
+#: templates/admin/premium.php:275
+#, php-format
+msgid ""
+"The receiver of the gift card is expressed by his/her email address. So "
+"easy! But what if you want to send the gift cards to more people? You just "
+"have to add all the %1$semail addresses%2$s et voilà, the gift will be sent."
+msgstr ""
+
+#: templates/admin/premium.php:291
+msgid "Customization of the gift cards"
+msgstr ""
+
+#: templates/admin/premium.php:294
+#, php-format
+msgid ""
+"Each gift card is totally customizable by who purchases it. %1$sImages%2$s "
+"and %1$stexts%2$s can be changed by users' tastes, to make them free to "
+"shape their gift."
+msgstr ""
+
+#: templates/admin/premium.php:304
+msgid "...when will it be delivered?"
+msgstr ""
+
+#: templates/admin/premium.php:307
+#, php-format
+msgid ""
+"Users can decide when sending the email that contains the gift card: a vital "
+"feature to allow your customers to %1$spostpone the delivery of the gift"
+"%2$s. A completely automatic process, with no problems nor worries."
+msgstr ""
+
+#: templates/admin/premium.php:323
+msgid "I suggest you this product"
+msgstr ""
+
+#: templates/admin/premium.php:326
+#, php-format
+msgid ""
+"Another new feature of the premium version! %1$sYou can give you a gift card "
+"and at the same time suggest what to purchase.%2$s Obviously, who will "
+"receive your card can purchase whatever he/she wants, but it is always a "
+"good thing to advise something.%3$s You will have an order of the amount of "
+"the selected product, and your shop will grow more and more."
+msgstr ""
+
+#: templates/admin/premium.php:336
+msgid "Not just virtual..."
+msgstr ""
+
+#: templates/admin/premium.php:339
+#, php-format
+msgid ""
+"If you prefer to deliver the physical copy of the gift card, %1$syou are "
+"free to create a tailored product%2$s for this need. There are many people "
+"who prefer to touch their gifts rather than see them in an email."
+msgstr ""
+
+#: templates/admin/premium.php:355
+msgid "Notification for used gift cards"
+msgstr ""
+
+#: templates/admin/premium.php:358
+#, php-format
+msgid ""
+"Who purchases a gift card would probably like to be %1$snotified whenever it "
+"is used%2$s. Enable the specific option and let users know their gift cards "
+"have been appreciated!"
+msgstr ""
+
+#: templates/admin/premium.php:368
+msgid "Email status check"
+msgstr ""
+
+#: templates/admin/premium.php:371
+#, php-format
+msgid ""
+"Check the status and potential errors of emails containing gift cards. In "
+"case you receive a notice about %1$ssending/receiving error%2$s, in one "
+"click you could easily send it again and make your users happy."
+msgstr ""
+
+#: templates/admin/premium.php:387
+msgid "Suspended gift card"
+msgstr ""
+
+#: templates/admin/premium.php:390
+#, php-format
+msgid ""
+"There are many reasons why you could need to temporarily block the use of a "
+"specific %1$sgift card purchased%2$s on your shop. You could do it with a "
+"simple click by administration panel, and reactivate it only when you decide."
+msgstr ""
+
+#: templates/admin/premium.php:400
+msgid "Synchronization with orders"
+msgstr ""
+
+#: templates/admin/premium.php:403
+#, php-format
+msgid ""
+"Gifts cards can be automatically %1$ssuspended%2$s or %1$sremoved%2$s when "
+"the related order acquires the \"refunded\" or \"completed\" status."
+msgstr ""
+
+#: templates/admin/premium.php:419
+msgid "Company logo"
+msgstr ""
+
+#: templates/admin/premium.php:422
+#, php-format
+msgid ""
+"Two different templates for the gift cards of your shop: %1$schoose if and "
+"where to show your company logo%2$s by using the structure you prefer."
+msgstr ""
+
+#: templates/admin/premium.php:432
+msgid "Wide range of gift cards"
+msgstr ""
+
+#: templates/admin/premium.php:435
+#, php-format
+msgid ""
+"No more only one gift card typology to sell in your shop! Release your "
+"creative energy by assigning a %1$sdifferent image to each gift card product"
+"%2$s. Your users could choose from several solutions."
+msgstr ""
+
+#: templates/admin/premium.php:451
+msgid "Image gallery"
+msgstr ""
+
+#: templates/admin/premium.php:454
+#, php-format
+msgid ""
+"More freedom for your users! Create a %1$sgift card portfolio%2$s and give "
+"them the possibility to choose the one to use for the gift card during the "
+"purchase. With a rich and varied image gallery you could satisfy all your "
+"users’ tastes."
+msgstr ""
+
+#: templates/single-product/add-to-cart/gift-card.php:22
+msgid "This product cannot be purchased"
+msgstr ""
+
+#: templates/single-product/add-to-cart/gift-card.php:29
+msgid "Choose amount"
+msgstr ""
+
+#: templates/single-product/add-to-cart/gift-card.php:36
+msgid "Choose an amount"
+msgstr ""

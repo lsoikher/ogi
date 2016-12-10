@@ -1,0 +1,16 @@
+{
+  "name": "ghostmonitor/helper",
+  "description": "Ghostmonitor helper class for webshop modules",
+  "authors": [
+    {
+      "name": "Andras Hegedus",
+      "email": "andras.hegedus@ghosmonitor.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Ghostmonitor\\": "ghostmonitor"
+    }
+  },
+  "minimum-stability": "dev"
+}

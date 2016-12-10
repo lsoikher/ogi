@@ -80,19 +80,6 @@ elseif ( get_theme_mod( 'mystore-slider-type', false ) == 'mystore-meta-slider' 
                     
                 </div>
                 
-                <div class="home-slider-block" style="background-image: url(<?php echo get_template_directory_uri() ?>/images/demo/slider_default_02.jpg);">
-                    
-                    <img src="<?php echo get_template_directory_uri() ?>/images/slider_blank_img_medium.gif" />
-                    
-                    <div class="home-slider-block-inner">
-                        <h3>
-                            <?php _e( 'Beautiful online store', 'mystore' ); ?>
-                        </h3>
-                        <p><?php _e( 'Easily create your online presence with our myStore WordPress theme', 'mystore' ); ?></p>
-                    </div>
-                
-                </div>
-                
             </div>
             <div class="home-slider-pager"></div>
             

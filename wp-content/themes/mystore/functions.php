@@ -4,13 +4,10 @@
  *
  * @package myStore
  */
-define( 'MYSTORE_THEME_VERSION' , '1.0.9' );
+define( 'MYSTORE_THEME_VERSION' , '1.1.11' );
 
-// Is ONLY USED IF the user prompts for the premium update
-define( 'MYSTORE_UPDATE_URL', 'https://updates.kairaweb.com/' );
 // Upgrade / Order Premium page
 require get_template_directory() . '/upgrade/upgrade.php';
-require get_template_directory() . '/upgrade/update.php';
 
 // Load WP included scripts
 require get_template_directory() . '/includes/inc/template-tags.php';
@@ -23,6 +20,9 @@ require get_template_directory() . '/customizer/customizer-options.php';
 require get_template_directory() . '/customizer/customizer-library/customizer-library.php';
 require get_template_directory() . '/customizer/styles.php';
 require get_template_directory() . '/customizer/mods.php';
+
+// Load TGM plugin class
+require_once get_template_directory() . '/includes/inc/class-tgm-plugin-activation.php';
 
 if ( ! function_exists( 'mystore_setup' ) ) :
 /**
@@ -96,7 +96,7 @@ function mystore_setup() {
         'default-image' => '',
 		'width'         => 300,
 		'height'        => 100,
-		'flex-width'    => false,
+		'flex-width'    => true,
 		'flex-height'   => true,
 		'header-text'   => false,
 	) );
@@ -149,15 +149,14 @@ function mystore_scripts() {
 	wp_enqueue_style( 'mystore-google-body-font-default', '//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic', array(), MYSTORE_THEME_VERSION );
 	wp_enqueue_style( 'mystore-google-heading-font-default', '//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic', array(), MYSTORE_THEME_VERSION );
 	
-	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/includes/font-awesome/css/font-awesome.css', array(), '4.3.0' );
+	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/includes/font-awesome/css/font-awesome.css', array(), '4.6.3' );
+	wp_enqueue_style( 'mystore-style', get_stylesheet_uri(), array(), MYSTORE_THEME_VERSION );
 	
 	if ( get_theme_mod( 'mystore-header-layout' ) == 'mystore-header-layout-standard' ) :
 		wp_enqueue_style( 'mystore-header-style-standard', get_template_directory_uri().'/templates/css/mystore-header-standard.css', array(), MYSTORE_THEME_VERSION );
 	else :
 		wp_enqueue_style( 'mystore-header-style-centered', get_template_directory_uri().'/templates/css/mystore-header-centered.css', array(), MYSTORE_THEME_VERSION );
 	endif;
-	
-	wp_enqueue_style( 'mystore-style', get_stylesheet_uri(), array(), MYSTORE_THEME_VERSION );
 	
 	if ( mystore_is_woocommerce_activated() ) :
 		wp_enqueue_style( 'mystore-standard-woocommerce-style', get_template_directory_uri().'/templates/css/mystore-woocommerce-standard-style.css', array(), MYSTORE_THEME_VERSION );
@@ -195,40 +194,57 @@ function mystore_load_customizer_script() {
 }
 add_action( 'customize_controls_enqueue_scripts', 'mystore_load_customizer_script' );
 
-/* Display the recommended plugins notice that can be dismissed */
-add_action('admin_notices', 'mystore_recommended_plugin_notice');
+/**
+ * Display recommended plugins with the TGM class
+ */
+function mystore_register_required_plugins() {
+	$plugins = array(
+		// The recommended WordPress.org plugins.
+		array(
+			'name'      => 'Easy Theme Upgrade (For upgrading to myStore Premium)',
+			'slug'      => 'easy-theme-and-plugin-upgrades',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Page Builder',
+			'slug'      => 'siteorigin-panels',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'WooCommerce',
+			'slug'      => 'woocommerce',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Widgets Bundle',
+			'slug'      => 'siteorigin-panels',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Contact Form 7',
+			'slug'      => 'contact-form-7',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Breadcrumb NavXT',
+			'slug'      => 'breadcrumb-navxt',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Meta Slider',
+			'slug'      => 'ml-slider',
+			'required'  => false,
+		)
+	);
+	$config = array(
+		'id'           => 'mystore',
+		'menu'         => 'tgmpa-install-plugins',
+		'message'      => '',
+	);
 
-function mystore_recommended_plugin_notice() {
-    global $pagenow;
-    global $current_user;
-    
-    $user_id = $current_user->ID;
-    
-    /* If on plugins page, check that the user hasn't already clicked to ignore the message */
-    if ( $pagenow == 'plugins.php' ) {
-	    if ( ! get_user_meta( $user_id, 'mystore_recommended_plugin_ignore_notice' ) ) {
-	        echo '<div class="updated"><p>';
-            printf( __('<p>Install the plugins we at <a href="http://www.kairaweb.com/" target="_blank">Kaira</a> recommended | <a href="%1$s">Hide Notice</a></p>', 'mystore' ), '?mystore_recommended_plugin_nag_ignore=0' ); ?>
-            <a href="<?php echo admin_url('plugin-install.php?tab=favorites&user=kaira'); ?>"><?php printf( __( 'WooCommerce', 'mystore' ), 'mystore' ); ?></a><br />
-            <a href="<?php echo admin_url('plugin-install.php?tab=favorites&user=kaira'); ?>"><?php printf( __( 'SiteOrigin\'s Page Builder', 'mystore' ), 'mystore' ); ?></a><br />
-            <a href="<?php echo admin_url('plugin-install.php?tab=favorites&user=kaira'); ?>"><?php printf( __( 'Meta Slider', 'mystore' ), 'mystore' ); ?></a><br />
-            <a href="<?php echo admin_url('plugin-install.php?tab=favorites&user=kaira'); ?>"><?php printf( __( 'Breadcrumb NavXT', 'mystore' ), 'mystore' ); ?></a>
-            <?php
-	        echo "</p></div>";
-	    }
-	}
+	tgmpa( $plugins, $config );
 }
-add_action('admin_init', 'mystore_recommended_plugin_nag_ignore');
-
-function mystore_recommended_plugin_nag_ignore() {
-    global $current_user;
-    $user_id = $current_user->ID;
-        
-    /* If user clicks to ignore the notice, add that to their user meta */
-    if ( isset($_GET['mystore_recommended_plugin_nag_ignore']) && '0' == $_GET['mystore_recommended_plugin_nag_ignore'] ) {
-        add_user_meta( $user_id, 'mystore_recommended_plugin_ignore_notice', 'true', true );
-    }
-}
+add_action( 'tgmpa_register', 'mystore_register_required_plugins' );
 
 // Add specific CSS class by filter
 function mystore_add_body_class( $classes ) {

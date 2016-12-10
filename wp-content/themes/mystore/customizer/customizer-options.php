@@ -8,7 +8,7 @@
 function customizer_library_mystore_options() {
 
 	// Theme defaults
-	$header_bg_color = '#EEEEEE';
+	$header_bg_color = '#f9f9f9';
 	
 	$primary_color = '#29a6e5';
 	$secondary_color = '#2886e5';
@@ -16,7 +16,7 @@ function customizer_library_mystore_options() {
 	$body_font_color = '#404040';
 	$heading_font_color = '#5E5E5E';
 	
-	$site_border_color = '#666';
+	$site_border_color = '#212121';
 
 	// Stores all the controls that will be added
 	$options = array();
@@ -79,7 +79,7 @@ function customizer_library_mystore_options() {
 	// Upsell Button Two
     $options['mystore-setting-upsell-two'] = array(
         'id' => 'mystore-setting-upsell-two',
-        'label'   => __( 'Extra WooCommerce Layout', 'mystore' ),
+        'label'   => __( 'Extra Layout Settings', 'mystore' ),
         'section' => $section,
         'type'    => 'upsell',
     );
@@ -96,8 +96,8 @@ function customizer_library_mystore_options() {
 	);
 
 	$choices = array(
-		'mystore-header-layout-centered' => 'Centered Layout Style',
-		'mystore-header-layout-standard' => 'Standard Layout Style'
+		'mystore-header-layout-centered' => __( 'Centered Layout Style', 'mystore' ),
+		'mystore-header-layout-standard' => __( 'Standard Layout Style', 'mystore' )
 	);
 	$options['mystore-header-layout'] = array(
 		'id' => 'mystore-header-layout',
@@ -143,6 +143,55 @@ function customizer_library_mystore_options() {
     );
     
     
+    // Page Banner Settings
+    $section = 'mystore-page-banner-section';
+
+    $sections[] = array(
+        'id' => $section,
+        'title' => __( 'Page Banner Options', 'mystore' ),
+        'priority' => '35'
+    );
+    
+    $options['mystore-page-banner-enable'] = array(
+        'id' => 'mystore-page-banner-enable',
+        'label'   => __( 'Enable Page Banner', 'mystore' ),
+        'section' => $section,
+        'type'    => 'checkbox',
+        'description' => __( 'Select this to add the Page Banner to all the pages', 'mystore' ),
+        'default' => 0,
+    );
+    
+    $options['mystore-page-banner-bg-color'] = array(
+        'id' => 'mystore-page-banner-bg-color',
+        'label'   => __( 'Background Color', 'mystore' ),
+        'section' => $section,
+        'type'    => 'color',
+        'default' => $header_bg_color,
+    );
+    
+    $options['mystore-default-page-banner'] = array(
+        'id' => 'mystore-default-page-banner',
+        'label'   => __( 'Default Page Banner', 'mystore' ),
+        'section' => $section,
+        'type'    => 'image',
+        'description' => __( 'Upload a default background image for the Page Banners', 'mystore' )
+    );
+    $choices = array(
+        'mystore-banner-size-extra-small' => __( 'Extra Small Page Banner', 'mystore' ),
+        'mystore-banner-size-small' => __( 'Small Page Banner', 'mystore' ),
+        'mystore-banner-size-medium' => __( 'Medium Page Banner', 'mystore' ),
+        'mystore-banner-size-large' => __( 'Large Page Banner', 'mystore' )
+    );
+    $options['mystore-banner-size'] = array(
+        'id' => 'mystore-banner-size',
+        'label'   => __( 'Page Banner Size', 'mystore' ),
+        'section' => $section,
+        'type'    => 'select',
+        'choices' => $choices,
+        'default' => 'mystore-banner-size-extra-small'
+    );
+    
+    
     // Slider Settings
     $section = 'mystore-slider-section';
 
@@ -153,9 +202,9 @@ function customizer_library_mystore_options() {
     );
     
     $choices = array(
-        'mystore-slider-default' => 'Default Slider',
-        'mystore-meta-slider' => 'Meta Slider',
-        'mystore-no-slider' => 'None'
+        'mystore-slider-default' => __( 'Default Slider', 'mystore' ),
+        'mystore-meta-slider' => __( 'Meta Slider', 'mystore' ),
+        'mystore-no-slider' => __( 'None', 'mystore' )
     );
     $options['mystore-slider-type'] = array(
         'id' => 'mystore-slider-type',
@@ -170,7 +219,7 @@ function customizer_library_mystore_options() {
         'label'   => __( 'Slider Categories', 'mystore' ),
         'section' => $section,
         'type'    => 'text',
-        'description' => __( 'Enter the ID\'s of the post categories you want to display in the slider. Eg: "13,17,19" (no spaces and only comma\'s)<br /><a href="http://kairaweb.com/support/topic/setting-up-the-default-slider/" target="_blank"><b>Follow instructions here</b></a>', 'mystore' )
+        'description' => __( 'Enter the ID\'s of the post categories you want to display in the slider. Eg: "13,17,19" (no spaces and only comma\'s)<br /><a href="https://kairaweb.com/documentation/setting-up-the-default-slider/" target="_blank"><b>Follow instructions here</b></a>', 'mystore' )
     );
     $options['mystore-meta-slider-shortcode'] = array(
         'id' => 'mystore-meta-slider-shortcode',
@@ -263,6 +312,29 @@ function customizer_library_mystore_options() {
 		'type'    => 'color',
 		'default' => $heading_font_color,
 	);
+	
+	$options['mystore-site-title-font'] = array(
+        'id' => 'mystore-site-title-font',
+        'label'   => __( 'Site Title Font', 'mystore' ),
+        'section' => $section,
+        'type'    => 'select',
+        'choices' => $font_choices,
+        'default' => 'Droid Serif'
+    );
+    $options['mystore-site-title-font-color'] = array(
+        'id' => 'mystore-site-title-font-color',
+        'label'   => __( 'Site Title Font Color', 'mystore' ),
+        'section' => $section,
+        'type'    => 'color',
+        'default' => $primary_color,
+    );
+    $options['mystore-site-desc-font-color'] = array(
+        'id' => 'mystore-site-desc-font-color',
+        'label'   => __( 'Site Description Font Color', 'mystore' ),
+        'section' => $section,
+        'type'    => 'color',
+        'default' => '#FFFFFF',
+    );
 	
 	
 	// Blog Settings

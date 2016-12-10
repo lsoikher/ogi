@@ -7,7 +7,6 @@ myStore - Header Centered Styling
 }
 
 .site-branding {
-    max-width: 300px;
     margin: 0 auto;
     text-align: center;
     position: relative;
@@ -15,7 +14,8 @@ myStore - Header Centered Styling
 }
 .home .mystore-slider-default .site-branding,
 .home .mystore-meta-slider .site-branding,
-.home .site-branding {
+.home .site-branding,
+.has-page-banner .site-branding {
     height: 0;
 }
 .site-branding a {
@@ -27,10 +27,13 @@ myStore - Header Centered Styling
 
 .site-title {
     margin: 0;
-    padding: 12px 0 8px;
+    padding: 15px 0 4px;
     font-size: 54px;
-    line-height: 70px;
+    line-height: 1.2em;
     font-weight: 300;
+}
+.site-title a {
+    color: inherit !important;
 }
 .site-description {
     margin: 0;
@@ -39,12 +42,17 @@ myStore - Header Centered Styling
     line-height: 18px;
     font-weight: 300;
     text-transform: uppercase;
+    color: #FFF;
+}
+.site-description a {
+    color: inherit;
 }
 
 /* -------- Navigation -------- */
 
 #page {
     position: relative;
+    overflow: hidden;
     right: 0;
     
     -webkit-transition: right 0.4s ease 0s;
@@ -83,7 +91,7 @@ myStore - Header Centered Styling
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 52px 22px 30px 22px;
-    background: #22211F;
+    background: #212121;
     z-index: 9999;
     height: 100%;
     overflow: auto;
@@ -123,8 +131,8 @@ body.admin-bar .main-menu-close {
 
 .header-menu-button {
     cursor: pointer;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3) inset;
-    background-color: #FFF;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18) inset;
+    background-color: rgba(255, 255, 255, 0.85);
     position: absolute;
     padding: 4px 14px;
     top: 53px;
@@ -166,8 +174,8 @@ body.admin-bar .main-menu-close {
     left: 0 !important;
     float: none !important;
     background-color: rgba(0, 0, 0, 0.2) !important;
-    /* padding: 4px 0; */
-    /* margin: 6px 0; */
+    /*padding: 4px 0;
+    margin: 6px 0;*/
 }
 .main-navigation ul ul li {
     
@@ -186,8 +194,8 @@ body.admin-bar .main-menu-close {
 }
 
 .header-cart {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3) inset;
-    background-color: #FFF;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18) inset;
+    background-color: rgba(255, 255, 255, 0.85);
     position: absolute;
     top: 53px;
     left: 15px;
@@ -212,15 +220,14 @@ a.header-cart-contents {
     position: absolute;
     right: 15px;
     top: 53px;
-    background-color: #FFF;
-    border: 1px solid #B2B2B2;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.18);
     z-index: 99;
-    
     -webkit-transition: right 0.4s ease 0s;
-     -moz-transition: right 0.4s ease 0s;
-      -ms-transition: right 0.4s ease 0s;
-       -o-transition: right 0.4s ease 0s;
-          transition: right 0.4s ease 0s;
+    -moz-transition: right 0.4s ease 0s;
+    -ms-transition: right 0.4s ease 0s;
+    -o-transition: right 0.4s ease 0s;
+    transition: right 0.4s ease 0s;
 }
 .search-btn {
     padding: 8px 10px 8px 10px;
@@ -286,43 +293,15 @@ a.header-cart-contents {
 
 @media only screen and (max-width: 782px) {
     
-    .site-branding {
-        max-width: 100%;
-        min-width: 300px;
-    }
-    .home .mystore-slider-default .site-branding,
-    .home .mystore-meta-slider .site-branding,
-    .home .site-branding {
-        height: auto;
-    }
     .site-title {
-        padding: 8px 0 2px;
-    }
-    .site-description {
-        padding: 0 0 8px;
+        padding: 65px 0 0;
     }
     
-    .header-menu-button {
-        position: relative;
-        background: none;
-        box-shadow: none;
-        text-align: center;
-        padding: 4px;
-        left: 0;
-        top: 0 !important;
+    .home-slider-block {
+        height: 310px;
     }
-    
-    .header-cart {
-        position: relative;
-        text-align: center;
-        right: 0 !important;
-        background: none;
-        box-shadow: none;
-        top: 0 !important;
-        margin: 0 0 4px;
-    }
-    a.header-cart-contents {
-        font-size: 13px;
+    .home-slider-block-inner {
+        top: 82%;
     }
     
 }

@@ -1,41 +1,12 @@
 /**
- * myStore Custom JS Functionality
+ * Custom JS Functionality
  *
  */
 ( function( $ ) {
     
     jQuery( document ).ready( function() {
         
-        // Handle clicking the purchase button
-        $( 'a#upgrade-purchase-link' ).click( function(e) {
-            e.preventDefault();
-            window.open( $(this).attr( 'href' ), '_blank', 'width=960,height=800,resizeable,scrollbars' );
-            $( '.upgrade-order-number-info-form' ).slideDown();
-            $( 'html, body' ).animate( {'scrollTop':0} );
-            return false;
-        });
         
-        // Show/Hide the order number form
-        $( '#upgrade-has-order-number' ).click( function () {
-            $( '.upgrade-order-number-info-form' ).slideToggle();
-            return false;
-        } );
-        
-        // Add simple js validation for the Order Number input
-        $( 'input.upgrade-submit' ).click( function (e) {
-            var is_valid = true;
-            var order_number = $( 'input.upgrade-text' ).val();
-            
-            if ( order_number == '' ) {
-                
-                is_valid = false;
-                $( 'input.upgrade-text' ).addClass( 'upgrade-error' );
-                
-            }
-            
-            if ( is_valid == false )
-                e.preventDefault();
-        });
         
     });
     

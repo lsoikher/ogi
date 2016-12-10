@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Ajax Search Free\n"
-"POT-Creation-Date: 2016-06-10 15:29+0200\n"
+"POT-Creation-Date: 2016-10-17 12:45+0200\n"
 "PO-Revision-Date: 2015-07-17 09:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: Yithemes <plugins@yithemes.com>\n"
@@ -62,7 +62,7 @@ msgid ""
 "the <a href=\""
 msgstr ""
 
-#: ../class.yith-wcas.php:176
+#: ../class.yith-wcas.php:181
 msgid "No results"
 msgstr ""
 
@@ -142,6 +142,22 @@ msgstr ""
 
 #: ../plugin-options/settings-options.php:84
 msgid "Maximum number of results showed within the autosuggest box."
+msgstr ""
+
+#: ../plugin-options/settings-options.php:97
+msgid "Enable transients to cache autocomplete results"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:98
+msgid "Save the results of a query in a transient"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:106
+msgid "Set the duration of transient"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:107
+msgid "(hours)"
 msgstr ""
 
 #: ../templates/admin/premium.php:251 ../templates/admin/premium.php:299

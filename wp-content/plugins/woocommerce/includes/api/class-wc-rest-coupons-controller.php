@@ -156,7 +156,7 @@ class WC_REST_Coupons_Controller extends WC_REST_Posts_Controller {
 			'discount_type'                => $coupon->type,
 			'description'                  => $post->post_excerpt,
 			'amount'                       => wc_format_decimal( $coupon->coupon_amount, 2 ),
-			'expiry_date'                  => ( ! empty( $coupon->expiry_date ) ) ? wc_rest_prepare_date_response( $coupon->expiry_date ) : null,
+			'expiry_date'                  => wc_rest_prepare_date_response( $coupon->expiry_date ),
 			'usage_count'                  => (int) $coupon->usage_count,
 			'individual_use'               => ( 'yes' === $coupon->individual_use ),
 			'product_ids'                  => array_map( 'absint', (array) $coupon->product_ids ),
@@ -246,8 +246,8 @@ class WC_REST_Coupons_Controller extends WC_REST_Posts_Controller {
 		// Content.
 		$data->post_content = '';
 
-		// Excerpt.
-		if ( ! empty( $schema['properties']['excerpt'] ) && isset( $request['description'] ) ) {
+		// Coupon description (excerpt).
+		if ( ! empty( $schema['properties']['description'] ) && isset( $request['description'] ) ) {
 			$data->post_excerpt = wp_filter_post_kses( $request['description'] );
 		}
 
@@ -469,7 +469,7 @@ class WC_REST_Coupons_Controller extends WC_REST_Posts_Controller {
 				),
 				'amount' => array(
 					'description' => __( 'The amount of discount.', 'woocommerce' ),
-					'type'        => 'float',
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'expiry_date' => array(
@@ -538,12 +538,12 @@ class WC_REST_Coupons_Controller extends WC_REST_Posts_Controller {
 				),
 				'minimum_amount' => array(
 					'description' => __( 'Minimum order amount that needs to be in the cart before coupon applies.', 'woocommerce' ),
-					'type'        => 'float',
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'maximum_amount' => array(
 					'description' => __( 'Maximum order amount allowed when using the coupon.', 'woocommerce' ),
-					'type'        => 'float',
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'email_restrictions' => array(
@@ -560,7 +560,7 @@ class WC_REST_Coupons_Controller extends WC_REST_Posts_Controller {
 			),
 		);
 
-		return $this->add_additional_fields_schema( $schema );;
+		return $this->add_additional_fields_schema( $schema );
 	}
 
 	/**

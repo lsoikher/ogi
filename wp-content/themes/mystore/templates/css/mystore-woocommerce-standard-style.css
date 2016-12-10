@@ -526,7 +526,6 @@
 }
 .woocommerce .cart-collaterals .cart_totals table,
 .woocommerce-page .cart-collaterals .cart_totals table {
-    max-width: 300px;
     float: right;
 }
 .woocommerce .cart-collaterals .cart_totals tr th,
@@ -560,11 +559,6 @@
     padding: 10px;
 }
 
-.woocommerce .cart-collaterals .shipping_calculator,
-.woocommerce-page .cart-collaterals .shipping_calculator {
-    max-width: 300px;
-}
-
 .woocommerce .cart-collaterals .cross-sells,
 .woocommerce-page .cart-collaterals .cross-sells {
     width: 52%;
@@ -572,6 +566,7 @@
 .woocommerce .cart-collaterals .cart_totals,
 .woocommerce-page .cart-collaterals .cart_totals {
     width: 44%;
+    max-width: 380px;
 }
 
 .woocommerce table.cart a.remove,
@@ -736,7 +731,34 @@
     box-shadow: -1px 0 0 #D7D7D7;
 }
 
+/* -------- My Account Styling -------- */
 
+.woocommerce-account .woocommerce-MyAccount-navigation {
+    width: 20%;
+}
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+    margin: 0;
+    padding: 0;
+    box-shadow: -1px 0 0 #D7D7D7 inset;
+}
+.woocommerce-account .woocommerce-MyAccount-navigation ul li {
+    margin: 0 0 1px;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    list-style-type: none;
+}
+.woocommerce-account .woocommerce-MyAccount-navigation ul li a {
+    display: block;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+    padding: 12px 12px;
+    text-decoration: none;
+}
+.woocommerce-account .is-active {
+    box-shadow: 4px 0 0 rgba(0, 0, 0, 0.3) inset;
+}
+.woocommerce-account .woocommerce-MyAccount-content {
+    width: 78%;
+}
 
 /* -------- Responsive Styling -------- */
 
@@ -795,6 +817,24 @@
     .woocommerce-page #order_review {
         width: 100%;
         float: none;
+    }
+    
+    /* -- My Account -- */
+    .woocommerce-account .woocommerce-MyAccount-navigation,
+    .woocommerce-account .woocommerce-MyAccount-content {
+        width: 100%;
+        float: none;
+        margin: 0 0 20px;
+    }
+    .woocommerce-account .woocommerce-MyAccount-navigation ul {
+        box-shadow: none;
+    }
+    .woocommerce-account .woocommerce-MyAccount-navigation ul li {
+        display: inline-block;
+        margin: 0 4px 5px 0;
+    }
+    .woocommerce-account .is-active {
+        box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.3) inset;
     }
     
 }

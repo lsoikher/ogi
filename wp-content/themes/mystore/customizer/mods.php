@@ -13,7 +13,8 @@ function customizer_mystore_fonts() {
 	// Font options
 	$fonts = array(
 		get_theme_mod( 'mystore-body-font', customizer_library_get_default( 'mystore-body-font' ) ),
-		get_theme_mod( 'mystore-heading-font', customizer_library_get_default( 'mystore-heading-font' ) )
+		get_theme_mod( 'mystore-heading-font', customizer_library_get_default( 'mystore-heading-font' ) ),
+		get_theme_mod( 'mystore-site-title-font', customizer_library_get_default( 'mystore-site-title-font' ) ),
 	);
 
 	$font_uri = customizer_library_get_google_font_uri( $fonts );

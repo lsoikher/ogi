@@ -312,7 +312,7 @@ class WC_REST_Customers_Controller extends WC_REST_Controller {
 		$request['password'] = ! empty( $request['password'] ) ? $request['password'] : '';
 
 		// Create customer.
-		$customer_id = wc_create_new_customer( $request['email'], $request['username'], $request['password'] );;
+		$customer_id = wc_create_new_customer( $request['email'], $request['username'], $request['password'] );
 		if ( is_wp_error( $customer_id ) ) {
 			return $customer_id;
 		}
@@ -658,7 +658,7 @@ class WC_REST_Customers_Controller extends WC_REST_Controller {
 				),
 				'last_order' => array(
 					'description' => __( 'Last order data.', 'woocommerce' ),
-					'type'        => 'array',
+					'type'        => 'object',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 					'properties'  => array(
@@ -684,7 +684,7 @@ class WC_REST_Customers_Controller extends WC_REST_Controller {
 				),
 				'total_spent' => array(
 					'description' => __( 'Total amount spent.', 'woocommerce' ),
-					'type'        => 'float',
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
@@ -696,7 +696,7 @@ class WC_REST_Customers_Controller extends WC_REST_Controller {
 				),
 				'billing' => array(
 					'description' => __( 'List of billing address data.', 'woocommerce' ),
-					'type'        => 'array',
+					'type'        => 'object',
 					'context'     => array( 'view', 'edit' ),
 					'properties' => array(
 						'first_name' => array(
@@ -759,7 +759,7 @@ class WC_REST_Customers_Controller extends WC_REST_Controller {
 				),
 				'shipping' => array(
 					'description' => __( 'List of shipping address data.', 'woocommerce' ),
-					'type'        => 'array',
+					'type'        => 'object',
 					'context'     => array( 'view', 'edit' ),
 					'properties' => array(
 						'first_name' => array(

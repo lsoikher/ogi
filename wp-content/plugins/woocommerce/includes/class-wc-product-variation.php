@@ -97,7 +97,9 @@ class WC_Product_Variation extends WC_Product {
 	 * @return bool
 	 */
 	public function __isset( $key ) {
-		if ( in_array( $key, array_keys( $this->variation_level_meta_data ) ) ) {
+		if ( in_array( $key, array( 'variation_data', 'variation_has_stock' ) ) ) {
+			return true;
+		} elseif ( in_array( $key, array_keys( $this->variation_level_meta_data ) ) ) {
 			return metadata_exists( 'post', $this->variation_id, '_' . $key );
 		} elseif ( in_array( $key, array_keys( $this->variation_inherited_meta_data ) ) ) {
 			return metadata_exists( 'post', $this->variation_id, '_' . $key ) || metadata_exists( 'post', $this->id, '_' . $key );
@@ -203,7 +205,7 @@ class WC_Product_Variation extends WC_Product {
 	 * @return string
 	 */
 	public function add_to_cart_text() {
-		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Add to cart', 'woocommerce' ) : __( 'Read More', 'woocommerce' );
+		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Add to cart', 'woocommerce' ) : __( 'Read more', 'woocommerce' );
 
 		return apply_filters( 'woocommerce_product_add_to_cart_text', $text, $this );
 	}
@@ -396,7 +398,16 @@ class WC_Product_Variation extends WC_Product {
 	 * @return int
 	 */
 	public function get_stock_quantity() {
-		return true === $this->managing_stock() ? wc_stock_amount( $this->stock ) : $this->parent->get_stock_quantity();
+		return apply_filters( 'woocommerce_variation_get_stock_quantity', true === $this->managing_stock() ? wc_stock_amount( $this->stock ) : $this->parent->get_stock_quantity(), $this );
+	}
+
+	/**
+	 * Get total stock - This is the stock of parent and children combined.
+	 *
+	 * @return int
+	 */
+	public function get_total_stock() {
+		return $this->get_stock_quantity();
 	}
 
 	/**
@@ -538,57 +549,6 @@ class WC_Product_Variation extends WC_Product {
 	}
 
 	/**
-	 * Returns the availability of the product.
-	 *
-	 * @return string
-	 */
-	public function get_availability() {
-		// Default to in-stock
-		$availability = __( 'In stock', 'woocommerce' );
-		$class        = 'in-stock';
-
-		// If out of stock, this takes priority over all other settings.
-		if ( ! $this->is_in_stock() ) {
-			$availability = __( 'Out of stock', 'woocommerce' );
-			$class        = 'out-of-stock';
-
-		// Any further we can assume status is set to in stock.
-		} elseif ( $this->managing_stock() && $this->is_on_backorder( 1 ) ) {
-			$availability = __( 'Available on backorder', 'woocommerce' );
-			$class        = 'available-on-backorder';
-
-		} elseif ( true === $this->managing_stock() ) {
-			switch ( get_option( 'woocommerce_stock_format' ) ) {
-				case 'no_amount' :
-					$availability = __( 'In stock', 'woocommerce' );
-				break;
-				case 'low_amount' :
-					if ( $this->get_stock_quantity() <= get_option( 'woocommerce_notify_low_stock_amount' ) ) {
-						$availability = sprintf( __( 'Only %s left in stock', 'woocommerce' ), $this->get_stock_quantity() );
-
-						if ( $this->backorders_allowed() && $this->backorders_require_notification() ) {
-							$availability .= ' ' . __( '(also available on backorder)', 'woocommerce' );
-						}
-					} else {
-						$availability = __( 'In stock', 'woocommerce' );
-					}
-				break;
-				default :
-					$availability = sprintf( __( '%s in stock', 'woocommerce' ), $this->get_stock_quantity() );
-
-					if ( $this->backorders_allowed() && $this->backorders_require_notification() ) {
-						$availability .= ' ' . __( '(also available on backorder)', 'woocommerce' );
-					}
-				break;
-			}
-		} elseif ( 'parent' === $this->managing_stock() ) {
-			return parent::get_availability();
-		}
-
-		return apply_filters( 'woocommerce_get_availability', array( 'availability' => $availability, 'class' => $class ), $this );
-	}
-
-	/**
 	 * Returns whether or not the product needs to notify the customer on backorder.
 	 *
 	 * @return bool
@@ -611,7 +571,7 @@ class WC_Product_Variation extends WC_Product {
 		if ( true === $this->managing_stock() ) {
 			return parent::is_on_backorder( $qty_in_cart );
 		} else {
-			return $this->parent->is_on_backorder( $qty_in_cart );
+			return $this->parent->managing_stock() && $this->parent->backorders_allowed() && ( $this->parent->get_stock_quantity() - $qty_in_cart ) < 0;
 		}
 	}
 

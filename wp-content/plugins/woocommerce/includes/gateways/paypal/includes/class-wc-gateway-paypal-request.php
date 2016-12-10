@@ -272,8 +272,9 @@ class WC_Gateway_Paypal_Request {
 				$calculated_total += $item_line_total;
 			} else {
 				$product          = $order->get_product_from_item( $item );
+				$sku              = $product ? $product->get_sku() : '';
 				$item_line_total  = $this->number_format( $order->get_item_subtotal( $item, false ), $order );
-				$line_item        = $this->add_line_item( $this->get_order_item_name( $order, $item ), $item['qty'], $item_line_total, $product->get_sku() );
+				$line_item        = $this->add_line_item( $this->get_order_item_name( $order, $item ), $item['qty'], $item_line_total, $sku );
 				$calculated_total += $item_line_total * $item['qty'];
 			}
 
@@ -294,7 +295,7 @@ class WC_Gateway_Paypal_Request {
 	 * Add PayPal Line Item.
 	 * @param  string  $item_name
 	 * @param  int     $quantity
-	 * @param  int     $amount
+	 * @param  float   $amount
 	 * @param  string  $item_number
 	 * @return bool successfully added or not
 	 */
@@ -306,8 +307,8 @@ class WC_Gateway_Paypal_Request {
 		}
 
 		$this->line_items[ 'item_name_' . $index ]   = html_entity_decode( wc_trim_string( $item_name ? $item_name : __( 'Item', 'woocommerce' ), 127 ), ENT_NOQUOTES, 'UTF-8' );
-		$this->line_items[ 'quantity_' . $index ]    = $quantity;
-		$this->line_items[ 'amount_' . $index ]      = $amount;
+		$this->line_items[ 'quantity_' . $index ]    = (int) $quantity;
+		$this->line_items[ 'amount_' . $index ]      = (float) $amount;
 		$this->line_items[ 'item_number_' . $index ] = $item_number;
 
 		return true;

@@ -19,6 +19,7 @@ class WC_Form_Handler {
 	 * Hook in methods.
 	 */
 	public static function init() {
+		add_action( 'template_redirect', array( __CLASS__, 'redirect_reset_password_link' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'save_address' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'save_account_details' ) );
 		add_action( 'wp_loaded', array( __CLASS__, 'checkout_action' ), 20 );
@@ -36,6 +37,19 @@ class WC_Form_Handler {
 		add_action( 'wp', array( __CLASS__, 'add_payment_method_action' ), 20 );
 		add_action( 'wp', array( __CLASS__, 'delete_payment_method_action' ), 20 );
 		add_action( 'wp', array( __CLASS__, 'set_default_payment_method_action' ), 20 );
+	}
+
+	/**
+	 * Remove key and login from querystring, set cookie, and redirect to account page to show the form.
+	 */
+	public static function redirect_reset_password_link() {
+		if ( is_account_page() && ! empty( $_GET['key'] ) && ! empty( $_GET['login'] ) ) {
+			$value = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+			WC_Shortcode_My_Account::set_reset_password_cookie( $value );
+
+			wp_safe_redirect( add_query_arg( 'show-reset-form', 'true', wc_lostpassword_url() ) );
+			exit;
+		}
 	}
 
 	/**
@@ -160,12 +174,12 @@ class WC_Form_Handler {
 			return;
 		}
 
-		$account_first_name = ! empty( $_POST[ 'account_first_name' ] ) ? wc_clean( $_POST[ 'account_first_name' ] ) : '';
-		$account_last_name  = ! empty( $_POST[ 'account_last_name' ] ) ? wc_clean( $_POST[ 'account_last_name' ] ) : '';
-		$account_email      = ! empty( $_POST[ 'account_email' ] ) ? sanitize_email( $_POST[ 'account_email' ] ) : '';
-		$pass_cur           = ! empty( $_POST[ 'password_current' ] ) ? $_POST[ 'password_current' ] : '';
-		$pass1              = ! empty( $_POST[ 'password_1' ] ) ? $_POST[ 'password_1' ] : '';
-		$pass2              = ! empty( $_POST[ 'password_2' ] ) ? $_POST[ 'password_2' ] : '';
+		$account_first_name = ! empty( $_POST['account_first_name'] ) ? wc_clean( $_POST['account_first_name'] ) : '';
+		$account_last_name  = ! empty( $_POST['account_last_name'] ) ? wc_clean( $_POST['account_last_name'] ) : '';
+		$account_email      = ! empty( $_POST['account_email'] ) ? wc_clean( $_POST['account_email'] ) : '';
+		$pass_cur           = ! empty( $_POST['password_current'] ) ? $_POST['password_current'] : '';
+		$pass1              = ! empty( $_POST['password_1'] ) ? $_POST['password_1'] : '';
+		$pass2              = ! empty( $_POST['password_2'] ) ? $_POST['password_2'] : '';
 		$save_pass          = true;
 
 		$user->first_name   = $account_first_name;
@@ -182,24 +196,19 @@ class WC_Form_Handler {
 		) );
 
 		foreach ( $required_fields as $field_key => $field_name ) {
-			$value = wc_clean( $_POST[ $field_key ] );
-			if ( empty( $value ) ) {
+			if ( empty( $_POST[ $field_key ] ) ) {
 				wc_add_notice( '<strong>' . esc_html( $field_name ) . '</strong> ' . __( 'is a required field.', 'woocommerce' ), 'error' );
 			}
 		}
 
 		if ( $account_email ) {
+			$account_email = sanitize_email( $account_email );
 			if ( ! is_email( $account_email ) ) {
 				wc_add_notice( __( 'Please provide a valid email address.', 'woocommerce' ), 'error' );
 			} elseif ( email_exists( $account_email ) && $account_email !== $current_user->user_email ) {
 				wc_add_notice( __( 'This email address is already registered.', 'woocommerce' ), 'error' );
 			}
 			$user->user_email = $account_email;
-		}
-
-		if ( ! empty( $pass1 ) && ! wp_check_password( $pass_cur, $current_user->user_pass, $current_user->ID ) ) {
-			wc_add_notice( __( 'Your current password is incorrect.', 'woocommerce' ), 'error' );
-			$save_pass = false;
 		}
 
 		if ( ! empty( $pass_cur ) && empty( $pass1 ) && empty( $pass2 ) ) {
@@ -213,6 +222,9 @@ class WC_Form_Handler {
 			$save_pass = false;
 		} elseif ( ( ! empty( $pass1 ) || ! empty( $pass2 ) ) && $pass1 !== $pass2 ) {
 			wc_add_notice( __( 'New passwords do not match.', 'woocommerce' ), 'error' );
+			$save_pass = false;
+		} elseif ( ! empty( $pass1 ) && ! wp_check_password( $pass_cur, $current_user->user_pass, $current_user->ID ) ) {
+			wc_add_notice( __( 'Your current password is incorrect.', 'woocommerce' ), 'error' );
 			$save_pass = false;
 		}
 

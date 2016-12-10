@@ -161,7 +161,7 @@ class WC_REST_Order_Notes_Controller extends WC_REST_Controller {
 		$order = get_post( (int) $request['order_id'] );
 
 		if ( empty( $order->post_type ) || $this->post_type !== $order->post_type ) {
-			return new WP_Error( 'woocommerce_rest_{$this->post_type}_invalid_id', __( 'Invalid order id.', 'woocommerce' ), array( 'status' => 404 ) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_invalid_id", __( 'Invalid order ID.', 'woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		$args = array(
@@ -289,7 +289,7 @@ class WC_REST_Order_Notes_Controller extends WC_REST_Controller {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->prepare_item_for_response( $note, $request );
 
-		$result = wp_delete_comment( $note->comment_ID, true );;
+		$result = wp_delete_comment( $note->comment_ID, true );
 
 		if ( ! $result ) {
 			return new WP_Error( 'woocommerce_rest_cannot_delete', sprintf( __( 'The %s cannot be deleted.', 'woocommerce' ), 'order_note' ), array( 'status' => 500 ) );
@@ -373,8 +373,8 @@ class WC_REST_Order_Notes_Controller extends WC_REST_Controller {
 	public function get_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'tax',
-			'type'       => 'order_note',
+			'title'      => 'order_note',
+			'type'       => 'object',
 			'properties' => array(
 				'id' => array(
 					'description' => __( 'Unique identifier for the resource.', 'woocommerce' ),

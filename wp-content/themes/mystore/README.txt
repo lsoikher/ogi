@@ -1,7 +1,7 @@
 === myStore ===
 Contributors: Kaira
 Donate link: 
-Tags: white, light
+Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, footer-widgets, full-width-template, post-formats, theme-options, threaded-comments, translation-ready, blog, e-commerce, news
 Tested up to: 4.1
 Stable tag: 3.7
 License: GPLv2 or later
@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-With myStore, which is fully responsive, we've packed in a big bunch of settings letting you customize almost everything from the header colors and layouts to the body content design to selecting between 5 different footer layouts in premium. We've integrated with WooCommerce so you can easily build an online store and select between 2 different WooCommerce layouts, integrated with SiteOrigin's Page Builder plugin allowing you to easily build beautiful page layouts that you want, added styling for Contact Form 7 for your online forms and more. myStore also comes with a simple beautiful default slider as well as the options to add other sliders. Select your own fonts and colors, social links, Make blog and Shop page full width, different page templates... myStore has it all... Enjoy.
+myStore is the perfect multipurpose theme to build your online presence with, whether its a simple personal blog or you're selling products for your fully functional online eCommerce store, myStore has lots of theme settings allowing you to easily customize the site to how you want it. Build anything from a photography portfolio website to a online fashion boutique shop, simply install WooCommerce and start selling! myStore features a clean, simple, minimal and elegant style design which will work perfectly for almost any kind of online store. Select your own fonts and colors for the theme, social links, multiple page templates. myStore intrgrates nicely with WooCommerce, SiteOrigin's Page Builder and Widgets Bundle, Contact Form 7 and more... myStore has it all... Enjoy.
 
 == License ==
 
@@ -66,6 +66,33 @@ View the theme settings under "Appearance" -> Customize.
 1. Featured Images work best at a minimum of 1100 wide and 420 high.
 
 == Changelog ==
+
+#### 1.1.11
+* Styling tweaks
+* WooCommerce styling fixes
+* Added font and color settings for site title & site description
+* Added Page Banners and Setting in Customizer for Page Banners
+* Set blog to use Excerpt if set, otherwise use full post content
+* Updated the Screenshot image
+* Updated language .pot file
+Premium: Added extra theme settings
+Premium: Added settings to make Shop Page, Shop Archive/Categories & Shop single pages full width
+
+#### 1.1.10
+* Fixed strings missing translation functions
+* Styling fixes
+* Updated language .pot file
+
+#### 1.1.0
+* Updated theme tags
+* Add TGM recommended plugin class
+* WooCommerce styling fix
+* Updated language .pot file
+* Remove old update system & link out to premium
+Premium: Add bunch of extra settings
+Premium: Add social link for Vimeo
+Premium: Add social link for Behance
+Premium: Add social link for Medium
 
 #### 1.0.9
 * Fixed old broken upgrade link

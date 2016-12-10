@@ -28,23 +28,29 @@ h2.upgrade-page-title {
 	padding: 20px 0 5px;
 	text-align: center;
 }
-.upgrade-page-top-note {
-	text-align: center;
-	margin: 0 0 30px;
-}
-.upgrade-page-top-note a {
+
+a.upgrade-btn {
 	display: inline-block;
 	vertical-align: middle;
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.4);
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+	margin: 4px auto;
+	padding: 2px 7px 3px;
+	position: relative;
+	top: -1px;
+	text-align: center;
 	background-color: #006CC9;
 	color: #FFF;
-	margin: -2px 2px 0;
-    padding: 2px 6px;
-	text-decoration: none !important;
+	text-decoration: none;
 }
-a#upgrade-purchase-link {
+a.upgrade-btn:hover {
+	background-color: #0952A9 !important;
+	color: #fff !important;
+	text-decoration: none;
+}
+
+a.upgrade-page-link {
 	display: inline-block;
 	vertical-align: middle;
 	border-radius: 4px;
@@ -58,133 +64,67 @@ a#upgrade-purchase-link {
 	color: #FFF;
 	text-decoration: none;
 }
-a#upgrade-purchase-link span {
+a.upgrade-page-link span {
 	display: inline-block;
-	padding: 13px 0 13px 2px;
-	width: 150px;
-	font-size: 16px;
+	padding: 13px 15px 13px;
+	font-size: 15px;
 	text-align: center;
-	box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
-	white-space: nowrap;
+	box-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
 }
-a#upgrade-purchase-link em {
+a.upgrade-page-link em {
 	display: inline-block;
-	padding: 12px 2px 13px 0;
+	padding: 12px 18px 13px;
 	text-align: center;
-	width: 68px;
-	box-shadow: -1px 0 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 0 0 rgba(0, 0, 0, 0.2);
 	background-color: rgba(255, 255, 255, 0.1);
-	font-size: 20px;
+	font-size: 13px;
+	text-transform: uppercase;
 }
-.upgrade-page-top-note a:hover,
-a#upgrade-purchase-link:hover {
+a.upgrade-page-link:hover {
 	background-color: #0952A9;
-	color: #FFF;
-}
-#upgrade-has-order-number {
-	display: inline-block;
-	vertical-align: middle;
-	font-size: 12px;
-	margin: 0 0 0 20px;
-	color: #4A4A4A;
+	color: #fff;
 }
 
 .upgrade-order-number-info-btns {
 	margin: 0 0 30px;
 }
-.upgrade-order-number-info-form {
-	display: block;
-	margin: 0 auto 30px;
-	box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-	border: 1px solid rgba(0, 0, 0, 0.18);
-	border-radius: 4px;
-	padding: 18px 20px 24px;
-	text-align: center;
-	display: none;
-	background-color: #F9F9F9;
-	max-width: 840px;
-	position: relative;
+.upgrade-order-number-info-btns-link a#upgrade-purchase-link span {
+	box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-.upgrade-order-number-info-form-after {
-	display: block;
-	margin: 30px auto 0;
-	box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-	border: 1px solid rgba(0, 0, 0, 0.18);
-	border-radius: 4px;
-	padding: 35px 20px 20px;
-	text-align: center;
-	background-color: #F9F9F9;
-	max-width: 880px;
-	box-sizing: border-box;
-}
-form#upgrade-order-number-info {
-	margin: 15px 0;
-}
-.upgrade-page-wrap p.submit {
-	text-align: center;
-}
-.upgrade-result-button {
-	display: inline-block;
-	border-radius: 3px;
-	border: 1px solid rgba(0, 0, 0, 0.4);
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset !important;
-	margin: 0;
-	padding: 9px 50px 10px;
-	text-align: center;
-	font-size: 14px;
-	background-color: #006CC9;
-	color: #FFF !important;
-	text-decoration: none !important;
-}
-.upgrade-result-button:hover {
-	background-color: #0952A9;
-}
-.upgrade-order-number-info-form p {
-	font-size: 12px;
-	margin: 0 0 10px;
-	padding: 0;
-}
-.upgrade-page-sub-title,
-.upgrade-page-inner-wrap strong {
-	margin: 0 0 12px;
-	padding: 0;
-	color: #1F1F1F;
-}
-.upgrade-page-sub-title strong {
-	color: #006CC9;
-}
-.upgrade-text {
-	width: 60%;
-	display: inline-block;
-	vertical-align: middle;
-	color: #252525 !important;
-	border-radius: 3px;
-	border: 1px solid rgba(0, 0, 0, 0.3) !important;
-	padding: 5px 8px !important;
-	font-size: 14px !important;
-}
-.upgrade-submit {
-	display: inline-block;
-	vertical-align: middle;
-	border-radius: 3px;
-	border: 1px solid rgba(0, 0, 0, 0.4);
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
-	width: 200px;
-	margin: 0 0 0 2px;
-	padding: 5px 10px 6px;
-	text-align: center;
-	font-size: 13px;
-	background-color: #006CC9;
-	color: #FFF;
-	cursor: pointer;
-}
-.upgrade-submit:hover {
-	background-color: #0952A9;
+.upgrade-order-number-info-btns-link a#upgrade-purchase-link em {
+	box-shadow: -1px 0 0 rgba(0, 0, 0, 0.2);
+	font-size: 18px;
 }
 
-.upgrade-error {
-	border: 1px solid rgba(201, 0, 0, 0.6) !important;
-	background-color: rgba(201, 0, 0, 0.04) !important;
+.upgrade-help {
+	margin: 0 0 32px;
+}
+
+.upgrade-changelog {
+	
+}
+.upgrade-changelog h4 {
+	border-top: 1px dashed #bbb;
+	max-width: 480px;
+	margin: 0 auto;
+	padding: 12px 0 0;
+	font-size: 20px;
+	font-weight: 400;
+	color: #000;
+}
+.upgrade-changelog ul {
+	border-top: 1px dashed #bbb;
+	border-bottom: 1px dashed #bbb;
+	padding: 10px 0;
+	max-width: 480px;
+	margin: 15px auto;
+}
+.upgrade-changelog ul li {
+	color: #7d7d7d;
+}
+.upgrade-changelog ul li:hover {
+	color: #000;
+	font-weight: 600;
 }
 
 .upgrade-page-left {
@@ -295,7 +235,6 @@ form#upgrade-order-number-info {
 .upgrade-rating-slider-wrap:hover .upgrade-rating-slider-next {
 	opacity: 1;
 }
-
 
 @media only screen and (max-width: 782px) {
 	

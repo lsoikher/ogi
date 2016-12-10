@@ -89,10 +89,10 @@ class WC_Shipping {
 		}
 	}
 
-    /**
-     * Initialize shipping.
-     */
-    public function init() {
+	/**
+	 * Initialize shipping.
+	 */
+	public function init() {
 		do_action( 'woocommerce_shipping_init' );
 	}
 
@@ -137,7 +137,7 @@ class WC_Shipping {
 			$this->shipping_methods = $shipping_zone->get_shipping_methods( true );
 
 			// Debug output
-			if ( ! empty( $status_options['shipping_debug_mode'] ) ) {
+			if ( ! empty( $status_options['shipping_debug_mode'] ) && ! defined( 'WOOCOMMERCE_CHECKOUT' ) && ! wc_has_notice( 'Customer matched zone "' . $shipping_zone->get_zone_name() . '"' ) ) {
 				wc_add_notice( 'Customer matched zone "' . $shipping_zone->get_zone_name() . '"' );
 			}
 		} else {
@@ -317,6 +317,16 @@ class WC_Shipping {
 	}
 
 	/**
+	 * See if package is shippable.
+	 * @param  array  $package
+	 * @return boolean
+	 */
+	protected function is_package_shippable( $package ) {
+		$allowed = array_keys( WC()->countries->get_shipping_countries() );
+		return in_array( $package['destination']['country'], $allowed );
+	}
+
+	/**
 	 * Calculate shipping rates for a package,
 	 *
 	 * Calculates each shipping methods cost. Rates are stored in the session based on the package hash to avoid re-calculation every page load.
@@ -326,7 +336,7 @@ class WC_Shipping {
 	 * @return array
 	 */
 	public function calculate_shipping_for_package( $package = array(), $package_key = 0 ) {
-		if ( ! $this->enabled || empty( $package ) ) {
+		if ( ! $this->enabled || empty( $package ) || ! $this->is_package_shippable( $package ) ) {
 			return false;
 		}
 

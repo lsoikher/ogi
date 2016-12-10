@@ -1,14 +1,14 @@
 /*
 Theme Name: myStore
-Theme URI: http://kairaweb.com/theme/mystore/
+Theme URI: https://kairaweb.com/theme/mystore/
 Author: Kaira
-Author URI: http://kairaweb.com/
-Description: With myStore, which is fully responsive, we've packed in a big bunch of settings letting you customize almost everything from the header colors and layouts to the body content design to selecting between 5 different footer layouts in premium. We've integrated with WooCommerce so you can easily build an online store and select between 2 different WooCommerce layouts, integrated with SiteOrigin's Page Builder plugin allowing you to easily build beautiful page layouts that you want, added styling for Contact Form 7 for your online forms and more. myStore also comes with a simple beautiful default slider as well as the options to add other sliders. Select your own fonts and colors, social links, Make blog and Shop page full width, different page templates... myStore has it all... Enjoy.
-Version: 1.0.9
+Author URI: https://kairaweb.com/
+Description: myStore is the perfect multipurpose theme to build your online presence with, whether its a simple personal blog or you're selling products for your fully functional online eCommerce store, myStore has lots of theme settings allowing you to easily customize the site to how you want it. Build anything from a photography portfolio website to a online fashion boutique shop, simply install WooCommerce and start selling! myStore features a clean, simple, minimal and elegant style design which will work perfectly for almost any kind of online store. Select your own fonts and colors for the theme, social links, multiple page templates. myStore intrgrates nicely with WooCommerce, SiteOrigin's Page Builder and Widgets Bundle, Contact Form 7 and more... myStore has it all... Enjoy.
+Version: 1.1.11
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: mystore
-Tags: white, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, fluid-layout, light, responsive-layout, threaded-comments, white
+Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, footer-widgets, full-width-template, post-formats, theme-options, threaded-comments, translation-ready, blog, e-commerce, news
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -354,7 +354,7 @@ html {
 }
 
 body {
-	background: #F9F9F9; /* Fallback for when there is no custom background color defined. */
+	background: #ffffff; /* Fallback for when there is no custom background color defined. */
 }
 
 blockquote:before,
@@ -586,6 +586,7 @@ a:active {
 }
 
 .main-navigation ul ul {
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 	float: left;
 	position: absolute;
@@ -616,6 +617,7 @@ a:active {
 
 .main-navigation ul ul a:hover,
 .main-navigation ul ul a.focus {
+	color: #FFF;
 }
 
 .main-navigation ul li:hover > ul,
@@ -628,9 +630,10 @@ a:active {
 	left: 100%;
 }
 
-.main-navigation .current_page_item > a,
-.main-navigation .current-menu-item > a,
-.main-navigation .current_page_ancestor > a {
+.main-navigation ul ul .current_page_item > a,
+.main-navigation ul ul .current-menu-item > a,
+.main-navigation ul ul .current_page_ancestor > a {
+	color: #FFF;
 }
 
 /* Small menu. */
@@ -937,7 +940,7 @@ a:active {
 .site-border-left,
 .site-border-right {
 	position: fixed;
-	background-color: #666;
+	background-color: #212121;
 	z-index: 99998;
 }
 .site-border-top {
@@ -945,6 +948,9 @@ a:active {
 	width: 100%;
 	top: 0;
 	left: 0;
+}
+body.admin-bar .site-border-top {
+	top: 32px;
 }
 .site-border-bottom {
 	height: 7px;
@@ -974,8 +980,6 @@ a:active {
 /* -------- Header Elements -------- */
 
 .site-header {
-    min-width: 300px;
-	
 }
 
 .site-header-topbar {
@@ -1018,6 +1022,19 @@ a:active {
 }
 .header-social-icon i {
 	
+}
+
+/* -------- Page Banner Styling -------- */
+
+.page-banner {
+	background-color: #f9f9f9;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+.page-banner img {
+	width: 100%;
+	height: auto;
 }
 
 /* -------- Home Slider Styling -------- */
@@ -1569,6 +1586,10 @@ object {
     	font-size: 38px;
 	}
 	
+	.page-banner {
+		min-height: 180px;
+	}
+	
 }
 
 @media only screen and (max-width: 782px) {
@@ -1603,6 +1624,9 @@ object {
 		float: none;
 		padding: 40px 0 5px;
 		margin: 0 0 10px;
+	}
+	
+	.page-banner {
 	}
 	
 	.home-slider-block-inner {
@@ -1716,6 +1740,8 @@ input[type="submit"],
     background-color: #29a6e5;
 }
 
+.site-title,
+.site-title a,
 .content-area .entry-content a,
 #comments a,
 article a,
@@ -1726,7 +1752,7 @@ article a,
 .error-404.not-found .page-header .page-title span,
 .search-button .fa-search,
 .header-cart-checkout.cart-has-items .fa-shopping-cart {
-    color: #29a6e5 !important;
+    color: #29a6e5;
 }
 
 
@@ -1742,7 +1768,6 @@ a:hover,
 .woocommerce div.product span.price,
 .woocommerce-page #content div.product span.price,
 .woocommerce-page div.product span.price,
-
 .woocommerce #content div.product .woocommerce-tabs ul.tabs li.active,
 .woocommerce div.product .woocommerce-tabs ul.tabs li.active,
 .woocommerce-page #content div.product .woocommerce-tabs ul.tabs li.active,
@@ -1781,5 +1806,5 @@ input[type="submit"],
 .site-header.mystore-header-layout-standard,
 .site-header.mystore-header-layout-standard .search-block,
 .site-header.mystore-header-layout-centered .search-overlay {
-	background: #EEEEEE;
+	background: #f9f9f9;
 }

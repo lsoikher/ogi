@@ -24,8 +24,8 @@ class Customizer_Library_Upsell extends WP_Customize_Control {
 		?>
 		<div class="kaira-upsell">
 			<div class="kaira-upsell-title"><?php echo esc_html( $this->label ); ?></div>
-			<a href="<?php echo admin_url( 'themes.php?page=premium_upgrade' ); ?>" target="_blank" class="kaira-upsell-btn"><?php echo __( 'Buy myStore Premium', 'mystore' ); ?></a>
-            <div class="kaira-upsell-desc"><?php echo __( 'Upgrade for only $22', 'mystore' ); ?></div>
+			<a href="<?php echo admin_url( 'themes.php?page=theme_info' ); ?>" target="_blank" class="kaira-upsell-btn"><?php echo __( 'Buy myStore Premium', 'mystore' ); ?></a>
+            <div class="kaira-upsell-desc"><?php echo __( 'Premium has a bunch of extra settings', 'mystore' ); ?></div>
 		</div>
 		<?php
 	}

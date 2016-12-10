@@ -1,0 +1,95 @@
+[
+    {
+        "name": "ghostmonitor/assert",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ghostmonitor/assert.git",
+            "reference": "acdc1477de557629556f981cf73c65b18b7d3888"
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "@stable"
+        },
+        "time": "2015-09-21 10:12:28",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Assert": "lib/"
+            },
+            "files": [
+                "lib/Assert/functions.php"
+            ]
+        },
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            }
+        ],
+        "description": "Thin assertion library for input validation in business models.",
+        "keywords": [
+            "assert",
+            "assertion",
+            "validation"
+        ]
+    },
+    {
+        "name": "ghostmonitor/logentries",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ghostmonitor/le_php.git",
+            "reference": "577ed58952cab0d575a0e322a3119f0b6552f5f3"
+        },
+        "time": "2016-02-29 17:37:55",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Logentries\\": "."
+            }
+        },
+        "authors": [
+            {
+                "name": "Ghostmonitor",
+                "email": "system@ghosmonitor.com"
+            }
+        ],
+        "description": "Ghostmonitor Logentries Fork"
+    },
+    {
+        "name": "ghostmonitor/helper",
+        "version": "v0.9.2",
+        "version_normalized": "0.9.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://bitbucket.org/ghostmonitor/gm-plugin-helper.git",
+            "reference": "98e615c8e545437de67635fdd98eb0e1c2ce993e"
+        },
+        "time": "2016-05-06 12:56:32",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Ghostmonitor\\": "ghostmonitor"
+            }
+        },
+        "authors": [
+            {
+                "name": "Andras Hegedus",
+                "email": "andras.hegedus@ghosmonitor.com"
+            }
+        ],
+        "description": "Ghostmonitor helper class for webshop modules"
+    }
+]

@@ -294,6 +294,97 @@ function customizer_library_mystore_build_styles() {
 			)
 		) );
 	}
+	
+	// Site Title Font
+	$setting = 'mystore-site-title-font';
+	$mod = get_theme_mod( $setting, customizer_library_get_default( $setting ) );
+	$stack = customizer_library_get_font_stack( $mod );
+
+	if ( $mod != customizer_library_get_default( $setting ) ) {
+
+		Customizer_Library_Styles()->add( array(
+			'selectors' => array(
+				'.site-title,
+				.site-title a'
+			),
+			'declarations' => array(
+				'font-family' => $stack
+			)
+		) );
+
+	}
+	
+	// Site Title Font Color
+	$setting = 'mystore-site-title-font-color';
+	$mod = get_theme_mod( $setting, customizer_library_get_default( $setting ) );
+
+	if ( $mod !== customizer_library_get_default( $setting ) ) {
+
+		$color = sanitize_hex_color( $mod );
+
+		Customizer_Library_Styles()->add( array(
+			'selectors' => array(
+				'.site-title,
+				.site-title a'
+			),
+			'declarations' => array(
+				'color' => $color
+			)
+		) );
+	}
+	// Site Title Font Color
+	$setting = 'mystore-site-desc-font-color';
+	$mod = get_theme_mod( $setting, customizer_library_get_default( $setting ) );
+
+	if ( $mod !== customizer_library_get_default( $setting ) ) {
+
+		$color = sanitize_hex_color( $mod );
+
+		Customizer_Library_Styles()->add( array(
+			'selectors' => array(
+				'.site-description,
+				.site-description a'
+			),
+			'declarations' => array(
+				'color' => $color
+			)
+		) );
+	}
+	
+	// Page Banner Bg Color
+	$setting = 'mystore-page-banner-bg-color';
+	$mod = get_theme_mod( $setting, customizer_library_get_default( $setting ) );
+
+	if ( $mod !== customizer_library_get_default( $setting ) ) {
+
+		$color = sanitize_hex_color( $mod );
+
+		Customizer_Library_Styles()->add( array(
+			'selectors' => array(
+				'.page-banner'
+			),
+			'declarations' => array(
+				'background-color' => $color
+			)
+		) );
+	}
+	// Site Title Font Color
+	$setting = 'mystore-default-page-banner';
+	$mod = get_theme_mod( $setting, customizer_library_get_default( $setting ) );
+
+	if ( $mod !== customizer_library_get_default( $setting ) ) {
+
+		$banner_bg_img = esc_url( $mod );
+
+		Customizer_Library_Styles()->add( array(
+			'selectors' => array(
+				'.page-banner'
+			),
+			'declarations' => array(
+				'background-image' => 'url(' . $banner_bg_img . ')'
+			)
+		) );
+	}
 
 }
 endif;

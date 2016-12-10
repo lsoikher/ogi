@@ -1,7 +1,7 @@
 <?php
 /**
  * Framework Name: YIT Plugin Framework
- * Version: 2.9.32
+ * Version: 2.9.38
  * Author: Yithemes
  * Text Domain: yith-plugin-fw
  * Domain Path: /languages/
@@ -19,6 +19,7 @@
  * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
+// test
 
 if ( ! defined ( 'ABSPATH' ) ) {
     exit;

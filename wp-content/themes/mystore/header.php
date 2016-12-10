@@ -24,7 +24,7 @@ global $woocommerce;
 	<div class="site-border-top"></div><div class="site-border-bottom"></div><div class="site-border-left"></div><div class="site-border-right"></div>
 <?php endif; ?>
 
-<div id="page" class="hfeed site <?php echo sanitize_html_class( get_theme_mod( 'mystore-slider-type' ) ); ?> <?php echo sanitize_html_class( get_theme_mod( 'mystore-header-layout' ) ); ?>">
+<div id="page" class="hfeed site <?php echo ( get_theme_mod( 'mystore-page-banner-enable' ) ) ? sanitize_html_class( 'has-page-banner' ) : ''; ?> <?php echo sanitize_html_class( get_theme_mod( 'mystore-slider-type' ) ); ?> <?php echo sanitize_html_class( get_theme_mod( 'mystore-header-layout' ) ); ?>">
 	
 	<?php if ( get_theme_mod( 'mystore-header-layout' ) == 'mystore-header-layout-standard' ) : ?>
 	
@@ -39,6 +39,14 @@ global $woocommerce;
 	<?php if ( is_front_page() ) : ?>
 		
 		<?php get_template_part( '/templates/slider/homepage-slider' ); ?>
+		
+	<?php else : ?>
+		
+		<?php if ( get_theme_mod( 'mystore-page-banner-enable' ) ) : ?>
+		
+			<?php get_template_part( '/templates/page-banner' ); ?>
+		
+		<?php endif; ?>
 		
 	<?php endif; ?>
 

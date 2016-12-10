@@ -520,13 +520,13 @@ function get_woocommerce_currency_symbol( $currency = '' ) {
 		'INR' => '&#8377;',
 		'IQD' => '&#x639;.&#x62f;',
 		'IRR' => '&#xfdfc;',
-		'ISK' => 'Kr.',
+		'ISK' => 'kr.',
 		'JEP' => '&pound;',
 		'JMD' => '&#36;',
 		'JOD' => '&#x62f;.&#x627;',
 		'JPY' => '&yen;',
 		'KES' => 'KSh',
-		'KGS' => '&#x43b;&#x432;',
+		'KGS' => '&#x441;&#x43e;&#x43c;',
 		'KHR' => '&#x17db;',
 		'KMF' => 'Fr',
 		'KPW' => '&#x20a9;',
@@ -860,7 +860,7 @@ add_filter( 'mod_rewrite_rules', 'wc_ms_protect_download_rewite_rules' );
  * @return string[]
  */
 function wc_get_core_supported_themes() {
-	return array( 'twentysixteen', 'twentyfifteen', 'twentyfourteen', 'twentythirteen', 'twentyeleven', 'twentytwelve', 'twentyten' );
+	return array( 'twentyseventeen', 'twentysixteen', 'twentyfifteen', 'twentyfourteen', 'twentythirteen', 'twentyeleven', 'twentytwelve', 'twentyten' );
 }
 
 /**
@@ -1352,4 +1352,19 @@ function wc_product_attribute_uasort_comparison( $a, $b ) {
 		return 0;
 	}
 	return ( $a['position'] < $b['position'] ) ? -1 : 1;
+}
+
+/**
+ * Get rounding precision for internal WC calculations.
+ * Will increase the precision of wc_get_price_decimals by 2 decimals, unless WC_ROUNDING_PRECISION is set to a higher number.
+ *
+ * @since 2.6.3
+ * @return int
+ */
+function wc_get_rounding_precision() {
+	$precision = wc_get_price_decimals() + 2;
+	if ( absint( WC_ROUNDING_PRECISION ) > $precision ) {
+		$precision = absint( WC_ROUNDING_PRECISION );
+	}
+	return $precision;
 }

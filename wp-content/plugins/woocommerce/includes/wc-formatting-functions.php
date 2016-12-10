@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function wc_sanitize_taxonomy_name( $taxonomy ) {
-	return apply_filters( 'sanitize_taxonomy_name', urldecode( sanitize_title( $taxonomy ) ), $taxonomy );
+	return apply_filters( 'sanitize_taxonomy_name', urldecode( sanitize_title( urldecode( $taxonomy ) ) ), $taxonomy );
 }
 
 /**
@@ -308,7 +308,7 @@ function wc_sanitize_tooltip( $var ) {
 		'li'     => array(),
 		'ol'     => array(),
 		'p'      => array(),
-    ) ) );
+	) ) );
 }
 
 /**
@@ -663,7 +663,17 @@ function wc_format_postcode( $postcode, $country ) {
 			$postcode = trim( substr_replace( $postcode, ' ', -3, 0 ) );
 			break;
 		case 'BR' :
-			$postcode = trim( substr_replace( $postcode, '-', -3, 0 ) );
+		case 'PL' :
+			$postcode = substr_replace( $postcode, '-', -3, 0 );
+			break;
+		case 'JP' :
+			$postcode = substr_replace( $postcode, '-', 3, 0 );
+			break;
+		case 'PT' :
+			$postcode = substr_replace( $postcode, '-', 4, 0 );
+			break;
+		case 'US' :
+			$postcode = rtrim( substr_replace( $postcode, '-', 5, 0 ), '-' );
 			break;
 	}
 
@@ -823,6 +833,7 @@ if ( ! function_exists( 'wc_make_numeric_postcode' ) ) {
 	 * @return string
 	 */
 	function wc_make_numeric_postcode( $postcode ) {
+		$postcode           = str_replace( array( ' ', '-' ), '', $postcode );
 		$postcode_length    = strlen( $postcode );
 		$letters_to_numbers = array_merge( array( 0 ), range( 'A', 'Z' ) );
 		$letters_to_numbers = array_flip( $letters_to_numbers );

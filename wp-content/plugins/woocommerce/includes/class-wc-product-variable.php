@@ -40,7 +40,7 @@ class WC_Product_Variable extends WC_Product {
 	 * @return string
 	 */
 	public function add_to_cart_text() {
-		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Select options', 'woocommerce' ) : __( 'Read More', 'woocommerce' );
+		$text = $this->is_purchasable() && $this->is_in_stock() ? __( 'Select options', 'woocommerce' ) : __( 'Read more', 'woocommerce' );
 
 		return apply_filters( 'woocommerce_product_add_to_cart_text', $text, $this );
 	}
@@ -392,7 +392,7 @@ class WC_Product_Variable extends WC_Product {
 				) ) );
 
 				// empty value indicates that all options for given attribute are available
-				if ( in_array( '', $values ) ) {
+				if ( in_array( '', $values ) || empty( $values ) ) {
 					$values = $attribute['is_taxonomy'] ? wp_get_post_terms( $this->id, $attribute['name'], array( 'fields' => 'slugs' ) ) : wc_get_text_attributes( $attribute['value'] );
 
 				// Get custom attributes (non taxonomy) as defined

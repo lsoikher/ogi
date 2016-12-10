@@ -88,7 +88,7 @@ class WC_Meta_Box_Product_Data {
 						'inventory' => array(
 							'label'  => __( 'Inventory', 'woocommerce' ),
 							'target' => 'inventory_product_data',
-							'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped' ),
+							'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped', 'show_if_external' ),
 						),
 						'shipping' => array(
 							'label'  => __( 'Shipping', 'woocommerce' ),
@@ -118,7 +118,7 @@ class WC_Meta_Box_Product_Data {
 					) );
 
 					foreach ( $product_data_tabs as $key => $tab ) {
-						?><li class="<?php echo $key; ?>_options <?php echo $key; ?>_tab <?php echo implode( ' ' , $tab['class'] ); ?>">
+						?><li class="<?php echo $key; ?>_options <?php echo $key; ?>_tab <?php echo implode( ' ' , (array) $tab['class'] ); ?>">
 							<a href="#<?php echo $tab['target']; ?>"><?php echo esc_html( $tab['label'] ); ?></a>
 						</li><?php
 					}
@@ -324,7 +324,7 @@ class WC_Meta_Box_Product_Data {
 				}
 
 				// Stock status
-				woocommerce_wp_select( array( 'id' => '_stock_status', 'wrapper_class' => 'hide_if_variable', 'label' => __( 'Stock status', 'woocommerce' ), 'options' => array(
+				woocommerce_wp_select( array( 'id' => '_stock_status', 'wrapper_class' => 'hide_if_variable hide_if_external', 'label' => __( 'Stock status', 'woocommerce' ), 'options' => array(
 					'instock' => __( 'In stock', 'woocommerce' ),
 					'outofstock' => __( 'Out of stock', 'woocommerce' )
 				), 'desc_tip' => true, 'description' => __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'woocommerce' ) ) );
@@ -613,7 +613,7 @@ class WC_Meta_Box_Product_Data {
 				<div id="message" class="inline notice woocommerce-message">
 					<p><?php _e( 'Before you can add a variation you need to add some variation attributes on the <strong>Attributes</strong> tab.', 'woocommerce' ); ?></p>
 					<p>
-						<a class="button-primary" href="<?php echo esc_url( apply_filters( 'woocommerce_docs_url', 'https://docs.woothemes.com/document/variable-product/', 'product-variations' ) ); ?>" target="_blank"><?php _e( 'Learn more', 'woocommerce' ); ?></a>
+						<a class="button-primary" href="<?php echo esc_url( apply_filters( 'woocommerce_docs_url', 'https://docs.woocommerce.com/document/variable-product/', 'product-variations' ) ); ?>" target="_blank"><?php _e( 'Learn more', 'woocommerce' ); ?></a>
 					</p>
 				</div>
 
@@ -1386,38 +1386,7 @@ class WC_Meta_Box_Product_Data {
 				}
 
 				// Price handling
-				$regular_price = wc_format_decimal( $variable_regular_price[ $i ] );
-				$sale_price    = $variable_sale_price[ $i ] === '' ? '' : wc_format_decimal( $variable_sale_price[ $i ] );
-				$date_from     = wc_clean( $variable_sale_price_dates_from[ $i ] );
-				$date_to       = wc_clean( $variable_sale_price_dates_to[ $i ] );
-
-				update_post_meta( $variation_id, '_regular_price', $regular_price );
-				update_post_meta( $variation_id, '_sale_price', $sale_price );
-
-				// Save Dates
-				update_post_meta( $variation_id, '_sale_price_dates_from', $date_from ? strtotime( $date_from ) : '' );
-				update_post_meta( $variation_id, '_sale_price_dates_to', $date_to ? strtotime( $date_to ) : '' );
-
-				if ( $date_to && ! $date_from ) {
-					update_post_meta( $variation_id, '_sale_price_dates_from', strtotime( 'NOW', current_time( 'timestamp' ) ) );
-				}
-
-				// Update price if on sale
-				if ( '' !== $sale_price && '' === $date_to && '' === $date_from ) {
-					update_post_meta( $variation_id, '_price', $sale_price );
-				} else {
-					update_post_meta( $variation_id, '_price', $regular_price );
-				}
-
-				if ( '' !== $sale_price && $date_from && strtotime( $date_from ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
-					update_post_meta( $variation_id, '_price', $sale_price );
-				}
-
-				if ( $date_to && strtotime( $date_to ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
-					update_post_meta( $variation_id, '_price', $regular_price );
-					update_post_meta( $variation_id, '_sale_price_dates_from', '' );
-					update_post_meta( $variation_id, '_sale_price_dates_to', '' );
-				}
+				_wc_save_product_price( $variation_id, $variable_regular_price[ $i ], $variable_sale_price[ $i ], $variable_sale_price_dates_from[ $i ], $variable_sale_price_dates_to[ $i ] );
 
 				if ( isset( $variable_tax_class[ $i ] ) && $variable_tax_class[ $i ] !== 'parent' ) {
 					update_post_meta( $variation_id, '_tax_class', wc_clean( $variable_tax_class[ $i ] ) );
