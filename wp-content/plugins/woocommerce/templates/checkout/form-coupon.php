@@ -10,7 +10,7 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woothemes.com/document/template-structure/
+ * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
  * @package WooCommerce/Templates
  * @version 2.2
@@ -25,8 +25,8 @@ if ( ! wc_coupons_enabled() ) {
 }
 
 if ( empty( WC()->cart->applied_coupons ) ) {
-    $info_message = apply_filters( 'woocommerce_checkout_coupon_message', __( 'Have a coupon?', 'woocommerce' ) . ' <a href="#" class="showcoupon">' . __( 'Click here to enter your code', 'woocommerce' ) . '</a>' );
-    wc_print_notice( $info_message, 'notice' );
+	$info_message = apply_filters( 'woocommerce_checkout_coupon_message', __( 'Have a coupon?', 'woocommerce' ) . ' <a href="#" class="showcoupon">' . __( 'Click here to enter your code', 'woocommerce' ) . '</a>' );
+	wc_print_notice( $info_message, 'notice' );
 }
 ?>
 
@@ -37,7 +37,7 @@ if ( empty( WC()->cart->applied_coupons ) ) {
 	</p>
 
 	<p class="form-row form-row-last">
-		<input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'woocommerce' ); ?>" />
+		<input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>" />
 	</p>
 
 	<div class="clear"></div>

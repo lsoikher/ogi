@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Extended by shipping methods to handle shipping calculations etc.
  *
  * @class       WC_Shipping_Method
- * @version     2.6.0
+ * @version     3.0.0
  * @package     WooCommerce/Abstracts
  * @category    Abstract Class
  * @author      WooThemes
@@ -145,7 +145,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 	 * @return boolean
 	 */
 	public function is_taxable() {
-		return wc_tax_enabled() && 'taxable' === $this->tax_status && ! WC()->customer->is_vat_exempt();
+		return wc_tax_enabled() && 'taxable' === $this->tax_status && ! WC()->customer->get_is_vat_exempt();
 	}
 
 	/**
@@ -253,7 +253,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 		$taxes      = $args['taxes'];
 
 		// Taxes - if not an array and not set to false, calc tax based on cost and passed calc_tax variable. This saves shipping methods having to do complex tax calculations.
-		if ( ! is_array( $taxes ) && $taxes !== false && $total_cost > 0 && $this->is_taxable() ) {
+		if ( ! is_array( $taxes ) && false !== $taxes && $total_cost > 0 && $this->is_taxable() ) {
 			$taxes = 'per_item' === $args['calc_tax'] ? $this->get_taxes_per_item( $args['cost'] ) : WC_Tax::calc_shipping_tax( $total_cost, WC_Tax::get_shipping_tax_rates() );
 		}
 
@@ -274,7 +274,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 			$items_in_package = array();
 			foreach ( $args['package']['contents'] as $item ) {
 				$product = $item['data'];
-				$items_in_package[] = $product->get_title() . ' &times; ' . $item['quantity'];
+				$items_in_package[] = $product->get_name() . ' &times; ' . $item['quantity'];
 			}
 			$rate->add_meta_data( __( 'Items', 'woocommerce' ), implode( ', ', $items_in_package ) );
 		}
@@ -333,7 +333,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 		$available = $this->is_enabled();
 
 		// Country availability (legacy, for non-zone based methods)
-		if ( ! $this->instance_id ) {
+		if ( ! $this->instance_id && $available ) {
 			$countries = is_array( $this->countries ) ? $this->countries : array();
 
 			switch ( $this->availability ) {
@@ -413,7 +413,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 	 */
 	public function get_option( $key, $empty_value = null ) {
 		// Instance options take priority over global options
-		if ( array_key_exists( $key, $this->get_instance_form_fields() ) ) {
+		if ( $this->instance_id && array_key_exists( $key, $this->get_instance_form_fields() ) ) {
 			return $this->get_instance_option( $key, $empty_value );
 		}
 
@@ -453,7 +453,7 @@ abstract class WC_Shipping_Method extends WC_Settings_API {
 	 * @return array
 	 */
 	public function get_instance_form_fields() {
-		return apply_filters( 'woocommerce_shipping_instance_form_fields_' . $this->id, $this->instance_form_fields );
+		return apply_filters( 'woocommerce_shipping_instance_form_fields_' . $this->id, array_map( array( $this, 'set_defaults' ), $this->instance_form_fields ) );
 	}
 
 	/**
