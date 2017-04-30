@@ -1238,7 +1238,11 @@ class WC_Product_Data_Store_CPT extends WC_Data_Store_WP implements WC_Object_Da
 		$products = new WP_Query( $wp_query_args );
 
 		if ( 'objects' === $args['return'] ) {
+<<<<<<< HEAD
 			$return = array_map( 'wc_get_product', $products->posts );
+=======
+			$return = array_filter( array_map( 'wc_get_product', $products->posts ) );
+>>>>>>> c2d2db78aae52c200377f0d739da6372dbafcd80
 		} else {
 			$return = $products->posts;
 		}

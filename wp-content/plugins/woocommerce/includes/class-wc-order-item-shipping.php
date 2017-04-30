@@ -99,6 +99,12 @@ class WC_Order_Item_Shipping extends WC_Order_Item {
 		);
 		if ( ! empty( $raw_tax_data['total'] ) ) {
 			$tax_data['total']    = array_map( 'wc_format_decimal', $raw_tax_data['total'] );
+<<<<<<< HEAD
+=======
+		} elseif ( ! empty( $raw_tax_data ) && is_array( $raw_tax_data ) ) {
+			// Older versions just used an array.
+			$tax_data['total']    = array_map( 'wc_format_decimal', $raw_tax_data );
+>>>>>>> c2d2db78aae52c200377f0d739da6372dbafcd80
 		}
 		$this->set_prop( 'taxes', $tax_data );
 		$this->set_total_tax( array_sum( $tax_data['total'] ) );

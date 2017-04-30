@@ -12,7 +12,7 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see         https://docs.woothemes.com/document/template-structure/
+ * @see         https://docs.woocommerce.com/document/template-structure/
  * @author      WooThemes
  * @package     WooCommerce/Templates
  * @version     2.0.0
@@ -27,7 +27,7 @@ if ( $downloads = WC()->customer->get_downloadable_products() ) : ?>
 
 	<?php do_action( 'woocommerce_before_available_downloads' ); ?>
 
-	<h2><?php echo apply_filters( 'woocommerce_my_account_my_downloads_title', __( 'Available Downloads', 'woocommerce' ) ); ?></h2>
+	<h2><?php echo apply_filters( 'woocommerce_my_account_my_downloads_title', __( 'Available downloads', 'woocommerce' ) ); ?></h2>
 
 	<ul class="woocommerce-Downloads digital-downloads">
 		<?php foreach ( $downloads as $download ) : ?>
