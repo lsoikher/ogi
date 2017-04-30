@@ -1,0 +1,207 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Autoship 4.0.12\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2016-12-02 10:39-0600\n"
+"Last-Translator: WC Autoship <support@wooautoship.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: en_US\n"
+
+# ###################
+# Autoship Schedules
+# ###################
+msgid "Items Ship Every {{schedule.autoship_frequency}} Days"
+msgstr "Items Ship Every {{schedule.autoship_frequency}} Days"
+
+msgid "Next ship date:"
+msgstr "Next ship date:"
+
+msgid ""
+"Paused. Hit <i class=\"glyphicon glyphicon-pause text-danger\"></i> to resume"
+msgstr ""
+"Paused. Hit <i class=\"glyphicon glyphicon-pause text-danger\"></i> to resume"
+
+msgid "Item:"
+msgstr "Item:"
+
+msgid "Qty:"
+msgstr "Qty:"
+
+msgid "Total:"
+msgstr "Total:"
+
+msgid "Add item..."
+msgstr "Add item..."
+
+msgid "Payment Method"
+msgstr "Payment Method"
+
+msgid "Shipping Method"
+msgstr "Shipping Method"
+
+msgid "Coupon Code"
+msgstr "Coupon Code"
+
+msgid "Enter code..."
+msgstr "Enter code..."
+
+msgid "Apply"
+msgstr "Apply"
+
+msgid "Subtotal:"
+msgstr "Subtotal:"
+
+msgid "Discounts:"
+msgstr "Discounts:"
+
+msgid "Shipping:"
+msgstr "Shipping:"
+
+msgid "Shipping tax:"
+msgstr "Shipping tax:"
+
+msgid "Tax:"
+msgstr "Tax:"
+
+msgid "Delete Schedule"
+msgstr "Delete Schedule"
+
+# #################################
+# Autoship Schedules client scripts
+# #################################
+msgid "Schedule deleted"
+msgstr "Schedule deleted"
+
+msgid "There was an error deleting schedule @schedule_id"
+msgstr "There was an error deleting schedule @schedule_id"
+
+msgid "Item removed"
+msgstr "Item removed"
+
+msgid ""
+"There was an error removing item '@product_title' from schedule "
+"'@schedule_id'. Error: @response_status @response_status_text"
+msgstr ""
+"There was an error removing item '@product_title' from schedule "
+"'@schedule_id'. Error: @response_status @response_status_text"
+
+msgid "Quantity updated"
+msgstr "Quantity updated"
+
+msgid ""
+"There was an error updating the quantity for the item '@product_title'. "
+"Error: @response_status @response_status_text"
+msgstr ""
+"There was an error updating the quantity for the item '@product_title'. "
+"Error: @response_status @response_status_text"
+
+msgid "Item added"
+msgstr "Item added"
+
+msgid ""
+"There was an error adding the item to schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+msgstr ""
+"There was an error adding the item to schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+
+msgid "Next order date updated"
+msgstr "Next order date updated"
+
+msgid ""
+"There was an error updating the next order date for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+msgstr ""
+"There was an error updating the next order date for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+
+msgid "Shipping method updated"
+msgstr "Shipping method updated"
+
+msgid ""
+"There was an error updating the shipping method for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+msgstr ""
+"There was an error updating the shipping method for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+
+msgid "Payment method updated"
+msgstr "Payment method updated"
+
+msgid ""
+"There was an error updating payment method for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+msgstr ""
+"There was an error updating payment method for schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+
+msgid "Coupon '@coupon' was applied to schedule"
+msgstr "Coupon '@coupon' was applied to schedule"
+
+msgid ""
+"There was an error applying coupon '@coupon' to schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+msgstr ""
+"There was an error applying coupon '@coupon' to schedule '@schedule_id'. "
+"Error: @response_status @response_status_text"
+
+msgid "Schedule @status"
+msgstr "Schedule @status"
+
+msgid ""
+"There was an error changing the status of schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+msgstr ""
+"There was an error changing the status of schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+
+msgid "Invalid payment method. Please select a valid payment method."
+msgstr "Invalid payment method. Please select a valid payment method."
+
+msgid ""
+"There was an error retrieving available products for schedule "
+"'@schedule_id'. Error: @response_status @response_status_text"
+msgstr ""
+"There was an error retrieving available products for schedule "
+"'@schedule_id'. Error: @response_status @response_status_text"
+
+msgid "Invalid shipping method. Please select a valid shipping method."
+msgstr "Invalid shipping method. Please select a valid shipping method."
+
+msgid ""
+"There are no shipping methods available for this order. Do you have a valid "
+"Shipping Address in your account?"
+msgstr ""
+"There are no shipping methods available for this order. Do you have a valid "
+"Shipping Address in your account?"
+
+msgid "The coupon '@coupon' is not valid for your order"
+msgstr "The coupon '@coupon' is not valid for your order"
+
+msgid ""
+"There was an error retrieving the cart for schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+msgstr ""
+"There was an error retrieving the cart for schedule '@schedule_id'. Error: "
+"@response_status @response_status_text"
+
+msgid ""
+"There was an error retrieving your schedules. Error: @response_status "
+"@response_status_text"
+msgstr ""
+"There was an error retrieving your schedules. Error: @response_status "
+"@response_status_text"
+
+msgid ""
+"There was an error retrieving your payment methods. Error: @response_status "
+"@response_status_text"
+msgstr ""
+"There was an error retrieving your payment methods. Error: @response_status "
+"@response_status_text"

@@ -1,0 +1,14 @@
+#wc-autoship-product-page-frequency-options-table td,
+#wc-autoship-product-page-frequency-options-table th {
+	margin: 0;
+	padding: 3px 5px;
+	text-align: center;
+}
+
+#wc-autoship-product-page-frequency-options-table tbody td {
+	border-bottom: 1px solid #dddddd;
+}
+
+#wc-autoship-product-page-frequency-options-table tbody tr:hover {
+	background: #cccccc;
+}

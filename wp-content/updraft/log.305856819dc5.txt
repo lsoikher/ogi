@@ -1,0 +1,316 @@
+0000.005 () Opened log file at time: Sun, 11 Dec 2016 00:59:51 +0000 on http://dev.onlygoodnessinside.com
+0000.006 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 2.12.27.22 WP: 4.7 PHP: 7.0.8-0ubuntu0.16.04.3 (fpm-fcgi, Linux instance-1 4.4.0-53-generic #74-Ubuntu SMP Fri Dec 2 15:59:10 UTC 2016 x86_64) MySQL: 5.7.16 WPLANG: en_US Server: nginx/1.10.0 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 8M | 2M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+0000.006 () Free space on disk containing Updraft's temporary directory: 6691.1 MB
+0000.008 () Restore job started. Entities to restore: plugins, themes, uploads, others, db. Restore options: {"updraft_restorer_replacesiteurl":true,"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false}
+0000.016 () Will not delete any archives after unpacking them, because there was no cloud storage for this backup
+0000.024 () Entity: db
+0000.024 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-db.gz, type=db, info=a:0:{}, last_one=)
+0000.024 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-db.gz, 79.4 Mb)
+0000.107 () Database successfully unpacked
+0000.109 () Restoring the database (on a large site this can take a long time - if it times out (which can happen if your web hosting company has configured your hosting to limit resources) then you should use a different method, such as phpMyAdmin)...
+0000.109 () Using direct MySQL access; value of use_mysqli is: 1
+0000.141 () Tried to raise max_allowed_packet from 16 MB to 32 MB, but failed (Access denied; you need (at least one of) the SUPER privilege(s) for this operation, b:0;)
+0000.141 () Max packet size: 16 MB
+0000.141 () Entering maintenance mode
+0000.142 () Enabling Maintenance mode&#8230;
+0000.143 () Backup created by: 2.12.27.22
+0000.143 () Backup of: http://onlygoodnessinside.com
+0000.151 () Content URL: http://onlygoodnessinside.com/wp-content
+0000.151 () Uploads URL: http://onlygoodnessinside.com/wp-content/uploads
+0000.151 () Old table prefix: wp_
+0000.151 () Site information: multisite=0
+0000.151 () New table prefix: wp_
+0000.158 () Processing table (InnoDB): wp_options
+0000.678 () Restoring prior UD configuration (table: wp_options; keys: 95)
+0000.928 () Search and replacing table: wp_options: rows: 6097
+0001.747 () Searching and replacing reached row: 5000
+0001.838 () Processing table (MyISAM): wp_users
+0002.180 () Search and replacing table: wp_users: rows: 2049
+0002.222 () Processing table (MyISAM): wp_usermeta
+0002.763 () Search and replacing table: wp_usermeta: rows: 41088
+0002.817 () Searching and replacing reached row: 5000
+0002.870 () Searching and replacing reached row: 10000
+0002.923 () Searching and replacing reached row: 15000
+0002.980 () Searching and replacing reached row: 20000
+0003.039 () Searching and replacing reached row: 25000
+0003.109 () Searching and replacing reached row: 30000
+0003.182 () Searching and replacing reached row: 35000
+0003.255 () Searching and replacing reached row: 40000
+0003.276 () Processing table (InnoDB): wp_commentmeta
+0004.118 () Database queries processed: 50 in 4.01 seconds
+0004.156 () Search and replacing table: wp_commentmeta: rows: 4720
+0004.206 () Processing table (InnoDB): wp_comments
+0004.775 () Search and replacing table: wp_comments: rows: 7864
+0004.962 () Searching and replacing reached row: 5000
+0005.058 () Processing table (InnoDB): wp_links
+0005.095 () Search and replacing table: wp_links: rows: 7
+0005.095 () Processing table (InnoDB): wp_postmeta
+0007.633 () Database queries processed: 100 in 7.52 seconds
+0007.767 () Search and replacing table: wp_postmeta: rows: 25233
+0015.559 () Searching and replacing reached row: 5000
+0023.037 () Searching and replacing reached row: 10000
+0030.532 () Searching and replacing reached row: 15000
+0040.167 () Searching and replacing reached row: 20000
+0047.615 () Searching and replacing reached row: 25000
+0048.086 () Processing table (InnoDB): wp_posts
+0050.180 () Database queries processed: 150 in 50.07 seconds
+0053.886 () Database queries processed: 200 in 53.78 seconds
+0058.821 () Database queries processed: 250 in 58.71 seconds
+0069.062 () Skipping search/replace on GUID column in posts table
+0069.075 () Search and replacing table: wp_posts: rows: 30029
+0078.496 () Searching and replacing reached row: 5000
+0093.496 () Searching and replacing reached row: 10000
+0101.642 () Searching and replacing reached row: 15000
+0104.174 () Searching and replacing reached row: 20000
+0104.918 () Searching and replacing reached row: 25000
+0105.907 () Searching and replacing reached row: 30000
+0106.294 () Processing table (InnoDB): wp_term_relationships
+0106.793 () Skipping this table: data in this table (wp_term_relationships) should not be search/replaced
+0106.793 () Processing table (InnoDB): wp_term_taxonomy
+0106.829 () Search and replacing table: wp_term_taxonomy: rows: 164
+0106.832 () Processing table (MyISAM): wp_termmeta
+0106.842 () Search and replacing table: wp_termmeta: rows: 0
+0106.842 () Processing table (InnoDB): wp_terms
+0106.875 () Search and replacing table: wp_terms: rows: 164
+0106.879 () Processing table (InnoDB): wp_woocommerce_order_itemmeta
+0107.677 () Search and replacing table: wp_woocommerce_order_itemmeta: rows: 48900
+0107.731 () Searching and replacing reached row: 5000
+0107.795 () Searching and replacing reached row: 10000
+0107.867 () Searching and replacing reached row: 15000
+0107.947 () Searching and replacing reached row: 20000
+0108.020 () Searching and replacing reached row: 25000
+0108.090 () Searching and replacing reached row: 30000
+0108.163 () Searching and replacing reached row: 35000
+0108.238 () Searching and replacing reached row: 40000
+0108.316 () Searching and replacing reached row: 45000
+0108.386 () Processing table (MyISAM): wp_woocommerce_payment_tokenmeta
+0108.390 () Search and replacing table: wp_woocommerce_payment_tokenmeta: rows: 0
+0108.390 () Processing table (MyISAM): wp_instapage_debug
+0108.393 () Search and replacing table: wp_instapage_debug: rows: 0
+0108.394 () Processing table (MyISAM): wp_instapage_options
+0108.397 () Search and replacing table: wp_instapage_options: rows: 1
+0108.398 () Processing table (MyISAM): wp_instapage_pages
+0108.402 () Search and replacing table: wp_instapage_pages: rows: 0
+0108.402 () Processing table (MyISAM): wp_redirection_404
+0111.396 () Skipping this table: data in this table (wp_redirection_404) should not be search/replaced
+0111.396 () Processing table (MyISAM): wp_redirection_groups
+0111.400 () Search and replacing table: wp_redirection_groups: rows: 2
+0111.401 () Processing table (MyISAM): wp_redirection_items
+0111.405 () Search and replacing table: wp_redirection_items: rows: 6
+0111.405 () Processing table (MyISAM): wp_redirection_logs
+0111.408 () Skipping this table: data in this table (wp_redirection_logs) should not be search/replaced
+0111.408 () Processing table (MyISAM): wp_redirection_modules
+0111.412 () Search and replacing table: wp_redirection_modules: rows: 2
+0111.412 () Processing table (MyISAM): wp_stt2_meta
+0111.416 () Search and replacing table: wp_stt2_meta: rows: 107
+0111.418 () Processing table (MyISAM): wp_thesis_terms
+0111.421 () Search and replacing table: wp_thesis_terms: rows: 0
+0111.421 () Processing table (MyISAM): wp_tinycarousel
+0111.425 () Search and replacing table: wp_tinycarousel: rows: 1
+0111.425 () Processing table (MyISAM): wp_vtprd_purchase_log
+0111.429 () Search and replacing table: wp_vtprd_purchase_log: rows: 0
+0111.429 () Processing table (MyISAM): wp_vtprd_purchase_log_product
+0111.433 () Search and replacing table: wp_vtprd_purchase_log_product: rows: 0
+0111.433 () Processing table (MyISAM): wp_vtprd_purchase_log_product_rule
+0111.435 () Database queries processed: 500 in 111.33 seconds
+0111.446 () Search and replacing table: wp_vtprd_purchase_log_product_rule: rows: 0
+0111.446 () Processing table (MyISAM): wp_woocommerce_api_keys
+0111.458 () Search and replacing table: wp_woocommerce_api_keys: rows: 0
+0111.458 () Processing table (InnoDB): wp_woocommerce_attribute_taxonomies
+0111.489 () Search and replacing table: wp_woocommerce_attribute_taxonomies: rows: 10
+0111.490 () Processing table (InnoDB): wp_woocommerce_downloadable_product_permissions
+0111.538 () Search and replacing table: wp_woocommerce_downloadable_product_permissions: rows: 0
+0111.538 () Processing table (InnoDB): wp_woocommerce_order_items
+0111.781 () Skipping this table: data in this table (wp_woocommerce_order_items) should not be search/replaced
+0111.781 () Processing table (MyISAM): wp_woocommerce_payment_tokens
+0111.792 () Search and replacing table: wp_woocommerce_payment_tokens: rows: 0
+0111.792 () Processing table (MyISAM): wp_woocommerce_sessions
+0111.801 () Skipping this table: data in this table (wp_woocommerce_sessions) should not be search/replaced
+0111.801 () Processing table (MyISAM): wp_woocommerce_shipping_zone_locations
+0111.810 () Search and replacing table: wp_woocommerce_shipping_zone_locations: rows: 0
+0111.810 () Processing table (MyISAM): wp_woocommerce_shipping_zone_methods
+0111.819 () Search and replacing table: wp_woocommerce_shipping_zone_methods: rows: 0
+0111.819 () Processing table (MyISAM): wp_woocommerce_shipping_zones
+0111.830 () Search and replacing table: wp_woocommerce_shipping_zones: rows: 0
+0111.830 () Processing table (InnoDB): wp_woocommerce_tax_rate_locations
+0111.867 () Search and replacing table: wp_woocommerce_tax_rate_locations: rows: 0
+0111.867 () Processing table (InnoDB): wp_woocommerce_tax_rates
+0111.897 () Search and replacing table: wp_woocommerce_tax_rates: rows: 1
+0111.897 () Processing table (InnoDB): wp_woocommerce_termmeta
+0111.922 () Search and replacing table: wp_woocommerce_termmeta: rows: 168
+0111.924 () Processing table (MyISAM): wp_wowslider
+0111.928 () Search and replacing table: wp_wowslider: rows: 1
+0111.928 () Processing table (MyISAM): wp_wpsc_also_bought
+0111.932 () Search and replacing table: wp_wpsc_also_bought: rows: 0
+0111.932 () Processing table (MyISAM): wp_wpsc_cart_contents
+0111.935 () Search and replacing table: wp_wpsc_cart_contents: rows: 0
+0111.935 () Processing table (MyISAM): wp_wpsc_checkout_forms
+0111.939 () Search and replacing table: wp_wpsc_checkout_forms: rows: 18
+0111.940 () Processing table (MyISAM): wp_wpsc_claimed_stock
+0111.945 () Search and replacing table: wp_wpsc_claimed_stock: rows: 0
+0111.945 () Processing table (MyISAM): wp_wpsc_coupon_codes
+0111.949 () Search and replacing table: wp_wpsc_coupon_codes: rows: 0
+0111.949 () Processing table (MyISAM): wp_wpsc_currency_list
+0111.956 () Search and replacing table: wp_wpsc_currency_list: rows: 250
+0111.962 () Processing table (MyISAM): wp_wpsc_download_status
+0111.966 () Search and replacing table: wp_wpsc_download_status: rows: 0
+0111.966 () Processing table (MyISAM): wp_wpsc_meta
+0111.970 () Search and replacing table: wp_wpsc_meta: rows: 11
+0111.971 () Processing table (MyISAM): wp_wpsc_product_rating
+0111.975 () Search and replacing table: wp_wpsc_product_rating: rows: 0
+0111.975 () Processing table (MyISAM): wp_wpsc_purchase_logs
+0111.979 () Search and replacing table: wp_wpsc_purchase_logs: rows: 0
+0111.979 () Processing table (MyISAM): wp_wpsc_region_tax
+0111.983 () Search and replacing table: wp_wpsc_region_tax: rows: 64
+0111.984 () Processing table (MyISAM): wp_wpsc_submited_form_data
+0111.988 () Unlocking database and leaving maintenance mode
+0111.988 () Disabling Maintenance mode&#8230;
+0111.988 () Search and replacing table: wp_wpsc_submited_form_data: rows: 0
+0111.988 () Finished: lines processed: 569 in 111.88 seconds
+0111.996 () Cleaning up rubbish...
+0111.996 () Begin search and replace (updraftplus_restored_db)
+0111.996 () [Database-replace-site-url] Database: search and replace site URL
+0111.997 () Restored pre-migration site ID for this installation
+0112.013 () Database search and replace: replace http://onlygoodnessinside.com in backup dump with http://dev.onlygoodnessinside.com
+0112.013 () Search and replacing table: wp_commentmeta: already done
+0112.013 () Search and replacing table: wp_comments: already done
+0112.013 () Search and replacing table: wp_instapage_debug: already done
+0112.013 () Search and replacing table: wp_instapage_options: already done
+0112.013 () Search and replacing table: wp_instapage_pages: already done
+0112.013 () Search and replacing table: wp_links: already done
+0112.013 () Search and replacing table: wp_options: already done
+0112.013 () Search and replacing table: wp_postmeta: already done
+0112.013 () Search and replacing table: wp_posts: already done
+0112.013 () Search and replacing table: wp_redirection_404: already done
+0112.013 () Search and replacing table: wp_redirection_groups: already done
+0112.013 () Search and replacing table: wp_redirection_items: already done
+0112.013 () Search and replacing table: wp_redirection_logs: already done
+0112.013 () Search and replacing table: wp_redirection_modules: already done
+0112.014 () Search and replacing table: wp_stt2_meta: already done
+0112.014 () Search and replacing table: wp_term_relationships: already done
+0112.014 () Search and replacing table: wp_term_taxonomy: already done
+0112.014 () Search and replacing table: wp_termmeta: already done
+0112.014 () Search and replacing table: wp_terms: already done
+0112.014 () Search and replacing table: wp_thesis_terms: already done
+0112.014 () Search and replacing table: wp_tinycarousel: already done
+0112.014 () Search and replacing table: wp_usermeta: already done
+0112.014 () Search and replacing table: wp_users: already done
+0112.014 () Search and replacing table: wp_vtprd_purchase_log: already done
+0112.014 () Search and replacing table: wp_vtprd_purchase_log_product: already done
+0112.014 () Search and replacing table: wp_vtprd_purchase_log_product_rule: already done
+0112.014 () Search and replacing table: wp_woocommerce_api_keys: already done
+0112.014 () Search and replacing table: wp_woocommerce_attribute_taxonomies: already done
+0112.014 () Search and replacing table: wp_woocommerce_downloadable_product_permissions: already done
+0112.014 () Search and replacing table: wp_woocommerce_order_itemmeta: already done
+0112.014 () Search and replacing table: wp_woocommerce_order_items: already done
+0112.014 () Search and replacing table: wp_woocommerce_payment_tokenmeta: already done
+0112.014 () Search and replacing table: wp_woocommerce_payment_tokens: already done
+0112.014 () Search and replacing table: wp_woocommerce_sessions: already done
+0112.014 () Search and replacing table: wp_woocommerce_shipping_zone_locations: already done
+0112.014 () Search and replacing table: wp_woocommerce_shipping_zone_methods: already done
+0112.014 () Search and replacing table: wp_woocommerce_shipping_zones: already done
+0112.014 () Search and replacing table: wp_woocommerce_tax_rate_locations: already done
+0112.014 () Search and replacing table: wp_woocommerce_tax_rates: already done
+0112.014 () Search and replacing table: wp_woocommerce_termmeta: already done
+0112.014 () Search and replacing table: wp_wowslider: already done
+0112.014 () Search and replacing table: wp_wpsc_also_bought: already done
+0112.014 () Search and replacing table: wp_wpsc_cart_contents: already done
+0112.014 () Search and replacing table: wp_wpsc_checkout_forms: already done
+0112.014 () Search and replacing table: wp_wpsc_claimed_stock: already done
+0112.014 () Search and replacing table: wp_wpsc_coupon_codes: already done
+0112.014 () Search and replacing table: wp_wpsc_currency_list: already done
+0112.014 () Search and replacing table: wp_wpsc_download_status: already done
+0112.014 () Search and replacing table: wp_wpsc_meta: already done
+0112.014 () Search and replacing table: wp_wpsc_product_rating: already done
+0112.014 () Search and replacing table: wp_wpsc_purchase_logs: already done
+0112.014 () Search and replacing table: wp_wpsc_region_tax: already done
+0112.014 () Search and replacing table: wp_wpsc_submited_form_data: already done
+0112.015 () Search and replacing table: wp_ghostmonitor_data: rows: 0
+0112.015 () Search and replacing table: wp_huge_itslider_images: rows: 3
+0112.016 () Search and replacing table: wp_huge_itslider_params: rows: 44
+0112.018 () Search and replacing table: wp_huge_itslider_sliders: rows: 1
+0112.019 () Search and replacing table: wp_nf_objectmeta: rows: 76
+0112.020 () Search and replacing table: wp_nf_objects: rows: 5
+0112.021 () Search and replacing table: wp_nf_relationships: rows: 3
+0112.022 () Search and replacing table: wp_ninja_forms_fav_fields: rows: 17
+0112.024 () Search and replacing table: wp_ninja_forms_fields: rows: 4
+0112.025 () Search and replacing table: wp_pwebcontact_forms: rows: 1
+0112.026 () Search and replacing table: wp_sg_age_restriction_popup: rows: 0
+0112.027 () Search and replacing table: wp_sg_contact_form_popup: rows: 1
+0112.028 () Search and replacing table: wp_sg_countdown_popup: rows: 0
+0112.028 () Search and replacing table: wp_sg_exit_intent_popup: rows: 0
+0112.029 () Search and replacing table: wp_sg_fblike_popup: rows: 0
+0112.030 () Search and replacing table: wp_sg_html_popup: rows: 0
+0112.030 () Search and replacing table: wp_sg_iframe_popup: rows: 0
+0112.031 () Search and replacing table: wp_sg_image_popup: rows: 0
+0112.031 () Search and replacing table: wp_sg_popup: rows: 0
+0112.032 () Search and replacing table: wp_sg_popup_addons: rows: 0
+0112.033 () Search and replacing table: wp_sg_popup_in_pages: rows: 0
+0112.033 () Search and replacing table: wp_sg_popup_settings: rows: 1
+0112.034 () Search and replacing table: wp_sg_shortCode_popup: rows: 0
+0112.035 () Search and replacing table: wp_sg_social_popup: rows: 0
+0112.035 () Search and replacing table: wp_sg_subscribers: rows: 0
+0112.036 () Search and replacing table: wp_sg_subscription_error_log: rows: 0
+0112.036 () Search and replacing table: wp_sg_subscription_popup: rows: 0
+0112.037 () Search and replacing table: wp_sg_video_popup: rows: 0
+0112.037 () Search and replacing table: wp_social_users: rows: 0
+0112.038 () Search and replacing table: wp_yith_wcwl: rows: 0
+0112.039 () Search and replacing table: wp_yith_wcwl_lists: rows: 1
+0112.046 () Entity: plugins
+0112.046 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-plugins.zip, type=plugins, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/plugins";s:11:"description";s:7:"Plugins";}, last_one=)
+0112.046 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-plugins.zip, 37 Mb)
+0112.896 () Moving old data: filesystem method / updraft_dir is potentially possible
+0112.896 () Moving old data: can potentially use wp_filesystem method / -old
+0112.896 () Moving old data out of the way...
+0113.092 () Top-level entities being moved: akismet, ninja-forms, ml-slider, google-drive-embedder, animate-it, upload-larger-plugins, regenerate-thumbnails, popup-builder-gold, ghostmonitor, instapage, google-sitemap-generator, ultimate-category-excluder, trusona, index.php, yith-woocommerce-gift-cards, yith-woocommerce-subscription, wp-instagram-widget, hello.php, woocommerce, woosidebars, yith-woocommerce-ajax-search, google-apps-login, updraftplus, woocommerce-bulk-discount, wordpress-importer, nextend-facebook-connect, advanced-floating-content-lite, redirection, woocommerce-auto-added-coupons-pro, popup-builder, woocommerce-bundle-rate-shipping, pwebcontact, yith-woocommerce-wishlist
+0113.094 () Moving unpacked backup into place...
+0113.329 () Top-level entities being moved: welcome-to-wordpress, revslider, akismet, ignitewoo-updater, ml-slider, theme-blvd-wpml-bridge, woocommerce-variation-details-on-page-product, jetpack, wp-rtl, wordpress-seo, print-me, wp-post-date-remover, regenerate-thumbnails, yotpo-social-reviews-for-woocommerce, wp-e-commerce, wp-firewall, wp-maintenance-mode, woocommerce-custom-price, woocommerce-custom-price-label, instapage, google-sitemap-generator, woocommerce-stamps-com, error_log, newsletter-sign-up, index.php, floating-social-media-links, ignitewoo-gift-certificates, hello.php, woocommerce, woocommerce-auto-added-coupons, woocommerce-customizer, woosidebars, wowslider, pricing-deals-for-woocommerce, updraftplus, woocommerce-bulk-discount, wordpress-importer, readygraph-wordpress-master, woocommerce-product-slider, searchterms-tagging-2, redirection, woocommerce-auto-added-coupons-pro, woocommerce-conversion-tracking, woocommerce-bundle-rate-shipping, coolcarousel, woodojo
+0113.332 () Cleaning up rubbish...
+0113.348 () Entity: themes
+0113.348 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-themes.zip, type=themes, info=a:2:{s:4:"path";s:43:"/home/lidorsoikher012/ogi/wp-content/themes";s:11:"description";s:6:"Themes";}, last_one=)
+0113.348 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-themes.zip, 15.1 Mb)
+0113.668 () Moving old data: filesystem method / updraft_dir is potentially possible
+0113.668 () Moving old data: can potentially use wp_filesystem method / -old
+0113.668 () Moving old data out of the way...
+0113.717 () Top-level entities being moved: twentysixteen, twentyfourteen, mystore, urban-bold, index.php, flatsome, twentyfifteen
+0113.718 () Moving unpacked backup into place...
+0113.916 () Top-level entities being moved: canvas, twentyten, twentyfourteen, istudio-theme, thesis_182, mystile, twentytwelve, twentythirteen, index.php, canvas-child, themorningafter, twentyeleven, flatsome, twentyfifteen
+0113.918 () Cleaning up rubbish...
+0113.931 () Entity: uploads
+0113.931 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0113.931 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads.zip, 98.4 Mb)
+0114.293 () Moving old data: filesystem method / updraft_dir is potentially possible
+0114.293 () Moving old data: can potentially use wp_filesystem method / -old
+0114.293 () Moving old data out of the way...
+0114.412 () Moving unpacked backup into place...
+0114.449 () Cleaning up rubbish...
+0114.455 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads2.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0114.455 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads2.zip, 94.9 Mb)
+0115.770 () Moving unpacked backup into place...
+0115.777 () Cleaning up rubbish...
+0115.878 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads3.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0115.878 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads3.zip, 98.8 Mb)
+0117.822 () Moving unpacked backup into place...
+0117.832 () Cleaning up rubbish...
+0118.048 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads4.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0118.048 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads4.zip, 100.3 Mb)
+0120.488 () Moving unpacked backup into place...
+0120.514 () Cleaning up rubbish...
+0120.662 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads5.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0120.662 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads5.zip, 98.8 Mb)
+0122.898 () Moving unpacked backup into place...
+0122.953 () Cleaning up rubbish...
+0122.959 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads6.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0122.959 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads6.zip, 99.3 Mb)
+0126.938 () Moving unpacked backup into place...
+0127.014 () Cleaning up rubbish...
+0127.020 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads7.zip, type=uploads, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/uploads";s:11:"description";s:7:"Uploads";}, last_one=)
+0127.020 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-uploads7.zip, 28.7 Mb)
+0127.750 () Moving unpacked backup into place...
+0127.771 () Cleaning up rubbish...
+0127.778 () Entity: others
+0127.778 () restore_backup(backup_file=backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-others.zip, type=others, info=a:2:{s:4:"path";s:36:"/home/lidorsoikher012/ogi/wp-content";s:11:"description";s:6:"Others";}, last_one=1)
+0127.778 () Unpacking backup... (backup_2016-12-10-1603_ONLY_GOODNESS_INSIDE_34e2f813a19f-others.zip, 2 Mb)
+0127.960 () Cleaning up rubbish...
+0128.074 () Restore successful!
+0128.074 () Restore successful
