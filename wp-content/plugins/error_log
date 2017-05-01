@@ -1,0 +1,5 @@
+[05-Nov-2013 21:55:25] PHP Fatal error:  Call to undefined function  add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/plugins/hello.php on line 60
+[12-May-2014 03:22:33 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/plugins/hello.php on line 60
+[17-May-2015 18:41:23 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/plugins/hello.php on line 60
+[17-Oct-2015 04:38:06 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/plugins/hello.php on line 60
+[14-Mar-2016 18:49:14 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/plugins/hello.php on line 60

@@ -1,0 +1,53 @@
+*** WooCommerce Stamps.com Changelog ***
+
+2014.02.24 - version 2.1.1
+ * Tweak - Customs information is now included by default for any non-US order
+ * Fix - US and UK country names are now standardized properly
+
+2014.01.20 - version 2.1
+ * Feature - You can now select restrict exported orders by custom order statuses
+ * Tweak - The full country name is used instead of the country code
+ * Misc - Internal refactoring to improve stability and performance
+ * Misc - WooCommerce 2.1 compatibility
+ * Misc - Uses SkyVerge Plugin Framework
+ * Localization - Text domain changed from `wc-stamps-com` to `woocommerce-stamps-com`
+
+2013.12.13 - version 2.0.4
+ * Tweak - The company field is now included for the recipient
+
+2013.09.06 - version 2.0.3
+ * Tweak - Update plugin action links
+ * Tweak - Update WP Admin Message Handler to 1.0.1
+
+2013.07.12 - version 2.0.2
+ * Fix - Total order weight now accounts for item quantity, kudos Jason P.
+
+2013.06.24 - version 2.0.1
+ * Fix - WP Message Handler utility class conditionally loaded to avoid conflicts with other plugins
+
+2013.04.22 - version 2.0
+ * Feature - Download XML directly from Orders List
+ * Feature - Bulk download XML from the Orders List
+ * Feature - Download XML from the Edit Order page
+ * Feature - Set global export settings to control the format of the XML
+ * Feature - Optionally include customs information in the XML
+ * Feature - Optionally include the order XML as an attachment to the admin new order email notification
+ * Feature - MAJOR improvement to internal XML generation, which is now completely filterable
+ * Misc - Many other minor improvements and tweaks for better performance and stability
+
+2013.03.18 - version 1.0.4
+ * Feature - Add option to export each order line item as separate shipment
+ * Localization - Changed text domain to 'wc-stamps-com'
+
+2013.02.04 - version 1.0.3
+ * Tweak - When specific order ID is selected, it exports only those orders with the statuses that have been selected
+
+2013.01.18 - version 1.0.2
+ * Tweak - XML Formatting Improvements
+ * WooCommerce 2.0 Compatible
+
+2012.12.04 - version 1.0.1
+ * New updater
+
+2012.10.01 - version 1.0
+ * First Release

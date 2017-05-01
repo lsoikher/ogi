@@ -407,11 +407,7 @@ class WC_REST_Orders_V1_Controller extends WC_REST_Posts_Controller {
 			$args['post_status'] = 'any';
 		}
 
-<<<<<<< HEAD
-		if ( ! empty( $request['customer'] ) ) {
-=======
 		if ( isset( $request['customer'] ) ) {
->>>>>>> c2d2db78aae52c200377f0d739da6372dbafcd80
 			if ( ! empty( $args['meta_query'] ) ) {
 				$args['meta_query'] = array();
 			}

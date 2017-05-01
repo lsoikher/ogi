@@ -1,0 +1,8 @@
+0000.007 () Opened log file at time: Mon, 01 May 2017 00:03:24 +0000 on http://www.onlygoodnessinside.com
+0000.007 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.12.40 WP: 4.7.4 PHP: 7.0.15-0ubuntu0.16.04.4 (fpm-fcgi, Linux instance-1 4.4.0-75-generic #96-Ubuntu SMP Thu Apr 20 09:56:33 UTC 2017 x86_64) MySQL: 5.7.18 WPLANG: en_US Server: nginx/1.10.0 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 7.1M | 2M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+0000.007 () Free space on disk containing Updraft's temporary directory: 4036.5 MB
+0000.008 () Restore job started. Entities to restore: themes. Restore options: {"updraft_restorer_replacesiteurl":false,"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false}
+0000.015 () Error message: Existing unremoved folders from a previous restore exist (please use the "Delete Old Directories" button to delete them before trying again): /home/lidorsoikher012/ogi/wp-content/themes-old
+0000.018 () Restore failed...
+0000.018 () Error message: Existing unremoved folders from a previous restore exist (please use the "Delete Old Directories" button to delete them before trying again): /home/lidorsoikher012/ogi/wp-content/themes-old
+0000.018 () Restore failed

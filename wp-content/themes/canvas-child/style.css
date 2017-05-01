@@ -1,0 +1,18 @@
+/*
+Theme Name: Canvas Child
+Description: Child theme for Canvas
+Author: Red Lotus
+Template: canvas
+*/
+
+@import url("../canvas/style.css");
+
+h1{
+font-size:28px !important;
+}
+h2{
+font-size: 16px !important;
+}
+.entry p strong{
+font-size: 16px !important;
+}

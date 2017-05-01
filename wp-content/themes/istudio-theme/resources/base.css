@@ -1,0 +1,95 @@
+/*
+Name: HTML5 CSS Reset.
+version: 1.0
+Copyright (C) 2012  Xu.hel@Xu.Design(zvzhssj@gmail.com).
+The CSS is released under BSD License.
+Licensed under the BSD License:
+http://creativecommons.org/licenses/BSD/
+*/
+
+/* =Reset default browser CSS.
+-------------------------------------------------------------- */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+html{-webkit-text-size-adjust:none}
+body{line-height:1}
+ol,ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+table{border-collapse:collapse;border-spacing:0}
+caption,th,td{font-weight:normal;text-align:left}
+a img{border:0}
+:focus{outline:0}
+
+/* =Global default browser CSS.
+----------------------------------------------- */
+body,input,textarea{color:#000;font:12px/1.625 300 'Helvetica Neue',Helvetica,Arial,sans-serif}
+body{background:#fff}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6{clear:both}
+h1,h2,h3,h4,h5,h6{display:block;font-weight:bold}
+h1{font-size:2em;margin:.67em 0}
+h2{font-size:1.5em;margin:.83em 0}
+h3{font-size:1.17em;margin:1em 0}
+h4{font-size:1em;margin:1.33em 0}
+h5{font-size:.83em;margin:1.67em 0}
+h6{font-size:.67em;margin:2.33em 0}
+hr{background-color:#ccc;border:0;height:1px;margin-bottom:1.625em}
+
+/* Text elements */
+p{margin-bottom:1.625em}
+ul,ol{margin:0 0 1.625em 2.5em}
+ul{list-style:square}
+ul ul{list-style:disc}
+ul ul ul{list-style:circle}
+ol{list-style-type:decimal}
+ol ol{list-style:upper-alpha}
+ol ol ol{list-style:lower-roman}
+ol ol ol ol{list-style:lower-alpha}
+ul ul,ol ol,ul ol,ol ul{margin-bottom:0}
+dl{margin:0 1.625em}
+dt{font-weight:bold}
+dd{margin-bottom:1.625em}
+b,strong{font-weight:bold}
+cite,em,i{font-style:italic}
+cite{border:none}
+big{font-size:1.31em}
+blockquote{font-family:Georgia,'Bitstream Charter',serif;font-style:italic;margin:0 3em}
+blockquote cite{color:#666;font:1em "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:0.05em;text-transform:uppercase}
+pre{overflow:auto;background:#f4f4f4;font:1em/1.5 "Courier 10 Pitch",Courier,monospace;padding:0.75em 1.625em}
+code,kbd,samp,var{font:1.17em Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace}
+abbr,acronym,dfn{border-bottom:1px dotted #666;cursor:help}
+var{font-style:italic}
+address{display:block;margin:0 0 1.625em}
+del{color:#333}
+ins{background:#fff9c0;border:none;color:#333;text-decoration:none}
+sup,sub{font-size:.83em;height:0;line-height:1;position:relative;vertical-align:baseline}
+sup{bottom:1ex}
+sub{top:.5ex}
+
+/* Tables */
+table{border:1px solid #ddd;border-collapse:collapse;border-spacing:0;box-sizing:border-box;text-align:left;margin:0 0 1.625em;width:100%}
+th{font-size:1.17em;font-weight:700;letter-spacing:0.1em;line-height:1.6em;text-transform:uppercase}
+th,td{border:1px solid #ddd;padding:3px 5px;vertical-align:middle}
+
+/* Forms */
+input[type=text],input[type=password],textarea{background:#fafafa;-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);border:1px solid #ddd;color:#888}
+input[type=text]:focus,textarea:focus{color:#333}
+textarea{padding-left:3px;width:98%}
+input[type=text]{padding:3px}
+
+/* Links */
+a,a em,a strong{color:#06c;text-decoration:none}
+a:focus,a:active,a:hover{text-decoration:underline}
+
+/* Global Class */
+.clear{clear:both;}
+.clearer{clear:both;display:block;margin:0;padding:0;height:0;line-height:1px;font-size:1px;}
+
+/* Line break *//*
+div,p{white-space:normal;word-break:break-all;word-wrap:break-word;}
+table{table-layout:fixed;}
+table th,table td{word-wrap:break-word;overflow:hidden;}
+pre{white-space:pre-wrap;word-wrap:break-word;width:auto;}
+*/

@@ -173,8 +173,6 @@ abstract class WC_Legacy_Customer extends WC_Data {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
 	 * Legacy get address.
 	 */
 	function get_address() {
@@ -191,7 +189,6 @@ abstract class WC_Legacy_Customer extends WC_Data {
 	}
 
 	/**
->>>>>>> c2d2db78aae52c200377f0d739da6372dbafcd80
 	 * Legacy get country.
 	 */
 	function get_country() {

@@ -1,0 +1,143 @@
+/**
+ * @version 2.1.1
+ * @package Perfect Easy & Powerful Contact Form
+ * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author Mateusz Podraza
+ */
+
+.pweb-opened + .pweb-theme-notebook.pwebcontact-box .pwebcontact-container:before, .pweb-opened + .pweb-theme-notebook.ui-effects-transfer.pweb-genie:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -15px;
+    left: 35%;
+    width: 30%;
+    height: 35px;
+    background-color: #fff;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    border-left: 1px dashed rgba(0, 0, 0, 0.1);
+    border-right: 1px dashed rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 1px 0px #cccccc;
+    -webkit-transform: rotate(-1deg) skew(0, 0) translate(0%, -5px);
+    -ms-transform: rotate(-1deg) skew(0, 0) translate(0%, -5px);
+    transform: rotate(-1deg) skew(0, 0) translate(0%, -5px);
+}
+
+.pweb-theme-notebook.pwebcontact-box .pwebcontact-container, .pweb-theme-notebook.ui-effects-transfer.pweb-genie {
+    padding: 10px 16px 10px 30px;
+    background-image: url('../../images/themes/notebook/bg.png');
+    background-repeat: repeat;
+    box-shadow: 0 10px 20px -9px rgba(0, 0, 0, 0.5);
+}
+
+.pweb-theme-notebook.pwebcontact-box .pwebcontact-container-inset:before {
+    content: "";
+    width: 1px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    background: #DD0000;
+}
+
+.pweb-theme-notebook.pwebcontact-box .pwebcontact-container-inset:after {
+    content: "";
+    width: 1px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    background: #DD0000;
+}
+
+.pweb-theme-notebook.pweb-modal.pwebcontact-box .pweb-button-close {
+    color: #DD0000;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #fff !important;
+    opacity: 0.8;
+    filter: alpha(opacity=60);
+    border-left: 1px dashed rgba(0, 0, 0, 0.1);
+    border-right: 1px dashed rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 1px 0px #cccccc;
+    -webkit-transform: rotate(12deg) skew(0, 0) translate(0%, -5px);
+    -ms-transform: rotate(12deg) skew(0, 0) translate(0%, -5px);
+    transform: rotate(12deg) skew(0, 0) translate(0%, -5px);
+    padding: 0 !important;
+    width: 60px !important;
+    height: 30px !important;
+}
+
+.pweb-left .pweb-theme-notebook.pweb-slidebox .pwebcontact-container .pwebcontact-container-inset .pwebcontact-form .pweb-fields{
+    margin-left:20px;
+}
+
+.pweb-theme-notebook.pwebcontact_toggler {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333;
+    background-image: url('../../images/themes/notebook/bg.png');
+    -webkit-transition: all .3s ease;;
+    transition: all .3s ease;
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.pweb-theme-notebook.pwebcontact_toggler > .pweb-text {
+    white-space: nowrap;
+}
+
+.pweb-theme-notebook.pwebcontact_toggler:hover {
+    border-bottom: 2px solid #DD0000;
+}
+
+.pweb-bottom .pweb-theme-notebook.pwebcontact_toggler:hover {
+    border-top: 2px solid #DD0000;
+    border-bottom: none;
+}
+
+.pweb-top .pweb-closed + .pweb-theme-notebook.pwebcontact-box {
+    margin-top: -45px;
+}
+
+.pweb-top .pweb-opened + .pweb-theme-notebook.pwebcontact-box {
+    margin-top: 45px;
+}
+
+.pweb-accordion.pweb-theme-notebook .pweb-arrow {
+    display: none;
+}
+
+.pweb-accordion.pweb-theme-notebook .pwebcontact-container {
+    box-shadow: none;
+    border: none;
+}
+
+.pweb-accordion.pweb-theme-notebook.pwebcontact-box {
+    margin-top: 30px;
+}
+
+.pweb-accordion.pweb-accordion-boxed.pweb-theme-notebook .pweb-button-close {
+    top: 10px;
+}
+
+.pweb-left.pweb-theme-notebook .pwebcontact_toggler {
+    padding: 7px 35px 7px 15px !important;
+}
+
+.pweb-right.pweb-theme-notebook .pwebcontact_toggler {
+    padding: 7px 15px 7px 35px !important;
+}
+
+.pweb-vertical.pweb-theme-notebook .pwebcontact_toggler{
+    padding:35px 5px !important;
+}
+.pweb-vertical.pweb-theme-notebook .pwebcontact_toggler > .pweb-icon{
+    right:6px;
+}

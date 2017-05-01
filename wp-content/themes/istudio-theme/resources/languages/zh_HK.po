@@ -1,0 +1,427 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: iStudio 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-27 09:22+0800\n"
+"PO-Revision-Date: 2012-07-27 09:22+0800\n"
+"Last-Translator: Xu.hel <zvzhssj@gmail.com>\n"
+"Language-Team: Xu.Design <zvzhssj@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: HONG KONG\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../..\n"
+
+#: ../../404.php:6
+#: ../../header.php:7
+msgid "Error 404 - Not Found"
+msgstr "404 錯誤 - 沒有找到"
+
+#: ../../archive.php:8
+msgid "Archive for the &#8216;"
+msgstr "存檔 &#8216;"
+
+#: ../../archive.php:8
+msgid "&#8217; Category"
+msgstr "&#8217; 分類"
+
+#: ../../archive.php:8
+msgid "Posts Tagged &#8216;"
+msgstr "文章標籤&#8216;"
+
+#: ../../archive.php:8
+msgid "&#8217;"
+msgstr "&#8217;"
+
+#: ../../archive.php:8
+msgid "Archive for "
+msgstr "文章存檔"
+
+#: ../../archive.php:8
+msgid "Archive for Author: "
+msgstr "作者存檔： "
+
+#: ../../archive.php:8
+msgid "Blog Archives"
+msgstr "博客存檔"
+
+#: ../../archive.php:36
+#: ../../index.php:32
+#: ../../search.php:31
+msgid "Not Found"
+msgstr "没有找到"
+
+#: ../../archive.php:39
+#: ../../index.php:35
+#: ../../search.php:34
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr "對不起，您要找的東西不在這裡。"
+
+#: ../../comments.php:3
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr "這是一篇受密碼保護的文章。輸入密碼，以查看任何回應。"
+
+#: ../../comments.php:7
+msgid "Responses to "
+msgstr "回應自"
+
+#: ../../comments.php:16
+msgid "Comments are closed."
+msgstr "回應已關閉。"
+
+#: ../../footer.php:2
+msgid " &#183; "
+msgstr " &#183; "
+
+#: ../../footer.php:2
+msgid " &#183; Powered by <a href=\"http://wordpress.org/\">WordPress</a>"
+msgstr " &#183; Powered by <a href=\"http://wordpress.org/\">WordPress</a>"
+
+#: ../../functions.php:28
+msgid "Aurora"
+msgstr "Aurora"
+
+#: ../../functions.php:28
+msgid "Beach"
+msgstr "Beach"
+
+#: ../../functions.php:28
+msgid "Highway"
+msgstr "Highway"
+
+#: ../../functions.php:28
+msgid "Train graffiti"
+msgstr "Train graffiti"
+
+#: ../../functions.php:28
+msgid "Sports car"
+msgstr "Sports car"
+
+#: ../../functions.php:28
+msgid "Cobblestone"
+msgstr "Cobblestone"
+
+#: ../../functions.php:28
+msgid "Forest"
+msgstr "Forest"
+
+#: ../../functions.php:28
+msgid "Save Me"
+msgstr "Save Me"
+
+#: ../../functions.php:28
+msgid "Snow Leopard"
+msgstr "Snow Leopard"
+
+#: ../../functions.php:41
+#: ../../functions.php:83
+#: ../../functions.php:89
+msgid "Options"
+msgstr "選項"
+
+#: ../../functions.php:42
+#: ../../functions.php:185
+#: ../../functions.php:208
+msgid "iStudio Shortcode"
+msgstr "iStudio 短代碼"
+
+#: ../../functions.php:44
+msgid "Excerpt"
+msgstr "回應"
+
+#: ../../functions.php:82
+msgid "Settings saved."
+msgstr "設置已保存"
+
+#: ../../functions.php:82
+msgid "Settings have been restored to default."
+msgstr "設置已復位為默認值。"
+
+#: ../../functions.php:91
+msgid "If you very nice this theme, you can click this button to donate to me."
+msgstr "如果您非常喜歡這個 WordPress 主題，那麼您可以點擊這個按鈕對我進行捐贈。"
+
+#: ../../functions.php:94
+msgid "Thank you for using iStudio. This Theme is Designed by Xu.hel."
+msgstr "謝謝您使用 iStudio。這個主題是由 Xu.hel 設計。"
+
+#: ../../functions.php:95
+#, php-format
+msgid "Theme Logo PSD file here: <a href=\"%1$s\" target=\"_blank\">Download Logo PSD</a>."
+msgstr "主題的 PSD 文檔下載在這裡: <a href=\"%1$s\" target=\"_blank\">下載 Logo PSD</a>."
+
+#: ../../functions.php:95
+msgid "http://xuhelblog.googlecode.com/files/iStudio_logo_psd.tar.gz"
+msgstr "http://xuhelblog.googlecode.com/files/iStudio_logo_psd.tar.gz"
+
+#: ../../functions.php:99
+msgid "General"
+msgstr "常規"
+
+#: ../../functions.php:101
+msgid "Page Number style is displayed as:"
+msgstr "頁碼樣式顯示為："
+
+#: ../../functions.php:101
+msgid "Theme Styles"
+msgstr "主題樣式"
+
+#: ../../functions.php:101
+msgid "Default Styles"
+msgstr "Wordpress 默認樣式"
+
+#: ../../functions.php:102
+msgid "Use the Picture Logo."
+msgstr "使用位圖 Logo"
+
+#: ../../functions.php:103
+msgid "Show sidebar in single pages."
+msgstr "在單個文章頁面顯示側欄"
+
+#: ../../functions.php:104
+msgid "Show sidebar in pages."
+msgstr "在頁面顯示側欄"
+
+#: ../../functions.php:105
+msgid "Use Ctrl+Enter to Reply Comments."
+msgstr "使用 Ctrl+Enter 回覆回應."
+
+#: ../../functions.php:109
+msgid "Enable keywords for search engine."
+msgstr "啟用搜索引擎關鍵字"
+
+#: ../../functions.php:111
+msgid "Search engine keywords values fill in the following input box. Each keyword with \",\" separated."
+msgstr "搜索引擎關鍵字的值填寫在下面的輸入框內.每個關鍵字用逗號分開。"
+
+#: ../../functions.php:116
+msgid "Custom RSS Subscription"
+msgstr "自定義 RSS 订阅"
+
+#: ../../functions.php:118
+msgid "Please enter a new RSS subscription address (if not set is to use WordPress's default subscription address)."
+msgstr "請輸入新的RSS訂閱地址(如果沒有設置就是用WordPress的默認訂閱地址)。"
+
+#: ../../functions.php:123
+msgid "Enable GrowlBox pop-up tips"
+msgstr "開啟GrowlBox彈出提示"
+
+#: ../../functions.php:125
+msgid "GrowlBox the content of the pop-up tips(Use HTML code.):"
+msgstr "GrowlBox 彈出提示內容 (使用 HTML 代碼)："
+
+#: ../../functions.php:130
+msgid "Use google custom search engine"
+msgstr "使用 Google 自定義搜索"
+
+#: ../../functions.php:132
+#, php-format
+msgid "Find <code>name=\"cx\"</code> in the <strong>Search box code</strong> of <a href=\"%1$s\">Google Custom Search Engine</a>, and enter the <code>value</code> here.<br/>For example: <code>014782006753236413342:1ltfrybsbz4</code>"
+msgstr "\"在 <a href=\"%1$s\">Google Custom Search Engine</a> 的搜索框代碼中找到 <code>name=\"cx\"</code> ， 並將同行中value的值填寫在下面的輸入框內.<br />例如: <code>014782006753236413342:1ltfrybsbz4</code>"
+
+#: ../../functions.php:132
+msgid "http://www.google.com/coop/cse/"
+msgstr "http://www.google.com/coop/cse/"
+
+#: ../../functions.php:137
+msgid "Open the article Recommendation Widgets"
+msgstr "打開文檔推薦 Widgets"
+
+#: ../../functions.php:139
+msgid "Recommended articles to be linked with the HTML code written in the input box below:"
+msgstr "將要推薦的文檔鏈接用HTML代碼寫在下面的輸入框內："
+
+#: ../../functions.php:144
+msgid "Ad Code Settings"
+msgstr "廣告代碼設置"
+
+#: ../../functions.php:147
+msgid "Ads code will not be displayed as long as the ad code box was emptied."
+msgstr "只要把下面的廣告代碼框清空後,就不會顯示廣告代碼了。"
+
+#: ../../functions.php:148
+msgid "Ad code embedded in the article: (Max size: 300x250)"
+msgstr "文章內容內嵌廣告代碼：(最大尺寸：300x250）"
+
+#: ../../functions.php:149
+msgid "Embedded ads appear here:"
+msgstr "內嵌廣告顯示位置："
+
+#: ../../functions.php:149
+msgid "left"
+msgstr "左邊"
+
+#: ../../functions.php:149
+msgid "right"
+msgstr "右邊"
+
+#: ../../functions.php:149
+#: ../../functions.php:153
+#: ../../functions.php:157
+msgid "Hide after user logged in"
+msgstr "用戶登錄後隱藏"
+
+#: ../../functions.php:153
+msgid "Ad code displayed inside single article: (Max size: 728x90)"
+msgstr "顯示於單個文章內頁的廣告代碼：（最大尺寸：728 x 90）"
+
+#: ../../functions.php:157
+msgid "Ad code displayed in the sidebar: (Max size: 200x220)"
+msgstr "顯示於邊欄的廣告代碼：(最大尺寸：200x220）"
+
+#: ../../functions.php:163
+msgid "Save Changes"
+msgstr "儲存設置"
+
+#: ../../functions.php:164
+msgid "Revert to Defaults"
+msgstr "復位到默認值"
+
+#: ../../functions.php:187
+msgid "iStudio Custom Shortcode format"
+msgstr "iStudio 自定義短代碼格式"
+
+#: ../../functions.php:189
+msgid "Insert Download"
+msgstr "插入下載按鍵"
+
+#: ../../functions.php:190
+msgid "Insert the following code into the editor, you will be able to use the built-in download button style."
+msgstr "在編輯器裡面寫入下面的代碼，您就可以使用主題內置樣式的下載按鈕了。"
+
+#: ../../functions.php:191
+msgid "Code format: <code>[Downlink href=\"http://www.xxx.com/xxx.zip\"]download xxx.zip[/Downlink]</code>"
+msgstr "代碼格式：<code>[Downlink href=\"http://www.xxx.com/xxx.zip\"]download xxx.zip[/Downlink]</code>"
+
+#: ../../functions.php:192
+msgid "Insert MP3 music"
+msgstr "插入 MP3 音訊"
+
+#: ../../functions.php:193
+msgid "Insert the following code into the editor, you will be able to use the built-in MP3 music player.."
+msgstr "在編輯器裡面寫入下面的代碼，您就可以使用主題內置的 MP3 播放器播放 MP3 音訊了。"
+
+#: ../../functions.php:194
+msgid "Only supports .mp3 file URL. If the browser supports html5 then automatically <audio> tag."
+msgstr "只支援 .mp3 文件 URL 地址。如果瀏覽器支持HTML5 那麼將自動使用<audio> 標籤。"
+
+#: ../../functions.php:195
+msgid "Code format: <code>[mp3]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr "代碼格式：<code>[mp3]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+
+#: ../../functions.php:196
+msgid "Auto Play: <code>[mp3 auto=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr "自動播放：<code>[mp3 auto=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+
+#: ../../functions.php:197
+msgid "Repeat Play: <code>[mp3 replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr "循環播放：<code>[mp3 replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+
+#: ../../functions.php:198
+msgid "Auto Play and Repeat Play: <code>[mp3 auto=\"1\" replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr "自動並循環播放：<code>[mp3 auto=\"1\" replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+
+#: ../../functions.php:199
+msgid "Insert FLV video"
+msgstr "插入 FLV 視訊"
+
+#: ../../functions.php:200
+msgid "Insert the following code into the editor, you will be able to use the built-in video player to play FLV video."
+msgstr "在編輯器裡面寫入下面的代碼，您就可以使用主題內置的 FLV 播放器播放 FLV 視頻了。"
+
+#: ../../functions.php:201
+msgid "Only supports .mp4 file URL. If the browser supports html5 then automatically <video> tag."
+msgstr "只支援 .mp4 文件 URL 地址。如果瀏覽器支持HTML5 那麼將自動使用<video> 標籤。"
+
+#: ../../functions.php:202
+msgid "Code format: <code>[flv]http://www.xxx.com/xxx.flv[/flv]</code>"
+msgstr "代碼格式：<code>[flv]http://www.xxx.com/xxx.flv[/flv]</code>"
+
+#: ../../functions.php:203
+msgid "Auto Play: <code>[flv auto=\"1\"]http://www.xxx.com/xxx.flv[/flv]</code>"
+msgstr "自動播放：<code>[flv auto=\"1\"]http://www.xxx.com/xxx.flv[/flv]</code>"
+
+#: ../../functions.php:229
+#: ../../functions.php:245
+#, php-format
+msgid "%1$s at %2$s <span class=\"says\"></span>"
+msgstr "%1$s 在 %2$s <span class=\"says\"></span>"
+
+#: ../../functions.php:229
+#: ../../functions.php:245
+#, php-format
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: ../../functions.php:230
+#: ../../functions.php:246
+msgid "Your comment is awaiting moderation."
+msgstr "您的回應正在等待審核。"
+
+#: ../../functions.php:255
+msgid "Pingback:"
+msgstr "引用："
+
+#: ../../functions.php:255
+msgid "Edit"
+msgstr "編輯"
+
+#: ../../functions.widget.php:3
+msgid "This are iStudio's recent comments."
+msgstr "这是 iStudio 的最新回應。"
+
+#: ../../functions.widget.php:3
+msgid "iStudio Recent Comments"
+msgstr "iStudio 最新回應"
+
+#: ../../functions.widget.php:4
+#: ../../sidebar.php:21
+msgid "Recent Comments"
+msgstr "最新回應"
+
+#: ../../functions.widget.php:7
+msgid "Title:"
+msgstr "標題："
+
+#: ../../functions.widget.php:9
+msgid "Number of comments to show:"
+msgstr "顯示的回應數目: "
+
+#: ../../header.php:7
+#, php-format
+msgid "Search results for \"%s\""
+msgstr "搜索結果：\"%s\""
+
+#: ../../mode.archives.php:14
+msgid "Recent Articles"
+msgstr "最近文檔"
+
+#: ../../search.php:7
+msgid "Search Results"
+msgstr "搜索結果"
+
+#: ../../sidebar.php:4
+msgid "Categories"
+msgstr "歸類"
+
+#: ../../sidebar.php:8
+msgid "Most Popular Articles"
+msgstr "最受歡迎文檔"
+
+#: ../../sidebar.php:15
+msgid "Archives"
+msgstr "文章存檔"
+
+#: ../../sidebar.php:27
+msgid "Meta"
+msgstr "其他"
+
+#~ msgid "Only supports mp3 file URL."
+#~ msgstr "只支持MP3 文檔 URL 地址。"
+
+#~ msgid "Only supports flv file URL."
+#~ msgstr "只支持 FLV 文檔 URL 地址。"

@@ -1,0 +1,165 @@
+/**
+ * @version 2.0.0
+ * @package Perfect Easy & Powerful Contact Form
+ * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author Piotr Moćko
+ */
+
+/* Form background */
+.pweb-theme-googlematerial .pwebcontact-container,
+.pweb-theme-googlematerial.ui-effects-transfer.pweb-genie {
+	background-color: #FFF;
+}
+
+.pweb-theme-googlematerial.pweb-slidebox .pwebcontact-container {
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom: 3px solid #1abc9c;
+    border-radius: 4px 4px 8px 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+	background-color: rgba(255,255,255, 0.9);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+
+}
+
+/* Text */
+.pweb-theme-googlematerial form.pwebcontact-form label,
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-field-custom-text,
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-field-header,
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-msg,
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-chars-counter,
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-uploader,
+.pweb-theme-googlematerial .pwebcontact-box .pweb-dropzone {
+	color: #666;
+}
+
+/* Message success */
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-msg .pweb-success {
+
+}
+/* Message error */
+.pweb-theme-googlematerial form.pwebcontact-form .pweb-msg .pweb-error {
+
+}
+
+/* Star of required fields */
+.pweb-theme-googlematerial form.pwebcontact-form label .pweb-asterisk {
+
+}
+
+/* Accordion Box */
+.pweb-theme-googlematerial.pwebcontact-box.pweb-accordion.pweb-accordion-boxed .pwebcontact-container-outset {
+    border-bottom: 3px solid #1abc9c;
+    border-radius: 4px 4px 8px 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+ /* Accordion Arrow */
+.pweb-theme-googlematerial.pwebcontact-box.pweb-accordion.pweb-accordion-boxed .pweb-arrow {
+
+}
+
+/* Lightbox Window */
+.pweb-theme-googlematerial.pwebcontact-box.pweb-modal .pwebcontact-container,
+.pweb-theme-googlematerial.ui-effects-transfer.pweb-genie {
+	border-bottom: 3px solid #1abc9c;
+    border-radius: 4px 4px 8px 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+/* Lightbox Window close button */
+.pweb-theme-googlematerial.pweb-modal .pweb-button-close {
+    background: #1abc9c !important;
+    border-radius: 0 0 0 3px;
+    color: #fff !important;
+    font-size: 24px !important;
+    font-weight: bold;
+    height: 32px !important;
+    line-height: 32px !important;
+    position:absolute;
+    top:0;
+    right:0;
+    width: 32px !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-shadow:1px 1px 0 #15997F;
+    padding:0 !important;
+    text-decoration: none;
+}
+.pweb-theme-googlematerial.pweb-modal .pweb-button-close:hover {
+    width: 48px !important;
+}
+
+.pweb-theme-googlematerial.pweb-modal .pwebcontact-container-inset {
+    margin-top: 20px;
+}
+
+/* Labels invalid */
+.pweb-theme-googlematerial form.pwebcontact-form .invalid,
+.pweb-theme-googlematerial form.pwebcontact-form .invalid a {
+	
+}
+
+/* Fields */
+.pweb-theme-googlematerial form.pwebcontact-form input.pweb-input, 
+.pweb-theme-googlematerial form.pwebcontact-form select, 
+.pweb-theme-googlematerial form.pwebcontact-form textarea {
+	color: #666;
+	border-color: #999;
+}
+
+/* Fields invalid */
+.pweb-theme-googlematerial form.pwebcontact-form input.invalid.pweb-input, 
+.pweb-theme-googlematerial form.pwebcontact-form select.invalid, 
+.pweb-theme-googlematerial form.pwebcontact-form textarea.invalid { 
+	
+}
+
+/* Fields active */
+.pweb-theme-googlematerial form.pwebcontact-form input.pweb-input:focus, 
+.pweb-theme-googlematerial form.pwebcontact-form select:focus, 
+.pweb-theme-googlematerial form.pwebcontact-form textarea:focus {
+	color: #333 !important;
+    border-color: #000 !important;
+}
+
+/* Links */
+.pweb-theme-googlematerial form.pwebcontact-form a,
+.pweb-theme-googlematerial .pweb-button-close {
+    color: #000;
+	text-decoration: underline;
+}
+.pweb-theme-googlematerial form.pwebcontact-form a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+.pweb-theme-googlematerial form.pwebcontact-form button,
+.pweb-theme-googlematerial form.pwebcontact-form .btn {
+	color: #fff;
+	border: 0px solid #000;
+	background: #19B394 !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+/* Buttons hover */
+.pweb-theme-googlematerial form.pwebcontact-form button:hover,
+.pweb-theme-googlematerial form.pwebcontact-form .btn:hover {
+	background-color: #1abc9c !important;
+}
+
+/* Toggler tab */
+.pwebcontact_toggler.pweb-theme-googlematerial {
+	color: #fff;
+	border: 1px solid #000;
+	background: #1abc9c;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+/* Toggler tab hover and opened */
+.pwebcontact_toggler.pweb-theme-googlematerial:hover,
+.pwebcontact_toggler.pweb-theme-googlematerial.pweb-opened {
+    background:#19B394 !important;
+}

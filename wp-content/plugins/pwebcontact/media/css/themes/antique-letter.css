@@ -1,0 +1,246 @@
+/**
+ * @version 2.0.0
+ * @package Perfect Easy & Powerful Contact Form
+ * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author Grzegorz Pabian
+ */
+
+/* Font face */
+@font-face {
+	/* source http://fontsforweb.com/font/show/?id=38559 */
+    font-family: 'mnglwritingotf';
+    src: url('../../fonts/mnglwritingotf.eot');
+    src: local('mnglwritingotf'), url('../../fonts/mnglwritingotf.woff') format('woff'), url('../../fonts/mnglwritingotf.ttf') format('truetype');
+}
+
+/* Form background */
+.pweb-theme-antique-letter .pwebcontact-container,
+.pweb-theme-antique-letter.ui-effects-transfer.pweb-genie {
+    background-image: url('../../images/themes/antique-letter/paper.png');  /* source: http://www.freeimages.com/photo/1417411 */
+    background-size: 100% 100%;
+    box-shadow: none!important;
+    background-color: transparent!important;
+    padding: 30px 35px 5px!important;
+}
+
+.pweb-theme-antique-letter .pwebcontact-container {
+    border: none!important;
+}
+
+ /* Accordion Arrow */
+.pweb-theme-antique-letter.pwebcontact-box.pweb-accordion.pweb-accordion-boxed .pweb-arrow {
+	display: none;
+}
+
+/* Upload dropzone */
+.pweb-theme-antique-letter.pwebcontact-box.pweb-dragged .pweb-dropzone {
+	background-color: #333;
+	background-color: rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 0 50px rgba(255, 255, 255, 0.2) inset;
+	-webkit-box-shadow: 0 0 50px rgba(255, 255, 255, 0.2) inset;
+	box-shadow: 0 0 50px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* Messages */
+.pweb-theme-antique-letter form.pwebcontact-form .pweb-msg .pweb-error {
+    margin-bottom: 30px;
+	padding-bottom: 10px;
+}
+
+.pweb-theme-antique-letter form.pwebcontact-form .pweb-msg .pweb-progress {
+    position: relative;
+    top: -100px;
+	padding-bottom: 10px;
+}
+
+.pweb-theme-antique-letter label::first-letter {
+	font-size: 160%!important;
+}
+
+/* Fields */
+.pweb-theme-antique-letter form.pwebcontact-form input.pweb-input, 
+.pweb-theme-antique-letter form.pwebcontact-form select, 
+.pweb-theme-antique-letter form.pwebcontact-form textarea {
+	background: transparent;
+	border: none;
+	box-shadow: -1px -1px 22px rgba(0, 0, 0, 0.2) inset;
+    outline: 1px dashed #917a4e;
+    outline-offset: 1px;
+}
+
+/* Fields active */
+.pweb-theme-antique-letter form.pwebcontact-form input.pweb-input:focus, 
+.pweb-theme-antique-letter form.pwebcontact-form select:focus, 
+.pweb-theme-antique-letter form.pwebcontact-form textarea:focus {
+	box-shadow: 0 0 5px #000, 0 1px 2px rgba(0,0,0,0.2) inset !important;
+}
+
+/* Toggler tab */
+.pwebcontact_toggler.pweb-theme-antique-letter,
+.pwebcontact_toggler.pweb-theme-antique-letter:hover,
+.pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    line-height: 35px;
+    box-shadow: none;
+    padding: 5px 15px;
+    text-align: center;
+    background-size: 100% 100%;
+    background-color: transparent;
+    background-image: url('../../images/themes/antique-letter/toggler.png')!important;  /* source: http://www.freeimages.com/photo/1441200  */
+}
+
+
+.pweb-horizontal.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-horizontal.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter:hover {
+    padding-left: 20px;
+    margin-left: -15px;
+}
+
+.pweb-horizontal.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-horizontal.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter:hover {
+    padding-right: 20px;
+    margin-right: -15px;
+}
+
+
+.pweb-vertical.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-vertical.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter:hover,
+.pweb-vertical.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    background-image: url('../../images/themes/antique-letter/toggler-vertical-left.png')!important;  /*  source: http://www.freeimages.com/photo/1441200  */
+    padding: 20px 10px 15px 5px;
+}
+.pweb-vertical.pweb-left .pwebcontact_toggler.pweb-theme-antique-letter.pweb-rotate {
+    padding: 15px 10px 20px 5px;
+}
+
+
+.pweb-vertical.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-vertical.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter:hover,
+.pweb-vertical.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    background-image: url('../../images/themes/antique-letter/toggler-vertical-right.png')!important;  /*  source: http://www.freeimages.com/photo/1441200  */  
+    padding: 20px 5px 15px 10px;
+}
+.pweb-vertical.pweb-right .pwebcontact_toggler.pweb-theme-antique-letter.pweb-rotate {
+    padding: 15px 5px 20px 10px;
+}
+
+
+.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    z-index: -1!important;
+}
+
+.pweb-vertical.pweb-left.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    top: 60px !important;
+    right: -45px !important;
+    padding-left: 25px !important;
+}
+
+.pweb-vertical.pweb-right.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    top: 30px !important;
+    left: -45px !important;
+    padding-right: 25px !important;
+}
+
+
+.pweb-top .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-top .pwebcontact_toggler.pweb-theme-antique-letter:hover,
+.pweb-top .pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    background-image: url('../../images/themes/antique-letter/toggler-top.png')!important;  /*  source: http://www.freeimages.com/photo/1441200  */
+}
+
+
+.pweb-top.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-top.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    bottom: -40px !important;
+    padding-top: 40px !important;
+    padding-bottom: 10px !important;
+}
+.pweb-top.pweb-offset-left.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    left: 15%!important;
+}
+.pweb-horizontal.pweb-top.pweb-offset-right.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    right: 15%!important;
+}
+
+
+.pweb-bottom.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-bottom.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter.pweb-opened {
+    top: -40px !important;
+    padding-bottom: 40px !important;
+    padding-top: 10px !important;
+}
+.pweb-bottom.pweb-offset-left.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    left: 2% !important;
+}
+.pweb-bottom.pweb-offset-right.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-antique-letter {
+    right: 15% !important;
+}
+
+
+.pweb-accordion.pweb-theme-antique-letter .pwebcontact_toggler.pweb-theme-antique-letter,
+.pweb-accordion.pweb-theme-antique-letter .pwebcontact_toggler.pweb-theme-antique-letter:hover,
+.pweb-accordion.pweb-theme-antique-letter .pwebcontact_toggler.pweb-theme-antique-letter:active {
+    width: 200px;
+    margin: 0 auto;
+}
+
+
+/* Links */
+.pweb-theme-antique-letter form.pwebcontact-form a,
+.pweb-theme-antique-letter .pweb-button-close {
+    color: #000;
+	text-decoration: none;
+	background: none;
+}
+.pweb-theme-antique-letter form.pwebcontact-form a:hover {
+    text-decoration: underline;
+}
+
+/* Upload progress */
+.pweb-theme-antique-letter .pweb-uploader .progress.progress-striped .bar.progress-bar {
+	background-color: #000;
+	background-image: none;
+}
+
+/* Close button */
+.pweb-theme-antique-letter .pweb-button-close {
+    color: #000!important;
+}
+
+/* Send button */
+.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send {
+    background-image: url('../../images/themes/antique-letter/stamp.png')!important;
+    background-size: 90% 82%;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-color: transparent!important;
+    border: medium none !important;
+    width: 80px;
+    font-size: 14px;
+    font-weight: bold;
+    height: 160px;
+    float: right;
+}
+.pweb-rtl.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send {
+    background-position: left bottom;
+    float: left;
+}
+
+.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send:hover {
+    background-position: right bottom;
+    background-color: transparent !important;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.pweb-rtl.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send:hover {
+    background-position: left bottom;
+}
+
+.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send:focus {
+    outline: none;
+}
+
+.pweb-theme-antique-letter form.pwebcontact-form button.pweb-button-send:active {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+}

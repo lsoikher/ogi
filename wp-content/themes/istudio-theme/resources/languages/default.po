@@ -1,0 +1,422 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: iStudio 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-27 09:23+0800\n"
+"PO-Revision-Date: 2012-07-27 09:23+0800\n"
+"Last-Translator: Xu.hel <zvzhssj@gmail.com>\n"
+"Language-Team: Xu.Design <zvzhssj@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../..\n"
+
+#: ../../404.php:6
+#: ../../header.php:7
+msgid "Error 404 - Not Found"
+msgstr ""
+
+#: ../../archive.php:8
+msgid "Archive for the &#8216;"
+msgstr ""
+
+#: ../../archive.php:8
+msgid "&#8217; Category"
+msgstr ""
+
+#: ../../archive.php:8
+msgid "Posts Tagged &#8216;"
+msgstr ""
+
+#: ../../archive.php:8
+msgid "&#8217;"
+msgstr ""
+
+#: ../../archive.php:8
+msgid "Archive for "
+msgstr ""
+
+#: ../../archive.php:8
+msgid "Archive for Author: "
+msgstr ""
+
+#: ../../archive.php:8
+msgid "Blog Archives"
+msgstr ""
+
+#: ../../archive.php:36
+#: ../../index.php:32
+#: ../../search.php:31
+msgid "Not Found"
+msgstr ""
+
+#: ../../archive.php:39
+#: ../../index.php:35
+#: ../../search.php:34
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr ""
+
+#: ../../comments.php:3
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: ../../comments.php:7
+msgid "Responses to "
+msgstr ""
+
+#: ../../comments.php:16
+msgid "Comments are closed."
+msgstr ""
+
+#: ../../footer.php:2
+msgid " &#183; "
+msgstr ""
+
+#: ../../footer.php:2
+msgid " &#183; Powered by <a href=\"http://wordpress.org/\">WordPress</a>"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Aurora"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Beach"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Highway"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Train graffiti"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Sports car"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Cobblestone"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Forest"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Save Me"
+msgstr ""
+
+#: ../../functions.php:28
+msgid "Snow Leopard"
+msgstr ""
+
+#: ../../functions.php:41
+#: ../../functions.php:83
+#: ../../functions.php:89
+msgid "Options"
+msgstr ""
+
+#: ../../functions.php:42
+#: ../../functions.php:185
+#: ../../functions.php:208
+msgid "iStudio Shortcode"
+msgstr ""
+
+#: ../../functions.php:44
+msgid "Excerpt"
+msgstr ""
+
+#: ../../functions.php:82
+msgid "Settings saved."
+msgstr ""
+
+#: ../../functions.php:82
+msgid "Settings have been restored to default."
+msgstr ""
+
+#: ../../functions.php:91
+msgid "If you very nice this theme, you can click this button to donate to me."
+msgstr ""
+
+#: ../../functions.php:94
+msgid "Thank you for using iStudio. This Theme is Designed by Xu.hel."
+msgstr ""
+
+#: ../../functions.php:95
+#, php-format
+msgid "Theme Logo PSD file here: <a href=\"%1$s\" target=\"_blank\">Download Logo PSD</a>."
+msgstr ""
+
+#: ../../functions.php:95
+msgid "http://xuhelblog.googlecode.com/files/iStudio_logo_psd.tar.gz"
+msgstr ""
+
+#: ../../functions.php:99
+msgid "General"
+msgstr ""
+
+#: ../../functions.php:101
+msgid "Page Number style is displayed as:"
+msgstr ""
+
+#: ../../functions.php:101
+msgid "Theme Styles"
+msgstr ""
+
+#: ../../functions.php:101
+msgid "Default Styles"
+msgstr ""
+
+#: ../../functions.php:102
+msgid "Use the Picture Logo."
+msgstr ""
+
+#: ../../functions.php:103
+msgid "Show sidebar in single pages."
+msgstr ""
+
+#: ../../functions.php:104
+msgid "Show sidebar in pages."
+msgstr ""
+
+#: ../../functions.php:105
+msgid "Use Ctrl+Enter to Reply Comments."
+msgstr ""
+
+#: ../../functions.php:109
+msgid "Enable keywords for search engine."
+msgstr ""
+
+#: ../../functions.php:111
+msgid "Search engine keywords values fill in the following input box. Each keyword with \",\" separated."
+msgstr ""
+
+#: ../../functions.php:116
+msgid "Custom RSS Subscription"
+msgstr ""
+
+#: ../../functions.php:118
+msgid "Please enter a new RSS subscription address (if not set is to use WordPress's default subscription address)."
+msgstr ""
+
+#: ../../functions.php:123
+msgid "Enable GrowlBox pop-up tips"
+msgstr ""
+
+#: ../../functions.php:125
+msgid "GrowlBox the content of the pop-up tips(Use HTML code.):"
+msgstr ""
+
+#: ../../functions.php:130
+msgid "Use google custom search engine"
+msgstr ""
+
+#: ../../functions.php:132
+#, php-format
+msgid "Find <code>name=\"cx\"</code> in the <strong>Search box code</strong> of <a href=\"%1$s\">Google Custom Search Engine</a>, and enter the <code>value</code> here.<br/>For example: <code>014782006753236413342:1ltfrybsbz4</code>"
+msgstr ""
+
+#: ../../functions.php:132
+msgid "http://www.google.com/coop/cse/"
+msgstr ""
+
+#: ../../functions.php:137
+msgid "Open the article Recommendation Widgets"
+msgstr ""
+
+#: ../../functions.php:139
+msgid "Recommended articles to be linked with the HTML code written in the input box below:"
+msgstr ""
+
+#: ../../functions.php:144
+msgid "Ad Code Settings"
+msgstr ""
+
+#: ../../functions.php:147
+msgid "Ads code will not be displayed as long as the ad code box was emptied."
+msgstr ""
+
+#: ../../functions.php:148
+msgid "Ad code embedded in the article: (Max size: 300x250)"
+msgstr ""
+
+#: ../../functions.php:149
+msgid "Embedded ads appear here:"
+msgstr ""
+
+#: ../../functions.php:149
+msgid "left"
+msgstr ""
+
+#: ../../functions.php:149
+msgid "right"
+msgstr ""
+
+#: ../../functions.php:149
+#: ../../functions.php:153
+#: ../../functions.php:157
+msgid "Hide after user logged in"
+msgstr ""
+
+#: ../../functions.php:153
+msgid "Ad code displayed inside single article: (Max size: 728x90)"
+msgstr ""
+
+#: ../../functions.php:157
+msgid "Ad code displayed in the sidebar: (Max size: 200x220)"
+msgstr ""
+
+#: ../../functions.php:163
+msgid "Save Changes"
+msgstr ""
+
+#: ../../functions.php:164
+msgid "Revert to Defaults"
+msgstr ""
+
+#: ../../functions.php:187
+msgid "iStudio Custom Shortcode format"
+msgstr ""
+
+#: ../../functions.php:189
+msgid "Insert Download"
+msgstr ""
+
+#: ../../functions.php:190
+msgid "Insert the following code into the editor, you will be able to use the built-in download button style."
+msgstr ""
+
+#: ../../functions.php:191
+msgid "Code format: <code>[Downlink href=\"http://www.xxx.com/xxx.zip\"]download xxx.zip[/Downlink]</code>"
+msgstr ""
+
+#: ../../functions.php:192
+msgid "Insert MP3 music"
+msgstr ""
+
+#: ../../functions.php:193
+msgid "Insert the following code into the editor, you will be able to use the built-in MP3 music player.."
+msgstr ""
+
+#: ../../functions.php:194
+msgid "Only supports .mp3 file URL. If the browser supports html5 then automatically <audio> tag."
+msgstr ""
+
+#: ../../functions.php:195
+msgid "Code format: <code>[mp3]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr ""
+
+#: ../../functions.php:196
+msgid "Auto Play: <code>[mp3 auto=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr ""
+
+#: ../../functions.php:197
+msgid "Repeat Play: <code>[mp3 replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr ""
+
+#: ../../functions.php:198
+msgid "Auto Play and Repeat Play: <code>[mp3 auto=\"1\" replay=\"1\"]http://www.xxx.com/xxx.mp3[/mp3]</code>"
+msgstr ""
+
+#: ../../functions.php:199
+msgid "Insert FLV video"
+msgstr ""
+
+#: ../../functions.php:200
+msgid "Insert the following code into the editor, you will be able to use the built-in video player to play FLV video."
+msgstr ""
+
+#: ../../functions.php:201
+msgid "Only supports .mp4 file URL. If the browser supports html5 then automatically <video> tag."
+msgstr ""
+
+#: ../../functions.php:202
+msgid "Code format: <code>[flv]http://www.xxx.com/xxx.flv[/flv]</code>"
+msgstr ""
+
+#: ../../functions.php:203
+msgid "Auto Play: <code>[flv auto=\"1\"]http://www.xxx.com/xxx.flv[/flv]</code>"
+msgstr ""
+
+#: ../../functions.php:229
+#: ../../functions.php:245
+#, php-format
+msgid "%1$s at %2$s <span class=\"says\"></span>"
+msgstr ""
+
+#: ../../functions.php:229
+#: ../../functions.php:245
+#, php-format
+msgid "%1$s %2$s"
+msgstr ""
+
+#: ../../functions.php:230
+#: ../../functions.php:246
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: ../../functions.php:255
+msgid "Pingback:"
+msgstr ""
+
+#: ../../functions.php:255
+msgid "Edit"
+msgstr ""
+
+#: ../../functions.widget.php:3
+msgid "This are iStudio's recent comments."
+msgstr ""
+
+#: ../../functions.widget.php:3
+msgid "iStudio Recent Comments"
+msgstr ""
+
+#: ../../functions.widget.php:4
+#: ../../sidebar.php:21
+msgid "Recent Comments"
+msgstr ""
+
+#: ../../functions.widget.php:7
+msgid "Title:"
+msgstr ""
+
+#: ../../functions.widget.php:9
+msgid "Number of comments to show:"
+msgstr ""
+
+#: ../../header.php:7
+#, php-format
+msgid "Search results for \"%s\""
+msgstr ""
+
+#: ../../mode.archives.php:14
+msgid "Recent Articles"
+msgstr ""
+
+#: ../../search.php:7
+msgid "Search Results"
+msgstr ""
+
+#: ../../sidebar.php:4
+msgid "Categories"
+msgstr ""
+
+#: ../../sidebar.php:8
+msgid "Most Popular Articles"
+msgstr ""
+
+#: ../../sidebar.php:15
+msgid "Archives"
+msgstr ""
+
+#: ../../sidebar.php:27
+msgid "Meta"
+msgstr ""
+

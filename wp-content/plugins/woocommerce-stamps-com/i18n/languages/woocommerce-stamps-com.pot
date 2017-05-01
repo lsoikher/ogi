@@ -1,0 +1,188 @@
+# Copyright (C) 2014 WooCommerce Stamps.com Export
+# This file is distributed under the same license as the WooCommerce Stamps.com Export package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Stamps.com Export 2.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/woocommerce-stamps-com\n"
+"POT-Creation-Date: 2014-01-20 21:25:55+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/admin/class-wc-stamps-com-admin.php:55
+#: includes/admin/class-wc-stamps-com-admin.php:257
+msgid "Export"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:56
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:142
+#: includes/admin/class-wc-stamps-com-admin.php:143
+msgid "Stamps.com Export"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:174
+#: includes/admin/class-wc-stamps-com-admin.php:277
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:180
+msgid "Your settings have been saved."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:318
+msgid "No orders found to export"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:334
+msgid "Save settings"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:349
+msgid "Download to Stamps.com XML"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:365
+#: includes/admin/class-wc-stamps-com-admin.php:397
+msgid "Download Stamps.com XML"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:482
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:488
+msgid "Export Filename"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:489
+msgid "The XML filename for exported orders. Use %%timestamp%% to represent the date in the filename."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:497
+msgid "Attach order XML file to admin new order email"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:498
+msgid "Enable this to attach the order XML file to the admin new order email notification."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:506
+msgid "Export Settings"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:508
+msgid "These settings will apply to all exports, either on the bulk export tab or on the Orders page."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:513
+msgid "Include Customs Information"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:514
+msgid "Enable this to include customs information in the exported XML."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:526
+#: includes/admin/class-wc-stamps-com-admin.php:532
+msgid "Order Statuses"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:533
+msgid "Orders with these statuses will be included in the export."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:544
+msgid "Date Range"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:546
+msgid "Orders created during these dates will be included in the exported file."
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:551
+msgid "Start Date"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:552
+msgid "Start date of orders to include in the exported file, in the format <code>YYYY-MM-DD.</code>"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:558
+msgid "End Date"
+msgstr ""
+
+#: includes/admin/class-wc-stamps-com-admin.php:559
+msgid "End date of orders to include in the exported file, in the format <code>YYYY-MM-DD.</code>"
+msgstr ""
+
+#: includes/class-wc-stamps-com-xml-writer.php:207
+msgctxt "hash before order number"
+msgid "#"
+msgstr ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:220
+msgid "%s requires the %s PHP extension to function.  Contact your host or server administrator to configure and install the missing extension."
+msgid_plural "%s requires the following PHP extensions to function: %s.  Contact your host or server administrator to configure and install the missing extensions."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:244
+msgid "Dismiss"
+msgstr ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:311
+msgid "Docs"
+msgstr ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:315
+msgid "Support"
+msgstr ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:319
+msgid "Write a Review"
+msgstr ""
+
+#: lib/skyverge/woocommerce/class-sv-wc-plugin.php:529
+msgid "Configure"
+msgstr ""
+
+#: woocommerce-stamps-com.php:44
+msgid "WooCommerce Stamps.com"
+msgstr ""
+
+#: woocommerce-stamps-com.php:180
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: woocommerce-stamps-com.php:184
+msgid "You have taken too long, please go back and try again."
+msgstr ""
+
+#: woocommerce-stamps-com.php:265
+msgid "WooCommerce Stamps.com Export"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Stamps.com Export"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.woothemes.com/products/stamps-com-xml-file-export/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A full-featured XML Export Suite designed for <a href=\"http://www.stamps.com\">Stamps.com</a>."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "SkyVerge"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.skyverge.com"
+msgstr ""

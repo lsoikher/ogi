@@ -1,0 +1,120 @@
+/* CSS3 Transitions */
+a, li {
+	transition: all ease .3s;
+	-webkit-transition: all ease .3s;
+	-ms-transition: all ease .3s;
+	-moz-transition: all ease .3s;
+	-o-transition: all ease .3s;
+}
+img {
+	transition: all ease .5s;
+	-webkit-transition: all ease .5s;
+	-ms-transition: all ease .5s;
+	-moz-transition: all ease .5s;
+	-o-transition: all ease .5s;
+}
+input, textarea, button, label, option, select, .button, .hndle {
+	transition: all ease .4s;
+	-webkit-transition: all ease .4s;
+	-ms-transition: all ease .4s;
+	-moz-transition: all ease .4s;
+	-o-transition: all ease .4s;
+}
+/* transitions mess these up in the WordPress Core */
+.wp-picker-holder a {
+	transition: none;
+	-webkit-transition: none;
+	-ms-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+}
+
+/* FSML Admin Styles */
+#jstest { 
+	color: #f00; 
+	font-weight: bold; 
+}
+#fsmlsubpages { 
+	list-style-type: none; 
+	height: 32px; 
+	border-bottom: 1px solid #ababab; 
+}
+.fsmlnav { 
+	float: left; 
+	border: 1px solid #ababab;  
+	margin: 0 5px; 
+}
+.fsmlnav h1 { 
+	font-size: 20px; 
+	padding: 2px 5px; 
+	line-height: 0; 
+	font-family: "Open Sans", Arial, sans-serif; 
+}
+.fsmlnav:hover, 
+.fsmlnav:active { 
+	color: #21759b; 
+	cursor: pointer; 
+}
+.fsmlcurrent { 
+	border-bottom: 
+	1px solid #fff; 
+	color: #21759b; 
+	border-right: 1px solid #ababab; 
+}
+.fsmlac {
+	width: 500px; 
+	padding: 10px; 
+	font-size: 20px; 
+	font-weight: bold; 
+	font-family: "Open Sans", Arial, sans-serif; 
+	background-color: #ababab; 
+	color: #21759b; 
+	border: 1px solid #ababab; 
+}
+.fsmlac:hover {
+	cursor: pointer; 
+	color: #11556b; 
+	border: 1px solid #eeeeee; 
+}
+.fsml_testimg {
+	opacity: .6; 
+	width: 50px; 
+} 
+.fsml_testimg:hover {
+	opacity: 1;
+}
+.upload_image_button:hover { 
+	cursor: pointer; 
+}
+::selection { 
+	background-color: #fff000; 
+	color: #000; 
+	text-shadow: none; 
+}
+a:hover { 
+	cursor: pointer; 
+}
+ul#themes-list { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+}
+#themes-list li { 
+	width: 16%; 
+	padding: 0; 
+	margin: 0 .3%; 
+	float: left; 
+	max-width: 180px; 
+}
+#themes-list img { 
+	max-height: 150px; 
+	cursor: pointer; 
+	margin-bottom: 7px; 
+}
+.selected-theme { 
+	outline: 5px solid rgb(184, 216, 18); 
+	box-shadow: 6px 6px 4px #000; 
+}
+#themes-list img:hover { 
+	outline: 4px solid #fff000; 
+}

@@ -1,0 +1,844 @@
+0000.000 (0) Opened log file at time: Mon, 01 May 2017 01:01:07 +0000 on http://www.onlygoodnessinside.com
+0000.003 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 2.12.40.21 WP: 4.7.4 PHP: 7.0.15-0ubuntu0.16.04.4 (fpm-fcgi, Linux instance-1 4.4.0-75-generic #96-Ubuntu SMP Thu Apr 20 09:56:33 UTC 2017 x86_64) MySQL: 5.7.18 WPLANG: en_US Server: nginx/1.10.0 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 10.3M | 2M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+0000.006 (0) Free space on disk containing Updraft's temporary directory: 3075.3 MB
+0000.007 (0) Tasks: Backup files: 1 (schedule: manual) Backup DB: 1 (schedule: manual)
+0000.012 (0) Requesting semaphore lock (fd) (apparently not via scheduler)
+0000.018 (0) Set semaphore last lock (fd) time to 2017-05-01 01:01:07
+0000.019 (0) Semaphore lock (fd) complete
+0000.027 (0) Backup run: resumption=0, nonce=4f9ecb34c3d1, begun at=1493600467 (0s ago), job type=backup, label=full backup before woocommerce 3.0.5
+0000.031 (0) Scheduling a resumption (1) after 588 seconds (1493601055) in case this run gets aborted
+0000.042 (0) Checking if we have a zip executable available
+0000.046 (0) Creation of backups of directories: beginning
+0000.051 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0000.121 (0) Total entities for the zip file: 1290 directories, 7920 files (0 skipped as non-modified), 119.7 MB
+0000.162 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 100 files added (on-disk size: 0 KB)
+0000.174 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 200 files added (on-disk size: 0 KB)
+0000.185 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 300 files added (on-disk size: 0 KB)
+0000.197 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 400 files added (on-disk size: 0 KB)
+0000.209 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 500 files added (on-disk size: 0 KB)
+0000.212 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (3.7 MB, 7920 files batched, 501 (501) added so far); re-opening (prior size: 0 KB)
+0000.384 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 600 files added (on-disk size: 1813.7 KB)
+0000.396 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 700 files added (on-disk size: 1813.7 KB)
+0000.408 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 800 files added (on-disk size: 1813.7 KB)
+0000.421 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 900 files added (on-disk size: 1813.7 KB)
+0000.434 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1000 files added (on-disk size: 1813.7 KB)
+0000.436 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (6.8 MB, 7920 files batched, 501 (1002) added so far); re-opening (prior size: 1813.7 KB)
+0000.980 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1100 files added (on-disk size: 4211.4 KB)
+0000.993 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1200 files added (on-disk size: 4211.4 KB)
+0001.008 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1300 files added (on-disk size: 4211.4 KB)
+0001.024 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1400 files added (on-disk size: 4211.4 KB)
+0001.039 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1500 files added (on-disk size: 4211.4 KB)
+0001.042 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (6.4 MB, 7920 files batched, 501 (1503) added so far); re-opening (prior size: 4211.4 KB)
+0001.402 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1600 files added (on-disk size: 6849.9 KB)
+0001.417 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1700 files added (on-disk size: 6849.9 KB)
+0001.432 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1800 files added (on-disk size: 6849.9 KB)
+0001.449 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 1900 files added (on-disk size: 6849.9 KB)
+0001.465 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2000 files added (on-disk size: 6849.9 KB)
+0001.468 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (7.4 MB, 7920 files batched, 501 (2004) added so far); re-opening (prior size: 6849.9 KB)
+0002.018 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2100 files added (on-disk size: 10348.5 KB)
+0002.035 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2200 files added (on-disk size: 10348.5 KB)
+0002.052 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2300 files added (on-disk size: 10348.5 KB)
+0002.070 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2400 files added (on-disk size: 10348.5 KB)
+0002.089 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2500 files added (on-disk size: 10348.5 KB)
+0002.092 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (7.1 MB, 7920 files batched, 501 (2505) added so far); re-opening (prior size: 10348.5 KB)
+0002.605 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2600 files added (on-disk size: 12954.7 KB)
+0002.624 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2700 files added (on-disk size: 12954.7 KB)
+0002.643 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2800 files added (on-disk size: 12954.7 KB)
+0002.664 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 2900 files added (on-disk size: 12954.7 KB)
+0002.689 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3000 files added (on-disk size: 12954.7 KB)
+0002.694 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (11.9 MB, 7920 files batched, 501 (3006) added so far); re-opening (prior size: 12954.7 KB)
+0003.864 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3100 files added (on-disk size: 16622.5 KB)
+0003.885 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3200 files added (on-disk size: 16622.5 KB)
+0003.905 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3300 files added (on-disk size: 16622.5 KB)
+0003.926 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3400 files added (on-disk size: 16622.5 KB)
+0003.947 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3500 files added (on-disk size: 16622.5 KB)
+0003.952 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (10 MB, 7920 files batched, 501 (3507) added so far); re-opening (prior size: 16622.5 KB)
+0004.523 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3600 files added (on-disk size: 23613.1 KB)
+0004.545 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3700 files added (on-disk size: 23613.1 KB)
+0004.566 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3800 files added (on-disk size: 23613.1 KB)
+0004.589 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 3900 files added (on-disk size: 23613.1 KB)
+0004.612 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4000 files added (on-disk size: 23613.1 KB)
+0004.616 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (5.2 MB, 7920 files batched, 501 (4008) added so far); re-opening (prior size: 23613.1 KB)
+0005.408 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4100 files added (on-disk size: 25328 KB)
+0005.431 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4200 files added (on-disk size: 25328 KB)
+0005.455 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4300 files added (on-disk size: 25328 KB)
+0005.480 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4400 files added (on-disk size: 25328 KB)
+0005.506 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4500 files added (on-disk size: 25328 KB)
+0005.511 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (16.2 MB, 7920 files batched, 501 (4509) added so far); re-opening (prior size: 25328 KB)
+0007.217 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4600 files added (on-disk size: 33343.3 KB)
+0007.241 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4700 files added (on-disk size: 33343.3 KB)
+0007.266 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4800 files added (on-disk size: 33343.3 KB)
+0007.290 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 4900 files added (on-disk size: 33343.3 KB)
+0007.321 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5000 files added (on-disk size: 33343.3 KB)
+0007.327 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (5.7 MB, 7920 files batched, 501 (5010) added so far); re-opening (prior size: 33343.3 KB)
+0008.136 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5100 files added (on-disk size: 34732.8 KB)
+0008.162 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5200 files added (on-disk size: 34732.8 KB)
+0008.187 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5300 files added (on-disk size: 34732.8 KB)
+0008.216 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5400 files added (on-disk size: 34732.8 KB)
+0008.247 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5500 files added (on-disk size: 34732.8 KB)
+0008.252 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (8.3 MB, 7920 files batched, 501 (5511) added so far); re-opening (prior size: 34732.8 KB)
+0009.264 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5600 files added (on-disk size: 38080.8 KB)
+0009.290 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5700 files added (on-disk size: 38080.8 KB)
+0009.316 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5800 files added (on-disk size: 38080.8 KB)
+0009.344 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 5900 files added (on-disk size: 38080.8 KB)
+0009.372 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6000 files added (on-disk size: 38080.8 KB)
+0009.378 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (10.2 MB, 7920 files batched, 501 (6012) added so far); re-opening (prior size: 38080.8 KB)
+0010.628 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6100 files added (on-disk size: 40046.7 KB)
+0010.656 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6200 files added (on-disk size: 40046.7 KB)
+0010.684 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6300 files added (on-disk size: 40046.7 KB)
+0010.712 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6400 files added (on-disk size: 40046.7 KB)
+0010.742 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6500 files added (on-disk size: 40046.7 KB)
+0010.748 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (2.1 MB, 7920 files batched, 501 (6513) added so far); re-opening (prior size: 40046.7 KB)
+0011.476 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6600 files added (on-disk size: 40771.8 KB)
+0011.508 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6700 files added (on-disk size: 40771.8 KB)
+0011.546 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6800 files added (on-disk size: 40771.8 KB)
+0011.581 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 6900 files added (on-disk size: 40771.8 KB)
+0011.612 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7000 files added (on-disk size: 40771.8 KB)
+0011.619 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (4.3 MB, 7920 files batched, 501 (7014) added so far); re-opening (prior size: 40771.8 KB)
+0012.459 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7100 files added (on-disk size: 42842.3 KB)
+0012.495 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7200 files added (on-disk size: 42842.3 KB)
+0012.527 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7300 files added (on-disk size: 42842.3 KB)
+0012.563 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7400 files added (on-disk size: 42842.3 KB)
+0012.599 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7500 files added (on-disk size: 42842.3 KB)
+0012.606 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (8.2 MB, 7920 files batched, 501 (7515) added so far); re-opening (prior size: 42842.3 KB)
+0013.644 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7600 files added (on-disk size: 47316.1 KB)
+0013.681 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7700 files added (on-disk size: 47316.1 KB)
+0013.725 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7800 files added (on-disk size: 47316.1 KB)
+0013.758 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip.tmp: 7900 files added (on-disk size: 47316.1 KB)
+0015.321 (0) Created plugins zip (0) - 51047.4 KB in 15.3 s (3343.6 KB/s) (sha1: f1912a043e680d7be60a814a9472bd733ebc7c28, sha256: f8fc93ec5091ea572063d0d644bff342655be8df1b399f2d5db2db2308187d2d)
+0015.324 (0) Deleting old temporary file: log.421dc95e3e0c-browser.txt
+0015.329 (0) Beginning creation of dump of themes (split every: 400 MB)
+0015.635 (0) Total entities for the zip file: 369 directories, 3282 files (0 skipped as non-modified), 29.9 MB
+0015.644 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 100 files added (on-disk size: 0 KB)
+0015.650 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 200 files added (on-disk size: 0 KB)
+0015.658 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 300 files added (on-disk size: 0 KB)
+0015.667 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 400 files added (on-disk size: 0 KB)
+0015.676 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 500 files added (on-disk size: 0 KB)
+0015.679 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (5.4 MB, 3282 files batched, 501 (501) added so far); re-opening (prior size: 0 KB)
+0016.205 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 600 files added (on-disk size: 3256.6 KB)
+0016.214 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 700 files added (on-disk size: 3256.6 KB)
+0016.222 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 800 files added (on-disk size: 3256.6 KB)
+0016.233 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 900 files added (on-disk size: 3256.6 KB)
+0016.245 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1000 files added (on-disk size: 3256.6 KB)
+0016.248 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (5.6 MB, 3282 files batched, 501 (1002) added so far); re-opening (prior size: 3256.6 KB)
+0016.948 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1100 files added (on-disk size: 6597.6 KB)
+0016.959 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1200 files added (on-disk size: 6597.6 KB)
+0016.972 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1300 files added (on-disk size: 6597.6 KB)
+0016.986 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1400 files added (on-disk size: 6597.6 KB)
+0016.999 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1500 files added (on-disk size: 6597.6 KB)
+0017.002 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (3.8 MB, 3282 files batched, 501 (1503) added so far); re-opening (prior size: 6597.6 KB)
+0017.639 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1600 files added (on-disk size: 9177.9 KB)
+0017.651 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1700 files added (on-disk size: 9177.9 KB)
+0017.664 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1800 files added (on-disk size: 9177.9 KB)
+0017.677 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 1900 files added (on-disk size: 9177.9 KB)
+0017.691 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2000 files added (on-disk size: 9177.9 KB)
+0017.695 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (3.4 MB, 3282 files batched, 501 (2004) added so far); re-opening (prior size: 9177.9 KB)
+0018.293 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2100 files added (on-disk size: 11315.1 KB)
+0018.312 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2200 files added (on-disk size: 11315.1 KB)
+0018.329 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2300 files added (on-disk size: 11315.1 KB)
+0018.344 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2400 files added (on-disk size: 11315.1 KB)
+0018.360 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2500 files added (on-disk size: 11315.1 KB)
+0018.363 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (4 MB, 3282 files batched, 501 (2505) added so far); re-opening (prior size: 11315.1 KB)
+0018.937 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2600 files added (on-disk size: 13720.4 KB)
+0018.954 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2700 files added (on-disk size: 13720.4 KB)
+0018.969 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2800 files added (on-disk size: 13720.4 KB)
+0018.986 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 2900 files added (on-disk size: 13720.4 KB)
+0019.003 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 3000 files added (on-disk size: 13720.4 KB)
+0019.007 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (4.7 MB, 3282 files batched, 501 (3006) added so far); re-opening (prior size: 13720.4 KB)
+0019.789 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 3100 files added (on-disk size: 16468.5 KB)
+0019.807 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip.tmp: 3200 files added (on-disk size: 16468.5 KB)
+0020.590 (0) Created themes zip (0) - 18024.7 KB in 5.3 s (3427 KB/s) (sha1: e56166f361fba7db990730be4a9b1a4593103c70, sha256: 8daaa7ebc1a37237b5edac7c2a219b7ed1e31c2b0515a4d1906e60ae0eaa380d)
+0020.595 (0) Exclusion option setting (uploads): backup*,*backups,backwpup*,wp-clone,snapshots
+0020.598 (0) Looking for candidates to back up in: /home/lidorsoikher012/ogi/wp-content/uploads
+0020.599 (0) finding files: wc-logs: adding to list (1)
+0020.602 (0) finding files: favicon: adding to list (2)
+0020.603 (0) finding files: 2016: adding to list (3)
+0020.605 (0) finding files: 2015: adding to list (4)
+0020.606 (0) finding files: product_downloads: adding to list (5)
+0020.607 (0) finding files: 2017: adding to list (6)
+0020.609 (0) finding files: 2012: adding to list (7)
+0020.610 (0) finding files: wpsc: adding to list (8)
+0020.613 (0) finding files: 2014: adding to list (9)
+0020.614 (0) finding files: wow-slider-plugin: adding to list (10)
+0020.615 (0) finding files: woocommerce_uploads: adding to list (11)
+0020.617 (0) finding files: 2013: adding to list (12)
+0020.618 (0) finding files: background: adding to list (13)
+0020.619 (0) finding files: pwebcontact: adding to list (14)
+0020.622 (0) Beginning creation of dump of uploads (split every: 400 MB)
+0020.817 (0) Total entities for the zip file: 83 directories, 5295 files (0 skipped as non-modified), 822.7 MB
+0020.823 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 100 files added (on-disk size: 0 KB)
+0020.827 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 25 MB added on this batch (25.7 MB, 5295 files batched, 145 (145) added so far); re-opening (prior size: 0 KB)
+0021.203 (0) A useful amount of data was added after this amount of zip processing: 1.5 s (normalised: 1.5 s, rate: 17064.8 KB/s)
+0021.209 (0) Performance is good - will increase the amount of data we attempt to batch (time=1.5432059764862, normalised_time=1.5001620988806, max_time=-1, data points known=0, old_max_bytes=26214400, new_max_bytes=104846269)
+0021.213 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 200 files added (on-disk size: 26366.1 KB)
+0021.218 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 100 MB added on this batch (103.9 MB, 5295 files batched, 124 (269) added so far); re-opening (prior size: 26366.1 KB)
+0023.214 (0) A useful amount of data was added after this amount of zip processing: 2.6 s (normalised: 2.5 s, rate: 41660.3 KB/s)
+0023.218 (0) Performance is good - will increase the amount of data we attempt to batch (time=2.5535130500793, normalised_time=2.4577102293388, max_time=-1, data points known=0, old_max_bytes=104846269, new_max_bytes=209715200)
+0023.223 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 300 files added (on-disk size: 132765.4 KB)
+0023.230 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 400 files added (on-disk size: 132765.4 KB)
+0023.236 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 500 files added (on-disk size: 132765.4 KB)
+0023.244 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 600 files added (on-disk size: 132765.4 KB)
+0023.252 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 200 MB added on this batch (203.9 MB, 5295 files batched, 406 (675) added so far); re-opening (prior size: 132765.4 KB)
+0028.328 (0) A useful amount of data was added after this amount of zip processing: 5.7 s (normalised: 5.6 s, rate: 36843.8 KB/s)
+0028.332 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=5.6679589748383, normalised_time=5.5586087359975, max_time=-1, data points known=0, max_bytes=209715200)
+0028.338 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip.tmp: 700 files added (on-disk size: 341667 KB)
+0028.347 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): possibly approaching split limit (60.7 MB, 119 (794) files added so far); last ratio: 1; re-opening (prior size: 341667 KB)
+0034.098 (0) Zip size is at/near split limit (394.4 MB / 400 MB) - bumping index (from: 0)
+0038.147 (0) Created uploads zip (0) - 403883.9 KB in 13.5 s (29967.7 KB/s) (checksums: sha1: 7a3310877b41c4859c9f11aa8ae7e5fe31040115, sha256: 59e08fa8051d172d6e315c345ad8f63a3a651bbef5dfa40e506f267a61b1a96b)
+0038.151 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 2.0 seconds have passed since the last write (0.6 MB, 1 (795) files added so far); re-opening (prior size: 0 KB)
+0038.158 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 800 files added (on-disk size: 624.3 KB)
+0038.162 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 900 files added (on-disk size: 624.3 KB)
+0038.166 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1000 files added (on-disk size: 624.3 KB)
+0038.171 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1100 files added (on-disk size: 624.3 KB)
+0038.178 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1200 files added (on-disk size: 624.3 KB)
+0038.185 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (143.6 MB, 5295 files batched, 501 (1296) added so far); re-opening (prior size: 624.3 KB)
+0040.445 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1300 files added (on-disk size: 147744.6 KB)
+0040.453 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1400 files added (on-disk size: 147744.6 KB)
+0040.461 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1500 files added (on-disk size: 147744.6 KB)
+0040.471 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1600 files added (on-disk size: 147744.6 KB)
+0040.482 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1700 files added (on-disk size: 147744.6 KB)
+0040.493 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (40.2 MB, 5295 files batched, 501 (1797) added so far); re-opening (prior size: 147744.6 KB)
+0043.284 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1800 files added (on-disk size: 189017.2 KB)
+0043.314 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 1900 files added (on-disk size: 189017.2 KB)
+0043.326 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2000 files added (on-disk size: 189017.2 KB)
+0043.338 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2100 files added (on-disk size: 189017.2 KB)
+0043.351 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2200 files added (on-disk size: 189017.2 KB)
+0043.365 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (29.8 MB, 5295 files batched, 501 (2298) added so far); re-opening (prior size: 189017.2 KB)
+0046.662 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2300 files added (on-disk size: 219618.3 KB)
+0046.679 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2400 files added (on-disk size: 219618.3 KB)
+0046.692 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2500 files added (on-disk size: 219618.3 KB)
+0046.706 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2600 files added (on-disk size: 219618.3 KB)
+0046.721 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2700 files added (on-disk size: 219618.3 KB)
+0046.737 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (37.1 MB, 5295 files batched, 501 (2799) added so far); re-opening (prior size: 219618.3 KB)
+0050.531 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2800 files added (on-disk size: 257640.6 KB)
+0050.547 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 2900 files added (on-disk size: 257640.6 KB)
+0050.561 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3000 files added (on-disk size: 257640.6 KB)
+0050.578 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3100 files added (on-disk size: 257640.6 KB)
+0050.594 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3200 files added (on-disk size: 257640.6 KB)
+0050.612 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (35.2 MB, 5295 files batched, 501 (3300) added so far); re-opening (prior size: 257640.6 KB)
+0054.958 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3300 files added (on-disk size: 293748.9 KB)
+0054.980 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3400 files added (on-disk size: 293748.9 KB)
+0054.998 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3500 files added (on-disk size: 293748.9 KB)
+0055.017 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3600 files added (on-disk size: 293748.9 KB)
+0055.038 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3700 files added (on-disk size: 293748.9 KB)
+0055.059 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3800 files added (on-disk size: 293748.9 KB)
+0055.062 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (31.4 MB, 5295 files batched, 501 (3801) added so far); re-opening (prior size: 293748.9 KB)
+0059.813 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 3900 files added (on-disk size: 326013.6 KB)
+0059.835 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4000 files added (on-disk size: 326013.6 KB)
+0059.858 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4100 files added (on-disk size: 326013.6 KB)
+0059.881 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4200 files added (on-disk size: 326013.6 KB)
+0059.905 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4300 files added (on-disk size: 326013.6 KB)
+0059.908 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (36.9 MB, 5295 files batched, 501 (4302) added so far); re-opening (prior size: 326013.6 KB)
+0065.174 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4400 files added (on-disk size: 363914.4 KB)
+0065.199 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4500 files added (on-disk size: 363914.4 KB)
+0065.222 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4600 files added (on-disk size: 363914.4 KB)
+0065.246 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4700 files added (on-disk size: 363914.4 KB)
+0065.271 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip.tmp: 4800 files added (on-disk size: 363914.4 KB)
+0065.275 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (39.5 MB, 5295 files batched, 501 (4803) added so far); re-opening (prior size: 363914.4 KB)
+0071.094 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): possibly approaching split limit (4.7 MB, 28 (4831) files added so far); last ratio: 1; re-opening (prior size: 404444.6 KB)
+0076.992 (0) Zip size is at/near split limit (399.6 MB / 400 MB) - bumping index (from: 1)
+0080.977 (0) Created uploads zip (1) - 409218.1 KB in 38.8 s (10534.5 KB/s) (checksums: sha1: adf73ffa9ee79dcc807859f16e7bc8f9db75340f, sha256: c829f0793722d5f0f8b396ab72567b179c9e60cfcf275b4750b423d50c99f161)
+0080.982 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 2.0 seconds have passed since the last write (0 MB, 1 (4832) files added so far); re-opening (prior size: 0 KB)
+0080.988 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip.tmp: 4900 files added (on-disk size: 36.8 KB)
+0080.992 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip.tmp: 5000 files added (on-disk size: 36.8 KB)
+0080.998 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip.tmp: 5100 files added (on-disk size: 36.8 KB)
+0081.004 (0) Zip: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip.tmp: 5200 files added (on-disk size: 36.8 KB)
+0082.185 (0) Created uploads zip (2) - 30222.4 KB in 1.2 s (25057.9 KB/s) (sha1: 76c71c30db20638234cfefe3cd4f90ae9eddb760, sha256: c12b9b1f0572429ddc7783034ffda0e1b0a740f88a040b474143a258a88660a5)
+0082.189 (0) No backup of wpcore: excluded by user's options
+0082.194 (0) Beginning backup of other directories found in the content directory (index: 0)
+0082.195 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+0082.198 (0) Looking for candidates to back up in: /home/lidorsoikher012/ogi/wp-content
+0082.199 (0) finding files: updraft: skipping: this is the updraft directory
+0082.201 (0) finding files: themes: skipping: this is the themes directory
+0082.202 (0) finding files: uploads: skipping: this is the uploads directory
+0082.203 (0) finding files: cache: skipping: excluded by options
+0082.206 (0) finding files: advanced-cache.php: adding to list (1)
+0082.207 (0) finding files: index.php: adding to list (2)
+0082.209 (0) finding files: .DS_Store: adding to list (3)
+0082.210 (0) finding files: wp-cache-config.php: adding to list (4)
+0082.211 (0) finding files: upgrade: skipping: excluded by options
+0082.213 (0) finding files: plugins: skipping: this is the plugins directory
+0082.216 (0) Total entities for the zip file: 0 directories, 4 files (0 skipped as non-modified), 0 MB
+0082.247 (0) Created others zip (0) - 3.2 KB in 0 s (96.7 KB/s) (sha1: 75076d13de030b13d62a001335dfb224bd601ebe, sha256: 2c1e5d4e1db7c664a45d31841bd66a5e66352af3ab7dc428bc3058f077d50853)
+0082.250 (0) No backup of more: excluded by user's options
+0082.257 (0) Saving backup status to database (elements: 10)
+0082.261 (0) Beginning creation of database dump (WordPress DB)
+0082.265 (0) Testing: /usr/bin/mysqldump
+0082.348 (0) Output: /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\n/*!40103 SET TIME_ZONE='+00:00' */;\n/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\nDROP TABLE IF EXISTS `wp_options`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client = utf8 */;\nCRE (truncated - 1197 bytes total)
+0082.353 (0) Working binary mysqldump found: /usr/bin/mysqldump
+0082.362 (0) Table wp_options: Total expected rows (approximate): 1947
+0082.440 (0) Table wp_options: Total rows added: 1766 in 0.08 seconds
+0082.443 (0) Table wp_options: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_options.table.gz - 275.8 KB)
+0082.450 (0) Table wp_users: Total expected rows (approximate): 2073
+0082.475 (0) Table wp_users: Total rows added: 2073 in 0.02 seconds
+0082.479 (0) Table wp_users: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_users.table.gz - 129.7 KB)
+0082.486 (0) Table wp_usermeta: Total expected rows (approximate): 41823
+0082.611 (0) Table wp_usermeta: binary mysqldump finished (writes: 33) in 0.12 seconds
+0082.615 (0) Table wp_usermeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_usermeta.table.gz - 391.2 KB)
+0082.622 (0) Table wp_commentmeta: Total expected rows (approximate): 4716
+0082.650 (0) Table wp_commentmeta: Total rows added: 4773 in 0.03 seconds
+0082.653 (0) Table wp_commentmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_commentmeta.table.gz - 27.8 KB)
+0082.661 (0) Table wp_comments: Total expected rows (approximate): 8416
+0082.743 (0) Table wp_comments: binary mysqldump finished (writes: 48) in 0.08 seconds
+0082.746 (0) Table wp_comments: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_comments.table.gz - 176.4 KB)
+0082.754 (0) Table wp_links: Total expected rows (approximate): 7
+0082.756 (0) Table wp_links: Total rows added: 7 in 0.00 seconds
+0082.758 (0) Table wp_links: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_links.table.gz - 0.6 KB)
+0082.764 (0) Table wp_postmeta: Total expected rows (approximate): 173731
+0082.767 (0) [Warning] Table wp_postmeta has very many rows (173731) - we hope your web hosting company gives you enough resources to dump out that table in the backup If not, you will need to either remove data from this table, or contact your hosting company to request more resources.
+0083.409 (0) Table wp_postmeta: binary mysqldump finished (writes: 43) in 0.64 seconds
+0083.416 (0) Table wp_postmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_postmeta.table.gz - 1931.7 KB)
+0083.422 (0) Table wp_posts: Total expected rows (approximate): 34746
+0098.091 (0) Table wp_posts: binary mysqldump finished (writes: 286) in 14.67 seconds
+0098.095 (0) Table wp_posts: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_posts.table.gz - 73888.9 KB)
+0098.103 (0) Table wp_term_relationships: Total expected rows (approximate): 26118
+0098.141 (0) Table wp_term_relationships: binary mysqldump finished (writes: 30) in 0.04 seconds
+0098.144 (0) Table wp_term_relationships: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_term_relationships.table.gz - 62 KB)
+0098.151 (0) Table wp_term_taxonomy: Total expected rows (approximate): 207
+0098.155 (0) Table wp_term_taxonomy: Total rows added: 227 in 0.00 seconds
+0098.157 (0) Table wp_term_taxonomy: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_term_taxonomy.table.gz - 2.8 KB)
+0098.162 (0) Table wp_termmeta: Total expected rows (approximate): 343
+0098.165 (0) Table wp_termmeta: Total rows added: 343 in 0.00 seconds
+0098.167 (0) Table wp_termmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_termmeta.table.gz - 2.8 KB)
+0098.173 (0) Table wp_terms: Total expected rows (approximate): 202
+0098.176 (0) Table wp_terms: Total rows added: 227 in 0.00 seconds
+0098.179 (0) Table wp_terms: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_terms.table.gz - 3.3 KB)
+0098.184 (0) Table wp_woocommerce_order_itemmeta: Total expected rows (approximate): 53278
+0098.343 (0) Table wp_woocommerce_order_itemmeta: binary mysqldump finished (writes: 33) in 0.16 seconds
+0098.347 (0) Table wp_woocommerce_order_itemmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_order_itemmeta.table.gz - 340.7 KB)
+0098.355 (0) Table wp_woocommerce_payment_tokenmeta: Total expected rows (approximate): 0
+0098.358 (0) Table wp_woocommerce_payment_tokenmeta: Total rows added: 0 in 0.00 seconds
+0098.359 (0) Table wp_woocommerce_payment_tokenmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_payment_tokenmeta.table.gz - 0.4 KB)
+0098.366 (0) Table wp_ghostmonitor_data: Total expected rows (approximate): 0
+0098.367 (0) Table wp_ghostmonitor_data: Total rows added: 0 in 0.00 seconds
+0098.370 (0) Table wp_ghostmonitor_data: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ghostmonitor_data.table.gz - 0.3 KB)
+0098.375 (0) Table wp_huge_itslider_images: Total expected rows (approximate): 3
+0098.378 (0) Table wp_huge_itslider_images: Total rows added: 3 in 0.00 seconds
+0098.379 (0) Table wp_huge_itslider_images: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_images.table.gz - 0.7 KB)
+0098.385 (0) Table wp_huge_itslider_params: Total expected rows (approximate): 44
+0098.387 (0) Table wp_huge_itslider_params: Total rows added: 44 in 0.00 seconds
+0098.390 (0) Table wp_huge_itslider_params: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_params.table.gz - 1.1 KB)
+0098.395 (0) Table wp_huge_itslider_sliders: Total expected rows (approximate): 1
+0098.398 (0) Table wp_huge_itslider_sliders: Total rows added: 1 in 0.00 seconds
+0098.399 (0) Table wp_huge_itslider_sliders: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_sliders.table.gz - 0.5 KB)
+0098.406 (0) Table wp_instapage_debug: Total expected rows (approximate): 0
+0098.407 (0) Table wp_instapage_debug: Total rows added: 0 in 0.00 seconds
+0098.410 (0) Table wp_instapage_debug: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_debug.table.gz - 0.3 KB)
+0098.415 (0) Table wp_instapage_options: Total expected rows (approximate): 1
+0098.418 (0) Table wp_instapage_options: Total rows added: 1 in 0.00 seconds
+0098.419 (0) Table wp_instapage_options: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_options.table.gz - 0.4 KB)
+0098.425 (0) Table wp_instapage_pages: Total expected rows (approximate): 0
+0098.427 (0) Table wp_instapage_pages: Total rows added: 0 in 0.00 seconds
+0098.429 (0) Table wp_instapage_pages: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_pages.table.gz - 0.4 KB)
+0098.434 (0) Table wp_nf_objectmeta: Total expected rows (approximate): 76
+0098.436 (0) Table wp_nf_objectmeta: Total rows added: 76 in 0.00 seconds
+0098.438 (0) Table wp_nf_objectmeta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_objectmeta.table.gz - 1.1 KB)
+0098.443 (0) Table wp_nf_objects: Total expected rows (approximate): 5
+0098.446 (0) Table wp_nf_objects: Total rows added: 5 in 0.00 seconds
+0098.447 (0) Table wp_nf_objects: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_objects.table.gz - 0.3 KB)
+0098.453 (0) Table wp_nf_relationships: Total expected rows (approximate): 3
+0098.455 (0) Table wp_nf_relationships: Total rows added: 3 in 0.00 seconds
+0098.457 (0) Table wp_nf_relationships: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_relationships.table.gz - 0.4 KB)
+0098.462 (0) Table wp_ninja_forms_fav_fields: Total expected rows (approximate): 17
+0098.466 (0) Table wp_ninja_forms_fav_fields: Total rows added: 17 in 0.00 seconds
+0098.467 (0) Table wp_ninja_forms_fav_fields: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ninja_forms_fav_fields.table.gz - 2.6 KB)
+0098.473 (0) Table wp_ninja_forms_fields: Total expected rows (approximate): 4
+0098.475 (0) Table wp_ninja_forms_fields: Total rows added: 4 in 0.00 seconds
+0098.477 (0) Table wp_ninja_forms_fields: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ninja_forms_fields.table.gz - 0.8 KB)
+0098.483 (0) Table wp_optin_meta: Total expected rows (approximate): 183
+0098.487 (0) Table wp_optin_meta: Total rows added: 195 in 0.00 seconds
+0098.489 (0) Table wp_optin_meta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_optin_meta.table.gz - 3.3 KB)
+0098.494 (0) Table wp_optins: Total expected rows (approximate): 0
+0098.496 (0) Table wp_optins: Total rows added: 1 in 0.00 seconds
+0098.498 (0) Table wp_optins: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_optins.table.gz - 0.9 KB)
+0098.503 (0) Table wp_pwebcontact_forms: Total expected rows (approximate): 0
+0098.506 (0) Table wp_pwebcontact_forms: Total rows added: 1 in 0.00 seconds
+0098.507 (0) Table wp_pwebcontact_forms: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_pwebcontact_forms.table.gz - 1.8 KB)
+0098.513 (0) Table wp_redirection_404: Total expected rows (approximate): 3279
+0098.562 (0) Table wp_redirection_404: Total rows added: 3279 in 0.05 seconds
+0098.566 (0) Table wp_redirection_404: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_404.table.gz - 54.3 KB)
+0098.574 (0) Table wp_redirection_groups: Total expected rows (approximate): 2
+0098.576 (0) Table wp_redirection_groups: Total rows added: 2 in 0.00 seconds
+0098.578 (0) Table wp_redirection_groups: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_groups.table.gz - 0.4 KB)
+0098.584 (0) Table wp_redirection_items: Total expected rows (approximate): 7
+0098.587 (0) Table wp_redirection_items: Total rows added: 7 in 0.00 seconds
+0098.589 (0) Table wp_redirection_items: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_items.table.gz - 0.8 KB)
+0098.595 (0) Table wp_redirection_logs: Total expected rows (approximate): 1
+0098.598 (0) Table wp_redirection_logs: Total rows added: 1 in 0.00 seconds
+0098.599 (0) Table wp_redirection_logs: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_logs.table.gz - 0.6 KB)
+0098.606 (0) Table wp_redirection_modules: Total expected rows (approximate): 2
+0098.607 (0) Table wp_redirection_modules: Total rows added: 2 in 0.00 seconds
+0098.609 (0) Table wp_redirection_modules: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_modules.table.gz - 0.4 KB)
+0098.614 (0) Table wp_sg_age_restriction_popup: Total expected rows (approximate): 0
+0098.617 (0) Table wp_sg_age_restriction_popup: Total rows added: 0 in 0.00 seconds
+0098.618 (0) Table wp_sg_age_restriction_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_age_restriction_popup.table.gz - 0.3 KB)
+0098.623 (0) Table wp_sg_contact_form_popup: Total expected rows (approximate): 0
+0098.627 (0) Table wp_sg_contact_form_popup: Total rows added: 1 in 0.00 seconds
+0098.629 (0) Table wp_sg_contact_form_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_contact_form_popup.table.gz - 0.7 KB)
+0098.634 (0) Table wp_sg_countdown_popup: Total expected rows (approximate): 0
+0098.635 (0) Table wp_sg_countdown_popup: Total rows added: 0 in 0.00 seconds
+0098.637 (0) Table wp_sg_countdown_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_countdown_popup.table.gz - 0.3 KB)
+0098.643 (0) Table wp_sg_exit_intent_popup: Total expected rows (approximate): 0
+0098.645 (0) Table wp_sg_exit_intent_popup: Total rows added: 0 in 0.00 seconds
+0098.646 (0) Table wp_sg_exit_intent_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_exit_intent_popup.table.gz - 0.3 KB)
+0098.651 (0) Table wp_sg_fblike_popup: Total expected rows (approximate): 0
+0098.654 (0) Table wp_sg_fblike_popup: Total rows added: 0 in 0.00 seconds
+0098.655 (0) Table wp_sg_fblike_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_fblike_popup.table.gz - 0.3 KB)
+0098.662 (0) Table wp_sg_html_popup: Total expected rows (approximate): 0
+0098.663 (0) Table wp_sg_html_popup: Total rows added: 0 in 0.00 seconds
+0098.665 (0) Table wp_sg_html_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_html_popup.table.gz - 0.2 KB)
+0098.671 (0) Table wp_sg_iframe_popup: Total expected rows (approximate): 0
+0098.674 (0) Table wp_sg_iframe_popup: Total rows added: 0 in 0.00 seconds
+0098.675 (0) Table wp_sg_iframe_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_iframe_popup.table.gz - 0.2 KB)
+0098.681 (0) Table wp_sg_image_popup: Total expected rows (approximate): 0
+0098.683 (0) Table wp_sg_image_popup: Total rows added: 0 in 0.00 seconds
+0098.685 (0) Table wp_sg_image_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_image_popup.table.gz - 0.3 KB)
+0098.690 (0) Table wp_sg_popup: Total expected rows (approximate): 0
+0098.692 (0) Table wp_sg_popup: Total rows added: 0 in 0.00 seconds
+0098.694 (0) Table wp_sg_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup.table.gz - 0.3 KB)
+0098.699 (0) Table wp_sg_popup_addons: Total expected rows (approximate): 0
+0098.702 (0) Table wp_sg_popup_addons: Total rows added: 0 in 0.00 seconds
+0098.703 (0) Table wp_sg_popup_addons: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_addons.table.gz - 0.3 KB)
+0098.708 (0) Table wp_sg_popup_in_pages: Total expected rows (approximate): 0
+0098.711 (0) Table wp_sg_popup_in_pages: Total rows added: 0 in 0.00 seconds
+0098.713 (0) Table wp_sg_popup_in_pages: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_in_pages.table.gz - 0.3 KB)
+0098.718 (0) Table wp_sg_popup_settings: Total expected rows (approximate): 0
+0098.720 (0) Table wp_sg_popup_settings: Total rows added: 1 in 0.00 seconds
+0098.722 (0) Table wp_sg_popup_settings: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_settings.table.gz - 0.4 KB)
+0098.727 (0) Table wp_sg_shortCode_popup: Total expected rows (approximate): 0
+0098.730 (0) Table wp_sg_shortCode_popup: Total rows added: 0 in 0.00 seconds
+0098.733 (0) Table wp_sg_shortCode_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_shortCode_popup.table.gz - 0.2 KB)
+0098.738 (0) Table wp_sg_social_popup: Total expected rows (approximate): 0
+0098.739 (0) Table wp_sg_social_popup: Total rows added: 0 in 0.00 seconds
+0098.742 (0) Table wp_sg_social_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_social_popup.table.gz - 0.3 KB)
+0098.747 (0) Table wp_sg_subscribers: Total expected rows (approximate): 0
+0098.749 (0) Table wp_sg_subscribers: Total rows added: 0 in 0.00 seconds
+0098.751 (0) Table wp_sg_subscribers: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscribers.table.gz - 0.3 KB)
+0098.758 (0) Table wp_sg_subscription_error_log: Total expected rows (approximate): 0
+0098.759 (0) Table wp_sg_subscription_error_log: Total rows added: 0 in 0.00 seconds
+0098.761 (0) Table wp_sg_subscription_error_log: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscription_error_log.table.gz - 0.3 KB)
+0098.766 (0) Table wp_sg_subscription_popup: Total expected rows (approximate): 0
+0098.769 (0) Table wp_sg_subscription_popup: Total rows added: 0 in 0.00 seconds
+0098.770 (0) Table wp_sg_subscription_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscription_popup.table.gz - 0.3 KB)
+0098.776 (0) Table wp_sg_video_popup: Total expected rows (approximate): 0
+0098.779 (0) Table wp_sg_video_popup: Total rows added: 0 in 0.00 seconds
+0098.781 (0) Table wp_sg_video_popup: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_video_popup.table.gz - 0.3 KB)
+0098.787 (0) Table wp_social_users: Total expected rows (approximate): 0
+0098.789 (0) Table wp_social_users: Total rows added: 0 in 0.00 seconds
+0098.790 (0) Table wp_social_users: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_social_users.table.gz - 0.3 KB)
+0098.796 (0) Table wp_stt2_meta: Total expected rows (approximate): 72
+0098.799 (0) Table wp_stt2_meta: Total rows added: 72 in 0.00 seconds
+0098.801 (0) Table wp_stt2_meta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_stt2_meta.table.gz - 1.9 KB)
+0098.807 (0) Table wp_thesis_terms: Total expected rows (approximate): 0
+0098.809 (0) Table wp_thesis_terms: Total rows added: 0 in 0.00 seconds
+0098.810 (0) Table wp_thesis_terms: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_thesis_terms.table.gz - 0.4 KB)
+0098.816 (0) Table wp_tinycarousel: Total expected rows (approximate): 1
+0098.819 (0) Table wp_tinycarousel: Total rows added: 1 in 0.00 seconds
+0098.821 (0) Table wp_tinycarousel: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_tinycarousel.table.gz - 0.5 KB)
+0098.826 (0) Table wp_vtprd_purchase_log: Total expected rows (approximate): 0
+0098.828 (0) Table wp_vtprd_purchase_log: Total rows added: 0 in 0.00 seconds
+0098.830 (0) Table wp_vtprd_purchase_log: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log.table.gz - 0.4 KB)
+0098.835 (0) Table wp_vtprd_purchase_log_product: Total expected rows (approximate): 0
+0098.837 (0) Table wp_vtprd_purchase_log_product: Total rows added: 0 in 0.00 seconds
+0098.839 (0) Table wp_vtprd_purchase_log_product: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log_product.table.gz - 0.4 KB)
+0098.844 (0) Table wp_vtprd_purchase_log_product_rule: Total expected rows (approximate): 0
+0098.847 (0) Table wp_vtprd_purchase_log_product_rule: Total rows added: 0 in 0.00 seconds
+0098.849 (0) Table wp_vtprd_purchase_log_product_rule: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log_product_rule.table.gz - 0.3 KB)
+0098.854 (0) Table wp_wc_autoship_cache: Total expected rows (approximate): 0
+0098.855 (0) Table wp_wc_autoship_cache: Total rows added: 0 in 0.00 seconds
+0098.857 (0) Table wp_wc_autoship_cache: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_cache.table.gz - 0.3 KB)
+0098.862 (0) Table wp_wc_autoship_log: Total expected rows (approximate): 2
+0098.866 (0) Table wp_wc_autoship_log: Total rows added: 5 in 0.00 seconds
+0098.867 (0) Table wp_wc_autoship_log: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_log.table.gz - 0.9 KB)
+0098.874 (0) Table wp_wc_autoship_schedule_items: Total expected rows (approximate): 0
+0098.875 (0) Table wp_wc_autoship_schedule_items: Total rows added: 0 in 0.00 seconds
+0098.877 (0) Table wp_wc_autoship_schedule_items: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_schedule_items.table.gz - 0.3 KB)
+0098.882 (0) Table wp_wc_autoship_schedules: Total expected rows (approximate): 0
+0098.884 (0) Table wp_wc_autoship_schedules: Total rows added: 0 in 0.00 seconds
+0098.887 (0) Table wp_wc_autoship_schedules: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_schedules.table.gz - 0.4 KB)
+0098.892 (0) Table wp_woocommerce_api_keys: Total expected rows (approximate): 0
+0098.895 (0) Table wp_woocommerce_api_keys: Total rows added: 0 in 0.00 seconds
+0098.897 (0) Table wp_woocommerce_api_keys: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_api_keys.table.gz - 0.4 KB)
+0098.902 (0) Table wp_woocommerce_attribute_taxonomies: Total expected rows (approximate): 10
+0098.904 (0) Table wp_woocommerce_attribute_taxonomies: Total rows added: 10 in 0.00 seconds
+0098.906 (0) Table wp_woocommerce_attribute_taxonomies: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_attribute_taxonomies.table.gz - 0.6 KB)
+0098.911 (0) Table wp_woocommerce_downloadable_product_permissions: Total expected rows (approximate): 0
+0098.914 (0) Table wp_woocommerce_downloadable_product_permissions: Total rows added: 0 in 0.00 seconds
+0098.915 (0) Table wp_woocommerce_downloadable_product_permissions: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_downloadable_product_permissions.table.gz - 0.5 KB)
+0098.920 (0) Table wp_woocommerce_log: Total expected rows (approximate): 0
+0098.922 (0) Table wp_woocommerce_log: Total rows added: 0 in 0.00 seconds
+0098.923 (0) Table wp_woocommerce_log: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_log.table.gz - 0.4 KB)
+0098.930 (0) Table wp_woocommerce_order_items: Total expected rows (approximate): 7285
+0098.978 (0) Table wp_woocommerce_order_items: Total rows added: 7356 in 0.05 seconds
+0098.981 (0) Table wp_woocommerce_order_items: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_order_items.table.gz - 41.5 KB)
+0098.987 (0) Table wp_woocommerce_payment_tokens: Total expected rows (approximate): 0
+0098.990 (0) Table wp_woocommerce_payment_tokens: Total rows added: 0 in 0.00 seconds
+0098.991 (0) Table wp_woocommerce_payment_tokens: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_payment_tokens.table.gz - 0.4 KB)
+0098.998 (0) Table wp_woocommerce_sessions: Total expected rows (approximate): 46
+0099.001 (0) Table wp_woocommerce_sessions: Total rows added: 46 in 0.00 seconds
+0099.003 (0) Table wp_woocommerce_sessions: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_sessions.table.gz - 4.7 KB)
+0099.010 (0) Table wp_woocommerce_shipping_zone_locations: Total expected rows (approximate): 0
+0099.011 (0) Table wp_woocommerce_shipping_zone_locations: Total rows added: 0 in 0.00 seconds
+0099.013 (0) Table wp_woocommerce_shipping_zone_locations: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zone_locations.table.gz - 0.4 KB)
+0099.018 (0) Table wp_woocommerce_shipping_zone_methods: Total expected rows (approximate): 0
+0099.021 (0) Table wp_woocommerce_shipping_zone_methods: Total rows added: 0 in 0.00 seconds
+0099.022 (0) Table wp_woocommerce_shipping_zone_methods: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zone_methods.table.gz - 0.4 KB)
+0099.028 (0) Table wp_woocommerce_shipping_zones: Total expected rows (approximate): 0
+0099.030 (0) Table wp_woocommerce_shipping_zones: Total rows added: 0 in 0.00 seconds
+0099.033 (0) Table wp_woocommerce_shipping_zones: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zones.table.gz - 0.3 KB)
+0099.038 (0) Table wp_woocommerce_tax_rate_locations: Total expected rows (approximate): 0
+0099.039 (0) Table wp_woocommerce_tax_rate_locations: Total rows added: 0 in 0.00 seconds
+0099.041 (0) Table wp_woocommerce_tax_rate_locations: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_tax_rate_locations.table.gz - 0.3 KB)
+0099.047 (0) Table wp_woocommerce_tax_rates: Total expected rows (approximate): 0
+0099.050 (0) Table wp_woocommerce_tax_rates: Total rows added: 1 in 0.00 seconds
+0099.051 (0) Table wp_woocommerce_tax_rates: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_tax_rates.table.gz - 0.4 KB)
+0099.056 (0) Table wp_wowslider: Total expected rows (approximate): 1
+0099.059 (0) Table wp_wowslider: Total rows added: 1 in 0.00 seconds
+0099.061 (0) Table wp_wowslider: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wowslider.table.gz - 0.5 KB)
+0099.066 (0) Table wp_wpsc_also_bought: Total expected rows (approximate): 0
+0099.067 (0) Table wp_wpsc_also_bought: Total rows added: 0 in 0.00 seconds
+0099.070 (0) Table wp_wpsc_also_bought: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_also_bought.table.gz - 0.3 KB)
+0099.075 (0) Table wp_wpsc_cart_contents: Total expected rows (approximate): 0
+0099.078 (0) Table wp_wpsc_cart_contents: Total rows added: 0 in 0.00 seconds
+0099.079 (0) Table wp_wpsc_cart_contents: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_cart_contents.table.gz - 0.4 KB)
+0099.085 (0) Table wp_wpsc_checkout_forms: Total expected rows (approximate): 18
+0099.087 (0) Table wp_wpsc_checkout_forms: Total rows added: 18 in 0.00 seconds
+0099.089 (0) Table wp_wpsc_checkout_forms: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_checkout_forms.table.gz - 0.8 KB)
+0099.094 (0) Table wp_wpsc_claimed_stock: Total expected rows (approximate): 0
+0099.097 (0) Table wp_wpsc_claimed_stock: Total rows added: 0 in 0.00 seconds
+0099.098 (0) Table wp_wpsc_claimed_stock: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_claimed_stock.table.gz - 0.4 KB)
+0099.104 (0) Table wp_wpsc_coupon_codes: Total expected rows (approximate): 0
+0099.107 (0) Table wp_wpsc_coupon_codes: Total rows added: 0 in 0.00 seconds
+0099.109 (0) Table wp_wpsc_coupon_codes: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_coupon_codes.table.gz - 0.4 KB)
+0099.114 (0) Table wp_wpsc_currency_list: Total expected rows (approximate): 250
+0099.119 (0) Table wp_wpsc_currency_list: Total rows added: 250 in 0.00 seconds
+0099.122 (0) Table wp_wpsc_currency_list: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_currency_list.table.gz - 5.6 KB)
+0099.127 (0) Table wp_wpsc_download_status: Total expected rows (approximate): 0
+0099.130 (0) Table wp_wpsc_download_status: Total rows added: 0 in 0.00 seconds
+0099.133 (0) Table wp_wpsc_download_status: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_download_status.table.gz - 0.4 KB)
+0099.138 (0) Table wp_wpsc_meta: Total expected rows (approximate): 11
+0099.140 (0) Table wp_wpsc_meta: Total rows added: 11 in 0.00 seconds
+0099.142 (0) Table wp_wpsc_meta: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_meta.table.gz - 0.5 KB)
+0099.147 (0) Table wp_wpsc_product_rating: Total expected rows (approximate): 0
+0099.150 (0) Table wp_wpsc_product_rating: Total rows added: 0 in 0.00 seconds
+0099.151 (0) Table wp_wpsc_product_rating: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_product_rating.table.gz - 0.3 KB)
+0099.157 (0) Table wp_wpsc_purchase_logs: Total expected rows (approximate): 0
+0099.159 (0) Table wp_wpsc_purchase_logs: Total rows added: 0 in 0.00 seconds
+0099.161 (0) Table wp_wpsc_purchase_logs: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_purchase_logs.table.gz - 0.6 KB)
+0099.167 (0) Table wp_wpsc_region_tax: Total expected rows (approximate): 64
+0099.170 (0) Table wp_wpsc_region_tax: Total rows added: 64 in 0.00 seconds
+0099.171 (0) Table wp_wpsc_region_tax: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_region_tax.table.gz - 1.1 KB)
+0099.178 (0) Table wp_wpsc_submited_form_data: Total expected rows (approximate): 0
+0099.180 (0) Table wp_wpsc_submited_form_data: Total rows added: 0 in 0.00 seconds
+0099.182 (0) Table wp_wpsc_submited_form_data: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_submited_form_data.table.gz - 0.3 KB)
+0099.186 (0) Table wp_yith_wcwl: Total expected rows (approximate): 0
+0099.189 (0) Table wp_yith_wcwl: Total rows added: 0 in 0.00 seconds
+0099.190 (0) Table wp_yith_wcwl: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_yith_wcwl.table.gz - 0.3 KB)
+0099.195 (0) Table wp_yith_wcwl_lists: Total expected rows (approximate): 4
+0099.199 (0) Table wp_yith_wcwl_lists: Total rows added: 5 in 0.00 seconds
+0099.201 (0) Table wp_yith_wcwl_lists: finishing file (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_yith_wcwl_lists.table.gz - 0.5 KB)
+0099.203 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_options.table.gz (1/90): adding to final database dump
+0099.248 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_users.table.gz (2/90): adding to final database dump
+0099.267 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_usermeta.table.gz (3/90): adding to final database dump
+0099.338 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_commentmeta.table.gz (4/90): adding to final database dump
+0099.348 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_comments.table.gz (5/90): adding to final database dump
+0099.386 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_links.table.gz (6/90): adding to final database dump
+0099.389 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_postmeta.table.gz (7/90): adding to final database dump
+0099.743 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_posts.table.gz (8/90): adding to final database dump
+0110.982 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_term_relationships.table.gz (9/90): adding to final database dump
+0110.993 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_term_taxonomy.table.gz (10/90): adding to final database dump
+0110.997 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_termmeta.table.gz (11/90): adding to final database dump
+0111.000 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_terms.table.gz (12/90): adding to final database dump
+0111.003 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_order_itemmeta.table.gz (13/90): adding to final database dump
+0111.108 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_payment_tokenmeta.table.gz (14/90): adding to final database dump
+0111.112 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ghostmonitor_data.table.gz (15/90): adding to final database dump
+0111.114 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_images.table.gz (16/90): adding to final database dump
+0111.117 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_params.table.gz (17/90): adding to final database dump
+0111.119 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_huge_itslider_sliders.table.gz (18/90): adding to final database dump
+0111.121 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_debug.table.gz (19/90): adding to final database dump
+0111.122 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_options.table.gz (20/90): adding to final database dump
+0111.125 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_instapage_pages.table.gz (21/90): adding to final database dump
+0111.126 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_objectmeta.table.gz (22/90): adding to final database dump
+0111.127 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_objects.table.gz (23/90): adding to final database dump
+0111.129 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_nf_relationships.table.gz (24/90): adding to final database dump
+0111.130 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ninja_forms_fav_fields.table.gz (25/90): adding to final database dump
+0111.132 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_ninja_forms_fields.table.gz (26/90): adding to final database dump
+0111.134 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_optin_meta.table.gz (27/90): adding to final database dump
+0111.136 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_optins.table.gz (28/90): adding to final database dump
+0111.138 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_pwebcontact_forms.table.gz (29/90): adding to final database dump
+0111.139 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_404.table.gz (30/90): adding to final database dump
+0111.155 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_groups.table.gz (31/90): adding to final database dump
+0111.159 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_items.table.gz (32/90): adding to final database dump
+0111.163 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_logs.table.gz (33/90): adding to final database dump
+0111.166 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_redirection_modules.table.gz (34/90): adding to final database dump
+0111.168 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_age_restriction_popup.table.gz (35/90): adding to final database dump
+0111.170 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_contact_form_popup.table.gz (36/90): adding to final database dump
+0111.171 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_countdown_popup.table.gz (37/90): adding to final database dump
+0111.173 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_exit_intent_popup.table.gz (38/90): adding to final database dump
+0111.174 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_fblike_popup.table.gz (39/90): adding to final database dump
+0111.175 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_html_popup.table.gz (40/90): adding to final database dump
+0111.183 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_iframe_popup.table.gz (41/90): adding to final database dump
+0111.185 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_image_popup.table.gz (42/90): adding to final database dump
+0111.186 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup.table.gz (43/90): adding to final database dump
+0111.187 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_addons.table.gz (44/90): adding to final database dump
+0111.189 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_in_pages.table.gz (45/90): adding to final database dump
+0111.190 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_popup_settings.table.gz (46/90): adding to final database dump
+0111.191 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_shortCode_popup.table.gz (47/90): adding to final database dump
+0111.194 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_social_popup.table.gz (48/90): adding to final database dump
+0111.195 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscribers.table.gz (49/90): adding to final database dump
+0111.197 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscription_error_log.table.gz (50/90): adding to final database dump
+0111.198 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_subscription_popup.table.gz (51/90): adding to final database dump
+0111.201 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_sg_video_popup.table.gz (52/90): adding to final database dump
+0111.202 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_social_users.table.gz (53/90): adding to final database dump
+0111.203 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_stt2_meta.table.gz (54/90): adding to final database dump
+0111.205 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_thesis_terms.table.gz (55/90): adding to final database dump
+0111.206 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_tinycarousel.table.gz (56/90): adding to final database dump
+0111.207 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log.table.gz (57/90): adding to final database dump
+0111.210 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log_product.table.gz (58/90): adding to final database dump
+0111.211 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_vtprd_purchase_log_product_rule.table.gz (59/90): adding to final database dump
+0111.213 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_cache.table.gz (60/90): adding to final database dump
+0111.214 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_log.table.gz (61/90): adding to final database dump
+0111.215 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_schedule_items.table.gz (62/90): adding to final database dump
+0111.217 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wc_autoship_schedules.table.gz (63/90): adding to final database dump
+0111.218 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_api_keys.table.gz (64/90): adding to final database dump
+0111.220 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_attribute_taxonomies.table.gz (65/90): adding to final database dump
+0111.221 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_downloadable_product_permissions.table.gz (66/90): adding to final database dump
+0111.222 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_log.table.gz (67/90): adding to final database dump
+0111.224 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_order_items.table.gz (68/90): adding to final database dump
+0111.235 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_payment_tokens.table.gz (69/90): adding to final database dump
+0111.238 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_sessions.table.gz (70/90): adding to final database dump
+0111.241 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zone_locations.table.gz (71/90): adding to final database dump
+0111.244 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zone_methods.table.gz (72/90): adding to final database dump
+0111.246 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_shipping_zones.table.gz (73/90): adding to final database dump
+0111.247 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_tax_rate_locations.table.gz (74/90): adding to final database dump
+0111.250 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_woocommerce_tax_rates.table.gz (75/90): adding to final database dump
+0111.251 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wowslider.table.gz (76/90): adding to final database dump
+0111.254 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_also_bought.table.gz (77/90): adding to final database dump
+0111.255 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_cart_contents.table.gz (78/90): adding to final database dump
+0111.257 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_checkout_forms.table.gz (79/90): adding to final database dump
+0111.258 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_claimed_stock.table.gz (80/90): adding to final database dump
+0111.259 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_coupon_codes.table.gz (81/90): adding to final database dump
+0111.262 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_currency_list.table.gz (82/90): adding to final database dump
+0111.263 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_download_status.table.gz (83/90): adding to final database dump
+0111.266 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_meta.table.gz (84/90): adding to final database dump
+0111.267 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_product_rating.table.gz (85/90): adding to final database dump
+0111.269 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_purchase_logs.table.gz (86/90): adding to final database dump
+0111.270 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_region_tax.table.gz (87/90): adding to final database dump
+0111.271 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_wpsc_submited_form_data.table.gz (88/90): adding to final database dump
+0111.274 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_yith_wcwl.table.gz (89/90): adding to final database dump
+0111.275 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db-table-wp_yith_wcwl_lists.table.gz (90/90): adding to final database dump
+0111.277 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz: finished writing out complete database file (77344 KB)
+0111.996 (0) Total database tables backed up: 90 (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz, size: 79220035, sha256)
+0112.008 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0112.010 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0112.011 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0112.013 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip: uploads: This file has not yet been successfully uploaded: will queue
+0112.014 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip: uploads: This file has not yet been successfully uploaded: will queue
+0112.015 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip: others: This file has not yet been successfully uploaded: will queue
+0112.018 (0) backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz: db: This file has not yet been successfully uploaded: will queue
+0112.019 (0) Saving backup history. Total backup size: 966.6 MB
+0112.023 (0) Requesting upload of the files that have not yet been successfully uploaded (7)
+0112.027 (0) Cloud backup selection (1/1): dropbox (last)
+0112.030 (0) Beginning dispatch of backup to remote (dropbox)
+0112.031 (0) Dropbox: begin cloud upload (using API version 2 with OAuth v2 token)
+0112.036 (0) Dropbox: access gained; setting chunk size to: 1024 KB
+0112.294 (0) Dropbox quota usage: used=1748.2 MB, total=5376 MB, available=3627.8 MB
+0112.297 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip
+0115.379 (0) Dropbox chunked upload: 2 % uploaded (AAAAAAAACievFigU4K9kww, 1048576, 2560 KB)
+0117.819 (0) Dropbox chunked upload: 7 % uploaded (AAAAAAAACievFigU4K9kww, 3670016, 9216 KB)
+0124.335 (0) Dropbox chunked upload: 25.1 % uploaded (AAAAAAAACievFigU4K9kww, 13107200, 10240 KB)
+0132.163 (0) Dropbox chunked upload: 45.1 % uploaded (AAAAAAAACievFigU4K9kww, 23592960, 10240 KB)
+0139.102 (0) Dropbox chunked upload: 65.2 % uploaded (AAAAAAAACievFigU4K9kww, 34078720, 10240 KB)
+0143.166 (0) Dropbox chunked upload: 85.3 % uploaded (AAAAAAAACievFigU4K9kww, 44564480, 10240 KB)
+0149.412 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACievFigU4K9kww, 52272533, 10240 KB)
+0152.027 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip (303fb0ed73d8b0abee15c1e3a7dd555d)
+0152.039 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip: OK
+0152.042 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-plugins.zip): 51047 KB in 39s (1284 KB/s)
+0152.247 (0) Dropbox quota usage: used=1798.1 MB, total=5376 MB, available=3577.9 MB
+0152.251 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip
+0157.178 (0) Dropbox chunked upload: 56.8 % uploaded (AAAAAAAACijI_PUne8XGOA, 10485760, 10240 KB)
+0161.975 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACijI_PUne8XGOA, 18457265, 10240 KB)
+0164.601 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip (c2089fd0b0109da9ca331f10c33e529d)
+0164.611 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip: OK
+0164.613 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-themes.zip): 18024 KB in 12s (1458 KB/s)
+0164.851 (0) Dropbox quota usage: used=1815.7 MB, total=5376 MB, available=3560.3 MB
+0164.854 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip
+0169.130 (0) Dropbox chunked upload: 2.5 % uploaded (AAAAAAAACilM12e8t9As8g, 10485760, 10240 KB)
+0174.644 (0) Dropbox chunked upload: 5.1 % uploaded (AAAAAAAACilM12e8t9As8g, 20971520, 10240 KB)
+0178.050 (0) Dropbox chunked upload: 7.6 % uploaded (AAAAAAAACilM12e8t9As8g, 31457280, 10240 KB)
+0183.353 (0) Dropbox chunked upload: 10.1 % uploaded (AAAAAAAACilM12e8t9As8g, 41943040, 10240 KB)
+0187.233 (0) Dropbox chunked upload: 12.7 % uploaded (AAAAAAAACilM12e8t9As8g, 52428800, 10240 KB)
+0192.412 (0) Dropbox chunked upload: 15.2 % uploaded (AAAAAAAACilM12e8t9As8g, 62914560, 10240 KB)
+0195.382 (0) Dropbox chunked upload: 17.7 % uploaded (AAAAAAAACilM12e8t9As8g, 73400320, 10240 KB)
+0200.431 (0) Dropbox chunked upload: 20.3 % uploaded (AAAAAAAACilM12e8t9As8g, 83886080, 10240 KB)
+0203.498 (0) Dropbox chunked upload: 22.8 % uploaded (AAAAAAAACilM12e8t9As8g, 94371840, 10240 KB)
+0210.955 (0) Dropbox chunked upload: 25.4 % uploaded (AAAAAAAACilM12e8t9As8g, 104857600, 10240 KB)
+0214.230 (0) Dropbox chunked upload: 27.9 % uploaded (AAAAAAAACilM12e8t9As8g, 115343360, 10240 KB)
+0219.434 (0) Dropbox chunked upload: 30.4 % uploaded (AAAAAAAACilM12e8t9As8g, 125829120, 10240 KB)
+0222.452 (0) Dropbox chunked upload: 33 % uploaded (AAAAAAAACilM12e8t9As8g, 136314880, 10240 KB)
+0228.362 (0) Dropbox chunked upload: 35.5 % uploaded (AAAAAAAACilM12e8t9As8g, 146800640, 10240 KB)
+0230.947 (0) Dropbox chunked upload: 38 % uploaded (AAAAAAAACilM12e8t9As8g, 157286400, 10240 KB)
+0236.856 (0) Dropbox chunked upload: 40.6 % uploaded (AAAAAAAACilM12e8t9As8g, 167772160, 10240 KB)
+0240.894 (0) Dropbox chunked upload: 43.1 % uploaded (AAAAAAAACilM12e8t9As8g, 178257920, 10240 KB)
+0246.191 (0) Dropbox chunked upload: 45.6 % uploaded (AAAAAAAACilM12e8t9As8g, 188743680, 10240 KB)
+0249.045 (0) Dropbox chunked upload: 48.2 % uploaded (AAAAAAAACilM12e8t9As8g, 199229440, 10240 KB)
+0254.347 (0) Dropbox chunked upload: 50.7 % uploaded (AAAAAAAACilM12e8t9As8g, 209715200, 10240 KB)
+0259.295 (0) Dropbox chunked upload: 53.2 % uploaded (AAAAAAAACilM12e8t9As8g, 220200960, 10240 KB)
+0264.463 (0) Dropbox chunked upload: 55.8 % uploaded (AAAAAAAACilM12e8t9As8g, 230686720, 10240 KB)
+0268.451 (0) Dropbox chunked upload: 58.3 % uploaded (AAAAAAAACilM12e8t9As8g, 241172480, 10240 KB)
+0273.548 (0) Dropbox chunked upload: 60.8 % uploaded (AAAAAAAACilM12e8t9As8g, 251658240, 10240 KB)
+0276.639 (0) Dropbox chunked upload: 63.4 % uploaded (AAAAAAAACilM12e8t9As8g, 262144000, 10240 KB)
+0281.644 (0) Dropbox chunked upload: 65.9 % uploaded (AAAAAAAACilM12e8t9As8g, 272629760, 10240 KB)
+0285.197 (0) Dropbox chunked upload: 68.5 % uploaded (AAAAAAAACilM12e8t9As8g, 283115520, 10240 KB)
+0290.130 (0) Dropbox chunked upload: 71 % uploaded (AAAAAAAACilM12e8t9As8g, 293601280, 10240 KB)
+0293.467 (0) Dropbox chunked upload: 73.5 % uploaded (AAAAAAAACilM12e8t9As8g, 304087040, 10240 KB)
+0299.448 (0) Dropbox chunked upload: 76.1 % uploaded (AAAAAAAACilM12e8t9As8g, 314572800, 10240 KB)
+0303.296 (0) Dropbox chunked upload: 78.6 % uploaded (AAAAAAAACilM12e8t9As8g, 325058560, 10240 KB)
+0308.624 (0) Dropbox chunked upload: 81.1 % uploaded (AAAAAAAACilM12e8t9As8g, 335544320, 10240 KB)
+0313.128 (0) Dropbox chunked upload: 83.7 % uploaded (AAAAAAAACilM12e8t9As8g, 346030080, 10240 KB)
+0317.961 (0) Dropbox chunked upload: 86.2 % uploaded (AAAAAAAACilM12e8t9As8g, 356515840, 10240 KB)
+0321.434 (0) Dropbox chunked upload: 88.7 % uploaded (AAAAAAAACilM12e8t9As8g, 367001600, 10240 KB)
+0326.863 (0) Dropbox chunked upload: 91.3 % uploaded (AAAAAAAACilM12e8t9As8g, 377487360, 10240 KB)
+0331.125 (0) Dropbox chunked upload: 93.8 % uploaded (AAAAAAAACilM12e8t9As8g, 387973120, 10240 KB)
+0336.524 (0) Dropbox chunked upload: 96.3 % uploaded (AAAAAAAACilM12e8t9As8g, 398458880, 10240 KB)
+0340.529 (0) Dropbox chunked upload: 98.9 % uploaded (AAAAAAAACilM12e8t9As8g, 408944640, 10240 KB)
+0344.963 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACilM12e8t9As8g, 413577150, 10240 KB)
+0348.166 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip (4cb803789e74436e358e4dddd3006e20)
+0348.201 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip: OK
+0348.204 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads.zip): 403883 KB in 183s (2202 KB/s)
+0348.503 (0) Dropbox quota usage: used=2210.1 MB, total=5376 MB, available=3165.9 MB
+0348.506 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip
+0352.577 (0) Dropbox chunked upload: 2.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 10485760, 10240 KB)
+0357.557 (0) Dropbox chunked upload: 5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 20971520, 10240 KB)
+0361.375 (0) Dropbox chunked upload: 7.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 31457280, 10240 KB)
+0367.322 (0) Dropbox chunked upload: 10 % uploaded (AAAAAAAACioqL1MF-6qLxw, 41943040, 10240 KB)
+0372.239 (0) Dropbox chunked upload: 12.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 52428800, 10240 KB)
+0378.049 (0) Dropbox chunked upload: 15 % uploaded (AAAAAAAACioqL1MF-6qLxw, 62914560, 10240 KB)
+0381.941 (0) Dropbox chunked upload: 17.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 73400320, 10240 KB)
+0387.708 (0) Dropbox chunked upload: 20 % uploaded (AAAAAAAACioqL1MF-6qLxw, 83886080, 10240 KB)
+0390.924 (0) Dropbox chunked upload: 22.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 94371840, 10240 KB)
+0397.267 (0) Dropbox chunked upload: 25 % uploaded (AAAAAAAACioqL1MF-6qLxw, 104857600, 10240 KB)
+0401.282 (0) Dropbox chunked upload: 27.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 115343360, 10240 KB)
+0406.706 (0) Dropbox chunked upload: 30 % uploaded (AAAAAAAACioqL1MF-6qLxw, 125829120, 10240 KB)
+0410.654 (0) Dropbox chunked upload: 32.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 136314880, 10240 KB)
+0416.186 (0) Dropbox chunked upload: 35 % uploaded (AAAAAAAACioqL1MF-6qLxw, 146800640, 10240 KB)
+0420.047 (0) Dropbox chunked upload: 37.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 157286400, 10240 KB)
+0425.704 (0) Dropbox chunked upload: 40 % uploaded (AAAAAAAACioqL1MF-6qLxw, 167772160, 10240 KB)
+0429.772 (0) Dropbox chunked upload: 42.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 178257920, 10240 KB)
+0435.727 (0) Dropbox chunked upload: 45 % uploaded (AAAAAAAACioqL1MF-6qLxw, 188743680, 10240 KB)
+0440.043 (0) Dropbox chunked upload: 47.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 199229440, 10240 KB)
+0446.364 (0) Dropbox chunked upload: 50 % uploaded (AAAAAAAACioqL1MF-6qLxw, 209715200, 10240 KB)
+0451.152 (0) Dropbox chunked upload: 52.5 % uploaded (AAAAAAAACioqL1MF-6qLxw, 220200960, 10240 KB)
+0456.619 (0) Dropbox chunked upload: 55.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 230686720, 10240 KB)
+0460.365 (0) Dropbox chunked upload: 57.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 241172480, 10240 KB)
+0466.686 (0) Dropbox chunked upload: 60.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 251658240, 10240 KB)
+0471.367 (0) Dropbox chunked upload: 62.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 262144000, 10240 KB)
+0478.566 (0) Dropbox chunked upload: 65.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 272629760, 10240 KB)
+0481.744 (0) Dropbox chunked upload: 67.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 283115520, 10240 KB)
+0487.145 (0) Dropbox chunked upload: 70.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 293601280, 10240 KB)
+0491.641 (0) Dropbox chunked upload: 72.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 304087040, 10240 KB)
+0497.294 (0) Dropbox chunked upload: 75.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 314572800, 10240 KB)
+0501.419 (0) Dropbox chunked upload: 77.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 325058560, 10240 KB)
+0507.071 (0) Dropbox chunked upload: 80.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 335544320, 10240 KB)
+0510.363 (0) Dropbox chunked upload: 82.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 346030080, 10240 KB)
+0516.760 (0) Dropbox chunked upload: 85.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 356515840, 10240 KB)
+0520.742 (0) Dropbox chunked upload: 87.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 367001600, 10240 KB)
+0525.525 (0) Dropbox chunked upload: 90.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 377487360, 10240 KB)
+0528.440 (0) Dropbox chunked upload: 92.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 387973120, 10240 KB)
+0533.672 (0) Dropbox chunked upload: 95.1 % uploaded (AAAAAAAACioqL1MF-6qLxw, 398458880, 10240 KB)
+0537.881 (0) Dropbox chunked upload: 97.6 % uploaded (AAAAAAAACioqL1MF-6qLxw, 408944640, 10240 KB)
+0544.125 (0) The scheduled resumption is within 45 seconds - will reschedule
+0544.130 (0) Rescheduling resumption 1: moving to 633 seconds from now (1493601644)
+0544.135 (0) To decrease the likelihood of overlaps, increasing resumption interval to: 588 + 45 = 633
+0544.137 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACioqL1MF-6qLxw, 419039326, 10240 KB)
+0546.726 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip (791e165aa38defff1ed2ac48dffb0c77)
+0546.768 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip: OK
+0546.772 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads2.zip): 409218 KB in 198s (2063 KB/s)
+0547.045 (0) Dropbox quota usage: used=2609.7 MB, total=5376 MB, available=2766.3 MB
+0547.048 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip
+0551.207 (0) Dropbox chunked upload: 33.9 % uploaded (AAAAAAAACiuzfKtChJ5jZg, 10485760, 10240 KB)
+0556.289 (0) Dropbox chunked upload: 67.8 % uploaded (AAAAAAAACiuzfKtChJ5jZg, 20971520, 10240 KB)
+0560.601 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACiuzfKtChJ5jZg, 30947712, 10240 KB)
+0562.638 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip (3557e491d58ef287e894bd25c0cdead0)
+0562.649 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip: OK
+0562.652 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-uploads3.zip): 30222 KB in 15s (1936 KB/s)
+0562.858 (0) Dropbox quota usage: used=2639.3 MB, total=5376 MB, available=2736.7 MB
+0562.861 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip
+0564.327 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACiyqpONzJN1YVQ, 3269, 10240 KB)
+0565.267 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip (9505c9f83dc0bdd5adc4cb474f6081a9)
+0565.274 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip: OK
+0565.277 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-others.zip): 3 KB in 2s (1 KB/s)
+0565.471 (0) Dropbox quota usage: used=2639.3 MB, total=5376 MB, available=2736.7 MB
+0565.474 (0) Dropbox: Attempt to upload: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz to: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz
+0569.678 (0) Dropbox chunked upload: 13.2 % uploaded (AAAAAAAACi0NGxHw6myzmA, 10485760, 10240 KB)
+0574.688 (0) Dropbox chunked upload: 26.5 % uploaded (AAAAAAAACi0NGxHw6myzmA, 20971520, 10240 KB)
+0577.775 (0) Dropbox chunked upload: 39.7 % uploaded (AAAAAAAACi0NGxHw6myzmA, 31457280, 10240 KB)
+0583.468 (0) Dropbox chunked upload: 52.9 % uploaded (AAAAAAAACi0NGxHw6myzmA, 41943040, 10240 KB)
+0587.725 (0) Dropbox chunked upload: 66.2 % uploaded (AAAAAAAACi0NGxHw6myzmA, 52428800, 10240 KB)
+0593.174 (0) Dropbox chunked upload: 79.4 % uploaded (AAAAAAAACi0NGxHw6myzmA, 62914560, 10240 KB)
+0598.352 (0) Dropbox chunked upload: 92.7 % uploaded (AAAAAAAACi0NGxHw6myzmA, 73400320, 10240 KB)
+0603.562 (0) The time we have been running (603.6) is approaching the resumption interval (633) - increasing resumption interval to 634
+0603.566 (0) Dropbox chunked upload: 100 % uploaded (AAAAAAAACi0NGxHw6myzmA, 79220035, 10240 KB)
+0607.299 (0) Recording as successfully uploaded: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz (324e6667cc5272b3d669b29caad77a0b)
+0607.312 (0) Deleting local file: backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz: OK
+0607.316 (0) Dropbox: File upload success (backup_2017-04-30-1801_ONLY_GOODNESS_INSIDE_4f9ecb34c3d1-db.gz): 77363 KB in 41s (1848 KB/s)
+0607.322 (0) Retain: beginning examination of existing backup sets; user setting: retain_files=2, retain_db=2
+0607.323 (0) These backup set(s) were imported from a remote location, so will not be counted or pruned. Skipping: 1481385780
+0607.325 (0) Number of backup sets in history: 5; groups (db): 1
+0607.326 (0) Examining (for databases) backup set with group_id=0, nonce=4f9ecb34c3d1, datestamp=1493600467 (May 01 2017 01:01:07)
+0607.327 (0) This backup set is the backup set just made, so will not be deleted.
+0607.329 (0) Examining (for databases) backup set with group_id=0, nonce=bc78b56e05c6, datestamp=1493599455 (May 01 2017 00:44:15)
+0607.331 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0607.333 (0) Examining (for databases) backup set with group_id=0, nonce=4fb389c502ad, datestamp=1493598593 (May 01 2017 00:29:53)
+0607.334 (0) 1493598593: db: this set includes a database (backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-db.gz); db count is now 2
+0607.335 (0) 1493598593: db: over retain limit (2); will delete this database
+0607.337 (0) Delete file: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-db.gz, service=dropbox
+0607.338 (0) Dropbox: request deletion: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-db.gz
+0607.769 (0) Dropbox: delete succeeded
+0607.778 (0) The time we have been running (607.8) is approaching the resumption interval (634) - increasing resumption interval to 638
+0607.783 (0) This backup set remains non-empty (f=1/d=0); will retain in history
+0607.785 (0) Examining (for databases) backup set with group_id=0, nonce=d02e8f9d9006, datestamp=1492828620 (Apr 22 2017 02:37:00)
+0607.786 (0) Number of backup sets in history: 5; groups (files): 1
+0607.787 (0) Examining (for files) backup set with nonce=4f9ecb34c3d1, datestamp=1493600467 (May 01 2017 01:01:07)
+0607.789 (0) This backup set is the backup set just made, so will not be deleted.
+0607.790 (0) This backup set is the backup set just made, so will not be deleted.
+0607.790 (0) This backup set is the backup set just made, so will not be deleted.
+0607.790 (0) This backup set is the backup set just made, so will not be deleted.
+0607.790 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0607.791 (0) Examining (for files) backup set with nonce=bc78b56e05c6, datestamp=1493599455 (May 01 2017 00:44:15)
+0607.794 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0607.795 (0) Examining (for files) backup set with nonce=4fb389c502ad, datestamp=1493598593 (May 01 2017 00:29:53)
+0607.797 (0) plugins: over retain limit (2); will delete this file entity
+0607.798 (0) themes: over retain limit (2); will delete this file entity
+0607.799 (0) uploads: over retain limit (2); will delete this file entity
+0607.801 (0) others: over retain limit (2); will delete this file entity
+0607.803 (0) Delete file: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-plugins.zip, service=dropbox
+0607.805 (0) Delete file: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-themes.zip, service=dropbox
+0607.806 (0) Delete file: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-uploads.zip, service=dropbox
+0607.807 (0) Delete file: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-others.zip, service=dropbox
+0607.809 (0) Dropbox: request deletion: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-plugins.zip
+0608.207 (0) Dropbox: delete succeeded
+0608.211 (0) Dropbox: request deletion: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-themes.zip
+0608.607 (0) Dropbox: delete succeeded
+0608.610 (0) Dropbox: request deletion: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-uploads.zip
+0609.046 (0) Dropbox: delete succeeded
+0609.050 (0) Dropbox: request deletion: backup_2017-04-30-1729_ONLY_GOODNESS_INSIDE_4fb389c502ad-others.zip
+0609.601 (0) Dropbox: delete succeeded
+0609.611 (0) The time we have been running (609.6) is approaching the resumption interval (638) - increasing resumption interval to 640
+0609.615 (0) This backup set is now empty; will remove from history
+0609.618 (0) Deleting log file (log.4fb389c502ad.txt)
+0609.619 (0) Examining (for files) backup set with nonce=d02e8f9d9006, datestamp=1492828620 (Apr 22 2017 02:37:00)
+0609.621 (0) plugins: over retain limit (2); will delete this file entity
+0609.622 (0) Delete file: backup_2017-04-21-1937_ONLY_GOODNESS_INSIDE_d02e8f9d9006-plugins.zip, service=dropbox
+0609.623 (0) Deleting local copy (backup_2017-04-21-1937_ONLY_GOODNESS_INSIDE_d02e8f9d9006-plugins.zip)
+0609.632 (0) Dropbox: request deletion: backup_2017-04-21-1937_ONLY_GOODNESS_INSIDE_d02e8f9d9006-plugins.zip
+0609.866 (0) Dropbox error: path_lookup (line: 228, file: /home/lidorsoikher012/ogi/wp-content/plugins/updraftplus/includes/Dropbox2/OAuth/Consumer/Curl.php)
+0609.873 (0) This backup set is now empty; will remove from history
+0609.876 (0) Corresponding log file (log.d02e8f9d9006.txt) not found - must have already been deleted
+0609.878 (0) Retain: saving new backup history (sets now: 3) and finishing retain operation
+0609.885 (0) Resume backup (4f9ecb34c3d1, 0): finish run
+0609.889 (0) Decremented the semaphore (fd) by 1
+0609.891 (0) Semaphore (fd) unlocked
+0609.893 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0609.898 (0) No email will/can be sent - the user has not configured an email address.
+0609.899 (0) The backup apparently succeeded and is now complete

@@ -1,0 +1,17 @@
+0000.008 () Opened log file at time: Mon, 01 May 2017 00:56:18 +0000 on http://www.onlygoodnessinside.com
+0000.008 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.12.40 WP: 4.7.4 PHP: 7.0.15-0ubuntu0.16.04.4 (fpm-fcgi, Linux instance-1 4.4.0-75-generic #96-Ubuntu SMP Thu Apr 20 09:56:33 UTC 2017 x86_64) MySQL: 5.7.18 WPLANG: en_US Server: nginx/1.10.0 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 8.6M | 2M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+0000.008 () Free space on disk containing Updraft's temporary directory: 3155.2 MB
+0000.010 () Restore job started. Entities to restore: plugins. Restore options: {"updraft_restorer_replacesiteurl":false,"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false}
+0000.011 () Will not delete any archives after unpacking them, because there was no cloud storage for this backup
+0000.016 () Entity: plugins
+0000.017 () restore_backup(backup_file=backup_2017-04-21-1937_ONLY_GOODNESS_INSIDE_d02e8f9d9006-plugins.zip, type=plugins, info=a:2:{s:4:"path";s:44:"/home/lidorsoikher012/ogi/wp-content/plugins";s:11:"description";s:7:"Plugins";}, last_one=1)
+0000.017 () Unpacking backup... (backup_2017-04-21-1937_ONLY_GOODNESS_INSIDE_d02e8f9d9006-plugins.zip, 49.9 Mb)
+0001.064 () Moving old data: filesystem method / updraft_dir is potentially possible
+0001.064 () Moving old data: can potentially use wp_filesystem method / -old
+0001.064 () Moving old data out of the way...
+0001.492 () Top-level entities being moved: welcome-to-wordpress, revslider, akismet, ml-slider, woocommerce-variation-details-on-page-product, jetpack, wordpress-seo, wp-super-cache, tiny-compress-images, wp-e-commerce, wp-firewall, updraftplus-backup, woocommerce-custom-price-label, instapage, wordpress-popup, contact-form-7, index.php, slider-image, hello.php, woocommerce, woocommerce-auto-added-coupons, woocommerce-customizer, .DS_Store, pricing-deals-for-woocommerce, updraftplus, nextend-facebook-connect, woocommerce-auto-added-coupons-pro, woodojo, yith-woocommerce-wishlist
+0001.593 () Moving unpacked backup into place...
+0001.983 () Top-level entities being moved: welcome-to-wordpress, revslider, akismet, ignitewoo-updater, ml-slider, theme-blvd-wpml-bridge, woocommerce-variation-details-on-page-product, jetpack, wp-rtl, wordpress-seo, print-me, wp-post-date-remover, nextend-google-connect, regenerate-thumbnails, wp-super-cache, tiny-compress-images, yotpo-social-reviews-for-woocommerce, wp-e-commerce, wp-firewall, wp-maintenance-mode, woocommerce-custom-price, woocommerce-custom-price-label, instapage, google-sitemap-generator, woocommerce-stamps-com, error_log, newsletter-sign-up, wordpress-popup, contact-form-7, index.php, floating-social-media-links, ignitewoo-gift-certificates, hello.php, woocommerce, woocommerce-auto-added-coupons, woocommerce-customizer, woosidebars, wowslider, pricing-deals-for-woocommerce, updraftplus, woocommerce-bulk-discount, wordpress-importer, readygraph-wordpress-master, woocommerce-product-slider, nextend-facebook-connect, searchterms-tagging-2, redirection, woocommerce-auto-added-coupons-pro, woocommerce-conversion-tracking, woocommerce-autoship-product-page-options, woocommerce-bundle-rate-shipping, coolcarousel, pwebcontact, woodojo, yith-woocommerce-wishlist, woocommerce-autoship
+0001.985 () Cleaning up rubbish...
+0001.999 () Restore successful!
+0001.999 () Restore successful

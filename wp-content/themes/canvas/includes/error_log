@@ -1,0 +1,9 @@
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/sidebar-init.php on line 26
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function get_option() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-actions.php on line 2
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function get_post_custom() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/gallery.php on line 11
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function remove_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-functions.php on line 2
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-options.php on line 2068
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function is_admin() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-js.php on line 6
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function add_shortcode() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-shortcodes.php on line 55
+[10-Dec-2014 02:11:42 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-woocommerce.php on line 6
+[10-Dec-2014 02:11:43 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/includes/theme-advanced.php on line 150

@@ -26,11 +26,7 @@ class WC_REST_Shipping_Zone_Locations_Controller extends WC_REST_Shipping_Zones_
 	 * Register the routes for Shipping Zone Locations.
 	 */
 	public function register_routes() {
-<<<<<<< HEAD
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d-]+)/locations', array(
-=======
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)/locations', array(
->>>>>>> c2d2db78aae52c200377f0d739da6372dbafcd80
 			'args' => array(
 				'id' => array(
 					'description' => __( 'Unique ID for the resource.', 'woocommerce' ),

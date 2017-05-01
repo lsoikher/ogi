@@ -1,0 +1,649 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "WOW Slider"
+msgstr ""
+
+#. Short description.
+msgid "Add beautiful image slider to your Wordpress blog! Awesome effects, fancy templates, point-and-click wizard. Fully responsive, pure CSS fallback."
+msgstr ""
+
+#. Screenshot description.
+msgid "Fancy Templates"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Create an image slideshow in WOW Slider program, click \"Publish\" button, and select \"Wordpress Slider\" as a publishing method - wowslider.zip WordPress plugin will be created"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Install and activate the created module – wowslider.zip through the 'Plugins' menu in WordPress"
+msgstr ""
+
+#. Found in installation list item.
+msgid "WOWSlider menu will appear. Go to WOW Slider -&gt; All Sliders and copy the shortcode of your slider"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Add the shortcode inside the page where you want your slider to appear"
+msgstr ""
+
+#. Screenshot description.
+msgid "Preview changes. Use WOW Slider menu WOW Slider -&gt; Add New to add each next slider"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/image-slider-jquery-epsilon-collage-demo.html\" title=\"Image Slider Jquery - Epsilon Template Demo with Collage effect\">Image Slider Jquery - Epsilon Template Demo - Collage effect</a>   "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-slideshow-galaxy-turn-demo.html\" title=\"Wordpress Slideshow - Galaxy Template Demo with Turn effect\">Wordpress Slideshow - Galaxy Template Demo - Turn effect</a>   "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/angular-slider-collage-demo.html\" title=\"Angular Slider - Angular Template Demo with Collage effect\">Angular Slider - Angular Template Demo - Collage effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/bootstrap-carousel-example-shift-demo.html\" title=\"Bootstrap Carousel Example - Bootstrap Template Demo with Shift effect\">Bootstrap Carousel Example - Bootstrap Shift Demo - Blinds effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slider-js-utter-blinds-demo.html\" title=\"Slider Js - Utter Template Demo with Blinds effect\">Slider Js - Utter Template Demo - Blinds effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-content-slider-stream-fly-demo.html\" title=\"Jquery Content Slider - Stream Template Demo with Fly effect\">Jquery Content Slider - Stream Template Demo - Fly effect</a>    "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/carousel-jquery-boundary-blur-demo.html\" title=\"Jquery Image Gallery - Dodgy Template Demo with Carousel Basic effect\">Jquery Image Gallery - Dodgy Template Demo - Carousel Basic effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/carousel-jquery-boundary-blur-demo.html\" title=\"Carousel Jquery - Boundary Template Demo with Blur effect\">Carousel Jquery - Boundary Template Demo - Blur effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-slider-rhomb-cube-over-demo.html\" title=\"Wordpress Slider - Rhomb Template Demo with Cube Over effect\">Wordpress Slider - Rhomb Template Demo - Cube Over effect</a>    "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/image-slider-zippy-louvers-demo.html\" title=\"Image Slider - Zippy Template Demo with Louvers effect\">Image Slider - Zippy Template Demo - Louvers effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/carousel-bootstrap-tv-demo.html\" title=\"Carousel Bootstrap - Bootstrap Template Demo with TV effect\">Carousel Bootstrap - Bootstrap Template Demo - TV effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/responsive-slider-convex-basic-demo.html\" title=\"Responsive Slider - Convex Template Demo with Basic effect\">Responsive Slider - Convex Template Demo - Basic effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-image-slider-fill-basic-demo.html\" title=\"Jquery Image Slider - Fill Template Demo with Basic effect\">Jquery Image Slider - Fill Template Demo - Basic effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/content-slider-material-collage-demo.html\" title=\"Content Slider - Material Template Demo with Collage effect\">Content Slider - Material Template Demo - Collage effect</a>   "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/bootstrap-slider-baisc-linear-demo.html\" title=\"Bootstrap Slider - Bootstrap Template Demo with Basic Linear effect\">Bootstrap Slider - Bootstrap Template Demo - Basic Linear effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-slider-plugin-absent-cube-demo.html\" title=\"Wordpress Slider Plugin - Absent Template Example with Cube effect\">Wordpress Slider Plugin - Absent Template Example - Cube effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/bootstrap-carousel-demo.html\" title=\"HTML5 Slider - Bootstrap Template Example with Carousel effect\">HTML5 Slider - Bootstrap Template Example - Carousel effect</a>  "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/full-screen-slider-slim-lines-demo.html\" title=\"JQuery Slider - Slim Template Example with Lines effect\">JQuery Slider - Slim Template Example - Lines effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/full-width-slider-cursive-collage-demo.html\" title=\"Carousel Slider - Cursive Template Demo with Collage effect\">Carousel Slider - Cursive Template Demo - Collage effect</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/carousel-slider-showy-carousel-demo.html\" title=\"Carousel Slider - Showy Template Demo with Carousel effect\">Carousel Slider - Showy Template Demo - Carousel effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/image-carousel-book-dribbles-demo.html\" title=\"Javascript Carousel - Book Template Example with Dribbles effect\">Javascript Carousel - Book Template Example - Dribbles effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css3-slider-easy-bubbless-demo.html\" title=\"CSS Image Slider - Easy Template Example with Bubbles effect\">CSS Image Slider - Easy Template Example - Bubbles effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slider-html-twist-glass-parallax-demo.html\" title=\"Wordpress Slider - Twist Template Example with Glass Parallax effect\">Wordpress Slider - Twist Template Example - Glass Parallax effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-carousel-animated-parallax-demo.html\" title=\"Jquery Carousel - Animated Template Demo with Parallax effect\">Jquery Carousel - Animated Template Demo - Parallax effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-3d-slider-transparent-brick-demo.html\" title=\"3D HTML5 Slider - Transparent Skin Slider Demo - Brick effect\">3D HTML5 Slider - Transparent Skin Slider Demo - Brick effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/javascript-image-slider-contour-cube-demo.html\" title=\"Javascript Image Slider - Contour Template Demo with Cube effect\">Contour Template Demo with Cube effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html5-gallery-puzzle-collage-demo.html\" title=\"HTML5 Gallery - Puzzle Template Demo with Collage effect\">Puzzle Template Demo Collage effect</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/javascript-gallery-megalopolis-slices-demo.html\" title=\"Javascript Gallery - Megalopolis Template Demo with Slices effect\">Javascript Gallery - Megalopolis Template</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/simple-jquery-slider-gentle-linear-demo.html\" title=\"Simple jQuery Slider - Gentle Template Demo with Basic linear effect\">Gentle &amp; Basic linear simple jQuery slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slideshow-javascript-easy-page-demo.html\" title=\"Slideshow javascript - Easy Template Demo with Page effect\">Easy &amp; Page gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/gallery-jquery-tick-book-demo.html\" title=\"Gallery jQuery - Tick Template Demo with Book effect\">Tick &amp; Book gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css-gallery-galaxy-collage-demo.html\" title=\"CSS Gallery - Galaxy Template Demo with Collage effect\">Galaxy &amp; Collage gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-photo-gallery-strict-photo-demo.html\" title=\"jQuery Photo Gallery - Strict Template Demo with Photo effect\">Strict &amp; Photo gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-gallery-plugin-grafito-seven-demo.html\" title=\"Wordpress Gallery Plugin - Grafito Template Demo with Seven effect\">Grafito &amp; Seven Slider wordpress gallery plugin</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slider-javascript-emerald-photo-demo.html\" title=\"Slider javascript - Emerald Template Demo with Page effect\">Emerald &amp; Page Slider javascript</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/responsive-image-gallery-glass-collage.html\" title=\"Responsive Image Gallery - Glass Template Demo with Collage effect\">Glass &amp; Collage Responsive Image Gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/slideshow-creator-turquoise-stack-v-demo.html\" title=\"Slideshow creator - Turquoise Template Demo with Stack Vertical effect\">Turquoise &amp; Stack Vertical Slideshow creator</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/image-gallery-simple-basic-demo.html\" title=\"Image gallery - Simple Template Demo with Basic effect\">Simple &amp; Basic Image gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slideshow-html-shuffle-rotate-demo.html\" title=\"Slideshow HTML - Shuffle Template  Rotate effect\">Shuffle &amp; Rotate Slideshow HTML</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slideshow-software-zoom-domino-demo.html\" title=\"Slideshow software - Zoom Template  Domino effect\">Zoom &amp; Domino Slideshow software</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-gallery-sky-blur-demo.html\" title=\"Wordpress gallery - Sky Template   Blur effect\">Sky &amp; Blur Wordpress gallery </a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/slideshow-jquery-salient-squares-demo.html\" title=\"Slideshow jQuery - Salient Template   Squares effect\">Salient &amp; Squares Slideshow jQuery </a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-gallery-dot-seven-demo.html\" title=\"jQuery gallery - Dot Template   Seven effect\">Dot &amp; Seven jQuery gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css3-image-slider-book-demo.html\" title=\"CSS3 Image Slider - Book Template   Book effect\">Book CSS3 Image Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html5-image-slider-box-stack-v-demo.html\" title=\"HTML5 Image Slider - Box Template   Stack Vertical effect\">Box  Stack HTML5 Image Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css3-slideshow-pure-domino.html\" title=\"CSS3 Slideshow - Pure Template   Domino effect\">Pure Domino CSS3 Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/3d-slider-jquery-fresh-cube-demo.html\" title=\"3D Slider jQuery - Fresh Template   Cube effect\">Fresh Cube 3D Slider jQuery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/javascript-slider-ionosphere-stack-demo.html\" title=\"Javascript Slider - Ionosphere Template   Stack effect\">Ionosphere   Stack Javascript Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/html5-slideshow-luxury-slices-demo.html\" title=\"HTML5 Slideshow - Luxury Template   Slices effect\">Luxury   Slices HTML5 Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/html5-slider-sunny-fade-demo.html\" title=\"HTML5 Slider - Sunny Template   Fade effect\">Sunny   Fade HTML5 Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/js-image-slider-premium-page-demo.html\" title=\"JS Image Slider - Premium Template   Page effect\">Premium   Page JS Image Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/responsive-slideshow-chess-blinds-demo.html\" title=\"Responsive slideshow - Chess Template   Blinds effect\">Chess   Blinds Responsive slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/css3-slider-gothic-domino-demo.html\" title=\"CSS3 Slider - Gothic Template   Domino effect\">Gothic   Domino CSS3 Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/photo-slideshow-metro-rotate-demo.html\" title=\"Photo slideshow - Metro Template   Rotate effect\">Metro   Rotate Photo slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/slider-jquery-elegant-linear-demo.html\" title=\"Slider jQuery - Elegant Template   Basic linear effect\">Elegant   Basic linear Slider jQuery </a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/banner-maker-geometric-kenburns-demo.html\" title=\"Banner maker - Geometric Template   Ken Burns effect\">Geometric   Ken Burns Banner maker</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/slideshow-maker-software-surface-blur-demo.html\" title=\"Slideshow Maker Software - Surface Template   Blur effect\">Surface   Blur Slideshow Maker Software</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-carousel-vernisage-stack-v-demo.html\" title=\"jQuery Carousel - Vernisage Template   Stack vertical effect\">Vernisage   Stack Vertical jQuery Carousel </a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css-slideshow-plastic-squares.html\" title=\"CSS Slideshow - Plastic Template   Squares effect\">Plastic   Squares CSS Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-slideshow-flat-slices.html\" title=\"jQuery Slideshow - Flat Template   Slices effect\">Flat   Slices jQuery Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css-slideshow-studio-fade.html\" title=\"CSS Slideshow - Studio Template   Fade effect\">Studio   Fade CSS Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/css-image-gallery-push-stack.html\" title=\"CSS Image Gallery - Push Template   Stack effect\">Push   Stack CSS Image Gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/online-photo-slideshow-balance-blast.html\" title=\"Online Photo Slideshow - Balance Template   Blast effect\">Balance   Blast Online Photo Slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/photo-slider-cloud-fly.html\" title=\"Photo Slider - Cloud Template   Fly effect\">Cloud   Fly Photo Slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/online-photo-gallery-drive-rotate.html\" title=\"Online Photo Gallery - Drive Template   Rotate effect\">Drive   Rotate Online Photo Gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/web-photo-gallery-subway-basic.html\" title=\"Web Photo Gallery - Subway Template   Basic effect\">Subway   Basic Web Photo Gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html-slideshow-silence-blur-demo.html\" title=\"HTML slideshow - Silence Template   Blur effect\">Silence   Blur HTML slideshow</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html-gallery-dominion-blinds-demo.html\" title=\"HTML gallery - Dominion Template   Blinds effect\">Dominion   Blinds HTML gallery</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html-slider-calm-kenburns-demo.html\" title=\"HTML slider - Calm Template   Ken Burns effect\">Calm   Ken Burns HTML slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-image-scroller-prime-time-linear-demo.html\" title=\"jQuery Image Scroller - Prime Time Template   Basic linear effect\">Prime Time - Filmstrip jQuery Image Scroller</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/free-image-slider-dark-matter-squares-demo.html\" title=\"Free image slider - Dark Matter   Squares effect\">Dark Matter Free image slider</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-banner-rotator-catalyst-fade-demo.html\" title=\"Jquery banner rotator - Catalyst Template   Fade effect\">Catalyst Demo</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-picture-slider-catalyst-digital-stack-demo.html\" title=\"jQuery Picture Slider - Catalyst Digital Template   Stack effect\">Catalyst Digital Jquery banner rotator</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/javascript-slideshow-quiet-rotate-demo.html\" title=\"Javascript Slideshow - Quiet Template   Rotate effect\">Quiet Demo - Rotate Javascript Slideshow </a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-slider-css-elemental-slices-demo.html\" title=\"jQuery Slider CSS Elemental Slices Demo\">Elemental Slices jQuery Slider CSS</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/wordpress-gallery-css-shady-stack-v-demo.html\" title=\"Responsive Slider - Wordpress Shady Stack Demo\">Responsive Slider - Shady Stack</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/html5-image-gallery-numeric-basic-demo.html\" title=\"HTML5 Image Gallery Numeric Basic Demo\">HTML5 Image Gallery - Numeric</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/css-slider-aqua-flip-demo.html\" title=\"CSS Slider - Aqua Template with Flip effect\">CSS Slider - Aqua Flip</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-image-rotator-terse-blur-demo.html\" title=\"jQuery Image Rotator Terse Blur Demo : jQuery Banner Rotator\">jQuery Image Rotator - Blur</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/best-jquery-slider-crystal-linear-demo.html\" title=\"Best jQuery Slider with Crystal Template and Basic linear transition effect\">Crystal jQuery Slider  Basic linear </a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-slider-carousel-mac-stack-demo.html\" title=\"jQuery Slider Carousel with Mac Template and Stack transition effect\">Mac   Stack jQuery Slider Carousel</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-slider-3d-digit-stack-v-demo.html\" title=\"jQuery Vertical Slider - Digit Stack vertical\">Digit   Stack vertical jQuery Vertical Slider</a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-slider-bar-kenburns-demo.html\" title=\"Ken Burns Effect Slideshow - Noble\">Noble   Ken Burns </a> "
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://www.wowslider.com/jquery-slider-mellow-blast-demo.html\" title=\"Slider   Mellow template and Blast transition effect\">Slider Demo - Mellow Blast Example</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/jquery-image-rotator-terse-blur-demo.html\" title=\"jQuery Slider - Terse Blur\">More amazing demos made with WOW Slider..</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/help/add-wowslider-wordpress-34.html\" title=\"Wordpress Image Slider Plugin Tutorial\">How to create Wordpress slider with WOW Slider - Full Tutorial</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://wowslider.com/help/new-slider-wordpress-42.html\" title=\"How to update existing WOWSlider galleries in Wordpress - Video Tutorial\">How to update existing WOWSlider galleries in Wordpress - Tutorial</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"<a href=\"http://wowslider.com/\">WOW Slider</a> is a Wordpress slider with stunning visual effects and tons of professionally made templates. \n"
+"WOW Slider is packed with a point-and-click wizard to create fantastic image sliders in a matter of seconds without \n"
+"coding and image editing. \n"
+"Responsive, fully accessible as a pure CSS slider if the Javascript is turned off, touch swipe support, \n"
+"all browsers, all devices,  search engine friendly, clean and valid markup."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Live Demos</strong>:"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "More Info: http://wowslider.com/"
+msgstr ""
+
+#. Found in description paragraph, installation paragraph.
+msgid "[youtube http://www.youtube.com/watch?v=Omi32W6QyY4]"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Preview changes "
+msgstr ""
+
+#. Found in installation list item.
+msgid "Use WOW Slider menu WOW Slider -&gt; Add New to add each next slider"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid ""
+"Please see full tutorial+video here:\n"
+"http://wowslider.com/help/add-wowslider-wordpress-34.html"
+msgstr ""
+
+#. Found in faq header.
+msgid "1. Is it possible to make changes (add/delete images, change template or effect) directly in Wordpress?"
+msgstr ""
+
+#. Found in faq header.
+msgid "2. I've recently ordered WOWSlider. Now I want to add it in Wordpress header. How i can do this?"
+msgstr ""
+
+#. Found in faq header.
+msgid "3. How to add WOWSlider in Wordpress widget?"
+msgstr ""
+
+#. Found in faq header.
+msgid "4. How can I change the DOCTYPE declaration for universal compatibility in Wordpres?"
+msgstr ""
+
+#. Found in faq header.
+msgid "5. Drop down menus open behind WOWSlider"
+msgstr ""
+
+#. Found in faq header.
+msgid "6. WOWSlider doesn't degradate nicely to CSS-only slider"
+msgstr ""
+
+#. Found in faq header.
+msgid "8. My slider always shows \"Basic\" transition effect though I selected another effect. Why does it happen and how can I fix it?"
+msgstr ""
+
+#. Found in faq header.
+msgid "9. WOWSlider won't work in HTTPS site. Is it possible to fix it?"
+msgstr ""
+
+#. Found in faq header.
+msgid "10. I have just downloaded WOW Slider for Windows. It was installed fine, however it will not launch at all."
+msgstr ""
+
+#. Found in faq header.
+msgid "11. I want to add WOWSlider on the frontpage only and not on the other pages. Is it possible?"
+msgstr ""
+
+#. Found in faq header.
+msgid "12. I plan to add 100+ images in my slideshow. Does WOWSlider allow it? Should all images be pre-loaded before slideshow will start the playing?"
+msgstr ""
+
+#. Found in faq header.
+msgid "13. I'd like to make the different pictures in my slider link to different pages. Is it possible?"
+msgstr ""
+
+#. Found in faq header.
+msgid "14. Will WOWSlider play on iPhone/iPad/Android?"
+msgstr ""
+
+#. Found in faq header.
+msgid "15. I want my slideshow to begin from a random slide and play images in random order. Is it possible with WOWSlider?"
+msgstr ""
+
+#. Found in faq header.
+msgid "16. I use \"basic\" transition effect. Can images go from last to first without \"scrolling\" back?"
+msgstr ""
+
+#. Found in faq header.
+msgid "17. Is there a way to add a video (iframe/pdf/page/etc.) in WOWSlider?"
+msgstr ""
+
+#. Found in faq header.
+msgid "18. I want to buy full version of WOWSlider. Is there a way to prevent it from launching automatically until I launch it?"
+msgstr ""
+
+#. Found in faq header.
+msgid "19. Do you know how to change the size of your slideshow? Not the Resolution..."
+msgstr ""
+
+#. Found in faq header.
+msgid "20. I don?t want to compress images, because I do it with Adobe PS. Can I stop the compressing or is the only possibility to overwrite?"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Sorry, it's impossible. You should make all changes in WOWSlider application and generate a new module."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "To insert WOWSlider into header you should use WOWSlider PHP code."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Go to\n"
+"WOW Slider -&gt; All Sliders"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"and click on \"Excerpt view\" button at the top right corner. Additional line \"for templates\" with php code will appear under line with shortcode.\n"
+"You should add this php code into your header (Appearance-&gt;Editor-&gt;Header), for example:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "&lt;?php wowslider(1); ?&gt;"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"You should install a special plugin that allows to add php code into text widget firstly. For example, \"PHP Text Widget\":\n"
+"<a href=\"http://wordpress.org/plugins/php-text-widget/\" title=\"PHP Text Widget\">http://wordpress.org/plugins/php-text-widget/</a>"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"After that go to\n"
+"WOW Slider -&gt; All Sliders"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "and click on \"Excerpt view\" button at the top right corner. Additional line \"for templates\" with php code will appear under line with shortcode."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "You should select a simple text widget and add PHP code into it, for example:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"You should select\n"
+"Appearance -&gt; Editor\n"
+"and change \"header.php\" from templates in the right column."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"It seems \"z-index\" problem. WOWSlider's value of \"z-index\" parameter is 90. So, \"z-index\" value of your menu should be greater than 90.\n"
+"If problem will persist, please contact with customer support at support [at] wowslider [dot] com. Provide us a direct link to your webpage with a problem."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Notice, WOWSlider provides this feature since v.2.1. So, if you use an older version, it will not work.\n"
+"Also, degradation to CSS-slider will not work, if you use \"On-demand image loading\" option. This option means that the images will be loaded from the script."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "It seems that your slider works in pure css mode. Make sure that javascript is enabled in your browser. If problem will persist, probably it caused by jquery conflict. So, please contact with Customer Support at support [at] wowslider [dot] com and provide us a direct link to your webpage with a problem."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"WOWSlider generates paths to files according to your WordPress settings. So, if your site is \"https\", all paths in HTML code should be \"https\" too. Please try to follow this instruction:\n"
+"<a href=\"http://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\" title=\"HTTPS for Wordpress\">http://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/</a>"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Try to do the following:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Control panel -&gt; System -&gt; Advanced system settings -&gt; (Performance) Settings -&gt; Data Execution Prevention."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Turn off DEP or add WOW Slider in the exception list."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, it's possible. To insert WOWSlider into frontpage only, you should add the following code in the \"header.php\" file:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "&lt;?php if (is_home() || is_front_page()) wowslider(ID); ?&gt;"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "(where ID is your slider identifier - number) in the place where you want to have a slider."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "You should use \"On-demand image loading\" option in this case. Only first image should be pre-loaded and slideshow will start. All other images will be loaded during the playing."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "It's possible to add individual link to each image. You should select image by clicking and specify link in \"Url\" field."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, it'll. WOWSlider supports all modern devices."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Yes, it's possible. You should go to\n"
+"Gallery-&gt;Properties-&gt;General\n"
+"and enable \"Random order\" option."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "\"Basic\" transition effect can work in this way only. Please use \"Basic linear\" effect."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "You can add a video from either YouTube or Vimeo. Ideally, these should be videos you have permission to use on your website! Click on 'Add images and videos' button, then select 'Add video from Youtube' or 'Add video from Vimeo'."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you do not want the slider to have an auto play feature, please, go to Slider-&gt;Properties-&gt;Generall. Uncheck \"Auto play slide show\" and \"Auto play video\" options."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"You can change size of slideshow here:\n"
+"Slider-&gt; Properties -&gt; Design-&gt; Slider size"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Wowslider optimizes image files for web."
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Credits"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"Copyright:<br />\n"
+"WOWSlider.com 2015<br />"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version."
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details."
+msgstr ""

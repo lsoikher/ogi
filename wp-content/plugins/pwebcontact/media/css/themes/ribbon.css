@@ -1,0 +1,224 @@
+/**
+ * @version 2.0.0
+ * @package Perfect Easy & Powerful Contact Form
+ * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author Jan Krzywanek
+ */
+
+@import url(//fonts.googleapis.com/css?family=Lato:400,700&subset=latin,latin-ext);
+
+/* Container outset */
+.pweb-theme-ribbon .pwebcontact-container-outset:before,
+.pweb-theme-ribbon .pwebcontact-container-outset:after {
+	content: ' ';
+	height: 0;
+	width: 0;
+	display: block;
+	bottom: -30px;
+	position: absolute;
+	z-index: 0;
+    
+    border-style: dashed;
+	border-color: rgba(255,255,255, 0);
+    border-width: 0;
+	border-top-width: 30px; /* triangle bottom point */
+	border-top-style: solid;
+    border-top-color: #000;
+    border-top-color: rgba(0,0,0, 0.6);
+}
+.pweb-theme-ribbon .pwebcontact-container-outset:before {
+	left: 0;
+	border-left-width: 40px; /* triangle left point */
+}
+.pweb-theme-ribbon .pwebcontact-container-outset:after {
+	right: 0;
+	border-right-width: 40px; /* triangle right point */
+}
+
+/* Container in bottom position */
+.pweb-theme-ribbon.pweb-bottom .pwebcontact-container-outset {
+    padding-bottom: 30px;
+}
+.pweb-theme-ribbon.pweb-bottom .pwebcontact-container-outset:before,
+.pweb-theme-ribbon.pweb-bottom .pwebcontact-container-outset:after {
+	bottom: 0;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-bottom .pwebcontact-container {
+	padding-bottom: 10px;
+}
+
+/* Container in left position */
+.pweb-theme-ribbon.pweb-slidebox.pweb-left .pwebcontact-container-outset {
+    padding-left: 44px;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-left .pwebcontact-container-outset:before {
+	left: 44px;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-left .pwebcontact-container:before {
+	left: 0;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-left.pweb-vertical .pwebcontact-container {
+	padding-left: 10px;
+}
+
+/* Container in right position */
+.pweb-theme-ribbon.pweb-slidebox.pweb-right .pwebcontact-container-outset {
+    padding-right: 44x;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-right .pwebcontact-container-outset:before {
+	right: 44px;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-right .pwebcontact-container:before {
+	right: 0;
+}
+.pweb-theme-ribbon.pweb-slidebox.pweb-right.pweb-vertical .pwebcontact-container {
+	padding-right: 10px;
+}
+
+/* Container */
+.pweb-theme-ribbon .pwebcontact-container:before,
+.pweb-theme-ribbon .pwebcontact-container:after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	background-color: inherit !important;
+	opacity: inherit;
+	height: 100%;
+	width: 80px;
+	bottom: -30px;
+	z-index: -1;
+	border: 2px solid #000;
+	border-color: rgba(0,0,0, 0.6);
+}
+.pweb-theme-ribbon .pwebcontact-container:before {
+	background: -moz-linear-gradient(left, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(0,0,0,0.3)), color-stop(75%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d000000', endColorstr='#00000000', GradientType=1 ); /* IE6-9 */
+	left: -44px;
+}
+.pweb-theme-ribbon .pwebcontact-container:after {
+	background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.3) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(0,0,0,0)), color-stop(25%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.3))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.3) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.3) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.3) 100%); /* IE10+ */
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.3) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#4d000000', GradientType=1 ); /* IE6-9 */
+	right: -44px;
+}
+
+.pweb-theme-ribbon .pwebcontact-container {
+	border: 2px solid #000;
+	border-color: rgba(0,0,0, 0.6);
+}
+
+
+/* Container accordion */
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container-outset {
+	padding-left: 44px;
+    padding-right: 44px;
+}
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container-outset:before {
+	left: 44px;
+}
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container-outset:after {
+	right: 44px;
+}
+
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container {
+	padding: 30px 10px 10px;
+}
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container:before {
+	left: 0;
+}
+.pweb-theme-ribbon.pweb-accordion .pwebcontact-container:after {
+	right: 0;
+}
+
+.pweb-theme-ribbon.pweb-accordion-boxed .pwebcontact-container:before,
+.pweb-theme-ribbon.pweb-accordion-boxed .pwebcontact-container:after {
+	height: 98%;
+}
+
+
+/* Container closed */
+.pweb-theme-ribbon.pweb-closed .pwebcontact-container-outset:before,
+.pweb-theme-ribbon.pweb-closed .pwebcontact-container-outset:after,
+.pweb-theme-ribbon.pweb-closed .pwebcontact-container:before,
+.pweb-theme-ribbon.pweb-closed .pwebcontact-container:after {
+	content: '';
+	display: none;
+}
+
+
+/* Box */
+.pweb-theme-ribbon.pwebcontact-box.pweb-static,
+.pweb-theme-ribbon.pwebcontact-box.pweb-accordion {
+	margin-bottom: 40px;
+}
+.pweb-theme-ribbon.pwebcontact-box.pweb-static {
+    margin-left: 44px;
+    margin-right: 44px;
+}
+
+
+/* Accordion Arrow */
+.pweb-theme-ribbon.pwebcontact-box.pweb-accordion.pweb-accordion-boxed .pweb-arrow {
+	border-bottom-color: #B2B2B2;
+	border-bottom-color: rgba(0,0,0, 0.3);
+}
+/* Accordion close button */
+.pweb-theme-ribbon.pweb-accordion .pweb-button-close {
+    right: 50px;
+}
+.pweb-theme-ribbon.pweb-accordion.pweb-rtl .pweb-button-close {
+    left: 50px;
+    right: auto;
+}
+
+
+/* Star of required fields */
+.pweb-theme-ribbon form.pwebcontact-form label .pweb-asterisk {
+	color: #cf0404;
+}
+
+/* Fields */
+.pweb-theme-ribbon form.pwebcontact-form input.pweb-input,
+.pweb-theme-ribbon form.pwebcontact-form select,
+.pweb-theme-ribbon form.pwebcontact-form textarea {
+	background: rgba(255,255,255,0.9);
+	border: 1px solid rgba(0,0,0,0.5);
+}
+
+/* Labels over fields */
+.pweb-theme-ribbon.pweb-labels-over form.pwebcontact-form .pweb-label-over label {
+	color: #aaa;
+}
+
+/* Buttons font family and size */
+.pweb-theme-ribbon form.pwebcontact-form button, .pweb-theme-ribbon form.pwebcontact-form .btn {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+/* Links */
+.pweb-theme-ribbon form.pwebcontact-form a, .pweb-theme-ribbon .pweb-button-close {
+	color: #000;
+}
+
+/* Toggler tab */
+.pweb-left.pweb-vertical .pwebcontact_toggler.pweb-theme-ribbon,
+.pweb-right.pweb-vertical .pwebcontact_toggler.pweb-theme-ribbon {
+	
+}
+.pweb-top.pweb-offset-left.pweb-slidebox.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-ribbon {
+	left: 50px !important;
+}
+.pweb-top.pweb-offset-right.pweb-slidebox.pweb-toggler-slide .pwebcontact_toggler.pweb-theme-ribbon {
+	right: 50px !important;
+}

@@ -1,0 +1,9 @@
+[09-Dec-2014 17:12:37 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[17-Dec-2014 14:29:12 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[23-Dec-2014 17:07:37 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[23-Dec-2014 17:13:39 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[24-Feb-2015 16:26:46 America/Chicago] PHP Fatal error:  Call to undefined function get_template_directory() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/functions.php on line 8
+[10-Dec-2015 12:42:54 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[31-Jan-2016 01:03:40 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[21-Jul-2016 20:25:52 America/Chicago] PHP Fatal error:  Call to undefined function get_header() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/index.php on line 12
+[29-Aug-2016 12:37:45 America/Chicago] PHP Fatal error:  Call to undefined function woo_loop_before() in /home3/anikan/public_html/www.onlygoodnessinside.com/wp-content/themes/canvas/loop-archive.php on line 20
