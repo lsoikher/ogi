@@ -3,7 +3,7 @@
 Plugin Name: VarkTech Pricing Deals for WooCommerce
 Plugin URI: http://varktech.com
 Description: An e-commerce add-on for WooCommerce, supplying Pricing Deals functionality.
-Version: 2.0.0
+Version: 2.0.0.1
 Author: Vark
 Author URI: http://varktech.com
 WC requires at least: 2.4.0
@@ -52,9 +52,9 @@ class VTPRD_Controller{
       header("Pragma: no-cache");
     } 
 
-		define('VTPRD_VERSION',                               '2.0.0');
+		define('VTPRD_VERSION',                               '2.0.0.1');
     define('VTPRD_MINIMUM_PRO_VERSION',                   '2.0.0'); 
-    define('VTPRD_LAST_UPDATE_DATE',                      '2018-07-01');
+    define('VTPRD_LAST_UPDATE_DATE',                      '2018-07-05');
     define('VTPRD_DIRNAME',                               ( dirname( __FILE__ ) ));
     define('VTPRD_URL',                                   plugins_url( '', __FILE__ ) );
     define('VTPRD_EARLIEST_ALLOWED_WP_VERSION',           '3.3');   //To pick up wp_get_object_terms fix, which is required for vtprd-parent-functions.php
@@ -91,6 +91,7 @@ class VTPRD_Controller{
     
         //v2.0.0 Z begin
         // changes made Throughout the plugin to account for NON-STANDARD installations
+        // (for some customers, due to installation structure, the Data Upd URL as previously structured, went to never-never land)
         // change each iteration of     /wp-admin/    ==>>    '.VTPRD_ADMIN_URL.'  
         define('VTPRD_ADMIN_URL',                             get_admin_url() ); //v2.0.0 Z
         //v2.0.0 Z end   
@@ -191,6 +192,9 @@ class VTPRD_Controller{
        error_log( print_r(  'Begin FREE plugin, vtprd_license_options= ', true ) );  
        error_log( var_export($vtprd_license_options, true ) ); 
     }
+    
+    //v2.0.0.1 begin
+    /*
 
    
     /*

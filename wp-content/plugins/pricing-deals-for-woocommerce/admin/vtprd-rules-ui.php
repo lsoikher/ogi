@@ -46,11 +46,14 @@ class VTPRD_Rules_UI{
     //v2.0.0 end
     
 	}
+  
   public function vtprd_enqueue_admin_scripts() {
-    global $post_type, $vtprd_info;
-    if( get_post_type() == 'vtprd-rule' ){         //v1.0.8.2   can't just test $post_type here, not always accurate!
- 
- 
+    //v2.0.0.1 begin
+    global $vtprd_info;  //V2.0.0.1 removed $post_type from global statement
+    $post_type = get_post_type();
+    if( $post_type == 'vtprd-rule' ){         //v1.0.8.2   can't just test $post_type here, not always accurate!
+    //v2.0.0.1 end
+
         //*********************************
         //REMOVE UNNECCESSARY JS from PAGE!!
         //*********************************
@@ -139,12 +142,6 @@ class VTPRD_Rules_UI{
              
         //v2.0.0 begin
 
-        //keep this for css for vtprd-wholesale 
-        if( $post_type == $vtprd_info['parent_plugin_cpt']){
-          wp_register_style('vtprd-admin-product-metabox-style', VTPRD_URL.'/admin/css/vtprd-admin-product-metabox-style.css' );  
-          wp_enqueue_style( 'vtprd-admin-product-metabox-style');    
-        }
-
         wp_register_script('selectWoo', VTPRD_URL.'/admin/js/selectWoo.full.min.js' );  
         wp_enqueue_script ('selectWoo', array('jquery'), false, true);        
         wp_register_style ('selectWoo-style', VTPRD_URL.'/admin/css/selectWoo-style.css' );  
@@ -159,7 +156,15 @@ class VTPRD_Rules_UI{
                                 
         //v2.0.0 end
                
+      } //end 'vtprd-rule' section
+
+      //v2.0.0.1 BEGIN
+      //keep this for css for vtprd-wholesale 
+      if( $post_type == $vtprd_info['parent_plugin_cpt']){
+        wp_register_style('vtprd-admin-product-metabox-style', VTPRD_URL.'/admin/css/vtprd-admin-product-metabox-style.css' );  
+        wp_enqueue_style( 'vtprd-admin-product-metabox-style');    
       }
+      //v2.0.0.1 end
 
   }                               
 
@@ -632,7 +637,8 @@ class VTPRD_Rules_UI{
                         <label for="cart-or-catalog-Catalog" id="cart-or-catalog-Catalog-label"> CATALOG Discount</label> 
                                           
                   </div>  
-                <img class="hasHoverHelp2" width="18px" style="margin-top:24px;margin-left:15px;" alt=""  src="<?php echo VTPRD_URL;?>/admin/images/help.png" />
+                  <?php //v2.0.0.1 img old style below style="margin-top:24px;margin-left:15px;"  ?> 
+                <img class="hasHoverHelp2" width="18px" style="float:left;margin-left:15px;" alt=""  src="<?php echo VTPRD_URL;?>/admin/images/help.png" />
                 <?php vtprd_show_object_hover_help ('cart_or_catalog_select', 'small'); ?> 
               </div>               
 
@@ -737,8 +743,8 @@ class VTPRD_Rules_UI{
                           <label for="advancedSelected"> Advanced Rule</label>                    
                       
                       </div> 
-            
-                      <img class="hasHoverHelp2" width="18px" style="margin-top:24px;margin-left:15px;" alt=""  src="<?php echo VTPRD_URL;?>/admin/images/help.png" />
+                        <?php //v2.0.0.1 img old style below style="margin-top:24px;margin-left:15px;"  ?>
+                      <img class="hasHoverHelp2" width="18px" style="float:left;margin-left:15px;" alt=""  src="<?php echo VTPRD_URL;?>/admin/images/help.png" />
                       <?php vtprd_show_object_hover_help ('rule-type-select', 'small'); ?> 
                   </div>
 

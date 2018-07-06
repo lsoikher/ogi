@@ -4,7 +4,7 @@ Donate link: https://www.varktech.com/woocommerce/woocommerce-dynamic-pricing-di
 Tags: woocommerce bulk pricing, woocommerce discounts, woocommerce dynamic discounts, woocommerce dynamic pricing, woocommerce wholesale pricing, woocommerce cart discount, bulk pricing, cart discount, category discount, customer role discount, user role discount, woocommerce prices, woocommerce pricing
 Requires at least: 3.3
 Tested up to: 4.9.3
-Stable tag: 2.0.0
+Stable tag: 2.0.0.1
 Requires PHP: 5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -418,6 +418,9 @@ Checkout Message : [your choice]
 
 
 == Changelog ==
+
+= 2.0.0.1 - 2018-07-05 =
+* Fix - In some sites, rules were not executed when the free version was installed solely.  Issue repaired.
 
 = 2.0.0 - 2018-07-01 =
 * Enhancement - RULE SCREEN REWRITE - Look and feel revamp.

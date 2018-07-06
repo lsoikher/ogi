@@ -1222,6 +1222,20 @@ Run the FULL conversion in all cases!!!!!!!!!!
         $send_data .= 'More or Less Discount:    ' . $vtprd_setup_options['give_more_or_less_discount']  . "\n";
         $send_data .= 'Unit Price Crossout:      ' . $vtprd_setup_options['show_unit_price_cart_discount_crossout']  . "\n";
         $send_data .= 'Test Debugging Mode:      ' . $vtprd_setup_options['debugging_mode_on']  . "\n \n \n";
+
+        //v2.0.0.1 begin
+        if (defined('VTPRD_PRO_DIRNAME')) {
+          $vtprd_license_options = get_option('vtprd_license_options');        
+          $send_data .= '### Begin PRO Licensing Info ###' . "\n\n";
+        	$send_data .= 'Home URL:                 ' . $vtprd_license_options['url'] . "\n";
+          $send_data .= 'Status:                   ' . $vtprd_license_options['status'] . "\n";
+          $send_data .= 'State:                    ' . $vtprd_license_options['state'] . "\n";
+          $send_data .= 'Message:                  ' . $vtprd_license_options['msg'] . "\n";
+        	$send_data .= 'Key:                      ' . $vtprd_license_options['key'] . "\n";
+          $send_data .= 'Email:                    ' . $vtprd_license_options['email'] . "\n";
+          $send_data .= 'Activation Type:          ' . $vtprd_license_options['prod_or_test'] . "\n \n \n";        
+        }
+        //v2.0.0.1 end
         
    return $send_data;                          
   }

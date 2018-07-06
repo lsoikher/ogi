@@ -124,18 +124,21 @@ class VTPRD_Apply_Rules{
         error_log( var_export($woocommerce->cart, true ) );
       } 
     }  
-      
-    if ( ($vtprd_license_options['status'] == 'valid') &&  
-         ($vtprd_license_options['pro_plugin_version_status'] == 'valid')  )  {  
-      $all_good = true;
-    } else {
-     //v2.0.0 begin 
-     if ( $vtprd_setup_options['debugging_mode_on'] == 'yes' ){ 
-        error_log( print_r(  'VTPRD_Apply_Rules INVALID LICENSE FOUND, EXIT', true ) );
-     } 
-     //v2.0.0 end    
-      return;
-    }
+          
+    if (defined('VTPRD_PRO_VERSION')) {  //v2.0.0.1 added this test.
+      if ( ($vtprd_license_options['status'] == 'valid') &&  
+           ($vtprd_license_options['pro_plugin_version_status'] == 'valid')  )  {  
+        $all_good = true;
+      } else {
+       //v2.0.0 begin 
+       if ( $vtprd_setup_options['debugging_mode_on'] == 'yes' ){ 
+          error_log( print_r(  'VTPRD_Apply_Rules INVALID LICENSE FOUND, EXIT', true ) );
+       } 
+       //v2.0.0 end    
+        return;
+      }
+    } //v2.0.0.1 added this test.
+    
     //v1.1.5 end 
     //*********************  
     
