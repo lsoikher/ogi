@@ -1,0 +1,95 @@
+/**
+ * @package   Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
+ * @license   GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+#pwebcontact-p-message .c-grid {
+  display: grid;
+  margin-top: 25px;
+}
+
+#pwebcontact-p-message .c-grid .o-grid-item {
+  word-break: break-all;
+  background-color: #FFF;
+  border: 1px solid #e5e5e5;
+}
+
+#pwebcontact-p-message > header {
+  display: flex;
+}
+
+#pwebcontact-p-message .add-new-h2 {
+  top: initial;
+  margin-top: 10px;
+  margin-left: 15px;
+  display: block;
+}
+
+#pwebcontact-p-message .c-grid .o-grid-item h3 {
+  border-bottom: 1px solid #eee;
+  padding: 8px 12px;
+}
+
+#pwebcontact-p-message .c-grid .o-grid-item > h3,
+#pwebcontact-p-message .c-grid .o-grid-item > div {
+  padding: 8px 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+#pwebcontact-p-message .c-grid .o-grid-item .form-table > tbody > tr > th {
+  padding-left: 12px
+}
+
+#pwebcontact-p-message .c-grid .o-grid-item .form-table > tbody > tr > td {
+  padding-right: 12px
+}
+
+#pwebcontact-p-message .c-grid .o-grid__meta > div input {
+  width: 100%;
+}
+
+#pwebcontact-p-message .c-grid .o-grid__meta > div label {
+  font-weight: 600;
+  line-height: 1.3;
+  color: #23282d;
+  font-size: 14px;
+  display: block;
+}
+
+@media (min-width: 783px) {
+  #pwebcontact-p-message .c-grid {
+    grid-template-columns: 70% 25%;
+    grid-template-rows: auto;
+    grid-gap: 25px;
+  }
+
+  #pwebcontact-p-message .c-grid .o-grid__fields {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #pwebcontact-p-message .c-grid .o-grid__meta {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 782px) {
+  #pwebcontact-p-message .c-grid {
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+  }
+
+  #pwebcontact-p-message .c-grid .o-grid__fields {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #pwebcontact-p-message .c-grid .o-grid__meta {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}

@@ -1,0 +1,74 @@
+http://81.88.48.91:80/ Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/joomla Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/cms Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/Joomla Version: UNKNOWN Server: nginx/1.9.10
+http://95.174.3.185:80/ Version: UNKNOWN Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips mod_fcgid/2.3.9 PHP/5.4.16 mod_python/3.5.0- Python/2.7.5
+http://212.35.194.154:80/ Version: UNKNOWN Server: nginx
+http://217.64.192.242:80/ Version: UNKNOWN Server: Apache
+http://213.171.162.183:80/ Version: UNKNOWN Server: Apache
+http://81.88.48.91:80/ Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/joomla Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/cms Version: UNKNOWN Server: nginx/1.9.10
+http://81.88.48.91:80/Joomla Version: UNKNOWN Server: nginx/1.9.10
+http://95.174.3.185:80/ Version: UNKNOWN Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips mod_fcgid/2.3.9 PHP/5.4.16 mod_python/3.5.0- Python/2.7.5
+http://212.35.194.154:80/ Version: UNKNOWN Server: nginx
+http://217.64.192.242:80/ Version: UNKNOWN Server: Apache
+http://81.31.145.144:80/ Version: UNKNOWN Server: nginx
+http://213.171.162.183:80/ Version: UNKNOWN Server: Apache
+http://185.17.106.217:80/ Version: UNKNOWN Server: Apache
+http://185.17.106.162:80/ Version: UNKNOWN Server: Apache
+http://46.16.88.142:80/ Version: UNKNOWN Server: Apache
+http://5.249.128.199:80/ Version: UNKNOWN Server: Apache/2.2.17 (Unix) DAV/2 PHP/5.3.6
+http://5.249.144.97:80/ Version: UNKNOWN Server: Apache/2.2.15 (CentOS)
+http://5.249.144.195:80/ Version: UNKNOWN Server: Apache/2.2.22 (Debian)
+http://5.249.146.32:80/ Version: 1.5.x Server: Apache/2.2.22 (Ubuntu)
+http://5.249.146.41:80/ Version: UNKNOWN Server: Apache
+http://5.249.155.190:80/ Version: 1.5.x Server: Apache/2.2.15 (CentOS)
+http://5.249.154.47:80/ Version: UNKNOWN Server: Apache/2.4.9 (Win32) PHP/5.5.12
+http://5.249.154.47:80/joomla Version: UNKNOWN Server: Apache/2.4.9 (Win32) PHP/5.5.12
+http://5.249.154.47:80/cms Version: UNKNOWN Server: Apache/2.4.9 (Win32) PHP/5.5.12
+http://5.249.154.47:80/Joomla Version: UNKNOWN Server: Apache/2.4.9 (Win32) PHP/5.5.12
+http://5.249.152.222:80/ Version: UNKNOWN Server: nginx
+http://5.249.152.222:80/joomla Version: UNKNOWN Server: nginx
+http://5.249.152.222:80/cms Version: UNKNOWN Server: nginx
+http://46.37.1.42:80/ Version: 1.5.x Server: Apache/2.2.3 (CentOS)
+http://46.37.1.51:80/ Version: UNKNOWN Server: Apache
+http://46.37.1.51:80/joomla Version: UNKNOWN Server: Apache
+http://46.37.1.51:80/cms Version: UNKNOWN Server: Apache
+http://46.37.1.51:80/Joomla Version: UNKNOWN Server: Apache
+http://62.149.192.40:80/ Version: UNKNOWN Server: nginx
+http://62.149.192.40:80/joomla Version: UNKNOWN Server: nginx
+http://62.149.192.87:80/ Version: UNKNOWN Server: Apache/2.4.18
+http://62.149.195.100:80/ Version: UNKNOWN Server: nginx
+http://77.81.225.174:80/ Version: 1.5.x Server: Apache/2.2.15 (CentOS)
+http://77.81.225.182:80/ Version: UNKNOWN Server: nginx
+http://77.81.226.138:80/ Version: UNKNOWN Server: Apache/2.4.6 (CentOS) PHP/5.4.16
+http://77.81.225.103:80/ Version: 1.5.x Server: Apache/2.2.3 (CentOS)
+http://80.211.1.88:80/joomla Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)
+http://77.81.225.103:80/joomla Version: 1.5.x Server: Apache/2.2.3 (CentOS)
+http://77.81.225.103:80/cms Version: 1.5.x Server: Apache/2.2.3 (CentOS)
+http://80.88.83.102:80/ Version: UNKNOWN Server: Apache
+http://77.81.225.103:80/Joomla Version: 1.5.x Server: Apache/2.2.3 (CentOS)
+http://80.211.2.216:80/ Version: UNKNOWN Server: Apache/2.4.33 (Unix) OpenSSL/1.0.2n PHP/7.2.4 mod_perl/2.0.8-dev Perl/v5.16.3
+http://80.211.2.216:80/joomla Version: UNKNOWN Server: Apache/2.4.33 (Unix) OpenSSL/1.0.2n PHP/7.2.4 mod_perl/2.0.8-dev Perl/v5.16.3
+http://80.211.3.31:80/ Version: UNKNOWN Server: nginx/1.6.2
+http://86.105.52.122:80/ Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)
+http://86.105.52.111:80/ Version: UNKNOWN Server: nginx
+http://86.105.54.251:80/ Version: UNKNOWN Server: Apache/2.4.6
+http://86.105.54.120:80/ Version: UNKNOWN Server: Apache/2.2.15 (CentOS)
+http://89.38.150.17:80/ Version: UNKNOWN Server: Apache/2.2.22 (Debian)
+http://89.40.112.148:80/ Version: UNKNOWN Server: Apache/2.2.15 (CentOS)
+http://89.40.125.98:80/ Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)
+http://94.177.240.95:80/ Version: UNKNOWN Server: Apache/2.2.15 (CentOS)
+http://94.177.241.77:80/ Version: UNKNOWN Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.1e-fips PHP/5.6.30
+http://94.177.246.240:80/joomla Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)
+http://94.177.247.14:80/ Version: UNKNOWN Server: nginx/1.4.6 (Ubuntu)
+http://94.177.249.201:80/ Version: UNKNOWN Server: Apache/2.2.15 (CentOS)
+http://94.177.253.74:80/ Version: UNKNOWN Server: Apache
+http://176.107.130.171:80/ Version: UNKNOWN Server: nginx/1.10.3
+http://176.107.130.171:80/joomla Version: UNKNOWN Server: nginx/1.10.3
+http://176.107.130.171:80/cms Version: UNKNOWN Server: nginx/1.10.3
+http://176.107.130.171:80/Joomla Version: UNKNOWN Server: nginx/1.10.3
+http://185.12.178.139:80/ Version: UNKNOWN Server: Apache/2.4.10 (Debian)
+http://217.61.0.15:80/ Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)
+http://217.61.2.198:80/ Version: UNKNOWN Server: Apache/2.4.18 (Ubuntu)

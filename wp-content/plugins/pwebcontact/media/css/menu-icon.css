@@ -1,0 +1,25 @@
+/**
+ * @version 2.4.1
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
+ * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author Piotr Moćko
+ */
+
+/* Admin icon */
+#toplevel_page_pwebcontact .dashicons-before::before {
+    background-image: url(../images/admin/menu-icon.png);
+    background-repeat: no-repeat;
+    background-position: 0 -60px;
+    background-size: 19px auto;
+    content: " ";
+    transition: none;
+    -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: none;
+}
+
+#toplevel_page_pwebcontact a.wp-not-current-submenu:hover .dashicons-before::before,
+#toplevel_page_pwebcontact a.wp-not-current-submenu:active .dashicons-before::before {
+    background-position: 0 -26px;
+}

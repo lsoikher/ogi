@@ -1,0 +1,53 @@
+/**
+ * @package   Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
+ * @license   GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+.u-flex {
+  display: flex;
+}
+
+.u-flex.s-ver {
+  flex-direction: column;
+}
+
+.u-flex.s-hor {
+  flex-direction: row;
+}
+
+@media (max-width: 782px) {
+  .u-hidden-xs {
+    display: none;
+  }
+
+  .u-visible-xs {
+    display: block;
+  }
+
+  #the-table > thead > tr > th:not(:first-child),
+  #the-table > tbody > tr > td:not(:first-child) {
+    display: none;
+  }
+
+  #the-table > tbody > tr > td:first-child > div.u-visible-xs {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .search-box {
+    float: initial !important;
+    position: relative !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (min-width: 783px) {
+  .u-hidden-xs {
+    display: block;
+  }
+
+  .u-visible-xs {
+    display: none;
+  }
+}

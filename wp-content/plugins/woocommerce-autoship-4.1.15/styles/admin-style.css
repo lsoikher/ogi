@@ -1,0 +1,70 @@
+/*
+ * Dashboard Widgets
+ */
+/*
+ * Logs
+ */
+.wc-autoship-log-item {
+  background-image: url("../images/activity-icons/autoship_check.svg");
+  background-position: 0 center;
+  background-size: auto 30px;
+  background-repeat: no-repeat;
+  padding-left: 55px;
+  min-height: 30px;
+  margin-bottom: 15px; }
+  .wc-autoship-log-item .action-time {
+    font-weight: bold; }
+  .wc-autoship-log-item.schedule-set-autoship-status-0 {
+    background-image: url("../images/activity-icons/autoship_pause.svg"); }
+  .wc-autoship-log-item.schedule-set-autoship-1 {
+    background-image: url("../images/activity-icons/autoship_play.svg"); }
+  .wc-autoship-log-item.schedule-item-add {
+    background-image: url("../images/activity-icons/autoship_add.svg"); }
+  .wc-autoship-log-item.schedule-item-delete {
+    background-image: url("../images/activity-icons/autoship_minus.svg"); }
+  .wc-autoship-log-item.schedule-delete, .wc-autoship-log-item.autoship-order-failed, .wc-autoship-log-item.cron-semaphore-failed, .wc-autoship-log-item.cron-semaphore-mkdir, .wc-autoship-log-item.cron-semaphore-interval, .wc-autoship-log-item.cron-semaphore-open, .wc-autoship-log-item.cron-semaphore-lock, .wc-autoship-log-item.cron-semaphore-timestamp, .wc-autoship-log-item.cron-semaphore-empty, .wc-autoship-log-item.process-autoship-orders-disabled, .wc-autoship-log-item.site-url-changed, .wc-autoship-log-item.auth-failed-client, .wc-autoship-log-item.auth-failed-missing-key, .wc-autoship-log-item.auth-failed-invalid-key, .wc-autoship-log-item.request-failed {
+    background-image: url("../images/activity-icons/autoship_alert.svg"); }
+  .wc-autoship-log-item.license-key-invalid {
+    background-image: url("../images/activity-icons/key_red.svg"); }
+  .wc-autoship-log-item.license-key-valid {
+    background-image: url("../images/activity-icons/key_green.svg"); }
+  .wc-autoship-log-item.set-license-key {
+    background-image: url("../images/activity-icons/key_gray.svg"); }
+
+.wc-autoship-admin-card-container {
+  clear: both;
+  position: relative; }
+  .wc-autoship-admin-card-container .wc-autoship-admin-card, .wc-autoship-admin-card-container .wc-autoship-admin-card-33, .wc-autoship-admin-card-container .wc-autoship-admin-card-50, .wc-autoship-admin-card-container .wc-autoship-admin-card-100 {
+    max-width: none;
+    box-sizing: border-box; }
+  .wc-autoship-admin-card-container .wc-autoship-admin-card-33 {
+    width: 33.3333333333333%;
+    float: left; }
+  .wc-autoship-admin-card-container .wc-autoship-admin-card-50 {
+    width: 50%;
+    float: left; }
+  .wc-autoship-admin-card-container .wc-autoship-admin-card-100 {
+    width: 100%; }
+
+.pbi-dashboard-placeholder {
+  width: 100%; }
+
+.pbi-dashboard-welcome-header {
+  background-image: url("../images/dashboard-icon.svg");
+  background-position: left center;
+  background-repeat: no-repeat;
+  padding-left: 3.5em;
+  line-height: 3em; }
+
+h3#wc-autoship-analytics-dashboard-widget-header {
+  background-image: url("../images/dashboard-icon.svg");
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: auto 40px;
+  padding: 0 0 0 45px;
+  line-height: 40px; }
+
+.wc-autoship-analytics-dashboard-widget-animation {
+  max-width: 100%; }
+
+/*# sourceMappingURL=admin-style.css.map */

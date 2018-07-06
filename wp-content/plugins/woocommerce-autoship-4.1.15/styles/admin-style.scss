@@ -1,0 +1,116 @@
+/*
+ * Dashboard Widgets
+ */
+.wc-autoship-activity-list {
+  .wc-autoship-activity-list-item {
+
+  }
+}
+
+/*
+ * Logs
+ */
+.wc-autoship-log-item {
+  background-image: url('../images/activity-icons/autoship_check.svg');
+  background-position: 0 center;
+  background-size: auto 30px;
+  background-repeat: no-repeat;
+  padding-left: 55px;
+  .action-time {
+    font-weight: bold;
+  }
+  min-height: 30px;
+  margin-bottom: 15px;
+
+  &.schedule-set-autoship-status-0 {
+    background-image: url('../images/activity-icons/autoship_pause.svg');
+  }
+  &.schedule-set-autoship-1 {
+    background-image: url('../images/activity-icons/autoship_play.svg');
+  }
+  &.schedule-item-add {
+    background-image: url('../images/activity-icons/autoship_add.svg');
+  }
+  &.schedule-item-delete {
+    background-image: url('../images/activity-icons/autoship_minus.svg');
+  }
+  &.schedule-delete,
+  &.autoship-order-failed,
+  &.cron-semaphore-failed,
+  &.cron-semaphore-mkdir,
+  &.cron-semaphore-interval,
+  &.cron-semaphore-open,
+  &.cron-semaphore-lock,
+  &.cron-semaphore-timestamp,
+  &.cron-semaphore-empty,
+  &.process-autoship-orders-disabled,
+  &.site-url-changed,
+  &.auth-failed-client,
+  &.auth-failed-missing-key,
+  &.auth-failed-invalid-key,
+  &.request-failed {
+    background-image: url('../images/activity-icons/autoship_alert.svg');
+  }
+  &.license-key-invalid {
+    background-image: url('../images/activity-icons/key_red.svg');
+  }
+  &.license-key-valid {
+    background-image: url('../images/activity-icons/key_green.svg');
+  }
+  &.set-license-key {
+    background-image: url('../images/activity-icons/key_gray.svg');
+  }
+}
+
+.wc-autoship-admin-card-container {
+  clear: both;
+  position: relative;
+
+  .wc-autoship-admin-card {
+    max-width: none;
+    box-sizing: border-box;
+  }
+
+  .wc-autoship-admin-card-33 {
+    @extend .wc-autoship-admin-card;
+    width: 33.3333333333333%;
+    float: left;
+  }
+
+  .wc-autoship-admin-card-50 {
+    @extend .wc-autoship-admin-card;
+    width: 50%;
+    float: left;
+  }
+
+  .wc-autoship-admin-card-100 {
+    @extend .wc-autoship-admin-card;
+    width: 100%;
+  }
+}
+
+.pbi-dashboard-placeholder {
+  width: 100%;
+}
+
+.pbi-dashboard-welcome-header {
+  background-image: url('../images/dashboard-icon.svg');
+  background-position: left center;
+  background-repeat: no-repeat;
+  padding-left: 3.5em;
+  line-height: 3em;
+}
+
+h3#wc-autoship-analytics-dashboard-widget-header {
+  $icon-size: 40px;
+  background-image: url('../images/dashboard-icon.svg');
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: auto $icon-size;
+  padding: 0 0 0 ($icon-size + 5px);
+  line-height: $icon-size;
+}
+
+.wc-autoship-analytics-dashboard-widget-animation {
+  max-width: 100%;
+}

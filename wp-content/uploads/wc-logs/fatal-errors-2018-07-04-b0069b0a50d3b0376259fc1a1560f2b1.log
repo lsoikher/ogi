@@ -1,0 +1,30 @@
+2018-07-03T19:32:58+00:00 CRITICAL Uncaught Error: Call to undefined function wc_autoship_cart_has_autoship_items() in /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce-autoship-paypal-payments/classes/wc-autoship-paypal-gateway.php:157
+Stack trace:
+#0 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(849): WC_Autoship_Paypal_Gateway->process_payment(33494)
+#1 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1044): WC_Checkout->process_order_payment(33494, 'wc_autoship_pay...')
+#2 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(435): WC_Checkout->process_checkout()
+#3 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(298): WC_AJAX::checkout('')
+#4 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(323): WP_Hook->apply_filters('', Array)
+#5 /home/lidorsoikher012/ogi/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#6 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(78): do_ac
+
+2018-07-03T19:34:50+00:00 CRITICAL Uncaught Error: Call to undefined function wc_autoship_cart_has_autoship_items() in /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce-autoship-paypal-payments/classes/wc-autoship-paypal-gateway.php:157
+Stack trace:
+#0 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(849): WC_Autoship_Paypal_Gateway->process_payment(33495)
+#1 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1044): WC_Checkout->process_order_payment(33495, 'wc_autoship_pay...')
+#2 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(435): WC_Checkout->process_checkout()
+#3 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(298): WC_AJAX::checkout('')
+#4 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(323): WP_Hook->apply_filters('', Array)
+#5 /home/lidorsoikher012/ogi/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#6 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(78): do_ac
+
+2018-07-03T19:35:01+00:00 CRITICAL Uncaught Error: Call to undefined function wc_autoship_cart_has_autoship_items() in /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce-autoship-paypal-payments/classes/wc-autoship-paypal-gateway.php:157
+Stack trace:
+#0 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(849): WC_Autoship_Paypal_Gateway->process_payment(33495)
+#1 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1044): WC_Checkout->process_order_payment(33495, 'wc_autoship_pay...')
+#2 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(435): WC_Checkout->process_checkout()
+#3 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(298): WC_AJAX::checkout('')
+#4 /home/lidorsoikher012/ogi/wp-includes/class-wp-hook.php(323): WP_Hook->apply_filters('', Array)
+#5 /home/lidorsoikher012/ogi/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#6 /home/lidorsoikher012/ogi/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(78): do_ac
+

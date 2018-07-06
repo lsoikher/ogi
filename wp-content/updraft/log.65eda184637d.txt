@@ -1,0 +1,7 @@
+0000.000 (0) Opened log file at time: Thu, 02 Nov 2017 00:39:43 +0000 on http://www.onlygoodnessinside.com
+0000.001 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 2.13.12.22 WP: 4.8.3 PHP: 7.0.15-0ubuntu0.16.04.4 (fpm-fcgi, Linux instance-1 4.4.0-75-generic #96-Ubuntu SMP Thu Apr 20 09:56:33 UTC 2017 x86_64) MySQL: 5.7.20 WPLANG: en_US Server: nginx/1.10.3 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 11.1M | 2M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+0000.004 (0) Free space on disk containing Updraft's temporary directory: 3715.2 MB
+0000.006 (0) Tasks: Backup files: 1 (schedule: daily) Backup DB: 1 (schedule: daily)
+0000.009 (0) Requesting semaphore lock (fd) (apparently not via scheduler)
+0000.012 (0) Semaphore lock (fd, wp_options) failed (line 43)
+0000.013 (0) Failed to gain semaphore lock (fd) - another backup of this type is apparently already active - aborting (if this is wrong - i.e. if the other backup crashed without removing the lock, then another can be started after 3 minutes)

