@@ -43,21 +43,12 @@ function flatsome_product_page_breadcrumbs(){
 add_action('flatsome_product_title','flatsome_product_page_breadcrumbs',20);
 
 
-function flatsome_product_page_title_hidden(){
-  // Hidden title for Rich snippets. ?>
-  <span itemprop="name" class="product-title entry-title hidden">
-    <?php the_title(); ?>
-  </span>
-  <?php
-}
-
 // Move Page title up if featured header is set
 function flatsome_product_page_title(){
   if(get_theme_mod('product_header') !== 'featured-center') return;
 
   echo '<h1 class="product-title entry-title">'.get_the_title().'</h1>';
 
-  add_action('woocommerce_single_product_summary','flatsome_product_page_title_hidden', 5);
   remove_action('woocommerce_single_product_summary','woocommerce_template_single_title', 5);
 }
 add_action('flatsome_product_title','flatsome_product_page_title', 10);

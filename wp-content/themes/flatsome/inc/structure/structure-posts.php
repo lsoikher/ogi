@@ -43,9 +43,8 @@ add_filter('flatsome_header_class','flatsome_blog_header_classes', 10);
 
 // Add Big blog header
 function flatsome_single_page_header(){
-    $style = flatsome_option('blog_post_style');
-	if(is_singular('post') && $style == 'top'){
-		echo get_template_part( 'template-parts/posts/partials/single-featured', $style );
+  if(is_singular('post') && get_theme_mod('blog_post_style') == 'top'){
+		echo get_template_part( 'template-parts/posts/partials/single-featured', get_theme_mod('blog_post_style'));
 	}
 }
 add_action('flatsome_after_header','flatsome_single_page_header', 10);

@@ -10,9 +10,9 @@
 		<?php
 
     $slug = basename( get_template_directory() );
-	 
+
     $output = '';
-	
+
     //get errors so we can show them
     $errors = get_option( $slug . '_wup_errors', array() );
     delete_option( $slug . '_wup_errors' ); //delete existing errors as we will handle them next
@@ -38,7 +38,7 @@
        echo '<div class="notice-success notice-alt notice-large" style="margin-bottom:15px!important">' . __( 'Your <strong>purchase code is valid</strong>. Thank you! Enjoy Flatsome Theme and automatic updates.' ) . '</div>';
       }
     }
-    
+
     if ( empty( $purchase_code ) ) {
     echo '<form class="wupdates_purchase_code" action="" method="post">' .
              __( '<p>Enter your purchase code and <strong>hit return/enter</strong>. Find out how to <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">get your purchase code</a>.</p>' ) .
@@ -59,7 +59,7 @@
   <?php if(flatsome_is_theme_enabled()){ ?>
 	<div class="inner-panel">
   <?php
-     
+
      // Sold at
     $sold = date("F jS, Y",strtotime(get_option( $slug . '_wup_sold_at', '' )));
 
@@ -88,15 +88,15 @@
       <tr>
         <td>
           <?php if(flatsome_is_support_expired($slug)){ ?>
-            <strong>Support ends</strong>
-          <?php } else { ?>
             <strong>Support ended</strong>
+          <?php } else { ?>
+            <strong>Support ends</strong>
           <?php } ?>
         </td>
         <td><?php echo $support_ends; ?></td>
       </tr>
      <tr>
-        <td><strong>Support time</strong></td>
+        <td><strong>Support Status</strong></td>
         <td><?php echo $support_message; ?></td>
       </tr>
       <tr>

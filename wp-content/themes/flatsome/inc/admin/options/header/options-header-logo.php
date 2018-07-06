@@ -76,6 +76,15 @@ Flatsome_Option::add_field( 'option',  array(
 ));
 
 Flatsome_Option::add_field( 'option',  array(
+  'type'        => 'text',
+  'settings'     => 'logo_max_width',
+  'label'       => __( 'Logo max width (px)', 'flatsome-admin' ),
+  'section'     => 'title_tagline',
+  'description' => __( 'Set the logo max with in pixels. Leave it blank to make it auto fit inside logo container.', 'flatsome-admin' ),
+  'transport' => 'postMessage',
+));
+
+Flatsome_Option::add_field( 'option',  array(
 	'type'        => 'slider',
 	'settings'     => 'logo_padding',
 	'label'       => __( 'Logo Padding', 'flatsome-admin' ),
@@ -88,4 +97,3 @@ Flatsome_Option::add_field( 'option',  array(
 	),
 	'transport' => 'postMessage',
 ));
-

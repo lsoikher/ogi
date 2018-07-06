@@ -8,9 +8,9 @@ function flatsome_wishlist_integrations_scripts() {
     wp_deregister_style('yith-wcwl-font-awesome-ie7');
     wp_deregister_style('yith-wcwl-main');
     wp_deregister_style('yith_wcas_frontend');
-    
-    wp_enqueue_script( 'flatsome-woocommerce-wishlist',  $integrations_uri.'/wc-yith-wishlist/wishlist.js', 'flatsome-woocommerce-js' , FALSE, '3.0', TRUE);
-    wp_enqueue_style( 'flatsome-woocommerce-wishlist',  $integrations_uri.'/wc-yith-wishlist/wishlist.css', 'flatsome-woocommerce-style' );
+
+    wp_enqueue_script( 'flatsome-woocommerce-wishlist',  $integrations_uri.'/wc-yith-wishlist/wishlist.js', 'flatsome-woocommerce-js' , FALSE, '3.3', TRUE);
+    wp_enqueue_style( 'flatsome-woocommerce-wishlist',  $integrations_uri.'/wc-yith-wishlist/wishlist.css', 'flatsome-woocommerce-style', '3.3' );
 }
 
 add_action( 'wp_enqueue_scripts', 'flatsome_wishlist_integrations_scripts' );
@@ -31,7 +31,7 @@ add_filter( 'flatsome_account_links', 'flatsome_wishlist_account_item' );
 // Add wishlist Button to Product Image
 if(!function_exists('flatsome_product_wishlist_button')){
     function flatsome_product_wishlist_button(){
-      $icon = flatsome_option('wishlist_icon');
+      $icon = get_theme_mod('wishlist_icon','heart');
       if(!$icon) $icon = 'heart';
     ?>
     <div class="wishlist-icon">
@@ -39,7 +39,7 @@ if(!function_exists('flatsome_product_wishlist_button')){
         <?php echo get_flatsome_icon('icon-'.$icon); ?>
       </button>
       <div class="wishlist-popup dark">
-          <?php echo do_shortcode('[yith_wcwl_add_to_wishlist]'); ?>
+        <?php echo do_shortcode('[yith_wcwl_add_to_wishlist]'); ?>
       </div>
     </div>
     <?php

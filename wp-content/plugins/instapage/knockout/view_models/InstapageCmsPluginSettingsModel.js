@@ -3,7 +3,7 @@
 var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(data) {
   var self = this;
 
-  self.email = (data && data.user_name) ? instapageKO.observable(data.user_name) : instapageKO.observable();
+  self.email = (data && data.user_name) ? instapageKO.observable(decodeURIComponent(data.user_name)) : instapageKO.observable();
   self.userToken = (data && data.plugin_hash) ? instapageKO.observable(data.plugin_hash) : instapageKO.observable();
   self.password = instapageKO.observable();
   self.clearLog = instapageKO.observable();
@@ -17,7 +17,7 @@ var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(d
   self.supportLegacy = (typeof self.metadata.supportLegacy !== 'undefined') ? instapageKO.observable(self.metadata.supportLegacy) : instapageKO.observable(true);
 
   self.loginUser = function loginUser() {
-    var post = {action: 'loginUser', data: {email: self.email(), password: self.password()}};
+    var post = {action: 'loginUser', data: {email: encodeURIComponent(self.email()), password: encodeURIComponent(self.password())}};
     iAjax.post(INSTAPAGE_AJAXURL, post, function loginUserCallback(responseJson) {
       var response = masterModel.parseResponse(responseJson);
 
@@ -69,6 +69,13 @@ var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(d
   };
 
   self.addToken = function addToken() {
+
+    if (self.tokenToAdd.isBusy()) {
+      return;
+    }
+
+    self.tokenToAdd.setBusy(true);
+
     if (self.tokenToAdd) {
       var newToken = new Token(self.tokenToAdd());
       self.validateToken(
@@ -79,9 +86,11 @@ var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(d
           self.tokenToAdd('');
           self.isTokenToAddValid(true);
           self.saveConfig(false);
+          self.tokenToAdd.setBusy(false);
         },
         function validationOnFailure() {
           self.isTokenToAddValid(false);
+          self.tokenToAdd.setBusy(false);
         }
       );
     }
@@ -98,7 +107,8 @@ var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(d
   self.saveConfig = function saveConfig(message, onSuccessFunction) {
     var configObj = instapageKO.toJS(self.config);
     var metadataObj = instapageKO.toJS(self.metadata);
-    var post = {action: 'updateOptions', data: {config: configObj, metadata: metadataObj, userName: self.email(), userToken: self.userToken()}};
+    var email = (typeof self.email() !== 'undefined') ? self.email() : '';
+    var post = {action: 'updateOptions', data: {config: configObj, metadata: metadataObj, userName: encodeURIComponent(email), userToken: self.userToken()}};
 
     iAjax.post(INSTAPAGE_AJAXURL, post, function saveConfigCallback(responseJson) {
       var response = masterModel.parseResponse(responseJson);
@@ -165,6 +175,21 @@ var InstapageCmsPluginSettingsModel = function InstapageCmsPluginSettingsModel(d
   };
 
   self.validateToken = function validateToken(token, onSuccessFunction, onFailureFunction) {
+    if (self.config.tokens().find(
+      function checkIfTokenExists(item) {
+        return (item !== token && item.value().trim() === token.value().trim());
+      })
+    ) {
+      token.valid(-1);
+      masterModel.messagesModel.addMessage(iLang.get('TOKEN_ALREADY_IN_USE'), 'error' );
+
+      if (typeof onFailureFunction === 'function') {
+        onFailureFunction();
+      }
+
+      return;
+    }
+
     var post = {action: 'validateToken', data: {token: token.value()}};
 
     iAjax.post(INSTAPAGE_AJAXURL, post, function saveConfigCallback(responseJson) {

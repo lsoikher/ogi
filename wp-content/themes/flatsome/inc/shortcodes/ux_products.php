@@ -73,7 +73,7 @@ function ux_products($atts, $content = null, $tag) {
 
 	// Fix product on small screens
 	if($style == 'overlay' || $style == 'shade'){
-		$columns__sm = 1;
+		if(!$columns__sm) $columns__sm = 1;
 	}
 
 	if($tag == 'ux_bestseller_products') {
@@ -176,7 +176,8 @@ function ux_products($atts, $content = null, $tag) {
 	$repater['slider_style'] = $slider_nav_style;
 	$repater['slider_nav_color'] = $slider_nav_color;
 	$repater['slider_nav_position'] = $slider_nav_position;
-  $repater['auto_slide'] = $auto_slide;
+	$repater['slider_bullets'] = $slider_bullets;
+  	$repater['auto_slide'] = $auto_slide;
 	$repater['row_spacing'] = $col_spacing;
 	$repater['row_width'] = $width;
 	$repater['columns'] = $columns;
@@ -202,6 +203,7 @@ function ux_products($atts, $content = null, $tag) {
 			$atts['cat'] = $cat;
 
 			$products = ux_list_products($atts);
+
 		} else {
 			// Get custom ids
 			$ids = explode( ',', $ids );
@@ -211,6 +213,7 @@ function ux_products($atts, $content = null, $tag) {
 				'post__in' => $ids,
 				'post_type' => 'product',
 				'numberposts' => -1,
+				'posts_per_page' => -1,
 				'orderby' => 'post__in',
 				'ignore_sticky_posts' => true,
 			);
@@ -220,15 +223,20 @@ function ux_products($atts, $content = null, $tag) {
 
 	    if ( $products->have_posts() ) : ?>
 
-	            <?php while ( $products->have_posts() ) : $products->the_post(); ?>
-					<?php if($style == 'default'){
+	     <?php while ( $products->have_posts() ) : $products->the_post(); ?>
+
+					<?php
+          global $product;
+
+          if($style == 'default'){
 					 	 wc_get_template_part( 'content', 'product' );
 					} else { ?>
 	            	<?php
+
 	            	$classes_col = array('col');
-					// Check stock status
-					$out_of_stock = get_post_meta(get_the_ID(), '_stock_status',true) == 'outofstock';
-					if($out_of_stock) $classes[] = 'out-of-stock';
+
+      					$out_of_stock = get_post_meta(get_the_ID(), '_stock_status',true) == 'outofstock';
+      					if($out_of_stock) $classes[] = 'out-of-stock';
 
 	            	if($type == 'grid'){
 				        if($grid_total > $current_grid) $current_grid++;

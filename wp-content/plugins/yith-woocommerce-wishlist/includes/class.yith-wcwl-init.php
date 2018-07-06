@@ -49,7 +49,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $version = '2.1.1';
+		public $version = '2.2.2';
 
 		/**
 		 * Plugin database version
@@ -57,7 +57,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public $db_version = '2.0.0';
+		public $db_version = '2.2.0';
 
 		/**
 		 * Positions of the button "Add to Wishlist"
@@ -209,6 +209,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 						YITH_WCWL()->details['wishlist_id']     = $details['wishlist_id'];
 						YITH_WCWL()->details['quantity']        = $details['quantity'];
 						YITH_WCWL()->details['user_id']         = get_current_user_id();
+						YITH_WCWL()->details['dateadded']       = isset( $details['dateadded'] ) ? $details['dateadded'] : false;
 
 						$ret_val = YITH_WCWL()->add();
 					}
@@ -238,10 +239,20 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 			$position = empty( $position ) ? 'add-to-cart' : $position;
 
 			if ( $position != 'shortcode' ) {
-				add_action( $this->_positions[$position]['hook'], create_function( '', 'echo do_shortcode( "[yith_wcwl_add_to_wishlist]" );' ), $this->_positions[$position]['priority'] );
+				add_action( $this->_positions[$position]['hook'], array( $this, 'print_button' ), $this->_positions[$position]['priority'] );
 			}
 
 			// Free the memory. Like it needs a lot of memory... but this is rock!
+		}
+
+		/**
+		 * Print "Add to Wishlist" shortcode
+		 *
+		 * @return void
+		 * @since 2.2.2
+		 */
+		public function print_button() {
+			echo do_shortcode( "[yith_wcwl_add_to_wishlist]" );
 		}
 
 		/**
@@ -274,23 +285,30 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
             $woocommerce_base = WC()->template_path();
 			$assets_path = str_replace( array( 'http:', 'https:' ), '', WC()->plugin_url() ) . '/assets/';
 
+			wp_register_style( 'jquery-selectBox', YITH_WCWL_URL . 'assets/css/jquery.selectBox.css', array(), '1.2.0' );
+			wp_register_style( 'yith-wcwl-main', YITH_WCWL_URL . 'assets/css/style.css', array(), $this->version );
+			wp_register_style( 'yith-wcwl-font-awesome', YITH_WCWL_URL . 'assets/css/font-awesome.min.css', array(), '4.7.0' );
+
+			wp_enqueue_style( 'woocommerce_prettyPhoto_css', $assets_path . 'css/prettyPhoto.css' );
+			wp_enqueue_style( 'jquery-selectBox' );
+
 			$located = locate_template( array(
 				$woocommerce_base . 'wishlist.css',
 				'wishlist.css'
 			) );
 
-			wp_register_style( 'jquery-selectBox', YITH_WCWL_URL . 'assets/css/jquery.selectBox.css', array(), '1.2.0' );
-			wp_register_style( 'yith-wcwl-main', YITH_WCWL_URL . 'assets/css/style.css', array(), $this->version );
-			wp_register_style( 'yith-wcwl-user-main', str_replace( get_stylesheet_directory(), get_stylesheet_directory_uri(), $located ), array(), $this->version );
-			wp_register_style( 'yith-wcwl-font-awesome', YITH_WCWL_URL . 'assets/css/font-awesome.min.css', array(), '4.3.0' );
-
-			wp_enqueue_style( 'woocommerce_prettyPhoto_css', $assets_path . 'css/prettyPhoto.css' );
-			wp_enqueue_style( 'jquery-selectBox' );
-
 			if ( ! $located ) {
 				wp_enqueue_style( 'yith-wcwl-main' );
 			}
 			else {
+				$stylesheet_directory = get_stylesheet_directory();
+				$stylesheet_directory_uri = get_stylesheet_directory_uri();
+				$template_directory = get_template_directory();
+				$template_directory_uri = get_template_directory_uri();
+
+				$style_url = ( strpos( $located, $stylesheet_directory ) ) ? str_replace( $stylesheet_directory, $stylesheet_directory_uri, $located ) : str_replace( $template_directory, $template_directory_uri, $located );
+
+				wp_register_style( 'yith-wcwl-user-main', $style_url, array(), $this->version );
 				wp_enqueue_style( 'yith-wcwl-user-main' );
 			}
 
@@ -357,7 +375,7 @@ if ( ! class_exists( 'YITH_WCWL_Init' ) ) {
 			$yith_wcwl_l10n = array(
 				'ajax_url' => admin_url( 'admin-ajax.php', 'relative' ),
 				'redirect_to_cart' => get_option( 'yith_wcwl_redirect_cart' ),
-				'multi_wishlist' => get_option( 'yith_wcwl_multi_wishlist_enable' ) == 'yes' ? true : false,
+				'multi_wishlist' => defined( 'YITH_WCWL_PREMIUM' ) && get_option( 'yith_wcwl_multi_wishlist_enable' ) == 'yes' ? true : false,
 				'hide_add_button' => apply_filters( 'yith_wcwl_hide_add_button', true ),
 				'is_user_logged_in' => is_user_logged_in(),
 				'ajax_loader_url' => YITH_WCWL_URL . 'assets/images/ajax-loader.gif',

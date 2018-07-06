@@ -133,7 +133,7 @@ function ux_col($atts, $content = null) {
 
   // Add Depth Class
   if($depth) $classes_inner[] = 'box-shadow-'.$depth;
-  if($depth_hover) $classes_inner[] = 'box-shadow-'.$depth.'-hover';
+  if($depth_hover) $classes_inner[] = 'box-shadow-'.$depth_hover.'-hover';
   if($text_depth) $classes_inner[] = 'text-shadow-'.$text_depth;
 
   // Add Color class

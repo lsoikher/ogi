@@ -31,6 +31,7 @@ td.wishlist-empty{
   opacity: 0;
   max-height: 0;
   position: absolute;
+  overflow: hidden;
   padding: 5px;
   margin-top: -10px;
   border-radius: 5px;
@@ -62,7 +63,8 @@ td.wishlist-empty{
 
 .wishlist-icon:hover .wishlist-popup{
   opacity: 1;
-  max-height: 80px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .wishlist-popup a{

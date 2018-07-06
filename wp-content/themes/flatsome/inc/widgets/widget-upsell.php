@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Adds Upsell_Widget.
  */
@@ -35,11 +35,12 @@ class Upsell_Widget extends WP_Widget {
 		/* Disable if not on product page */
 		if(!function_exists('is_product') || !is_product()) return;
 
-		$upsells = $product->get_upsells();
+    $upsells = fl_woocommerce_version_check('3.0.0') ?  $product->get_upsell_ids() :  $product->get_upsells();
+
 		if ( sizeof( $upsells ) == 0 ) return;
 
 		extract( $args );
-		
+
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = apply_filters( 'widget_title', $instance['title'] );
 		}
@@ -56,14 +57,14 @@ class Upsell_Widget extends WP_Widget {
 			'posts_per_page'      => 9,
 			'orderby'             => 'rand',
 			'post__in'            => $upsells,
-			'post__not_in'        => array( $product->id ),
+			'post__not_in'        => array( $product->get_id() ),
 			'meta_query'          => $meta_query
 		);
 
 		$products = new WP_Query( $args );
 
 		echo $before_widget;
-		
+
 
 		if ($products->have_posts()) :
 
@@ -72,7 +73,7 @@ class Upsell_Widget extends WP_Widget {
 ?>
 		<ul class="up-sell product_list_widget">
 		<?php while ( $products->have_posts() ) : $products->the_post(); ?>
-				<?php woocommerce_get_template_part( 'content', 'product-small' ); ?>
+				<?php wc_get_template_part( 'content', 'product-small' ); ?>
 		<?php endwhile; // end of the loop. ?>
 		</ul>
 		<?php
@@ -116,10 +117,10 @@ class Upsell_Widget extends WP_Widget {
 		}
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title','wordpress'); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title','wordpress'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
-		<?php 
+		<?php
 	}
 
 } // class Foo_Widget

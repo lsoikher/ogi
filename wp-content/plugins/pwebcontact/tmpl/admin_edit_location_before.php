@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 2.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -101,14 +101,14 @@ function_exists('add_action') or die;
                     'after' => '<br><span class="pwebposition-bottom-right"><span></span><span>&harr;</span></span>'
                 )
             ),
-            'html_after' => 
+            'html_after' =>
                   '<div class="pweb_params_toggler_position_left pweb_params_toggler_position_right" style="display:none">'
                     . '<div class="pweb-alert pweb-alert-info">'
                         . __('You can flip Toggler Tab to vertical position by changing Advanced option in `Theme` tab', 'pwebcontact')
                     . '</div>'
                 . '</div>'
         )); ?>
-        
+
         <div class="pweb-clearfix">
             <div class="pweb-width-50">
             <?php echo $this->_get_field(array(
@@ -164,7 +164,7 @@ function_exists('add_action') or die;
                 )
             )
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'text',
             'name' => 'open_delay',
@@ -174,7 +174,7 @@ function_exists('add_action') or die;
             'class' => 'pweb-filter-int pweb-input-mini',
             'parent' => array('open_toggler_1', 'open_toggler_2', 'open_toggler_3')
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'text',
             'name' => 'open_count',
@@ -184,7 +184,7 @@ function_exists('add_action') or die;
             'class' => 'pweb-filter-int pweb-input-mini',
             'parent' => array('open_toggler_1', 'open_toggler_2', 'open_toggler_3')
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'text',
             'name' => 'cookie_lifetime',
@@ -217,7 +217,7 @@ function_exists('add_action') or die;
                 )
             )
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'text',
             'name' => 'close_delay',
@@ -227,12 +227,12 @@ function_exists('add_action') or die;
             'class' => 'pweb-filter-int pweb-input-mini',
             'parent' => array('close_toggler_1')
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'radio',
             'name' => 'close_other',
-            'label' => 'Close other Perfect Contact Forms and Boxes',
-            'tooltip' => 'Close all other Slide in Boxes and Accordion from Perfect-Web when opening another one.',
+            'label' => 'Close other Gator Forms and Boxes',
+            'tooltip' => 'Close all other Slide in Boxes and Accordion from Gator Forms when opening another one.',
             'default' => 0,
             'parent' => array('layout_type_slidebox', 'layout_type_accordion'),
             'class' => 'pweb-radio-group',
@@ -247,7 +247,7 @@ function_exists('add_action') or die;
                 )
             )
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'radio',
             'name' => 'modal_disable_close',
@@ -282,7 +282,7 @@ function_exists('add_action') or die;
                 'cols' => 50
             )
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'textarea',
             'name' => 'onopen',
@@ -295,7 +295,7 @@ function_exists('add_action') or die;
                 'cols' => 50
             )
         )); ?>
-        
+
         <?php echo $this->_get_field(array(
             'type' => 'textarea',
             'name' => 'onclose',

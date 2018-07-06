@@ -29,14 +29,14 @@ class PostSaver {
     }
 
     // Publish post if user has permission to do it.
-    if ( $can_publish ) {
-      $post_status = 'publish';
+    if ( $can_publish && $data['status'] == 'publish' ) {
+      $post_status = $data['status'];
       $save_button = __( 'Update', 'wordpress' );
     } else {
       $post_status = $data['status'];
       $save_button = $post_status == 'pending'
         ? __( 'Submit for Review', 'wordpress' )
-        : __( 'Save draft', 'wordpress' );
+        : __( 'Publish', 'wordpress' );
     }
 
     $post = apply_filters( 'ux_builder_save_post', array_merge( $data['attributes'], array(

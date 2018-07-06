@@ -9,12 +9,11 @@ function flatsome_customizer_header_builder(){
         <span class="title left">Header Builder</span>
         <span class="center display-toggle">
             <a class="button button-primary enable-desktop">Desktop</a>
-            <a class="button button-primary enable-tablet">Tablet</a>
-            <a class="button button-primary enable-mobile">Mobile</a>
+            <a class="button button-primary enable-tablet">Mobile / Tablet</a>
         </span>
         <span class="right">
             <a class="button button-secondary header-preset-button" data-section="header-presets" style="margin-right: 5px;">Presets</a>
-            <a href="https://www.youtube.com/watch?v=YE-lOavbrjU" target="_blank" class="button" style="margin-right: 5px;">Tutorial</a>
+            <a href="//www.youtube.com/watch?v=YE-lOavbrjU" target="_blank" class="button" style="margin-right: 5px;">Tutorial</a>
             <a class="button header-clear-button" style="margin-right: 5px;">Clear All</a>
             <a class="button header-close-button" style="margin-right: 10px;">✕ Close</a>
         </span>

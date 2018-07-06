@@ -2,7 +2,7 @@ Description
 -----------
 Join the thousands of users who have downloaded the Instapage plugin for WordPress to seamlessly publish landing pages as a natural extension of your WordPress blog or website. All you have to do is select the 'Push to WordPress' publishing option within Instapage when you're finished with your landing page.
 
-Instapage is the most powerful landing page platform on the market. Ideal for teams and agencies, Instapage has everything you need to build fully customizable, on-brand landing pages. 
+Instapage is the most powerful landing page platform on the market. Ideal for teams and agencies, Instapage has everything you need to build fully customizable, on-brand landing pages.
 
 **No other landing page builder offers this level of precision with full design freedom**
 
@@ -38,11 +38,9 @@ Features
 
 - 100+ fully customizable and optimized templates all designed to increase conversions
 - Designer-friendly builder
-- Fully mobile responsive landing pages 
+- Fully mobile responsive landing pages
 - 5000+ Customizable Fonts (Google and Typekit)
 - Custom domains
-- Unlimited pages
-- Unlimited visitors
 - Unlimited domains
 - Enterprise Level Infrastructure & Support
 
@@ -62,7 +60,7 @@ Integrations
 - GoToWebinar
 - Infusionsoft
 - Kissmetrics
-- Mad Mimi 
+- Mad Mimi
 - SalesForce
 - Webhooks
 - WordPress
@@ -71,6 +69,22 @@ Integrations
 
 Changelog
 ---------
+= 3.1.9 (2017-07-13) =
+- Fixed a bug with wrong variation serving
+- Fixed Drupal JS and CSS aggregation problem
+
+= 3.1.8 (2017-05-31) =
+- Updated 'Tested up to' field
+- Sending additional request headers to prevent caching
+- Alternative method of passing Host parameter added
+- Additional warning in diagnostic mode
+
+= 3.1.7 (2017-05-09) =
+- Fixed slug validator issue
+- Installation improvement
+- Fixed inaccurate status code issue
+- Fixed problem with detection connected subaccount
+- Fixed problem with email input error in login form
 
 = 3.1.6 (2017-02-13) =
 - Improved dynamic text replacement

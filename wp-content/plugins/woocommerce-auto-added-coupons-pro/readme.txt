@@ -3,8 +3,8 @@ Contributors: josk79
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5T9XQBCS2QHRY&lc=NL&item_name=Jos%20Koenis&item_number=wordpress%2dplugin&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: woocommerce, coupons, discount
 Requires at least: 4.0.0
-Tested up to: 4.5.3
-Stable tag: 2.3.5
+Tested up to: 4.7.3
+Stable tag: 2.5.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Additional functionality for WooCommerce Coupons: Allow discounts to be automati
 "WooCommerce Extended Coupon Features" adds functionality to the WooCommerce coupons and allows for automatic discount rules. 
 Very easy to use, the functionality is conveniently integrated to the WooCommerce Edit Coupon panel.
 
-Compatible with WooCommerce 2.6.1. Backwards compatible with older WooCommerce versions (2.3.0 confirmed).
+Compatible with WooCommerce 3.0.0. Backwards compatible with older WooCommerce versions (2.3.0 confirmed).
 
 Full documentation is available at [www.soft79.nl](http://www.soft79.nl/documentation/wjecf).
 
@@ -105,6 +105,87 @@ Sure! [This](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5T9XQ
 4. Additionals restrictions based on shipping or payment method or the customer
 
 == Changelog ==
+
+= 2.5.2.2 =
+* (PRO) FIX: Documentation url
+* (PRO) FIX: Forgot to raise version number, causing a permanent 'An update is available'
+
+= 2.5.2.1 =
+* (PRO) FIX: Duplicate products at free product selection
+
+= 2.5.2 =
+* (PRO) FEATURE: Free product selection using checkboxes / numeric inputs
+* (PRO) FIX: Free product selection fails if coupon code contains a space
+* (PRO) FIX: CSS for column system used by the free product selection
+* DOCUMENTATION: Added the API part to the documentation (work in progress)
+
+= 2.5.1 =
+* FIX: Draft settings not being saved
+* FIX: PHP < 5.5 compatibility
+* FIX: Abstract_WJECF_Plugin log function
+* INTERNAL: Functions add_action_once / add_filter_once. To guarantee execution only once.
+* INTERNAL: Updated the API example; also usable from CLI
+* INTERNAL: Created Sanitizer for form data handling
+* INTERNAL: Reorganised coupon meta handling ( Abstract_WJECF_Plugin::admin_coupon_meta_fields )
+
+= 2.5.0 =
+* (PRO) FEATURE: Auto update!
+* (PRO) FEATURE: Checkbox 'Allow applying coupon when invalid'
+* (PRO) FEATURE: Custom message when applying a coupon which does not yet validate
+* FEATURE: Settings page
+* FEATURE REMOVED: Experimental feature 'Allow when minimum spend not reached' (Use 'Allow applying coupon when invalid' instead)
+* COSMETIC: Products tab is now 'Free Products' tab. Moved other items to the 'Usage restriction'-tab
+* FIX: Issue with 'Allow discount on cart with excluded items'
+* FIX: Notice if a free product without weight is added/removed to/from the cart
+* FIX: Deprecation notice in WJECF_AutoCoupon::sort_auto_coupons
+* INTERNAL: Introduced 'allow_overwrite_coupon_values'
+
+= 2.4.3 =
+* FIX: Customer selector WooCommerce 3.0.0 compatibility
+
+= 2.4.2.1 =
+* FIX: WooCommerce < 2.7 compatibility
+
+= 2.4.2 =
+* FIX: Invalid calculation of subtotal/quantity of matching product since WC 3.0.0
+* FIX: Missing "PRODUCT AND/OR" selector on Admin since WC 3.0.0 (Javascript)
+* FIX: WooCommerce version detection if woocommerce is not installed in /wp-content/plugins/woocommerce directory
+
+= 2.4.1 =
+* (PRO) FIX: Product selector compatability with select2 v4 (WooCommerce 3.0)
+
+= 2.4.0 =
+* FIX: WooCommerce 3.0.0 Compatibility
+* INTERNAL: Also load textdomain from WP_LANG_DIR/woocommerce-jos-autocoupon/woocommerce-jos-autocoupon-LOCALE.mo
+
+= 2.3.7.5 = 
+* FIX: Limit usage to cheapest discounting the wrong product when the quantity of cheapest product was greater than 1.
+
+= 2.3.7.4 = 
+* FIX: Combining add-to-cart and apply_coupon in a single querystring
+
+= 2.3.7.3 = 
+* FIX: Invalid usage of get_plugin_data
+
+= 2.3.7.2 = 
+* FIX: Backwards compatibility with WooCommerce < 2.5.0
+* INTERNAL: Introducing WJECF_WC() to maintain backwards compatibility
+
+= 2.3.7.1 = 
+* (PRO) FIX: Bug in 'Limit discount to'
+
+= 2.3.7 =
+* PERFORMANCE: Admin could hang in some occasions on a jQuery-selector
+* FIX: Suppresed warnings were displayed by the Query Monitor plugin if pro files are missing
+* FIX: WPML Compatibility
+* FIX: Invalid textdomain in woocommerce_coupon_error (Thanks, 7o599)
+* (PRO) FIX: 'Limit discount to' skipped non-matching products on cart % discount
+* (PRO) FEATURE: Limit discount to every nth (matching) item in the cart
+
+= 2.3.6 =
+* FIX: Compatibility with WooCommerce < 2.3.0 for coupon by url
+* COSMETIC: On the admin page, moved AND/OR selector near the product/categories input
+* (PRO) FEATURE: Filter matching products by custom field.
 
 = 2.3.5 =
 * (PRO) FIX: Workaround for missing WooCommerce 2.6.3 constant WC_ROUNDING_PRECISION

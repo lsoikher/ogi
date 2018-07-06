@@ -1,18 +1,34 @@
 <?php
+/**
+ * Shop category filter button template
+ *
+ * @package flatsome
+ */
 
-  $layout = get_theme_mod('category_sidebar', 'left-sidebar');
-  if($layout == 'none') return;
+$layout = get_theme_mod( 'category_sidebar', 'left-sidebar' );
+if ( 'none' === $layout ) {
+	return;
+}
 
-  $class = 'show-for-medium';
-  if($layout == 'off-canvas') $class = '';
-  ?>
-  <div class="category-filtering category-filter-row <?php echo $class; ?>">
-      <a href="#" data-open="#shop-sidebar"  data-pos="left" class="filter-button uppercase plain">
-          <i class="icon-menu"></i>
-          <strong> <?php echo __( 'Filter', 'woocommerce' ); ?></strong>
-      </a>
-      <div class="inline-block">
-          <?php the_widget('WC_Widget_Layered_Nav_Filters'); ?>
-      </div>
-  </div>
-<?php
+$after = 'data-visible-after="true"';
+$class = 'show-for-medium';
+if ( 'off-canvas' === $layout ) {
+	$after = '';
+	$class = '';
+}
+
+$custom_filter_text = get_theme_mod( 'category_filter_text' );
+$filter_text = __( 'Filter', 'woocommerce' );
+if ( $custom_filter_text ) {
+	$filter_text = $custom_filter_text;
+}
+?>
+<div class="category-filtering category-filter-row <?php echo $class ?>">
+	<a href="#" data-open="#shop-sidebar" <?php echo $after ?> data-pos="left" class="filter-button uppercase plain">
+		<i class="icon-menu"></i>
+		<strong><?php echo $filter_text ?></strong>
+	</a>
+	<div class="inline-block">
+		<?php the_widget( 'WC_Widget_Layered_Nav_Filters' ) ?>
+	</div>
+</div>

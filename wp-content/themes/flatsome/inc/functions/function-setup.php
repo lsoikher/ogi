@@ -55,7 +55,6 @@ function flatsome_setup() {
 add_action( 'after_setup_theme', 'flatsome_setup' );
 
 
-
 /* Setup Theme Widgets */
 function flatsome_widgets_init() {
 
@@ -68,8 +67,8 @@ function flatsome_widgets_init() {
     'id'            => 'sidebar-main',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget'  => '</aside>',
-    'before_title'  => $title_before.'<h3 class="widget-title '.$title_class.'"><span>',
-    'after_title'   => '</span></h3>'.$title_after,
+    'before_title'  => $title_before.'<span class="widget-title '.$title_class.'"><span>',
+    'after_title'   => '</span></span>'.$title_after,
   ) );
 
 
@@ -78,8 +77,8 @@ function flatsome_widgets_init() {
     'id'            => 'sidebar-footer-1',
     'before_widget' => '<div id="%1$s" class="col pb-0 widget %2$s">',
     'after_widget'  => '</div>',
-    'before_title'  => '<h3 class="widget-title">',
-    'after_title'   => '</h3><div class="is-divider small"></div>',
+    'before_title'  => '<span class="widget-title">',
+    'after_title'   => '</span><div class="is-divider small"></div>',
   ) );
 
 
@@ -88,8 +87,8 @@ function flatsome_widgets_init() {
     'id'            => 'sidebar-footer-2',
     'before_widget' => '<div id="%1$s" class="col pb-0 widget %2$s">',
     'after_widget'  => '</div>',
-    'before_title'  => '<h3 class="widget-title">',
-    'after_title'   => '</h3><div class="is-divider small"></div>',
+    'before_title'  => '<span class="widget-title">',
+    'after_title'   => '</span><div class="is-divider small"></div>',
   ) );
 }
 add_action( 'widgets_init', 'flatsome_widgets_init' );

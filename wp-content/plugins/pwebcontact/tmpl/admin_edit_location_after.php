@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 2.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -165,6 +165,6 @@ function_exists('add_action') or die;
             'class' => 'pweb-filter-int pweb-input-mini',
             'parent' => array('layout_type_slidebox', 'layout_type_modal', 'layout_type_accordion')
         )); ?>
-        
+
     </div>
 </div>

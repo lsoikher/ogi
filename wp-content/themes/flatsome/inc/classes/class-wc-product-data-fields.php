@@ -56,7 +56,7 @@ if(!class_exists('WC_Product_Data_Fields')){
       public function init(){
 
         add_action('woocommerce_product_write_panel_tabs', array($this, 'product_write_panel_tab'));
-        add_action('woocommerce_product_write_panels', array($this, 'product_write_panel'));
+        add_action('woocommerce_product_data_panels', array($this, 'product_write_panel'));
         add_action('woocommerce_process_product_meta', array($this, 'product_save_data'), 10, 2);
 
 
@@ -74,7 +74,7 @@ if(!class_exists('WC_Product_Data_Fields')){
 
           if(isset($field['tab_name']) && $field['tab_name'] != ''){
 
-          echo "<li class=\"wc_productdata_options_tab\"><a href=\"#wc_productdata_options_tab\">".$field['tab_name']."</a></li>";
+          echo "<li class=\"wc_productdata_options_tab\"><a href=\"#wc_productdata_options_tab\"><span>".$field['tab_name']."</span></a></li>";
 
           }
 

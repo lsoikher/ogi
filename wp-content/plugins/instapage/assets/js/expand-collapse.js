@@ -1,5 +1,4 @@
-( function( $ )
-{
+(function($) {
   function switchExpandableContent(trigger) {
     var expandableContainer = trigger.closest($('.c-expandable-item'));
     var expandableWrapper = $(expandableContainer).find('.c-expandable-item__wrapper');
@@ -21,4 +20,4 @@
         switchExpandableContent($(this));
       });
   });
-} )( jQuery );
+})(jQuery);

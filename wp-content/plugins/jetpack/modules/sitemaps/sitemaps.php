@@ -87,7 +87,8 @@ class Jetpack_Sitemap_Manager {
 		// Add callback for sitemap URL handler.
 		add_action(
 			'init',
-			array( $this, 'callback_action_catch_sitemap_urls' )
+			array( $this, 'callback_action_catch_sitemap_urls' ),
+			defined( 'IS_WPCOM' ) && IS_WPCOM ? 100 : 10
 		);
 
 		// Add generator to wp_cron task list.
@@ -106,6 +107,12 @@ class Jetpack_Sitemap_Manager {
 			'publish_post',
 			array( $this, 'callback_action_flush_news_sitemap_cache' ),
 			10
+		);
+
+		// In case we need to purge all sitemaps, we do this.
+		add_action(
+			'jetpack_sitemaps_purge_data',
+			array( $this, 'callback_action_purge_data' )
 		);
 
 		/*
@@ -136,6 +143,10 @@ class Jetpack_Sitemap_Manager {
 	 */
 	private function serve_raw_and_die( $the_content_type, $the_content ) {
 		header( 'Content-Type: ' . $the_content_type . '; charset=UTF-8' );
+
+		global $wp_query;
+		$wp_query->is_feed = true;
+		set_query_var( 'feed', 'sitemap' );
 
 		if ( '' === $the_content ) {
 			wp_die(
@@ -427,6 +438,17 @@ class Jetpack_Sitemap_Manager {
 	 */
 	public function callback_action_flush_news_sitemap_cache() {
 		delete_transient( 'jetpack_news_sitemap_xml' );
+	}
+
+	/**
+	 * Callback for resetting stored sitemap data.
+	 *
+	 * @access public
+	 * @since 5.3.0
+	 */
+	public function callback_action_purge_data() {
+		$this->callback_action_flush_news_sitemap_cache();
+		$this->librarian->delete_all_stored_sitemap_data();
 	}
 
 	/**

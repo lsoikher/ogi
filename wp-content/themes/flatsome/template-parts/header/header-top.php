@@ -21,7 +21,7 @@
 
       <?php if(get_theme_mod('header_mobile_elements_top')) { ?>
       <div class="flex-col show-for-medium flex-grow">
-          <ul class="nav nav-left medium-nav-center nav-small mobile-nav <?php flatsome_nav_classes('top'); ?>">
+          <ul class="nav nav-center nav-small mobile-nav <?php flatsome_nav_classes('top'); ?>">
               <?php flatsome_header_elements('header_mobile_elements_top'); ?>
           </ul>
       </div>

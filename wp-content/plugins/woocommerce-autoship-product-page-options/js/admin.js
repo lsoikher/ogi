@@ -1,4 +1,8 @@
 jQuery(function ($) {
+	var minFrequency = parseInt(WC_AUTOSHIP_PRODUCT_PAGE_OPTIONS.WC_AUTOSHIP_MIN_FREQUENCY);
+	var maxFrequency = parseInt(WC_AUTOSHIP_PRODUCT_PAGE_OPTIONS.WC_AUTOSHIP_MAX_FREQUENCY);
+	console.log([minFrequency, maxFrequency]);
+
 	function sortFrequencyOptions() {
 		var options = $('.wc-autoship-frequency-option').toArray();
 		var changed = false;
@@ -23,7 +27,7 @@ jQuery(function ($) {
 	$('#wc-autoship-product-page-frequency-button').click(function () {
 		var frequency = parseInt($('#wc-autoship-product-page-frequency').val());
 		var name = $('#wc-autoship-product-page-frequency-name').val();
-		if (isNaN(frequency) || frequency < 7 || frequency > 365 || name == '') {
+		if (isNaN(frequency) || frequency < minFrequency || frequency > maxFrequency || name == '') {
 			return;
 		}
 		var options = $('.wc-autoship-frequency-option').toArray();
@@ -65,7 +69,7 @@ jQuery(function ($) {
 	});
 	
 	var days = [];
-	for ( var d = 7; d < 366; d++ ) {
+	for ( var d = minFrequency; d <= maxFrequency; d++ ) {
 		days.push(d.toString());
 	}
 	$('#wc-autoship-product-page-frequency').autocomplete({

@@ -209,7 +209,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
           (2) If mini_cart not used in Theme, whole thing won't work!!!
       */      
        add_action('woocommerce_before_mini_cart',            array(&$this, 'vtprd_maybe_before_mini_cart'), 10, 1   );
-  
+
       //run it all the time!
 
        add_action('woocommerce_before_calculate_totals',     array(&$this, 'vtprd_maybe_before_calculate_totals'), 10, 1  );
@@ -238,7 +238,6 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     //---------------------------- 
     //CART AND CHECKOUT Actions
     //----------------------------  
-    
 
     //'woocommerce_cart_updated' RUNS EVERY TIME THE CART OR CHECKOUT PAGE DISPLAYS!!!!!!!!!!!!!
     add_action( 'woocommerce_cart_updated',                   array(&$this, 'vtprd_cart_updated') );   //AFTER cart update completed, all totals computed
@@ -253,19 +252,43 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     //   NEED BOTH to pick up going to view cart and going directly to checkout.  Exits quickly if already done.
 //v1.0.9.1  moved if statement to function
 //v1.0.9.1     if ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon')  {   //v1.0.9.0    not needed for inline-pricing
-      add_action( 'woocommerce_before_cart_table',     array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon'), 10);  //v1.1.0.1 chged to action
-      add_action( 'woocommerce_checkout_init',         array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon'), 10);  //v1.1.0.1 chged to action
+      
+      //-----------------------------------
+      //v2.0.0 BEGIN - 
+      //removed 'woocommerce_before_cart_table' , 'woocommerce_checkout_init'
+      //add_action( 'woocommerce_before_cart_table',     array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon'), 10);  //v1.1.0.1 chged to action      
+      //add_action( 'woocommerce_checkout_init',         array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon'), 10);  //v1.1.0.1 chged to action
+      // replaced with:
+      
+      add_action( 'woocommerce_after_calculate_totals',         array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon'), 10);  //v1.1.0.1 chged to action
+  
+      //v2.0.0 END
+      //-----------------------------------
         
       //change the value of the Pricing Deals 'dummy' coupon instance to the Pricing Deals discount amount
       //    v1.1.0.2 change priority to fall **before** other coupon plugins
       //    - same filter gets executed in Woo points and Rewards, and at 10,2 they fight (same thing happens if Pricing Deals falls afterwards)
       //v1.1.7 - this filter only works with < woo 3.0.0
-      add_filter( 'woocommerce_get_shop_coupon_data',  array(&$this, 'vtprd_woo_maybe_load_discount_amount_to_coupon'), 5,2); //v1.1.0.2 change priority to fall **before** other coupon plugins      
+      
+      //v2.0.0 BEGIN - 
+      //moved if here
+      if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0 - if so handled below
+        add_filter( 'woocommerce_get_shop_coupon_data',  array(&$this, 'vtprd_woo_maybe_load_discount_amount_to_coupon'), 5,2); //v1.1.0.2 change priority to fall **before** other coupon plugins      
+      }
+      //v2.0.0 END
       
       //v1.1.7 - this filter only works with >= woo 3.0.0
       // UPDATE coupon amount, if 'coupon discount' selected - WOO 3.0.0 and beyond
-      add_action( 'woocommerce_coupon_loaded',         array(&$this, 'vtprd_woo_new_load_discount_amount_to_coupon'), 10,1);
-   
+          
+    //before woo 3.0.0, handled in function vtprd_woo_maybe_load_discount_amount_to_coupon
+      
+      //v2.0.0 BEGIN - 
+      //moved if here
+      if ( version_compare( WC_VERSION, '3.0.0', '>=' ) ) { //check if older than version 3.0.0 - if so handled below
+        add_action( 'woocommerce_coupon_loaded',         array(&$this, 'vtprd_woo_new_load_discount_amount_to_coupon'), 10,1);
+      }
+      //v2.0.0 END  
+     
      
       //created in v1.0.9.0 , now no longer necessary
       //add_action( 'woocommerce_check_cart_items',               array(&$this, 'vtprd_maybe_update_coupon_on_check_cart_items'), 10 );   //v1.0.8.9 
@@ -316,7 +339,10 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     //the form validation filter executes ONLY at click-to-pay time                                                                      
     if (defined('VTPRD_PRO_DIRNAME')) {  //v1.0.8.0
       add_filter( 'woocommerce_before_checkout_process', array(&$this, 'vtprd_woo_validate_order'), 1);   
-    }   
+    }  
+    
+    //still in development
+    //add_action( 'woocommerce_before_checkout_process', array(&$this, 'vtprd_compute_tax_values'), 10, 1  );  //v1.1.8.0
 
     //*************************************************
     // Post-Purchase
@@ -360,6 +386,11 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
           
      //v1.1.0.3 add crossouts to subtotals when order placed, to order-details and emails
      add_filter('woocommerce_order_formatted_line_subtotal', array( &$this, 'vtprd_maybe_order_formatted_line_subtotal' ), 10,3);
+     
+    //v1.1.8.0 begin
+    //CART Deal Order History Discount Reporting 
+    add_action('woocommerce_admin_order_items_after_line_items', array(&$this, 'vtprd_order_history_report'), 10, 1   );
+    //v1.1.8.0 end
 
 	} //end constructor
   
@@ -425,24 +456,29 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
                       
                    
                       //v1.1.0.9 begin  need to clear this out
+                       //v2.0.0 begin -
+                       /*
                        if (isset($_SESSION['data_chain'])) {
                          $contents = $_SESSION['data_chain'];
                          unset( $_SESSION['data_chain'], $contents ); 
                        }
+                       */
+                       $_SESSION['data_chain'] = false; 
+                       //v2.0.0 end 
                        ///v1.1.0.9 end     
                   
                   
                       $contents_total   =   $woocommerce->cart->cart_contents_total;
-                      $applied_coupons  =   $woocommerce->cart->applied_coupons;
+                      $applied_coupons  =   $woocommerce->cart->get_coupons(); //v2.0.0
                       $data_chain = array();
                       $data_chain[] = $vtprd_rules_set;
                       $data_chain[] = $vtprd_cart;
                       $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
                       $data_chain[] = $contents_total;
                       $data_chain[] = $applied_coupons;
+                      $data_chain[] = time(); //v2.0.0
                       $_SESSION['data_chain'] = serialize($data_chain);
-
-
+                      //error_log( print_r(  'Store data_chain 001', true ) ); 
                   } 
 
                   $do_return = true;
@@ -534,11 +570,16 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 
         if ($total_discount_1st_runthrough != $vtprd_cart->yousave_cart_total_amt) { //v1.1.1.3
 
-            //v1.1.0.9 begin  need to clear this out
+             //v1.1.0.9 begin  need to clear this out
+             //v2.0.0 begin -
+             /*
              if (isset($_SESSION['data_chain'])) {
                $contents = $_SESSION['data_chain'];
                unset( $_SESSION['data_chain'], $contents ); 
              }
+             */
+             $_SESSION['data_chain'] = false; 
+             //v2.0.0 end 
              ///v1.1.0.9 end     
         
         
@@ -550,14 +591,16 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
              access global     - in vtprd_post_purchase_maybe_save_log_info   
             *************************************************   */
             $contents_total   =   $woocommerce->cart->cart_contents_total;
-            $applied_coupons  =   $woocommerce->cart->applied_coupons;
+            $applied_coupons  =   $woocommerce->cart->get_coupons(); //v2.0.0
             $data_chain = array();
             $data_chain[] = $vtprd_rules_set;
             $data_chain[] = $vtprd_cart;
             $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
             $data_chain[] = $contents_total;
             $data_chain[] = $applied_coupons;
-            $_SESSION['data_chain'] = serialize($data_chain); 
+            $data_chain[] = time(); //v2.0.0
+            $_SESSION['data_chain'] = serialize($data_chain);
+            //error_log( print_r(  'Store data_chain 002', true ) ); 
             
         } //v1.1.1.3
         
@@ -578,6 +621,73 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     return;   
   } 	
 
+
+  //**************************************
+  //* v1.1.8.0 New function  *****
+  //**************************************
+  //compute tax values to be used in messaging, email and in order history
+  //logged post-purchase.
+	public function vtprd_compute_tax_values(){
+   //error_log( print_r(  'Function begin - vtprd_compute_tax_values', true ) );   
+    if(!isset($_SESSION)){
+      session_start();
+      header("Cache-Control: no-cache");
+      header("Pragma: no-cache");
+    } 
+    if ( (isset ($_SESSION['do_no_actions'])) &&
+         ($_SESSION['do_no_actions']) ) {
+      return;   
+		}   
+    global $vtprd_rules_set, $vtprd_cart, $vtprd_setup_options, $vtprd_info, $woocommerce;
+    vtprd_debug_options();    
+    //Open Session Variable, get rules_set and cart if not there...
+    $data_chain = $this->vtprd_get_data_chain();
+    
+    $cart_updated = false;  
+    
+    $sizeof_cart_items = sizeof($vtprd_cart->cart_items);
+    for($k=0; $k < $sizeof_cart_items; $k++) {
+       if ($vtprd_cart->cart_items[$k]->yousave_total_amt > 0) {
+          $cart_updated = true;
+          foreach($vtprd_cart->cart_items[$k]->yousave_by_rule_info as $key => $yousave_by_rule) {
+              $yousave_amt_taxed = $yousave_by_rule['yousave_amt'];
+              
+              $vtprd_cart->cart_items[$k]->yousave_by_rule_info[$key]['yousave_amt_taxed'] = $yousave_amt_taxed;
+          } //end for
+          
+          $vtprd_cart->cart_items[$k]->yousave_total_amt_taxed = $vtprd_cart->cart_items[$k]->yousave_total_amt;
+          
+        } //end if
+      
+    } //end for 
+    
+    //recreate data_chain for logging post-purchase.
+    if ($cart_updated) { 
+       //v2.0.0 begin -
+       /*
+       if (isset($_SESSION['data_chain'])) {
+         $contents = $_SESSION['data_chain'];
+         unset( $_SESSION['data_chain'], $contents ); 
+       }
+       */
+       $_SESSION['data_chain'] = false; 
+       //v2.0.0 end 
+      $contents_total   =   $woocommerce->cart->cart_contents_total;
+      $applied_coupons  =   $woocommerce->cart->get_coupons(); //v2.0.0
+      $data_chain = array();
+      $data_chain[] = $vtprd_rules_set;
+      $data_chain[] = $vtprd_cart;
+      $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
+      $data_chain[] = $contents_total;
+      $data_chain[] = $applied_coupons;
+      $data_chain[] = time(); //v2.0.0
+      $_SESSION['data_chain'] = serialize($data_chain); 
+      //error_log( print_r(  'Store data_chain 003', true ) );        
+    }    
+    return;
+	}
+
+
   /*
   //v1.1.1 REFACTORED
   Used by AJAX to get variation prices during catalog display!!!
@@ -592,20 +702,16 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 		//v1.1.1 begin - 
     // "do_no_actions" set/unset in function  vtprd_build_product_price_array
    
-   
-   
-     //allow AJAX through, as woo 2.4+ uses ajax to get variation pricing for variation groups larger than 20
-     if ( (function_exists( 'get_current_screen' ) ) ||    // get_current_screen ONLY exists in ADMIN!!!  
-          ( is_admin() ) ) { 
-         return $price_html;              
-     }
+    //v2.0.0 begin K solution
+     //allow wp-admin calls for Catalog pricing in back end product pages!!
+     global $post, $vtprd_info, $vtprd_setup_options;
+     if ( ($vtprd_info['ruleset_has_a_display_rule'] != 'yes') || 
+          (defined( 'DOING_CRON' )) ) {
+        return $price_html;          
+     } 
+     //v2.0.0 end K solution   
       
-     /*
-    if (is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {  //v1.0.9.0  syntax cleaned up       
-       return $price_html;
-    }        
-    */
-
+    //v2.0.0 end
       
     if(!isset($_SESSION)){
       session_start();
@@ -632,12 +738,38 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     
     $price_html_original = $price_html; //save for later use
 	 //v1.1.1 end
-      
-    global $post, $vtprd_info, $vtprd_setup_options;
 
     vtprd_debug_options();  //v1.0.5  
  
- 
+      
+    //v1.1.8.3 begin 
+    //to turn on:  add_filter( 'vtprd_disallow_product_types', function() { return array('donation'); } );
+	  // to list more than 1, list using: array('xxx','yyyy','zzz')
+    /* Standard product types are:
+        'simple'
+        'variable'
+        'grouped'
+        'external'    
+    */
+    if ( apply_filters('vtprd_disallow_product_types',FALSE) ) {
+       if ( version_compare( WC_VERSION, '3.0', '>=' ) ) {
+          $product_type = $product_info->get_type();
+       } else {
+          $product_type = $product_info->product_type;
+       }
+       $disallow_these_types = apply_filters('vtprd_disallow_product_types',FALSE);
+
+  //error_log( print_r(  'vtprd_disallow_product_types 003, product_type = ' .$product_type .'disallow array= ', true ) );
+  //error_log( var_export($disallow_these_types, true ) ); 
+  
+       if ( (is_array($disallow_these_types)) &&
+            (in_array($product_type, $disallow_these_types)) ) {
+  //error_log( print_r(  'vtprd_disallow_product_types 003, SKIP THIS PRODUCT ', true ) );           
+          return $price_html;
+       } 
+    }              
+    //v1.1.8.3 end 
+  
  
     //v1.1.7 begin
     // As of WOO 3.0.0, can't handle the object that comes down in some calls, no way to access ID (or so it seems)
@@ -771,6 +903,14 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
        if(isset($_SESSION['vtprd_product_session_price_'.$product_id])) { 
          $oldprice_session = $_SESSION['vtprd_product_session_price_'.$product_id]['price_html'];
          $price_html = stripslashes($oldprice_session); //this is FORMATTED 
+         
+         //v2.0.0 begin K solution
+         if (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) {
+            //showing on a product LIST page, needs a break between 
+            $price_html = str_replace('<ins>', '<br><ins>', $price_html);
+         }
+         //v2.0.0 end K solution
+                           
   //error_log( print_r(  'return 002 , price=  ' .$price_html, true ) );        
          return $price_html; 
        } 
@@ -778,7 +918,15 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
       if (isset($_SESSION['vtprd_product_old_price_'.$product_id])) {    
          $oldprice_session = $_SESSION['vtprd_product_old_price_'.$product_id]['price_html'];
          $price_html = stripslashes($oldprice_session); //this is FORMATTED 
-   //error_log( print_r(  'return 003 , price=  ' .$price_html, true ) );        
+   //error_log( print_r(  'return 003 , price=  ' .$price_html, true ) );  
+         
+         //v2.0.0 begin K solution
+         if (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) {
+            //showing on a product LIST page, needs a break between 
+            $price_html = str_replace('<ins>', '<br><ins>', $price_html);
+         }
+         //v2.0.0 end K solution
+                 
          return $price_html;
        } 
      }    
@@ -1082,6 +1230,14 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
       if ($vtprd_setup_options['show_catalog_price_crossout'] == 'yes')  {
 
           $price_html  = '<del>' .$varParent_current_price_range .'</del>'; 
+           
+          //v2.0.0 begin K solution
+          if (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) {
+            //showing on a product LIST page, needs a break between 
+            $price_html .= '<br>';
+          }
+          //v2.0.0 end K solution 
+                      
           $price_html .= '<ins>' .$varParent_discount_price_range .'</ins>'; 
               
       } else {       
@@ -1127,22 +1283,40 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 
       
       $vtprd_info['current_processing_request'] = 'display';
-      $current_price = $product_info->price;
+      
+      //v1.1.8.1 begin
+      //$current_price = $product_info->price;
+      if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0
+        $current_price = $product_info->price;
+      } else {
+        $current_price = $product_info->get_price();
+      }
+      //v1.1.8.1 end       
       
     //error_log( print_r(  '$current_price= ' .$current_price, true ) );
     //error_log( print_r(  '$product_info->price= ' .$product_info->price, true ) );
            
       vtprd_get_product_session_info($product_id,$current_price);
-  
+      
       $from = strstr($price_html, 'From') !== false ? ' From ' : ' ';
        
       //ONLY change input pricing if there IS a discount
       if ($vtprd_info['product_session_info']['product_yousave_total_amt'] > 0)  {     //v1.0.7.2  replaced 'product_discount_price' with 'product_yousave_total_amt' to pick up a FREE discount
         $price_html = $this->vtprd_show_shop_price_html(); //v1.0.7.4 
         $single_product_discount_price  = $vtprd_info['product_session_info']['product_discount_price'];
-        
+
+        //v1.1.7.2 begin
+        //fix for duplicating suffix in CATALOG pricing only 
+        if (strpos($price_html,$vtprd_info['product_session_info']['product_discount_price_suffix_html_woo']) !== false) {
+          $suffix_already_there = true;
+          //error_log( print_r(  '002 dup suffix found', true ) ); 
+        } else { 
+          //add in WOO suffix 
+          $price_html .= $vtprd_info['product_session_info']['product_discount_price_suffix_html_woo'];
+        }
         //add in WOO suffix 
-        $price_html .= $vtprd_info['product_session_info']['product_discount_price_suffix_html_woo'];
+        //$price_html .= $vtprd_info['product_session_info']['product_discount_price_suffix_html_woo'];        
+        //v1.1.7.2 end 
         
         //add in Pricing suffix, if there is a discount 
         $price_html = $this->vtprd_maybe_show_pricing_suffix($price_html);
@@ -1180,7 +1354,25 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 	public function vtprd_maybe_variable_price_html($price_html, $product){    
     global $woocommerce, $vtprd_info, $vtprd_setup_options, $vtprd_cart, $vtprd_cart_item, $vtprd_rules_set;
     //error_log( print_r(  'Function begin - vtprd_maybe_variable_price_html', true ) );   
-		
+
+     //v2.0.0 begin (also moved to begin of function!)
+     //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+     //don't run in admin or ajax...
+     if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+          (defined( 'DOING_CRON' )) ||
+          (defined('DOING_AJAX') && DOING_AJAX) ) { 
+          //error_log( print_r(  'vtprd_maybe_variable_price_html - do not run in ADMIN or Cron or Ajax FOUND, DO NOT RUN. REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );              
+        return $price_html;          
+     }
+ 
+       /*
+       //don't run in admin or ajax...
+       if (is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) { 
+          return $price_html; 
+       }
+       */
+     //v2.0.0 end
+          		
     //v1.1.1 begin - 
     // "do_no_actions" set/unset in function  vtprd_build_product_price_array
     if(!isset($_SESSION)){
@@ -1197,14 +1389,18 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
           
     vtprd_debug_options(); 
 
-     //don't run in admin or ajax...
-     if (is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) { 
-        return $price_html; 
-     }
      
     //if we already have the html price, no need to reprocess
      //PARENT ID holds whole array, if there
-     $parent_product_id = $product->id;
+
+    //v1.1.7.2 begin   grpA
+    if ( version_compare( WC_VERSION, '3.0.0', '>=' ) ) {
+      $parent_product_id = $product->get_id();
+    } else { 
+      $parent_product_id = $product->id;
+    }
+    //v1.1.7.2 end  
+     
      if(isset($_SESSION['vtprd_product_session_price_'.$parent_product_id])) { 
        $oldprice_session = $_SESSION['vtprd_product_session_price_'.$product_id]['price_html'];
        $price_html = stripslashes($oldprice_session); //this is FORMATTED 
@@ -1268,8 +1464,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     return $price_html;
  } 
 
-
- 
+   
   //v1.0.9.3 new function
   /* ***********************************************************  
   **  Refresh the mini-cart numbers as needed ==> UnitPrice AND coupon both  
@@ -1396,8 +1591,18 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
                  //v1.1.7 end 
 
                 //v1.1.7 begin 
-                default  :    //Pick up a **solo CATALOG price reduction**                      
-                    $new_price = $vtprd_cart_item->unit_price;                                       
+                default  :    //Pick up a **solo CATALOG price reduction** v2.0.0 (or correct a removed discount!)
+                //case ($vtprd_cart_item->unit_price != $existing_price )  :    // != allows the == stuff to be untouched...                 
+                    $new_price = $vtprd_cart_item->unit_price; 
+                    //v2.0.0 begin
+                    //actually apply the new price!!
+                    if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0
+                      $cart_item_value['data']->price = $new_price;
+                    } else {                      
+                      $cart_item_value['data']->set_price( $new_price );
+                    }   
+                    $mini_cart_updated = true;                     
+                    //v2.0.0 end                                      
                   break;
                 //v1.1.7 end 
                   
@@ -1569,12 +1774,20 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
   ************************************************************** */
 	public function vtprd_maybe_before_calculate_totals($cart_object){
 
-     //error_log( print_r(  'Function begin - vtprd_maybe_before_calculate_totals', true ) ); 
-     //error_log( print_r(  'vtprd_maybe_before_calculate_totals $cart_object BEGIN', true ) );
-     //error_log( var_export($cart_object, true ) );  
-
-   
+    //error_log( print_r(  'Function begin - vtprd_maybe_before_calculate_totals', true ) ); 
+    //error_log( print_r(  'vtprd_maybe_before_calculate_totals $cart_object BEGIN', true ) );
+    //error_log( var_export($cart_object, true ) );  
+    
+    //v2.0.0 begin
     global $woocommerce, $vtprd_info, $vtprd_setup_options, $vtprd_cart, $vtprd_cart_item, $vtprd_rules_set;
+                
+    //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+    if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+         (defined( 'DOING_CRON' )) ) { 
+        //error_log( print_r(  'vtprd_cart_updated - Admin or Cron FOUND, DO NOT RUN. REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );     
+      return $cart_object;          
+    }
+    //v2.0.0 end      
 
     //v1.1.0.8 begin
     if(!isset($_SESSION)){
@@ -1618,14 +1831,19 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
       //just in case...
       if ($vtprd_cart == null) {  //haven't had the cart call yet...
          
+        //v2.0.0 begin 
+        return $cart_object;        
+        /* 
         if (sizeof($cart_object->cart_contents) > 0) {        
           $woocommerce_cart_contents = $woocommerce->cart->get_cart(); 
           $this->vtprd_process_discount();
           $discount_already_processed_here = true; //v1.0.9.3 
         } else { //v1.1.1 begin
- //error_log( print_r(  'return 003' , true ) );         
+ error_log( print_r(  'return 003' , true ) );         
           return $cart_object;      
         } //v1.1.1 end
+        */ 
+        //v2.0.0 end
       } 
     }
     
@@ -1639,24 +1857,44 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
         - coupon_activated_discount set in apply-rules.php
         - cumulativeCouponNo set in apply-rules.php
     */
-    if ( (isset($_SESSION['on_cart_or_checkout_page'])) && 
-         ($_SESSION['on_cart_or_checkout_page'])  &&
-         (!$discount_already_processed_here) &&
-         (!isset($_SESSION['previous_auto_add_array'])) ) {  //DO NOT DO if auto add free product IN PROCESS!!!!!!!!!!!!!!
-   
-      if ( ((isset($_SESSION['coupon_activated_discount'])) &&
-              ($_SESSION['coupon_activated_discount'])) 
-                          ||
-             ((isset($_SESSION['cumulativeCouponNo'])) &&
-              ($_SESSION['cumulativeCouponNo'])) ) {
-              
-        $woocommerce_cart_contents = $woocommerce->cart->get_cart(); 
-       
-        $this->vtprd_process_discount();
-        $discount_already_processed_here = true; 
+      //v2.0.0 begin H solution 
+     /*
+        During a post_process auto add ,
+        there can be an execution of vtprd_process_discount below.
+        This situation is being tripped during the add_to_cart inadvertently, 
+        causing recursive executions of vtprd_process_discount,
+        when the $_SESSION['previous_auto_add_array'] does not exist.
+        However, using the existing switch 'auto_add_in_progress' in 
+        vtprd_maybe_before_calculate_totals will take care of this.           
+     */
+
+    
+    if ( (isset($_SESSION['auto_add_in_progress'])) && 
+         ($_SESSION['auto_add_in_progress'] == 'yes') ) {
+      //$skip_all_this = true; 
+      //Remove add coupons success msg if there, a duplicate was showing up!!        
+      vtprd_remove_coupon_applied_message();   
+    } else {
+      if ( (isset($_SESSION['on_cart_or_checkout_page'])) && 
+           ($_SESSION['on_cart_or_checkout_page'])  &&
+           (!$discount_already_processed_here) &&
+           (!isset($_SESSION['previous_auto_add_array'])) ) {  //DO NOT DO if auto add free product IN PROCESS!!!!!!!!!!!!!!
+     
+        if ( ((isset($_SESSION['coupon_activated_discount'])) &&
+                ($_SESSION['coupon_activated_discount'])) 
+                            ||
+               ((isset($_SESSION['cumulativeCouponNo'])) &&
+                ($_SESSION['cumulativeCouponNo'])) ) {
                 
-      }
-    }      
+          $woocommerce_cart_contents = $woocommerce->cart->get_cart(); 
+         
+          $this->vtprd_process_discount();
+          $discount_already_processed_here = true; 
+                  
+        }
+      } 
+    }     
+    //v2.0.0 end H solution    
     //v1.1.0.9 end
     
     foreach ( $cart_object->cart_contents as $cart_item_key => $cart_item_value ) {
@@ -1797,11 +2035,10 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
   //**************************************
   public function vtprd_maybe_cart_item_price_html($price_html, $cart_item, $cart_item_key){ 
 
-     //error_log( print_r(  ' ', true ) );
-     //error_log( print_r(  'Function begin - vtprd_maybe_cart_item_price_html', true ) );
-     //error_log( print_r(  ' ', true ) );     
-     //error_log( var_export($cart_item, true ) ); 
-
+       //error_log( print_r(  ' ', true ) );
+       //error_log( print_r(  'Function begin - vtprd_maybe_cart_item_price_html, price= ' .$price_html. ' prodID= ' .$cart_item['product_id']. ' varID= ' .$cart_item['variation_id'], true ) );
+       //error_log( print_r(  ' ', true ) );     
+       //error_log( var_export($cart_item, true ) ); 
 
     global $post, $vtprd_info, $vtprd_setup_options, $woocommerce, $vtprd_cart;
     vtprd_debug_options();  //v1.0.5
@@ -1819,14 +2056,14 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     // "do_no_actions" set/unset in function  vtprd_build_product_price_array
     if ( (isset ($_SESSION['do_no_actions'])) &&
          ($_SESSION['do_no_actions']) ) {
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit001', true ) );        
+   //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit001, price= ' .$price_html, true ) );        
       return $price_html;   
 		}
 	  //v1.1.1 end
 
       
-         //error_log( print_r(  'CART vtprd_maybe_cart_item_price_html', true ) );
-         //error_log( var_export($woocommerce->cart, true ) ); 
+           //error_log( print_r(  'CART vtprd_maybe_cart_item_price_html', true ) );
+           //error_log( var_export($woocommerce->cart, true ) ); 
 
          
     //v1.1.0.6 begin
@@ -1859,7 +2096,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
          ((class_exists('WC_Product_Addons')) &&
           ($vtprd_info['product_session_info']['product_has_addons']))  ) {   //product_has always exists
       $price_html = $this->vtprd_maybe_taxation_fix($price_html, $cart_item, $cart_item_key); 
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit002', true ) );       
+   //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit002, price= ' .$price_html, true ) );       
       return $price_html;     
     }
     //v1.1.1 Fix END               
@@ -1868,7 +2105,8 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     
      //v1.1.1 split out 
     if ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon') {
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit003', true ) );     
+  //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit003, price= ' .$price_html, true ) );      
+       remove_action('woocommerce_cart_item_price', array(&$this, 'vtprd_maybe_cart_item_price_html'));  //v2.0.0 g solution  
        return $price_html;    
     }
     
@@ -1889,14 +2127,14 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     */ 
     
     if ($vtprd_setup_options['show_unit_price_cart_discount_crossout'] == 'no') {
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit004', true ) );     
+  //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit004, price= ' .$price_html, true ) );       
       return $price_html;    
     }
   
 
 
     if ($cart_item['quantity'] <= 0) {
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit005', true ) );     
+  //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit005, price= ' .$price_html, true ) );        
       return $price_html;
     }
 
@@ -1910,16 +2148,16 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     */
 
     $newprice = $price_html;
-          
+    
     foreach($vtprd_cart->cart_items as $vtprd_key => $vtprd_cart_item) {      
  
-  //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item ROW', true ) );
-  //error_log( var_export($vtprd_cart_item, true ) ); 
+    //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item ROW', true ) );
+    //error_log( var_export($vtprd_cart_item, true ) ); 
   
       //already free, no crossout !!!!!!
       if ( ($vtprd_cart_item->product_catalog_price_displayed == 0) ||
            ($vtprd_cart_item->product_catalog_price_displayed === __('Free', 'vtprd')) ) { //=== needed !!!
-  //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart free item skip', true ) );           
+    //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart free item skip', true ) );           
          continue;  //skip to next in foreach
       }
  
@@ -1930,7 +2168,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
       //  CHANGE to compare WOO item key rather than product ID WHICH IS NOT UNIQUE for the measurements plugin      
       if ($vtprd_cart_item->cart_item_key == $cart_item_key ) {       
  
-  //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item KEY FOUND', true ) );
+    //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item KEY FOUND', true ) );
           /*
           //v1.1.1 begin - overwrite newprice as needed
           //CURRENTLY INACTIVE (for now Bolt-ons only allow Coupon Discounting)
@@ -1987,23 +2225,24 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
                ($combined_discount                                  == $existing_price)) {
           //v1.1.7 end              
  
-  //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT in progress', true ) );
+    //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT in progress', true ) );
           
             $oldprice = $_SESSION['vtprd_orig_cart_price_'.$vtprd_cart_item->cart_item_key]; //v1.1.1 
-  //error_log( print_r(  'OLDPRICE 001= ' .$oldprice, true ) );                  
+    //error_log( print_r(  'OLDPRICE 001= ' .$oldprice, true ) );                  
             $oldprice =  $this->vtprd_get_taxation_price_cart($vtprd_cart_item->product_id, $oldprice); //v1.1.1 
-   //error_log( print_r(  'OLDPRICE 002= ' .$oldprice, true ) );       
+     //error_log( print_r(  'OLDPRICE 002= ' .$oldprice, true ) );       
             $_SESSION['vtprd_orig_cart_price_with_taxation_'.$vtprd_cart_item->cart_item_key] = $oldprice;  //v1.1.1 used in subtotal crossout display
             $oldprice = wc_price( $oldprice ); //v1.1.1  
-    //error_log( print_r(  'OLDPRICE 003= ' .$oldprice, true ) );
-     //error_log( print_r(  'NEWPRICE= ' .$newprice, true ) );                    
+      //error_log( print_r(  'OLDPRICE 003= ' .$oldprice, true ) );
+       //error_log( print_r(  'NEWPRICE= ' .$newprice, true ) );                    
             if ($oldprice == $newprice) { //if no change, no crossout!!!!!!
               $price_html = $newprice; //may not be necessary, value should already be there 
-  //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT nothing changed', true ) );              
+    //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT nothing changed', true ) );              
             } else {
               $price_html = '<del>' . $oldprice  . '</del> &nbsp; <ins>' . $newprice . '</ins>';  
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT SUPPLIED= ' .$price_html, true ) );              
+   //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT SUPPLIED= ' .$price_html, true ) );              
             }
+  //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit006, price= ' .$price_html, true ) );                       
             return $price_html; //v1.1.0.3 added, so that this is the only branch that stores oldprice, for use at checkout/thankyou/emails
          } 
          //v1.1.0.3 comment out this return, in order to process the session cleanout efficiently
@@ -2012,8 +2251,8 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
             return $price_html;
          }    
           */
-      }               
-      
+      } 
+
     } 
                 
      //v1.1.0.3 begin
@@ -2021,8 +2260,8 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     $_SESSION['vtprd_product_cart_unit_price_oldprice_'.$product_id] = ' ';             
     //v1.1.0.3 end 
     
- //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT FINAL EXIT', true ) );
-            
+   //error_log( print_r(  'vtprd_maybe_cart_item_price_html cart_item CROSSOUT FINAL EXIT', true ) );
+  //error_log( print_r(  'vtprd_maybe_cart_item_price_html exit007, price= ' .$price_html, true ) );            
    return $price_html;
 
  }
@@ -2184,7 +2423,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
       if ( (!isset($vtprd_setup_options)) ||
            ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon') ||
            ($vtprd_setup_options['show_unit_price_cart_discount_crossout'] == 'no') )  {
-  // error_log( print_r(  'line_subtotal, $exit 001', true ) );      
+  //error_log( print_r(  'line_subtotal, $exit 001', true ) );      
         return $subtotal;    
       }     
     }
@@ -2209,6 +2448,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     if ( (!isset($vtprd_setup_options)) ||
            ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon') ||
            ($vtprd_setup_options['show_unit_price_cart_discount_crossout'] == 'no') )  {
+        remove_filter('woocommerce_cart_item_subtotal', array( &$this, 'vtprd_maybe_cart_item_subtotal' )); //v2.0.0 g solution                  
         return $subtotal;       
     }
 
@@ -2324,6 +2564,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
     if ( (!isset($vtprd_setup_options)) ||
          ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon') ||
          ($vtprd_setup_options['show_unit_price_cart_discount_crossout'] == 'no') )  {
+      remove_filter('woocommerce_order_formatted_line_subtotal', array( &$this, 'vtprd_maybe_order_formatted_line_subtotal' )); //v2.0.0 g solution     
       return $subtotal;    
     } 
 
@@ -2368,10 +2609,10 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
   /*
   public function vtprd_maybe_cart_subtotal($cart_subtotal, $compound, $context ) {  //$context = $this from the call...
   
-    error_log( print_r(  'Function begin - vtprd_maybe_cart_subtotal', true ) );   
+    //error_log( print_r(  'Function begin - vtprd_maybe_cart_subtotal', true ) );   
        
       if ($_SESSION['calculator_product_in_cart'] == 'no') {
-  error_log( print_r(  'tprd_maybe_cart_subtotal - exit with no processing ', true ) );        
+  //error_log( print_r(  'tprd_maybe_cart_subtotal - exit with no processing ', true ) );        
         return $cart_subtotal;
       }  
       
@@ -2410,7 +2651,7 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 
 				}
 			}
- error_log( print_r(  'tprd_maybe_cart_subtotal - exit with result=  ' .$cart_subtotal, true ) ); 
+ //error_log( print_r(  'tprd_maybe_cart_subtotal - exit with result=  ' .$cart_subtotal, true ) ); 
 		return $cart_subtotal;	
 		  
   }
@@ -2423,11 +2664,11 @@ HOWEVER, if a component product has a discount, there's a 'double' discount'
 /*
   public function vtprd_cart_contents_total() {
   
-    error_log( print_r(  'Function begin - vtprd_cart_contents_total', true ) );   
-  error_log( print_r(  '$cart_contents_total on input= ' .$cart_contents_total, true ) );
+    //error_log( print_r(  'Function begin - vtprd_cart_contents_total', true ) );   
+  //error_log( print_r(  '$cart_contents_total on input= ' .$cart_contents_total, true ) );
        
       if ($_SESSION['calculator_product_in_cart'] == 'no') {
-  error_log( print_r(  'vtprd_cart_contents_total - exit with no processing ', true ) );        
+  //error_log( print_r(  'vtprd_cart_contents_total - exit with no processing ', true ) );        
         return $cart_contents_total;
       }
       
@@ -2455,7 +2696,7 @@ error_log( var_export($vtprd_cart, true ) );
         $cart_contents_total_with_tax += $subtotal;
       } //end foreach
       
-  error_log( print_r(  'vtprd_cart_contents_total - exit at bottom total= ' .$cart_contents_total_with_tax, true ) ); 
+  //error_log( print_r(  'vtprd_cart_contents_total - exit at bottom total= ' .$cart_contents_total_with_tax, true ) ); 
        
       return $cart_contents_total_with_tax;     
   }
@@ -2580,8 +2821,11 @@ error_log( var_export($vtprd_cart, true ) );
     
      
     if ($vtprd_setup_options['show_catalog_price_crossout'] == 'yes')  {
-
-      $old_price = $vtprd_info['product_session_info']['product_orig_price_html_woo'];
+      
+      //v1.1.8.1 begin  
+      $old_price = wc_price($vtprd_info['product_session_info']['product_list_price_catalog_correctly_taxed']);
+      // $old_price = $vtprd_info['product_session_info']['product_orig_price_html_woo'];
+      //v1.1.8.1 end
       
       $price_html = '<del>' . $old_price . '</del><ins>' . $price_contents . '</ins>';
       
@@ -2812,13 +3056,13 @@ error_log( var_export($vtprd_cart, true ) );
      if ( defined('DOING_AJAX') && DOING_AJAX ) {
         $carry_on = true;
      } else {
-         if ( (function_exists( 'get_current_screen' ) ) ||    // get_current_screen ONLY exists in ADMIN!!!  
-              ( is_admin() ) ) {                //v1.0.7.4
-         //v1.1.1 remove other tests ==>> DO NOT RUN in ADMIN
-         //  if ( (isset($post->post_type)) &&    //v1.0.7.4
-         //       ($post->post_type == 'product'  ) ) {    //in admin, don't run this on the PRODUCT screen!!
-             return $price;              
-         }
+       //v2.0.0 begin
+       if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+            (defined( 'DOING_CRON' )) ) {      
+            //error_log( print_r(  'vtprd_maybe_get_price - Admin or Cron FOUND, DO NOT RUN. REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );
+          return $price;              
+       }
+       //v2.0.0 end
      }   
      //v1.0.8.9 end
      //********************
@@ -3171,17 +3415,33 @@ error_log( var_export($vtprd_cart, true ) );
        }
     } 
   
-
+  
+    
+     //v1.1.7.2 begin   grpA
+     // CHANGED continued use of $product to $product_id
+    if ( (version_compare( WC_VERSION, '3.0.0', '>=' )) &&
+         (is_object ($product)) ) { 
+      $product_id = $product->get_id();
+    } else { 
+      if (isset($product->id)) { //call from WOO
+        $product_id = $product->id;
+      } else {
+        $product_id = $product;
+      }
+    } 
+    /*
     //v1.1.1.3 $product can be an array or an individual product key.  This fixes things!
     if (isset($product->id)) { //call from WOO
       $product = $product->id;
-    } 
+    }
+    */ 
     /* //v1.1.1.3
     else { //CALL from vtprd_maybe_catalog_price_html
       $product;
-    }*/
+    }*/    
+    //v1.1.7.2 end  
 
-    $product_is_wholesale = get_post_meta( $product, 'vtprd_wholesale_visibility', true );
+    $product_is_wholesale = get_post_meta( $product_id, 'vtprd_wholesale_visibility', true );  //v1.1.7.2 grpA changed $product to $product_id
 
 
     switch( $vtprd_setup_options['wholesale_products_price_display'] ) {
@@ -3410,7 +3670,7 @@ error_log( var_export($vtprd_cart, true ) );
     return;
   }  
 
-   
+ /* v1.1.7.2 begin grpb  NO LONGER USED    
   // from woocommerce/classes/class-wc-cart.php 
   public function vtprd_woo_get_url($pageName) {
      //error_log( print_r(  'Function begin - vtprd_woo_get_url', true ) );           
@@ -3426,10 +3686,22 @@ error_log( var_export($vtprd_cart, true ) );
       
   // from woocommerce/woocommerce-core-functions.php 
   public function vtprd_woo_get_page_id($pageName) {
-     //error_log( print_r(  'Function begin - vtprd_woo_get_page_id', true ) );  
-    $page = apply_filters('woocommerce_get_' . $pageName . '_page_id', get_option('woocommerce_' . $pageName . '_page_id'));
+      //error_log( print_r(  'Function begin - vtprd_woo_get_page_id', true ) ); 
+     //v1.1.7.2 begin  grpB
+     if ($pageName == 'cart_url') {
+     		$pageName2 = 'woocommerce_wc_get_cart_url';
+     } else {
+     		$pageName2 = 'woocommerce_get_' . $pageName;     	
+     }		
+      
+    $page = apply_filters($pageName2 . '_page_id', get_option('woocommerce_' . $pageName . '_page_id'));
+    //$page = apply_filters('woocommerce_get_' . $pageName . '_page_id', get_option('woocommerce_' . $pageName . '_page_id'));
+    //v1.1.7.2 end
+     //error_log( print_r(  'vtprd_woo_get_page_id - after "get"', true ) );
 		return ( $page ) ? $page : -1;
-  }    
+  }  
+ //v1.1.7.2 end
+ */    
  /*  =============+++++++++++++++++++++++++++++++++++++++++++++++++++++++++    */
     
 
@@ -3481,6 +3753,7 @@ error_log( var_export($vtprd_cart, true ) );
       $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
       $data_chain[] =  $woocommerce->cart->cart_contents_total;
       $data_chain[] =  $woocommerce->cart->applied_coupons;
+      $data_chain[] = time(); //v2.0.0
       $_SESSION['data_chain'] = serialize($data_chain);             
  */   
 
@@ -3517,7 +3790,42 @@ error_log( var_export($vtprd_cart, true ) );
            ($_SESSION['do_no_actions']) ) {
         return;   
   		}
-  	  //v1.1.1 end      
+  	  //v1.1.1 end   
+      
+      //v1.1.7.1 begin
+      //clear out any auto adds made before login/logout
+      //unfortunately does the work twice, but better result, I think...
+      global $vtprd_info;
+      if ( ($vtprd_info['ruleset_contains_auto_add_free_product'] == 'yes') &&
+           ($vtprd_info['current_processing_request'] == 'cart') &&
+           (defined('VTPRD_PRO_DIRNAME')) ) { //v1.1.8.0
+
+        //v1.1.8.0 begin
+        // Function vtprd_get_previous_auto_add_array() only exists in PRO, 
+        // and if PRO is not active due to upgrade, this gives a FATAL
+        //v1.1.8.0 end
+        
+
+        $vtprd_apply_rules = new VTPRD_Apply_Rules;    
+
+        $previous_auto_add_array = $vtprd_apply_rules->vtprd_get_previous_auto_add_array();
+
+        //******************************
+        //prevents recursive processing during auto add execution of add_to_cart!
+        //v1.1.0.6 placed at top of routine
+        //******************************
+        //  otherwise there would be an endless loop via both add_to_cart and set_quantity  ...
+        $_SESSION['auto_add_in_progress'] = 'yes';
+        //add_in_progress switch will be overriden in 10 seconds using the timestamp (also shut off at bottom of this routine)
+        $_SESSION['auto_add_in_progress_timestamp'] = time();
+        //******************************
+
+        //only roll out previous stuff, if NO current stuff to add
+        if (sizeof($previous_auto_add_array) > 0) {
+           $vtprd_apply_rules->vtprd_maybe_roll_out_prev_auto_insert_from_woo_cart($previous_auto_add_array, 'all'); 
+        }
+      }
+      //v1.1.7.1 end
    
       session_destroy(); 
       //v1.0.9.4 end
@@ -3526,17 +3834,30 @@ error_log( var_export($vtprd_cart, true ) );
       $woocommerce_cart_contents = $woocommerce->cart->get_cart();
       if ( sizeof($woocommerce_cart_contents) > 0 ) {       
          //this re-does the CART rules
+         //error_log( print_r(  'vtprd_cart_updated OUT OF vtprd_update_on_login_change', true ) );
          $this->vtprd_cart_updated();                  
       }
                
       return; 
    }
 
-
  
    // do_action( 'woocommerce_add_to_cart', $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
    public function vtprd_cart_updated() {
-      //error_log( print_r(  'Function begin - vtprd_cart_updated', true ) );
+       //error_log( print_r(  'Function begin - vtprd_cart_updated', true ) );
+
+       //v2.0.0 begin
+       global $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_info, $vtprd_rules_set, $vtprd_rule, $wpsc_coupons, $vtprd_setup_options;
+                
+       //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+       if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+            (defined( 'DOING_CRON' )) ) { 
+            //error_log( print_r(  'vtprd_cart_updated - Admin or Cron FOUND, DO NOT RUN. REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) ); 
+          return;          
+       } 
+       //v2.0.0 end     
+
+                        
   		//v1.1.1 begin - 
       // "do_no_actions" set/unset in function  vtprd_build_product_price_array
       if(!isset($_SESSION)){
@@ -3544,20 +3865,46 @@ error_log( var_export($vtprd_cart, true ) );
         header("Cache-Control: no-cache");
         header("Pragma: no-cache");
       }
-
       if ( (isset ($_SESSION['do_no_actions'])) &&
            ($_SESSION['do_no_actions']) ) {
         return;   
   		}
   	 //v1.1.1 end
 
-      global $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_info, $vtprd_rules_set, $vtprd_rule, $wpsc_coupons, $vtprd_setup_options;  
+
+      //v2.0.0 begin  vtprd-info array not always there!
+      if (!is_array($vtprd_info)) {
+        require_once ( VTPRD_DIRNAME . '/woo-integration/vtprd-parent-definitions.php');
+      } 
+      //v2.0.0 end
+
+
+      //------------------------------------------------
+      //v2.0.0 P SOLUTION
+      //------------------------------------------------
+      //  auto add for free + coupon activation issue on checkout page when processing new coupon initiation
+      //------------------------------------------------      
+      // if checkout page, does not run in ajax, so has to be done at initial load
+      // if auto add free product possible and not yet done
+      // get rid of existing session, which otherwise causes a hangup in processing
+      //------------------------------------------------
+      //  session_destroy(); in parent-functions   function vtprd_check_for_page()
+      //------------------------------------------------         
+      
          
     //Open Session Variable, get rules_set and cart if not there....
     
     vtprd_debug_options();  //v1.1
-    
+
     $data_chain = $this->vtprd_get_data_chain();
+
+    //v1.1.7.2 begin grpB
+    if ( isset ($data_chain[1]) ) {   
+      $previous_cart                     = $data_chain[1];
+    } else {
+      $previous_cart                     = ''; 
+    }
+    //v1.1.7.2 end
     
     //v1.0.8.0  begin
     if ( isset ($data_chain[2]) ) {   
@@ -3590,39 +3937,72 @@ error_log( var_export($vtprd_cart, true ) );
         $contents = $_SESSION['auto_add_in_progress_timestamp'];
         unset( $_SESSION['auto_add_in_progress_timestamp'], $contents ); //v1.1.6.8 double semi colon removed          
       } else { 
+        //error_log( print_r(  'Function - vtprd_cart_updated return001', true ) );
         return;
       }          
     }
  
     $woocommerce_cart_contents = $woocommerce->cart->get_cart(); //v1.1.1.3 moved here from below
-       
+
+     //error_log( print_r(  '$woocommerce_cart_contents', true ) );
+     //error_log( var_export($woocommerce_cart_contents, true ) );
+     //error_log( print_r(  ' ', true ) );
+     //error_log( print_r(  '$woocommerce->cart->cart_contents_total= ' .$woocommerce->cart->cart_contents_total, true ) );
+     //error_log( print_r(  '$woo_cart_contents_total_previous= ' .$woo_cart_contents_total_previous, true ) ); 
+     //error_log( print_r(  ' ', true ) );
+     //error_log( print_r(  '$woocommerce->cart->applied_coupons= ' .$woo_applied_coupons_previous, true ) );
+     //error_log( print_r(  '$woo_applied_coupons_previous= ' .$woo_applied_coupons_previous, true ) );
+     //error_log( print_r(  ' ', true ) ); 
+     //error_log( print_r(  '$woocommerce->cart->cart_contents_count= ' .$woocommerce->cart->cart_contents_count, true ) ); 
+     //error_log( print_r(  '$vtprd_cart->cart_contents_count= ' .$vtprd_cart->cart_contents_count, true ) );
+     //error_log( print_r(  ' ', true ) );
+     //error_log( print_r(  '$previous_user_role= ' .$previous_user_role, true ) );
+     //error_log( print_r(  '$previous_cart', true ) ); 
+     //error_log( var_export($previous_cart, true ) );  
    
     //-*******************************************************
     //IF nothing changed from last time, no need to process the discount => 
     //'woocommerce_cart_updated' RUNS EVERY TIME THE CART OR CHECKOUT PAGE DISPLAYS!!!!!!!!!!!!!
     //-*******************************************************
-    if ( ($woocommerce->cart->cart_contents_total  > 0) &&   //V1.0.7.1  if == 0, lost addressability to woo, rerun
+      
+    //v1.1.7.2 begin  grpB
+    // if no cart, and previously no cart, nothing to do!!
+    if ( ($woocommerce->cart->cart_contents_total == 0) &&
+         ($woo_cart_contents_total_previous == 0) ) {
+    //if ( (sizeof($woocommerce_cart_contents) == 0) &&
+         //($woocommerce_cart_contents == $previous_cart) ) {   
+       //error_log( print_r(  'Function - vtprd_cart_updated return002a', true ) );   
+       return;          
+    }
+    //what's just below handles stuff in the cart, but no change!
+    //v1.1.7.2 end
+    
+    $applied_coupons = $woocommerce->cart->get_coupons(); //v2.0.0 
+    
+    if ( //removed v1.1.7.2 grpB ($woocommerce->cart->cart_contents_total  > 0) &&   //V1.0.7.1  if == 0, lost addressability to woo, rerun
+         (sizeof($data_chain) > 0) &&  //v2.0.0  - if previously processed or not aged off, $data_chain will have a size
          ($woocommerce->cart->cart_contents_total  ==  $woo_cart_contents_total_previous) &&
-         ($woocommerce->cart->applied_coupons      ==  $woo_applied_coupons_previous)  && 
+         ($applied_coupons                         ==  $woo_applied_coupons_previous)  &&   //v2.0.0 
          ($previous_user_role                      ==  vtprd_get_current_user_role() ) )  { //v1.0.7.2  only return if user_role has not changed
        //v1.0.9.3 begin ==>>  see if a zero value item has been removed from the cart...
-         if ( (isset($vtprd_cart->cart_contents_count)) &&
-              ($vtprd_cart->cart_contents_count == $woocommerce->cart->cart_contents_count) ) {     
-       return; 
+       if ( (isset($vtprd_cart->cart_contents_count)) &&
+            ($vtprd_cart->cart_contents_count == $woocommerce->cart->cart_contents_count) ) {     
+         //error_log( print_r(  'Function - vtprd_cart_updated return002b', true ) );   
+         return; 
        }
        //v1.0.9.3 end  
     }
 
-  //error_log( print_r(  '$woocommerce->cart->applied_coupons', true ) );
-  //error_log( var_export($woocommerce->cart->applied_coupons, true ) );
-  //error_log( print_r(  '$woo_applied_coupons_previous', true ) );
-  //error_log( var_export($woo_applied_coupons_previous, true ) );
+     //error_log( print_r(  '$woocommerce->cart->applied_coupons', true ) );
+     //error_log( var_export($woocommerce->cart->applied_coupons, true ) );
+     //error_log( print_r(  '$woo_applied_coupons_previous', true ) );
+     //error_log( var_export($woo_applied_coupons_previous, true ) );
 
     //v1.1.6.8 begin
     if ( ($woocommerce->cart->cart_contents_total  > 0) && 
-         ($woocommerce->cart->applied_coupons      !=  $woo_applied_coupons_previous) ) {
+         ($applied_coupons  !=  $woo_applied_coupons_previous) ) {    //v2.0.0 
         
-  //error_log( print_r(  'coupon_change_detected written', true ) ); 
+     //error_log( print_r(  'coupon_change_detected written', true ) ); 
        
         $_SESSION['coupon_change_detected']  =  true;
       }
@@ -3641,14 +4021,31 @@ error_log( var_export($vtprd_cart, true ) );
       //$this->vtprd_maybe_before_mini_cart(); //v1.1.1
 
     } else {       
-      $this->vtprd_maybe_clear_auto_add_session_vars();	
+      $this->vtprd_maybe_clear_auto_add_session_vars();
+      
+      //v1.1.7.2 begin  grpB
+      //Store the data_chain EVEN if no discounts
+        $contents_total   =   0;
+        $applied_coupons  =   array();
+        $vtprd_cart       =   array();
+        $data_chain = array();
+        $data_chain[] = $vtprd_rules_set;
+        $data_chain[] = $vtprd_cart;
+        $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
+        $data_chain[] = $contents_total;
+        $data_chain[] = $applied_coupons;
+        $data_chain[] = time(); //v2.0.0
+        $_SESSION['data_chain'] = serialize($data_chain);
+        //error_log( print_r(  'Store data_chain 004', true ) );                          
+      //v1.1.7.2 end
+      	
     }
     
     //v1.1.6.8 begin
     //if coupon change, and change in balance REFRESH SCREEN
 //    if ( (isset($_SESSION['coupon_change_detected'])) &&
 //         ($woocommerce->cart->cart_contents_total  !=  $woo_cart_contents_total_previous) ) {
-  //error_log( print_r(  'coupon_change_detected read', true ) );          
+   //error_log( print_r(  'coupon_change_detected read', true ) );          
       /*
       $contents = $_SESSION['coupon_change_detected'];
       unset( $_SESSION['coupon_change_detected'], $contents );
@@ -3662,14 +4059,49 @@ error_log( var_export($vtprd_cart, true ) );
       */
 //    }
     //v1.1.6.8 end
-       
+    
+     //error_log( print_r(  'Function - vtprd_cart_updated return at BOTTOM', true ) );  
+      
+      
+     //*****************
+     //v2.0.0 M solution begin - this makes sure that we only run once per wordpress_init!! 
+     // but only for Unit Price discounting, as ajax add to cart causes timing issues discounting...
+     // so only works on cart and checkout pages...
+     //*****************     
+      if ( (isset($_SESSION['on_cart_or_checkout_page'])) && 
+           ($_SESSION['on_cart_or_checkout_page']) ) {
+       remove_action( 'woocommerce_cart_updated', array(&$this, 'vtprd_cart_updated') );   //v2.0.0 G solution - ALL DONE!!
+     }
+     //v2.0.0 M solution end
+     
     return;
    }
-       
+    
+        
     
 	public function vtprd_process_discount(){  //and print discount info...
      //error_log( print_r(  'Function begin - vtprd_process_discount', true ) ); 
     global $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_info, $vtprd_rules_set, $vtprd_rule, $wpsc_coupons, $vtprd_setup_options; //v1.0.9.0   
+
+     //v2.0.0 begin                
+     //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+     if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+          (defined( 'DOING_CRON' )) ) { 
+          //error_log( print_r(  'vtprd_cart_updated - wp-admin FOUND, REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) ); 
+        return;          
+     } 
+     
+      //v2.0.0 g solution begin
+     //moved session start HERE
+      if(!isset($_SESSION)){
+        session_start();
+        header("Cache-Control: no-cache");
+        header("Pragma: no-cache");
+      }
+      //v2.0.0 g solution end
+     
+     //v2.0.0 end   
+
     /*
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //In order to prevent recursive executions, test for a TIMESTAMP    
@@ -3712,36 +4144,58 @@ error_log( var_export($vtprd_cart, true ) );
      session to global - in vtprd_woo_validate_order
      access global     - in vtprd_post_purchase_maybe_save_log_info   
     *************************************************   */
+   //v2.0.0 g solution begin
+   //moved session start above
+   /*
     if(!isset($_SESSION)){
       session_start();
       header("Cache-Control: no-cache");
       header("Pragma: no-cache");
     }
+    */
+    //v2.0.0 g solution end
     
     //v1.1.0.9 begin  need to clear this out
+     //v2.0.0 begin - 
+     /*
      if (isset($_SESSION['data_chain'])) {
        $contents = $_SESSION['data_chain'];
        unset( $_SESSION['data_chain'], $contents ); 
      }
+     */
+     $_SESSION['data_chain'] = false; 
+     //v2.0.0 end 
      ///v1.1.0.9 end       
-    
     $contents_total   =   $woocommerce->cart->cart_contents_total;
-    $applied_coupons  =   $woocommerce->cart->applied_coupons;
+    $applied_coupons  =   $woocommerce->cart->get_coupons(); //v2.0.0
     $data_chain = array();
     $data_chain[] = $vtprd_rules_set;
     $data_chain[] = $vtprd_cart;
     $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
     $data_chain[] =  $contents_total;
     $data_chain[] =  $applied_coupons;
-    $_SESSION['data_chain'] = serialize($data_chain);             
-       
+    $data_chain[] = time(); //v2.0.0
+    $_SESSION['data_chain'] = serialize($data_chain);
+    
+    //error_log( print_r(  'Store data_chain 005', true ) );             
+     //error_log( print_r(  'Store data_chain 005 $vtprd_cart', true ) );
+     //error_log( var_export($vtprd_cart, true ) ); 
+           
     return;        
 } 
      
     
 	public function vtprd_woo_maybe_add_remove_discount_cart_coupon(){  //and print discount info...  
-     //error_log( print_r(  'Function begin - vtprd_woo_maybe_add_remove_discount_cart_coupon', true ) );   
+     //error_log( print_r(  'Function begin - vtprd_woo_maybe_add_remove_discount_cart_coupon - from action woocommerce_before_cart_table', true ) );   
 
+       //v2.0.0 begin L Solution
+       //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+       if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+            (defined( 'DOING_CRON' )) ) { 
+          return;          
+       } 
+       //v2.0.0 end L Solution
+       
   		//v1.1.1 begin - 
       // "do_no_actions" set/unset in function  vtprd_build_product_price_array
       if(!isset($_SESSION)){
@@ -3755,12 +4209,21 @@ error_log( var_export($vtprd_cart, true ) );
         return;   
   		}
   	 //v1.1.1 end
-      
+ 
+      //v2.0.0 BEGIN - 
+      //if it's already done, don't run again!!
+      if ( (isset ($_SESSION['add_remove_discount_cart_coupon_already_done'])) &&
+           ($_SESSION['add_remove_discount_cart_coupon_already_done']) ) {
+        $_SESSION['add_remove_discount_cart_coupon_already_done'] = false;
+        return;   
+  		}
+      //v2.0.0 BEGIN -     
 
     global $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_info, $vtprd_rules_set, $vtprd_rule, $wpsc_coupons, $vtprd_setup_options; //v1.0.9.1
      
     //v1.0.9.1 begin
-    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {   		
+    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {  
+    	remove_action( 'woocommerce_after_calculate_totals', array(&$this, 'vtprd_woo_maybe_add_remove_discount_cart_coupon')); //v2.0.0 g solution
     	return false; //v1.1.0.1
     }  
     //v1.0.9.1 end  
@@ -3782,24 +4245,17 @@ error_log( var_export($vtprd_cart, true ) );
        
           $woocommerce->cart->add_discount($coupon_title);
       
-      
+          $_SESSION['add_remove_discount_cart_coupon_already_done'] = true; //v2.0.0  
+       
          //error_log( print_r(  'CART AFTER new COUPON', true ) );
          //error_log( var_export($woocommerce->cart, true ) );           
   //error_log( print_r(  'add_discount executed', true ) );
   
-  
-          //Remove add coupons success msg if there...  otherwise it may display and confuse the customer => "Coupon code applied successfully"
-          $coupon_succss_msg = __( 'Coupon code applied successfully.', 'vtprd' );
-          $sizeof_messages = sizeof($woocommerce->messages);
-          for($y=0; $y < $sizeof_messages; $y++) { 
-             if ($woocommerce->messages[$y] == $coupon_succss_msg ) {
-                unset ( $woocommerce->messages[$y] );
-                break;
-             }
-          } 
-           
+
        }
-      
+       
+       vtprd_remove_coupon_applied_message();  //v1.1.7.2 grpD
+
     } else {
 
        //remove coupon and recalculate totals
@@ -3812,6 +4268,12 @@ error_log( var_export($vtprd_cart, true ) );
           $_SESSION['internal_call_for_calculate_totals'] = true;   
                     
           $woocommerce->cart->calculate_totals();
+          
+          //v1.1.7.2 grpD begin
+          //Remove add coupons success msg if there...  otherwise it may display and confuse the customer => "Coupon code applied successfully"          
+          vtprd_remove_coupon_applied_message(); 
+          //v1.1.7.2 end
+                      
        }
        
     }
@@ -3842,8 +4304,17 @@ error_log( var_export($vtprd_cart, true ) );
 			//v1.0.7.5 reworked for backwards compatability
        
       $current_version =  WOOCOMMERCE_VERSION;
-      //if before woo version 2.1
-      if( (version_compare(strval('2.1.0'), strval($current_version), '>') == 1) ) {   //'==1' = 2nd value is lower  
+      
+      //v1.1.7.2 grpD begin
+      /*
+      No warnings coming out of this function
+      remove_coupon works with the TITLE of the coupon!!
+      NO CHANGES required
+      */
+      //v1.1.7.2 end
+
+      //if BEFORE woo version 2.1
+      if( (version_compare(strval('2.1.0'), strval($current_version), '>') == 1) ) {   //'==1' = 2nd value is lower !!!!!!! 
         if ( $woocommerce->applied_coupons ) {
   				foreach ( $woocommerce->applied_coupons as $index => $code ) {
   					if ( $code == $coupon_title ) {
@@ -3855,8 +4326,8 @@ error_log( var_export($vtprd_cart, true ) );
       } else {
         WC()->cart->remove_coupon( $coupon_title );   //v1.0.7.4 
       }      
-                   
-    return;        
+                         
+    return;                
 } 
 
 
@@ -3867,25 +4338,53 @@ error_log( var_export($vtprd_cart, true ) );
 	public function vtprd_woo_new_load_discount_amount_to_coupon($coupon) {
   
   //DO NOT RUN IN ADMIN!!!!!!!! (this function is called everywhere)
+    //v2.0.0 begin
+     if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+          (defined( 'DOING_CRON' )) ) {          
+        //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon - do not run in ADMIN, exiting function, REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );
+      return $coupon;          
+     }
+    /*
     if ( (function_exists( 'get_current_screen' ) ) ||    // get_current_screen ONLY exists in ADMIN!!!  
        ( is_admin() ) ) { 
       return $coupon;              
-    }  
+    }
+    */ 
+    //v2.0.0 end 
 
     global $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_info, $vtprd_rules_set, $vtprd_rule, $wpsc_coupons, $vtprd_setup_options; //v1.0.9.1
         //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon BEGIN, coupon= ', true ) );
     //error_log( var_export($coupon, true ) );
     
+    //v2.0.0 BEGIN  - moved to action statement above
+    /*
     //before woo 3.0.0, handled in function vtprd_woo_maybe_load_discount_amount_to_coupon
     if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0 - if so handled below
        //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon return 001 ', true ) );
        return $coupon;
     }
+    */
+    //v2.0.0 end
 
-    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {  
-    //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon return 002 ', true ) ); 		
+       
+    //v2.0.0 G solution begin
+    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon') { 
+      remove_action( 'woocommerce_coupon_loaded', array(&$this, 'vtprd_woo_new_load_discount_amount_to_coupon')); 
+    //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon return 002, action removed ', true ) ); 		
     	return $coupon;
     }
+    
+    if ($vtprd_info['yousave_cart_total_amt'] <= 0) { 
+    //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon return 003 , yousave_cart_total_amt=0  ', true ) ); 		
+    	return $coupon;
+    }
+        
+    $vtprd_cart->yousave_cart_total_amt = $vtprd_info['yousave_cart_total_amt'];
+    
+      //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon  yousave_cart_total_amt= ' .$vtprd_info['yousave_cart_total_amt'], true ) ); 	  
+    
+    //v2.0.0 G solution end
+    
         
     if(!isset($_SESSION)){
       session_start();
@@ -3901,14 +4400,17 @@ error_log( var_export($vtprd_cart, true ) );
 
     vtprd_debug_options();
         
-    $data_chain = $this->vtprd_get_data_chain();
+    //v2.0.0 G solution begin - $data_chain was only necessary for yousave_cart_total_amt
+    //  which is now also stored in  $vtprd_info['yousave_cart_total_amt'] in apply-rules.php
+    //$data_chain = $this->vtprd_get_data_chain();
+    //v2.0.0 G solution end   
 
 /*  
     if ($vtprd_cart->yousave_cart_total_amt == 0) {
-        error_log( print_r(  'yousave_cart_total_amt is zero ', true ) );
+        //error_log( print_r(  'yousave_cart_total_amt is zero ', true ) );
     }  
     if ($vtprd_rules_set == '') { 
-        error_log( print_r(  'vtprd_rules_set is blank ', true ) );    
+        //error_log( print_r(  'vtprd_rules_set is blank ', true ) );    
     }
  */   
      
@@ -3944,7 +4446,8 @@ error_log( var_export($vtprd_cart, true ) );
      $coupon->set_object_read( true ); 
     
     //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon 005', true ) );
-    
+     
+     vtprd_remove_coupon_applied_message(); //v1.1.7.2    
         
         //error_log( print_r(  'vtprd_woo_new_load_discount_amount_to_coupon END, coupon= ', true ) );
     //error_log( var_export($coupon, true ) );
@@ -3960,18 +4463,15 @@ error_log( var_export($vtprd_cart, true ) );
    public function vtprd_woo_maybe_load_discount_amount_to_coupon($status, $code) {
     //error_log( print_r(  'Function begin - vtprd_woo_maybe_load_discount_amount_to_coupon', true ) );
             
-    //v1.1.7 begin
+    //v2.0.0 begin
     //DON"T RUN IN ADMIN !!!!!!!!!!!
-     if ( (function_exists( 'get_current_screen' ) ) ||    // get_current_screen ONLY exists in ADMIN!!!  
-          ( is_admin() ) ) { 
-         return;              
+      if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+           (defined( 'DOING_CRON' )) ) {           
+          //error_log( print_r(  'vtprd_woo_maybe_load_discount_amount_to_coupon - do not run in ADMIN, exiting function, REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );
+        return;          
      }    
-    
-    // if woo 3.0.0 or newer, handled in function vtprd_woo_new_load_discount_amount_to_coupon
-    if ( version_compare( WC_VERSION, '3.0.0', '>=' ) ) { //only allow if *older* than 3.0.0 - otherwise handled above 
-      return;
-    }
-    //v1.1.7 end
+
+    //v2.0.0 end
                
 		//v1.1.1 begin - 
     // "do_no_actions" set/unset in function  vtprd_build_product_price_array
@@ -3992,7 +4492,8 @@ error_log( var_export($vtprd_cart, true ) );
   
     //v1.0.9.1 begin
     if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {   		
-    	return; //v1.1.0.2
+    	remove_filter( 'woocommerce_get_shop_coupon_data',  array(&$this, 'vtprd_woo_maybe_load_discount_amount_to_coupon')); //v2.0.0 g solution      
+      return; //v1.1.0.2
     }   
     //v1.0.9.1 end  
             
@@ -4004,10 +4505,14 @@ error_log( var_export($vtprd_cart, true ) );
       }
 
                  
-      //Open Session Variable, get rules_set and cart if not there....
-      $data_chain = $this->vtprd_get_data_chain();
-    
+      //v2.0.0 G solution begin - $data_chain was only necessary for yousave_cart_total_amt
+      //  which is now stored in  $vtprd_info['yousave_cart_total_amt']
+      //$data_chain = $this->vtprd_get_data_chain();
 
+      $vtprd_cart->yousave_cart_total_amt = $vtprd_info['yousave_cart_total_amt']; 
+         
+      //v2.0.0 G solution end  
+        
       if ($vtprd_cart->yousave_cart_total_amt <= 0) {
          return false;
       }
@@ -4087,7 +4592,11 @@ error_log( var_export($vtprd_cart, true ) );
               	'customer_email'             => array()
               ); 
       }     
-           
+
+    //error_log( print_r(  'Function end - vtprd_woo_maybe_load_discount_amount_to_coupon', true ) );
+      
+     vtprd_remove_coupon_applied_message();  //v1.1.7.2 grpD
+                 
      return $coupon_data;
    }
 
@@ -4167,6 +4676,7 @@ error_log( var_export($vtprd_cart, true ) );
     $data_chain[] = vtprd_get_current_user_role();  //v1.0.7.2
     $data_chain[] =  $woocommerce->cart->cart_contents_total;
     $data_chain[] =  $woocommerce->cart->applied_coupons;
+    $data_chain[] = time(); //v2.0.0
     $_SESSION['data_chain'] = serialize($data_chain);  
  */           
     return;        
@@ -4202,7 +4712,8 @@ error_log( var_export($vtprd_cart, true ) );
 
     //v1.0.9.3 begin
     //  NO widget print for inline pricing
-    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {   		
+    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {  
+      remove_action( 'woocommerce_widget_shopping_cart_before_buttons', array(&$this, 'vtprd_maybe_print_widget_discount')); //v2.0.0 g solution       		
     	return;
     }
     
@@ -4352,15 +4863,32 @@ error_log( var_export($vtprd_cart, true ) );
     global $wpdb, $vtprd_rules_set, $vtprd_cart, $vtprd_setup_options; 
      
     //v1.0.9.1 begin
-    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  {   		
-    	return $message;
+    if ($vtprd_setup_options['discount_taken_where'] != 'discountCoupon')  { 
+        /* v1.1.8.3 added comment
+        //to TURN ON this action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+        add_filter( 'vtprd_always_show_email_discount_table', function() { return TRUE; } );  
+        */	      		
+      //v1.1.7.2 Begin - allow override to DISPLAY the discount table on ALL emails
+      if (apply_filters('vtprd_always_show_email_discount_table',FALSE)) {  
+        $show_table = true;
+      } else {
+        return $message;
+      } 
+      //v1.1.7.2 end  
     }
     //v1.0.9.1 end   
     
      vtprd_debug_options();  //v1.0.5   
 
 
-    $log_Id = $order_info->id;
+    //v1.1.7.2 begin   grpA
+    if ( version_compare( WC_VERSION, '3.0.0', '>=' ) ) {
+      $log_Id = $order_info->get_id();
+    } else { 
+      $log_Id = $order_info->id;
+    }
+    //v1.1.7.2 end 
+   
    
     //if there's a discount history, let's find it...
     $vtprd_purchase_log = $wpdb->get_row( "SELECT * FROM `" . VTPRD_PURCHASE_LOG . "` WHERE `cart_parent_purchase_log_id`='" . $log_Id . "' LIMIT 1", ARRAY_A );      	
@@ -4388,6 +4916,55 @@ error_log( var_export($vtprd_cart, true ) );
     return $message;
   }    
 
+
+   
+  /* ************************************************
+  v1.1.8.0  New Function
+  VIEW CART RULE order history report
+  *************************************************** */ 
+ public function vtprd_order_history_report($log_Id) { 
+    //error_log( print_r(  'Function begin - vtprd_order_history_report', true ) );  
+
+    if(!isset($_SESSION)){
+      session_start();
+      header("Cache-Control: no-cache");
+      header("Pragma: no-cache");
+    }
+
+    global $wpdb, $vtprd_rules_set, $vtprd_cart, $vtprd_setup_options; 
+     
+    //optional shutoff
+    if (apply_filters('vtprd_do_not_show_order_history_report',FALSE)) {  
+      return;
+    } 
+    
+    vtprd_debug_options();  //v1.0.5   
+
+    //if there's a discount history, let's find it...
+    $vtprd_purchase_log = $wpdb->get_row( "SELECT * FROM `" . VTPRD_PURCHASE_LOG . "` WHERE `cart_parent_purchase_log_id`='" . $log_Id . "' LIMIT 1", ARRAY_A );      	
+    	    
+    //if purchase log, use that info instead of current 
+    if (!$vtprd_purchase_log) {     
+      return;
+    }  
+                                                                                                                            
+    $vtprd_cart      = unserialize($vtprd_purchase_log['cart_object']);    
+    $vtprd_rules_set = unserialize($vtprd_purchase_log['ruleset_object']);
+      
+    //NO discount found, no msg changes
+    if (!($vtprd_cart->yousave_cart_total_amt > 0)) {  
+      return;    
+    } 
+
+      //get the Discount detail report...
+    //v1.1.8.0 email2 is still in development...
+    //$discount_reporting = vtprd_email2_cart_reporting('html');  
+    $discount_reporting = vtprd_email_cart_reporting('html');   
+
+     echo $discount_reporting;
+    
+    return;
+  }  
     
   /* ************************************************
   //  do_action( 'woocommerce_order_details_after_order_table', $order );
@@ -4476,10 +5053,15 @@ error_log( var_export($vtprd_cart, true ) );
         //Clear out everything Salient  (so that LIfetime discount limits are cleared...)
         //these resets allow the NEXT add to cart to launch vtprd_process_discount OUT OF vtprd_maybe_before_calculate_totals
         
+         //v2.0.0 begin - 
+         /*
          if (isset($_SESSION['data_chain'])) {
            $contents = $_SESSION['data_chain'];
            unset( $_SESSION['data_chain'], $contents ); 
-         } 
+         }
+         */
+         $_SESSION['data_chain'] = false; 
+         //v2.0.0 end  
          //clean out temp storage on RULESET!
          global $vtprd_rules_set;
          $vtprd_rules_set = get_option( 'vtprd_rules_set' ); 
@@ -4516,10 +5098,15 @@ error_log( var_export($vtprd_cart, true ) );
     //Clear out everything Salient  (so that LIfetime discount limits are cleared...)
     //these resets allow the NEXT add to cart to launch vtprd_process_discount OUT OF vtprd_maybe_before_calculate_totals
 
+     //v2.0.0 begin - 
+     /*
      if (isset($_SESSION['data_chain'])) {
        $contents = $_SESSION['data_chain'];
        unset( $_SESSION['data_chain'], $contents ); 
-     } 
+     }
+     */
+     $_SESSION['data_chain'] = false; 
+     //v2.0.0 end  
      //clean out temp storage on RULESET!
      global $vtprd_rules_set;
      $vtprd_rules_set = get_option( 'vtprd_rules_set' ); 
@@ -4626,10 +5213,15 @@ error_log( var_export($vtprd_cart, true ) );
   *************************************************** */ 
  public  function vtprd_nuke_session_variables() {
     
-    if (isset($_SESSION['data_chain']))  {
-      $contents = $_SESSION['data_chain'];
-      unset( $_SESSION['data_chain'], $contents );
-    }
+     //v2.0.0 begin - 
+     /*
+     if (isset($_SESSION['data_chain'])) {
+       $contents = $_SESSION['data_chain'];
+       unset( $_SESSION['data_chain'], $contents ); 
+     }
+     */
+     $_SESSION['data_chain'] = false; 
+     //v2.0.0 end 
     
     if (isset($_SESSION['previous_free_product_array']))  {    
       $contents = $_SESSION['previous_free_product_array'];
@@ -4794,15 +5386,46 @@ error_log( var_export($vtprd_cart, true ) );
                               vtprd_post_purchase_maybe_purchase_log
        access global     - in vtprd_post_purchase_maybe_save_log_info    
       *************************************************   */
-      global $vtprd_rules_set, $vtprd_cart;
-      
-      //mwn0402
+      global $vtprd_rules_set, $vtprd_cart, $vtprd_info, $vtprd_setup_options; //v2.0.0  added $vtprd_info, $vtprd_setup_options
+
+      //v2.0.0 begin - reworked 
+      // new structure added so that the session variable can be set to false.
+      $data_chain_found = false;
       if (isset($_SESSION['data_chain'])) {
-        $data_chain      = unserialize($_SESSION['data_chain']);
-      } else {
-        $data_chain = array();
+            //error_log( print_r(  'vtprd_get_data_chain - data chain set', true ) );      
+        if ($_SESSION['data_chain']) {
+            // error_log( print_r(  'vtprd_get_data_chain - data chain found', true ) );        
+          $data_chain_found = true;
+        }
       }
       
+      if ($data_chain_found) {
+        $data_chain      = unserialize($_SESSION['data_chain']);
+            //error_log( print_r(  'vtprd_get_data_chain - unserialize successful', true ) );        
+      } else {
+            //error_log( print_r(  'vtprd_get_data_chain - No chain found, return blank array', true ) );   
+        $data_chain = array();
+        $vtprd_info['product_session_info'] = array();  //force all new catalog rule tests //v2.0.0
+        return $data_chain; 
+      }
+      //v2.0.0 end
+      
+      //v2.0.0 begin - process $data_chain[] = time(); 
+      if ( isset ($data_chain[5]) ) {
+        $data_chain_timestamp = $data_chain[5];
+        $current_time_in_seconds = time();
+        if ( ($current_time_in_seconds - $data_chain_timestamp) > '300' ) {    //session data older than 5 minutes
+          $data_chain = array();
+          $vtprd_info['product_session_info'] = array();  //force all new catalog rule tests //v2.0.0        
+          return $data_chain;
+        }
+      } else {
+        $data_chain = array();
+        $vtprd_info['product_session_info'] = array();  //force all new catalog rule tests //v2.0.0      
+        return $data_chain;
+      }
+      //v2.0.0 end  
+            
           
       if ($vtprd_rules_set == '') {        
         if (isset($data_chain[0])) {    //v1.0.8.0
@@ -4868,16 +5491,34 @@ error_log( var_export($vtprd_cart, true ) );
         $contents = $_SESSION['current_auto_add_array'];
         unset( $_SESSION['current_auto_add_array'], $contents );    
     }
-    if (isset($_SESSION['data_chain']))  {
-        $contents = $_SESSION['data_chain'];
-        unset( $_SESSION['data_chain'], $contents );    
-    }    
+     //v2.0.0 begin - 
+     /*
+     if (isset($_SESSION['data_chain'])) {
+       $contents = $_SESSION['data_chain'];
+       unset( $_SESSION['data_chain'], $contents ); 
+     }
+     */
+     $_SESSION['data_chain'] = false; 
+     //v2.0.0 end    
     
     vtprd_debug_options();  //v1.1
     
-    global  $vtprd_info;
-    $coupon_title = $vtprd_info['coupon_code_discount_deal_title'];
-    $this->vtprd_woo_maybe_remove_coupon_from_cart($coupon_title);
+    
+    //v1.1.7.2  grpB  begin
+    //re-coded
+    global  $woocommerce, $vtprd_info, $vtprd_setup_options;
+
+    if ($vtprd_setup_options['discount_taken_where'] == 'discountCoupon') {
+          
+      $woocommerce_cart_contents = $woocommerce->cart->get_cart();
+
+      if ( (sizeof($woocommerce_cart_contents) > 0 ) &&
+           ($woocommerce->cart->has_discount($coupon_title)) ) {    		 
+        $coupon_title = $vtprd_info['coupon_code_discount_deal_title'];
+        $this->vtprd_woo_maybe_remove_coupon_from_cart($coupon_title);
+      }
+    }
+    //v1.1.7.2  grpB  end
        
     return;    
   }
@@ -4938,10 +5579,16 @@ error_log( var_export($vtprd_cart, true ) );
  	 //v1.1.1 end
 
  
-    if ( (is_admin()) && (defined('VTPRD_PRO_DIRNAME')) ) {     
+    //v2.0.0 begin
+       //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+    if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) &&
+         (!defined( 'DOING_CRON' )) &&
+         (defined('VTPRD_PRO_DIRNAME')) ) {     
        vtprd_debug_options();  //v1.1
        vtprd_maybe_lifetime_roll_log_totals_out($log_id);
     }
+    //v2.0.0 end
+    
     return;   
   }
 
@@ -4952,10 +5599,24 @@ error_log( var_export($vtprd_cart, true ) );
 	public function vtprd_pro_lifetime_bulk_log_roll_out($current_action){  
      //error_log( print_r(  'Function begin - vtprd_pro_lifetime_bulk_log_roll_out', true ) );
 
+       //v2.0.0 begin
+       //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+    if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) &&
+         (!defined( 'DOING_CRON' )) &&
+         (defined('VTPRD_PRO_DIRNAME')) ) {
+       vtprd_debug_options();  //v1.1
+       vtprd_maybe_lifetime_bulk_roll_log_totals_out($current_action);
+    }
+    
+    /*    
     if ( (is_admin()) && (defined('VTPRD_PRO_DIRNAME')) ) {     
        vtprd_debug_options();  //v1.1
        vtprd_maybe_lifetime_bulk_roll_log_totals_out($current_action);
     }
+    */
+       //v2.0.0 end    
+       
+    
     return;   
   }
 
@@ -4966,10 +5627,15 @@ error_log( var_export($vtprd_cart, true ) );
      //error_log( print_r(  'Function begin - vtprd_do_loaded_housekeeping', true ) );  
 
 		//v1.1.1 begin - 
-    
-    if (is_admin() ) {      
-      return;
-    }     
+  
+     //v2.0.0 begin
+     //wp-admin calls doing ajax can be confused with other calls - best to test the ACTIVE PAGE:
+     if ( (strpos($_SERVER["REQUEST_URI"],'wp-admin') !== false) ||
+          (defined( 'DOING_CRON' )) ) {  
+          //error_log( print_r(  'vtprd_do_loaded_housekeeping - Admin or Cron FOUND, DO NOT RUN. REQUEST_URI= ' .$_SERVER["REQUEST_URI"], true ) );
+        return;          
+     } 
+     //v2.0.0 end
     
     // "do_no_actions" set/unset in function  vtprd_build_product_price_array
     if(!isset($_SESSION)){
@@ -5052,7 +5718,7 @@ error_log( var_export($vtprd_cart, true ) );
     if ( (class_exists('WC_Measurement_Price_Calculator')) ||
          (class_exists('WC_Product_Addons')) ||
          ($do_get_price) ) { 
-      if ( !is_admin() ) {
+      //if ( !is_admin() ) {  v2.0.0 removed - duplicative!!  
           $filter_added = false;
           //only needed for CATALOG rules
           if ( (class_exists('WC_Product_Addons')) &&
@@ -5129,7 +5795,7 @@ error_log( var_export($vtprd_cart, true ) );
                 add_filter('woocommerce_cart_subtotal',               array(&$this, 'vtprd_maybe_cart_subtotal'), 10, 3);  //only way to get the price to the faux variations...               
           }
           */                     
-      }
+
     }       
    
     //v1.1.1 end
@@ -5138,14 +5804,25 @@ error_log( var_export($vtprd_cart, true ) );
      
     if ( (!is_object($woocommerce->customer) ) ||
          (empty( $woocommerce->customer) )     ||
-         ($woocommerce->customer->is_vat_exempt() ) ) {   
+         ( ( version_compare( WC_VERSION, '3.0.0', '>=' ) ) && ( $woocommerce->customer->get_is_vat_exempt() ) ) ||  //v1.1.7.2 
+         ( ( version_compare( WC_VERSION, '3.0.0', '<'  ) ) && ( $woocommerce->customer->is_vat_exempt() ) ) //v1.1.7.2 
+         //v1.1.7.2 ($woocommerce->customer->is_vat_exempt() ) ) { 
+       ) 
+    {   
       return; 
     }
     
     // check user-level tax exemption (plugin-specific checkbox on user screen)
     //USER LEVEL TAX EXEMPTION = ALL TRANSACTIONS TAX EXEMPT
     if (get_user_meta( $current_user->ID, 'vtprd_user_is_tax_exempt', true ) == 'yes') {
-       $woocommerce->customer->is_vat_exempt = true; //v1.1.1.2 chged '==' to '='
+       //v1.1.7.2 begin
+       if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0 
+         $woocommerce->customer->is_vat_exempt = true;
+       } else {                     
+         $woocommerce->customer->set_is_vat_exempt(true);
+       }              
+       //v1.1.7.2 $woocommerce->customer->is_vat_exempt = true;
+       //v1.1.7.2 end
        return;
     }
 
@@ -5155,7 +5832,14 @@ error_log( var_export($vtprd_cart, true ) );
     
     //check role-level tax exemption (plugin-specific role capability)
     if ( current_user_can( 'buy_tax_free') ) {
-       $woocommerce->customer->is_vat_exempt = true;
+       //v1.1.7.2 begin
+       if ( version_compare( WC_VERSION, '3.0.0', '<' ) ) { //check if older than version 3.0.0 
+         $woocommerce->customer->is_vat_exempt = true;
+       } else {                     
+         $woocommerce->customer->set_is_vat_exempt(true);
+       }              
+       //v1.1.7.2 $woocommerce->customer->is_vat_exempt = true;
+       //v1.1.7.2 end
     }    
     
     return;   

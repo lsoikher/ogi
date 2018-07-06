@@ -8,29 +8,29 @@ function flatsome_lightbox_button(){
     wp_enqueue_script('wc-add-to-cart-variation');
 
     global $product;
-    echo '  <a class="quick-view" data-prod="'.$product->id.'" href="#quick-view">'.__('Quick View','flatsome').'</a>';
+    echo '  <a class="quick-view" data-prod="'.$product->get_id().'" href="#quick-view">'.__('Quick View','flatsome').'</a>';
 }
 add_action('flatsome_product_box_actions', 'flatsome_lightbox_button', 50);
 
 /* Add stuff to lightbox */
 add_action( 'woocommerce_single_product_lightbox_summary', 'woocommerce_template_single_price', 10 );
 add_action( 'woocommerce_single_product_lightbox_summary', 'woocommerce_template_single_excerpt', 20 );
-
-if(!get_theme_mod('product_info_meta')){
-    remove_action('woocommerce_single_product_lightbox_summary','woocommerce_template_single_meta',40);
-}
 add_action( 'woocommerce_single_product_lightbox_summary', 'woocommerce_template_single_add_to_cart', 30 );
 add_action( 'woocommerce_before_single_product_lightbox_summary','woocommerce_show_product_sale_flash', 20);
 
-// Quick View Output
+if(get_theme_mod('product_info_meta', 1)){
+  add_action( 'woocommerce_single_product_lightbox_summary', 'woocommerce_template_single_meta', 40);
+}
+
+/* Quick View Output */
 function flatsome_quickview() {
     global $post, $product, $woocommerce;
     $prod_id =  $_POST["product"];
     $post = get_post($prod_id);
-    $product = get_product($prod_id);
+    $product = wc_get_product($prod_id);
     ob_start();
 
-    woocommerce_get_template('content-single-product-lightbox.php');
+    wc_get_template('content-single-product-lightbox.php');
 
     $output = ob_get_contents();
     ob_end_clean();

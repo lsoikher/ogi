@@ -16,13 +16,8 @@ if ( ! $messages ){
 }
 
 ?>
-
-<div class="woocommerce-messages alert-color medium-text-center container">
-	<div class="message-wrapper">
-		<ul class="woocommerce-error">
-			<?php foreach ( $messages as $message ) : ?>
-				<li><span class="message-icon icon-close"></span> <?php echo wp_kses_post( $message ); ?></li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-</div>
+<ul class="woocommerce-error message-wrapper">
+	<?php foreach ( $messages as $message ) : ?>
+		<li><div class="message-container container alert-color medium-text-center"><span class="message-icon icon-close"></span> <?php echo wp_kses_post( $message ); ?></div></li>
+	<?php endforeach; ?>
+</ul>

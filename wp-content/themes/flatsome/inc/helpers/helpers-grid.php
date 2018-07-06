@@ -23,6 +23,19 @@ function flatsome_get_grid_height($height, $id){
     #<?php echo $id;?> .grid-col-1-4{height: <?php echo $height / 4; ?>px}
     #<?php echo $id;?> .grid-col-3-4{height: <?php echo $height / 4 *3; ?>px}
 
+
+    <?php if($height_md) { ?>
+    /* Tablet */
+    @media (max-width: 850px){
+      #<?php echo $id;?> .grid-col-1{height: <?php echo  $height_md; ?>px}
+      #<?php echo $id;?> .grid-col-1-2{height: <?php echo  $height_md / 2; ?>px}
+      #<?php echo $id;?> .grid-col-1-3{height:<?php echo  $height_md / 3; ?>px}
+      #<?php echo $id;?> .grid-col-2-3{height: <?php echo  $height_md / 3 *2; ?>px}
+      #<?php echo $id;?> .grid-col-1-4{height: <?php echo  $height_md / 4; ?>px}
+      #<?php echo $id;?> .grid-col-3-4{height: <?php echo  $height_md / 4 *3; ?>px}
+    }
+    <?php } ?>
+
     <?php if($height_sm) { ?>
     /* Mobile */
     @media (max-width: 550px){
@@ -35,17 +48,7 @@ function flatsome_get_grid_height($height, $id){
     }
     <?php } ?>
 
-    <?php if($height_md) { ?>
-    /* Mobile */
-    @media (max-width: 850px){
-      #<?php echo $id;?> .grid-col-1{height: <?php echo  $height_md; ?>px}
-      #<?php echo $id;?> .grid-col-1-2{height: <?php echo  $height_md / 2; ?>px}
-      #<?php echo $id;?> .grid-col-1-3{height:<?php echo  $height_md / 3; ?>px}
-      #<?php echo $id;?> .grid-col-2-3{height: <?php echo  $height_md / 3 *2; ?>px}
-      #<?php echo $id;?> .grid-col-1-4{height: <?php echo  $height_md / 4; ?>px}
-      #<?php echo $id;?> .grid-col-3-4{height: <?php echo  $height_md / 4 *3; ?>px}
-    }
-    <?php } ?>
+
   </style>
   <?php
 }
@@ -103,8 +106,8 @@ if( ! function_exists( 'flatsome_get_grid' ) ) {
 
     if($grid == '7'){
       $g = array(
-         array('height' => '1','span' => '3','size' => 'large', 'md' => '12'),
-         array('height' => '1','span' => '6','size' => 'medium','md' => '6'),
+         array('height' => '1','span' => '3','size' => 'medium', 'md' => '12'),
+         array('height' => '1','span' => '6','size' => 'large','md' => '6'),
          array('height' => '1-2','span' => '3','size' => 'thumbnail','md' => '6'),
         );
     }

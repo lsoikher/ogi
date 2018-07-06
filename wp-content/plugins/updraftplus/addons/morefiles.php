@@ -1,11 +1,13 @@
 <?php
+// @codingStandardsIgnoreStart
 /*
 UpdraftPlus Addon: morefiles:Back up more files, including WordPress core
 Description: Creates a backup of WordPress core (including everything in that directory WordPress is in), and any other file/directory you specify too.
-Version: 2.4
+Version: 2.5
 Shop: /shop/more-files/
-Latest Change: 1.12.35
+Latest Change: 1.13.1
 */
+// @codingStandardsIgnoreEnd
 
 if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed');
 
@@ -14,6 +16,7 @@ $updraftplus_addons_morefiles = new UpdraftPlus_Addons_MoreFiles;
 class UpdraftPlus_Addons_MoreFiles {
 
 	private $wpcore_foundyet = 0;
+
 	private $more_paths = array();
 
 	public function __construct() {
@@ -46,7 +49,6 @@ class UpdraftPlus_Addons_MoreFiles {
 		
 		add_filter('updraftplus_include_wpcore_exclude', array($this, 'include_wpcore_exclude'));
 
-		add_action('updraftplus_admin_enqueue_scripts', array($this, 'updraftplus_admin_enqueue_scripts'));
 	}
 
 	public function updraftplus_browse_download_link($link) {
@@ -58,15 +60,15 @@ class UpdraftPlus_Addons_MoreFiles {
 
 		$zip_object = 'UpdraftPlus_ZipArchive';
 
-		if (!class_exists('UpdraftPlus_PclZip')) require_once(UPDRAFTPLUS_DIR.'/class-zip.php');
+		if (!class_exists('UpdraftPlus_PclZip')) include_once(UPDRAFTPLUS_DIR.'/class-zip.php');
 
-		# In tests, PclZip was found to be 25% slower than ZipArchive
+		// In tests, PclZip was found to be 25% slower than ZipArchive
 		if (((defined('UPDRAFTPLUS_PREFERPCLZIP') && UPDRAFTPLUS_PREFERPCLZIP == true) || !class_exists('ZipArchive') || !class_exists('UpdraftPlus_ZipArchive') || (!extension_loaded('zip') && !method_exists('ZipArchive', 'AddFile')))) {
 			$zip_object = 'UpdraftPlus_PclZip';
 		}
 
 		// Retrieve the information from our backup history
-		$backup_history = $updraftplus->get_backup_history();
+		$backup_history = UpdraftPlus_Backup_History::get_history();
 
 		// Base name
 		$file = $backup_history[$params['timestamp']][$params['type']];
@@ -87,7 +89,7 @@ class UpdraftPlus_Addons_MoreFiles {
 				return array('error' => 'UpdraftPlus: opening zip (' . $fullpath . '): failed to open this zip file.');
 			} else {
 
-				if ($zip_object == 'UpdraftPlus_PclZip') {
+				if ('UpdraftPlus_PclZip' == $zip_object) {
 					$extracted = $zip->extract($updraftplus->backups_dir_location() . DIRECTORY_SEPARATOR . 'ziptemp' . DIRECTORY_SEPARATOR, $path);
 				} else {
 					$extracted = $zip->extractTo($updraftplus->backups_dir_location() . DIRECTORY_SEPARATOR . 'ziptemp' . DIRECTORY_SEPARATOR, $path);
@@ -106,11 +108,6 @@ class UpdraftPlus_Addons_MoreFiles {
 		return array('error' => 'UpdraftPlus: no such file or diretory (' . $fullpath . '): if the file does exist please make sure it is readable by the server.');
 	}
 	
-	public function updraftplus_admin_enqueue_scripts() {
-		global $updraftplus_admin;
-		$updraftplus_admin->enqueue_jstree();
-	}
-
 	public function fileinfo_more($data, $ind) {
 		if (!is_array($data) || !is_numeric($ind) || empty($this->more_paths) || !is_array($this->more_paths) || empty($this->more_paths[$ind])) return $data;
 
@@ -127,11 +124,11 @@ class UpdraftPlus_Addons_MoreFiles {
 	public function restore_form_wpcore() {
 
 		?>
-		<div id="updraft_restorer_wpcoreoptions" style="display:none; padding:12px; margin: 8px 0 4px; border: dashed 1px;"><h4 style="margin: 0px 0px 6px; padding:0px;"><?php echo sprintf(__('%s restoration options:','updraftplus'),__('WordPress Core','updraftplus')); ?></h4>
+		<div id="updraft_restorer_wpcoreoptions" style="display:none; padding:12px; margin: 8px 0 4px; border: dashed 1px;"><h4 style="margin: 0px 0px 6px; padding:0px;"><?php echo sprintf(__('%s restoration options:', 'updraftplus'), __('WordPress Core', 'updraftplus')); ?></h4>
 
 			<?php
 
-			echo '<input name="updraft_restorer_wpcore_includewpconfig" id="updraft_restorer_wpcore_includewpconfig" type="checkbox" value="1"><label for="updraft_restorer_wpcore_includewpconfig"> '.__('Over-write wp-config.php','updraftplus').'</label> <a href="https://updraftplus.com/faqs/when-i-restore-wordpress-core-should-i-include-wp-config-php-in-the-restoration/">'.__('(learn more about this significant option)','updraftplus').'</a>';
+			echo '<input name="updraft_restorer_wpcore_includewpconfig" id="updraft_restorer_wpcore_includewpconfig" type="checkbox" value="1"><label for="updraft_restorer_wpcore_includewpconfig"> '.__('Over-write wp-config.php', 'updraftplus').'</label> <a href="https://updraftplus.com/faqs/when-i-restore-wordpress-core-should-i-include-wp-config-php-in-the-restoration/">'.__('(learn more about this significant option)', 'updraftplus').'</a>';
 
 			?>
 
@@ -150,7 +147,7 @@ class UpdraftPlus_Addons_MoreFiles {
 	}
 
 	public function admin_directories_description() {
-		return '<div style="float: left; clear: both; padding-top: 3px;">'.__('The above files comprise everything in a WordPress installation.' ,'updraftplus').'</div>';
+		return '<div style="float: left; clear: both; padding-top: 3px;">'.__('The above files comprise everything in a WordPress installation.', 'updraftplus').'</div>';
 	}
 
 	public function backupable_file_entities($arr, $full_info) {
@@ -170,27 +167,33 @@ class UpdraftPlus_Addons_MoreFiles {
 		if (!empty($this->wpcore_foundyet) && 3 == $this->wpcore_foundyet) return;
 
 		if (!is_readable($zipfile)) {
-			$warn[] = sprintf(__('Unable to read zip file (%s) - could not pre-scan it to check its integrity.','updraftplus'), basename($zipfile));
+			$warn[] = sprintf(__('Unable to read zip file (%s) - could not pre-scan it to check its integrity.', 'updraftplus'), basename($zipfile));
 			return;
 		}
 
 		if ('.zip' == strtolower(substr($zipfile, -4, 4))) {
 
-			if (!class_exists('UpdraftPlus_PclZip')) require(UPDRAFTPLUS_DIR.'/class-zip.php');
+			if (!class_exists('UpdraftPlus_PclZip')) include(UPDRAFTPLUS_DIR.'/class-zip.php');
 			$zip = new UpdraftPlus_PclZip;
 
 			if (!$zip->open($zipfile)) {
-				$warn[] = sprintf(__('Unable to open zip file (%s) - could not pre-scan it to check its integrity.','updraftplus'), basename($zipfile));
+				$warn[] = sprintf(__('Unable to open zip file (%s) - could not pre-scan it to check its integrity.', 'updraftplus'), basename($zipfile));
 				return;
 			}
 
-			# Don't put this in the for loop, or the magic __get() method gets called and opens the zip file every time the loop goes round
+			// Don't put this in the for loop, or the magic __get() method gets called and opens the zip file every time the loop goes round
 			$numfiles = $zip->numFiles;
 
 			for ($i=0; $i < $numfiles; $i++) {
 				$si = $zip->statIndex($i);
-				if ($si['name'] == 'wp-admin/index.php') { $this->wpcore_foundyet = $this->wpcore_foundyet | 1; if (3 == $this->wpcore_foundyet) return; }
-				if ($si['name'] == 'xmlrpc.php' || $si['name'] == 'xmlrpc.php/xmlrpc.php') { $this->wpcore_foundyet = $this->wpcore_foundyet | 2; if (3 == $this->wpcore_foundyet) return; }
+				if ('wp-admin/index.php' == $si['name']) {
+					$this->wpcore_foundyet = $this->wpcore_foundyet | 1;
+					if (3 == $this->wpcore_foundyet) return;
+				}
+				if ('xmlrpc.php' == $si['name'] || 'xmlrpc.php/xmlrpc.php' == $si['name']) {
+					$this->wpcore_foundyet = $this->wpcore_foundyet | 2;
+					if (3 == $this->wpcore_foundyet) return;
+				}
 			}
 
 			@$zip->close();
@@ -198,7 +201,7 @@ class UpdraftPlus_Addons_MoreFiles {
 
 			if (!class_exists('UpdraftPlus_Archive_Tar')) {
 				if (false === strpos(get_include_path(), UPDRAFTPLUS_DIR.'/includes/PEAR')) set_include_path(UPDRAFTPLUS_DIR.'/includes/PEAR'.PATH_SEPARATOR.get_include_path());
-				require_once(UPDRAFTPLUS_DIR.'/includes/PEAR/Archive/Tar.php');
+				include_once(UPDRAFTPLUS_DIR.'/includes/PEAR/Archive/Tar.php');
 			}
 
 			$p_compress = null;
@@ -243,7 +246,7 @@ class UpdraftPlus_Addons_MoreFiles {
 			$arr['more'] = array(
 				'path' => $path,
 				'description' => __('Any other file/directory on your server that you wish to back up', 'updraftplus'),
-				'shortdescription' => __('More Files','updraftplus'),
+				'shortdescription' => __('More Files', 'updraftplus'),
 				'restorable' => false
 			);
 		} else {
@@ -264,7 +267,7 @@ class UpdraftPlus_Addons_MoreFiles {
 
 		$ret .= "<div id=\"updraft_include_more_options\" $display $class><p>";
 
-			$ret .= __('If you are not sure what this option is for, then you will not want it, and should turn it off.','updraftplus').' '.__('If using it, select a path from the directory tree below and then press confirm selection.', 'updraftplus');
+			$ret .= __('If you are not sure what this option is for, then you will not want it, and should turn it off.', 'updraftplus').' '.__('If using it, select a path from the directory tree below and then press confirm selection.', 'updraftplus');
 			
 			$ret .= ' '.__('Be careful what you select - if you select / then it really will try to create a zip containing your entire webserver.', 'updraftplus');
 
@@ -273,17 +276,17 @@ class UpdraftPlus_Addons_MoreFiles {
 			$ret .= '<div id="updraft_include_more_paths">';
 			$maxind = 1;
 			
-			//Stops default empty path input being output to screen
+			// Stops default empty path input being output to screen
 			
 			if (empty($paths)) {
-				$paths = array('');
+			$paths = array('');
 			} else {
-				foreach ($paths as $ind => $path) {
-					$maxind = max($ind, $maxind);
-					$ret .= '<div class="updraftplus-morefiles-row" style="float: left; clear: left;"><label for="updraft_include_more_path_'.$ind.'"></label>';
-					$ret .= '<input type="text" data-mp_index="'.$ind.'" id="updraft_include_more_path_'.$ind.'" class="updraft_include_more_path" name="updraft_include_more_path[]" size="54" value="'.htmlspecialchars($path).'" title="'.htmlspecialchars($path).'"/> <span title="'.__('Edit', 'updraftplus').'" class="updraftplus-morefiles-row-edit dashicons dashicons-edit hidden-in-updraftcentral"></span> <span title="'.__('Remove', 'updraftplus').'" class="updraftplus-morefiles-row-delete">X</span>';
-					$ret .= '</div>';
-				}
+			foreach ($paths as $ind => $path) {
+				$maxind = max($ind, $maxind);
+				$ret .= '<div class="updraftplus-morefiles-row" style="float: left; clear: left;"><label for="updraft_include_more_path_'.$ind.'"></label>';
+				$ret .= '<input type="text" data-mp_index="'.$ind.'" id="updraft_include_more_path_'.$ind.'" class="updraft_include_more_path" name="updraft_include_more_path[]" size="54" value="'.htmlspecialchars($path).'" title="'.htmlspecialchars($path).'"/> <span title="'.__('Edit', 'updraftplus').'" class="updraftplus-morefiles-row-edit dashicons dashicons-edit hidden-in-updraftcentral"></span> <span title="'.__('Remove', 'updraftplus').'" class="updraftplus-morefiles-row-delete">X</span>';
+				$ret .= '</div>';
+			}
 			}
 			
 			$ret .= '</div>';
@@ -295,7 +298,7 @@ class UpdraftPlus_Addons_MoreFiles {
 							<button class="button-primary" id="updraft_jstree_confirm">'. __('Confirm', 'updraftplus') .'</button>
 						</div>
 						<div id="updraft_jstree_container">
-							<button class="button-primary" id="updraft_parent_directory" title="'.__('Go up a directory','updraftplus').'"><span class="dashicons dashicons-arrow-up-alt"></span></button>
+							<button class="button-primary" id="updraft_parent_directory" title="'.__('Go up a directory', 'updraftplus').'"><span class="dashicons dashicons-arrow-up-alt"></span></button>
 							<div id="updraft_more_files_jstree"></div>
 						</div>
 					</div>';
@@ -454,9 +457,9 @@ ENDHERE;
 		global $updraftplus;
 
 		$possible_backups = $updraftplus->get_backupable_file_entities(false);
-		# We don't want to exclude the very thing we are backing up
+		// We don't want to exclude the very thing we are backing up
 		unset($possible_backups['more']);
-		# We do want to exclude everything in WordPress and in wp-content
+		// We do want to exclude everything in WordPress and in wp-content
 		$possible_backups['wp-content'] = WP_CONTENT_DIR;
 		$possible_backups['wordpress'] = untrailingslashit(ABSPATH);
 
@@ -470,7 +473,7 @@ ENDHERE;
 		}
 
 		$possible_backups_dirs = array_unique($possible_backups_dirs);
-		#$possible_backups_dirs = array_flip($possible_backups); // old
+		// $possible_backups_dirs = array_flip($possible_backups); // old
 
 		$orig_was_array = is_array($whichdirs);
 		if (!$orig_was_array) $whichdirs = array($whichdirs);
@@ -495,7 +498,6 @@ ENDHERE;
 
 	}
 
-	# $whichdir can be an array
 	public function backup_makezip_more($whichdirs, $backup_file_basename, $index) {
 
 		global $updraftplus, $updraftplus_backup;
@@ -537,11 +539,11 @@ ENDHERE;
 					$final_created = array_merge($final_created, $created);
 				} else {
 					$updraftplus->log("$whichdir: More files backup: create_zip returned an error", 'warning', 'morefiles-'.md5($whichdir));
-					#return false;
+					// return false;
 				}
 			} else {
 				$updraftplus->log("$whichdir: No backup of 'more' directory: there was nothing found to back up", 'warning', 'morefiles-empty-'.md5($whichdir));
-				#return false;
+				// return false;
 			}
 		}
 
@@ -561,9 +563,9 @@ ENDHERE;
 		if (false !== ($wpcore_dirlist = apply_filters('updraftplus_dirlist_wpcore_override', false, $whichdir))) return $wpcore_dirlist;
 
 		$possible_backups = $updraftplus->get_backupable_file_entities(false);
-		# We don't want to exclude the very thing we are backing up
+		// We don't want to exclude the very thing we are backing up
 		unset($possible_backups['wpcore']);
-		# We do want to exclude everything in wp-content
+		// We do want to exclude everything in wp-content
 		$possible_backups['wp-content'] = WP_CONTENT_DIR;
 
 		foreach ($possible_backups as $key => $dir) {
@@ -576,10 +578,10 @@ ENDHERE;
 			}
 		}
 
-		# Create an array of directories to be skipped
+		// Create an array of directories to be skipped
 		$exclude = UpdraftPlus_Options::get_updraft_option('updraft_include_wpcore_exclude', '');
 		if ($logit) $updraftplus->log("Exclusion option setting (wpcore): ".$exclude);
-		# Make the values into the keys
+		// Make the values into the keys
 		$wpcore_skip = array_flip(preg_split("/,/", $exclude));
 		$wpcore_skip['wp_content'] = 0;
 
@@ -588,18 +590,25 @@ ENDHERE;
 
 		// This is not required to be a perfect test. The point is to make sure we do get WP core.
 		// Not using this approach for now.
-// 		if (true == apply_filters('updraftplus_backup_wpcore_dirlist_strict', false)) {
-// 			$wpcore_valid = array('wp-admin', 'wp-includes', 'index.php', 'xmlrpc.php');
-// 			foreach ($wpcore_dirlist as $dir) {
+// if (true == apply_filters('updraftplus_backup_wpcore_dirlist_strict', false)) {
+// $wpcore_valid = array('wp-admin', 'wp-includes', 'index.php', 'xmlrpc.php');
+// foreach ($wpcore_dirlist as $dir) {
 // 				
-// 			}
-// 		}
+// }
+// }
 
 		return $wpcore_dirlist;
 
 	}
 
-	// $whichdir will equal untrailingslashit(ABSPATH) (is ultimately sourced from our backupable_file_entities filter callback)
+	/**
+	 * $whichdir will equal untrailingslashit(ABSPATH) (is ultimately sourced from our backupable_file_entities filter callback)
+	 *
+	 * @param  string $whichdir
+	 * @param  string $backup_file_basename
+	 * @param  string $index
+	 * @return array
+	 */
 	public function backup_makezip_wpcore($whichdir, $backup_file_basename, $index) {
 
 		global $updraftplus, $updraftplus_backup;
@@ -619,25 +628,31 @@ ENDHERE;
 			}
 		} else {
 			$updraftplus->log("No backup of WP core directories: there was nothing found to back up");
-			$updraftplus->log(sprintf(__("No backup of %s directories: there was nothing found to back up", 'updraftplus'), __('WordPress Core',' updraftplus')), 'error');
+			$updraftplus->log(sprintf(__("No backup of %s directories: there was nothing found to back up", 'updraftplus'), __('WordPress Core', ' updraftplus')), 'error');
 			return false;
 		}
 
 	}
 
-	// $wp_dir is trailingslashit($wp_filesystem->abspath())
-	// Must only use $wp_filesystem methods
-	// $working_dir is the directory which contains the backup entity/ies. It is a child of wp-content/upgrade
-	// We need to make sure we do not over-write any entities that are restored elsewhere. i.e. Don't touch plugins/themes etc. - but use backupable_file_entities in order to be fully compatible, but with an additional over-ride of touching nothing inside WP_CONTENT_DIR. Can recycle code from the 'others' handling to assist with this.
+
+	/**
+	 * $wp_dir is trailingslashit($wp_filesystem->abspath())
+	 * Must only use $wp_filesystem methods
+	 * $working_dir is the directory which contains the backup entity/ies. It is a child of wp-content/upgrade
+	 * We need to make sure we do not over-write any entities that are restored elsewhere. i.e. Don't touch plugins/themes etc. - but use backupable_file_entities in order to be fully compatible, but with an additional over-ride of touching nothing inside WP_CONTENT_DIR. Can recycle code from the 'others' handling to assist with this.
+	 *
+	 * @param  string $working_dir
+	 * @param  string $wp_dir
+	 * @return array
+	 */
 	public function restore_movein_wpcore($working_dir, $wp_dir) {
 
 		global $updraftplus_restorer;
 
-		# On subsequent archives of a multi-archive set, don't move anything; but do on the first
+		// On subsequent archives of a multi-archive set, don't move anything; but do on the first
 		$preserve_existing = isset($updraftplus_restorer->been_restored['wpcore']) ? Updraft_Restorer::MOVEIN_COPY_IN_CONTENTS : Updraft_Restorer::MOVEIN_OVERWRITE_NO_BACKUP;
 
 		return $updraftplus_restorer->move_backup_in($working_dir, $wp_dir, $preserve_existing, array(basename(WP_CONTENT_DIR)), 'wpcore');
 
 	}
-
 }

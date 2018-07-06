@@ -1,76 +1,214 @@
-=== Nextend Facebook Connect ===
-Contributors: nextendweb 
-Tags: facebook, register, login, social connect, social, facebook connect
+=== Nextend Social Login and Register (Facebook, Google, Twitter) ===
+Contributors: nextendweb
+Tags: social login, facebook, google, twitter, linkedin, register, login, social, nextend facebook connect, social sign in
 Donate link: https://www.facebook.com/nextendweb
-Requires at least: 3.0
-Tested up to: 4.7.3
-Stable tag: 2.0.2
+Requires at least: 4.5
+Tested up to: 4.9
+Stable tag: 3.0.11
+Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-One click registration & login plugin for Facebook? Easy installation? Is it totally free and comes with support? Yeah!
+One click registration & login plugin for Facebook, Google, Twitter and more. Quick setup and easy configuration.
 
 == Description ==
 
-Check the [DEMO](http://secure.nextendweb.com/) on our site.
+>Nextend Facebook Connect, Nextend Google Connect and Nextend Twitter Connect are discontinued and Nextend Social Login takes their place. Feel free to update the old plugins and enjoy Nextend Social Login.
 
-Also we created a [Social Connect button generator](http://www.nextendweb.com/social-connect-button-generator) for this plugin. This allows you to create fancy login buttons. 
+>[Demo](https://try-nextend-social-login.nextendweb.com/wp-login.php)  |  [Tutorial videos](https://www.youtube.com/watch?v=buPTza2-6xc&list=PLSawiBnEUNftt3EDqnP2jIXeh6q0pZ5D8&index=1)  |  [Docs](https://nextendweb.com/nextend-social-login-docs/documentation/)  |  [Support](https://nextendweb.com/contact-us/)  |  [Pro Addon](https://nextendweb.com/social-login/)
 
-Personally, I hate to fill out registration forms, waiting for confirmation e-mails, so we designed this plugin for our website. Now, we want to share this very usable plugin with everyone, for free!
- 
-**Why should you choose Nextend Facebook Connect plugin from the many social plugins?**
+Nextend Social Login is a professional, easy to use and free WordPress plugin. It lets your visitors  register and login to your site using their social profiles instead of forcing them to spend valuable time to fill out the default registration form. Besides that, they don't need to wait for validation emails or keep track of their username and password anymore.
 
-* If your visitors have a Facebook profile, they can register your site with a single click, and later to log in too.
-* The previously registered users can simply attach their existing Facebook profile to their account, so in the future, they can logging in with the one social button.
-* The plugin has multiple desings, so it fits all kind of websites smoothly and elegantly.
-* The plugin supports Facebook profile picture as avatar. 
-* Very simple to use.
-* Fast and helpful support.
+[youtube https://www.youtube.com/watch?v=buPTza2-6xc]
 
-If you like our stuff donate a like to our [Facebook page](https://www.facebook.com/nextendweb) or follow us on [Twitter](https://twitter.com/nextendweb)!
+Nextend Social Login seamlessly integrates with your existing WordPress login and registration form. Existing users can add or remove their social accounts at their WordPress profile page. A single user can attach as many social account as they want allowing them to log in with Facebook, Google or Twitter.
+
+#### Three popular providers: Facebook, Google and Twitter
+
+Providers are the services which the visitors can use to register and log in to your site. Nextend Social Login allows your visitors to log in with their account from the most popular social networks: Facebook, Google and Twitter.
+
+#### Free version features
+
+* One click registration and login via Facebook, Google and Twitter
+* Your current users can easily connect their Facebook, Google or Twitter profiles with their account
+* Social accounts are tied to a WordPress user account so every account can be accessed with and without social account
+* You can define custom redirect URL after the registration (upon first login) using any of the social accounts.
+* You can define custom redirect URL after each login with any of the enabled social accounts.
+* Display Facebook, Google, Twitter profile picture as avatar
+* Login widget and shortcodes
+* Customizable designs to match your site
+* Editable and translatable texts on the login buttons
+* Very simple to setup and use
+* Clean, user friendly UI
+* Fast and helpful support
+
+#### Additional features in the [Pro addon](https://nextendweb.com/social-login/)
+
+* WooCommerce compatibility
+* Pro providers: LinkedIn, Amazon, VKontakte VK.com and more coming soon
+* Configure whether email address should be asked on registration at each provider
+* Configure whether username should be asked on registration at each provider
+* Choose from icons or wide buttons
+* Several login layouts
+* Restrict specific user roles from using the social logins. (You can restrict different roles for each provider.)
+* Assign specific user roles to the newly registered users who use any social login provider. (You can set different roles for each provider.)
 
 #### Usage
 
-After you activated the plugin, the plugin will automatically
+After you activated the plugin configure and enable the provider you want to use, then the plugin will automatically
 
 * add the login buttons to the WordPress login page. See screenshot #1
 * add the account linking buttons to the WordPress profile page. See screenshot #2
 
+== Frequently Asked Questions ==
 
-#### Advanced usage
+= Can I make my site GDPR compliant with Nextend Social Login installed? =
+Sure, Nextend Social Login provides you the tools to make your site GDPR compliant. [Check out the Nextend Social Login GDPR documentation](https://nextendweb.com/nextend-social-login-docs/gdpr/) to learn more about the topic.
 
-**Simple link**
+= 1. How can I get the email address from the Twitter users? =
+After you set up your APP go to the Settings tab and enter the URL of your Terms of Service and Privacy Policy page. Then hit the Update your settings button. Then go to the Permissions tab and check the "Request email addresses from users" under "Additional Permissions". [There's a documentation](https://nextendweb.com/nextend-social-login-docs/provider-twitter/#get-email) that explains the process with screenshots.
 
-&lt;a href="*siteurl*/wp-login.php?loginFacebook=1&redirect=*siteurl*" onclick="window.location = \'*siteurl*/wp-login.php?loginFacebook=1&redirect=\'+window.location.href; return false;"&gt;Click here to login or register with Facebook&lt;/a&gt;
+= 2. Why are random email addresses generated for users registering with their FaceBook account? =
+When the user tries to register with their Facebook account Facebook pops up a window where each user can view what kind of access they give for the app. In this modal they can chose not to share their email address. When they're doing so we generate a random email address for them. They can of course change this at their profile.
+If the permission is given to the app, there are still [other factors](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#get-email) which can result Facebook not sending back any email address.
 
-**Image button**
+In the Pro Addon it's possible to ask an email address if it's not returned by Facebook.
 
-&lt;a href="*siteurl*/wp-login.php?loginFacebook=1&redirect=*siteurl*" onclick="window.location = \'*siteurl*/wp-login.php?loginFacebook=1&redirect=\'+window.location.href; return false;"&gt; &lt;img src="HereComeTheImage" /&gt; &lt;/a&gt;
+= 3. What should I do when I experience any problems? =
+[Contact us](https://nextendweb.com/contact-us/) via email and explain the issue you have.
+
+= 4. How can I translate the plugin? =
+Find the `.pot` file at the /languages folder. From that you can start the translation process. [Drop us](https://nextendweb.com/contact-us/) the final `.po` and `.mo` files and we'll put them to the next releases.
+
+= 5. I have a feature request... =
+That's awesome! [Contact us](https://nextendweb.com/contact-us/) and let's discuss the details.
+
+= 6. Does Nextend Social Login work with BuddyPress? =
+Unfortunately, currently there are no BuddyPress specific settings. However your users will still be able login and register at the normal WordPress login page. Then when logged in they can use every BuddyPress feature their current user role have access to.
 
 == Installation ==
 
-1. Install the zip file from your backend, or extract it and just drop the contents in the wp-content/plugins/ directory, then activate the Plugin from Plugins page.
-2. Create a facebook app => https://developers.facebook.com/apps/
-3. Don't choose from the listed options, but click on "advanced setup" in the bottom.
-4. Choose an app name, and a category, then click on Create App ID.
-5. Pass the security check.
-6. Go to the Settings of the application.
-7. Click on + Add Platform, and choose Website.
-8. Give your website's address at the Site URL field with: http://yoursiteurl.com
-9. Give a Contact Email and click on Save Changes.
-10. Go to Status & Review, and change the availability for the general public to YES.
-11. Go back to the Settings, and copy the App ID, and APP Secret.
-12. Paste them into your website's Settings -> Nextend Settings.
-13. Save changes!
+### Automatic installation
 
+1. Search for Nextend Social Login through 'Plugins > Add New' interface.
+2. Find the plugin box of Nextend Social Login and click on the 'Install Now' button.
+3. Then activate the Nextend Social Login plugin.
+4. Go to the 'Settings > Nextend' Social Connect to see the available providers.
+5. Configure the provider you would like to use. (You'll find detailed instructions for each provider.)
+6. Test the configuration then enable the provider.
+
+### Manual installation
+
+1. Download [Nextend Social Login](https://downloads.wordpress.org/plugin/nextend-facebook-connect.zip)
+2. Upload Nextend Social Login through 'Plugins > Add New > Upload' interface or upload nextend-facebook-connect folder to the `/wp-content/plugins/` directory.
+3. Activate the Nextend Social Login plugin through the 'Plugins' menu in WordPress.
+4. Go to the 'Settings > Nextend Social Connect' to see the available providers.
+5. Configure the provider you would like to use. (You'll find detailed instructions for each provider.)
+6. Test the configuration then enable the provider.
 
 
 == Screenshots ==
 
-1. Our Social Connect plugins on the main WP login page
-2. Our Social Connect plugins in the profile page for account linking
+1. Nextend Social Login and Register on the main WP login page
+2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+
+= 3.0.11 =
+* Fix: Twitter - 32bit and Windows servers are lost the id precision
+* Feature: Jetpack SSO login form extension
+* Feature: Prevent external redirect
+* Feature: Added Debug menu and Provider connection test
+* Theme My Login version 7 breaks Nextend Social Login, so notice displays with details
+
+* PRO: Feature: Sync Google fields
+* PRO: Feature: Sync Twitter fields
+
+= 3.0.10 =
+* Fix: display_post_states is static now
+
+= 3.0.9 =
+* Fix: Parse error for alternate login page
+
+= 3.0.8 =
+* Feature: A page can be selected which handles the extra fields for Register flow.
+* Feature: A page can be selected which handles the OAuth flow.
+* Feature: Spanish (Latin America) translation added.
+* Feature: GDPR - add custom Terms and conditions on register.
+* Feature: GDPR - retrieved fields can now be exported with the Export Personal Data tool of WordPress.
+* Fix: Jetpack - Secure Sign On
+* Fix: Dokan - redirection
+
+* PRO: Feature: Authorized domain name check and notice for changed domain name.
+* PRO: Feature: Option to change the button layouts for WooCommerce login/register/billing forms.
+* PRO: Feature: Sync LinkedId fields
+
+= 3.0.7 =
+* Feature: AJAX compatibility
+* Feature: Default Redirect URL
+* Feature: Twitter screen name as username
+* Fix: SocialRabbit compatibility
+
+* PRO: New provider - [VKontakte - vk.com](https://nextendweb.com/nextend-social-login-docs/provider-vkontakte/)
+* PRO: New provider - [Amazon](https://nextendweb.com/nextend-social-login-docs/provider-amazon/)
+* PRO: New provider -  [UserPro Login and Register support.](https://nextendweb.com/nextend-social-login-docs/global-settings-userpro/)
+
+= 3.0.6 =
+* Avatars are stored in your media library as Facebook blocked the url access
+* Code improvements
+* PHP and WordPress version check
+* Improved template-parts
+* Fix: Login and redirect cleanup
+* Fix: Socialize theme
+
+* PRO: Sync Facebook fields
+* PRO: Force to ask password and username when enabled
+* PRO: MemberPress integration
+
+= 3.0.5 =
+* Session cookie name changed to properly work on Pantheon hosting. It can be changed with Can be changed with nsl_session_name filter and NSL_SESSION_NAME constant.
+* Fix for Hide my WP plugin @see https://codecanyon.net/item/hide-my-wp-amazing-security-plugin-for-wordpress/4177158
+
+= 3.0.4 =
+* Remove whitespaces from username
+* Provider test process renamed to "Verify Settings"
+* NextendSocialLogin::renderLinkAndUnlinkButtons($heading = '', $link = true, $unlink = true) allows to display link and unlink buttons
+* Link and unlink shortcode added: [nextend_social_login login="0" link="1" unlink="1" heading="Connect Social Accounts"]
+* [Theme My Login](https://wordpress.org/plugins/theme-my-login/) plugin compatibility fixes.
+* Embedded login form settings for wp_login_form
+* Prevent account linking if it is already linked
+* BuddyPress register form support and profile link and unlink buttons
+* iThemes Security - Filter Long URL removed as it prevents provider to return oauth params.
+* All In One WP Security - Fixed Verify Settings in providers
+* Instruction when redirect Uri changes
+* Added new shortcode parameter: trackerdata.
+
+= 3.0.3 =
+* Added fallback username prefix
+* Fixed avatar for Google, Twitter and LinkedIn providers
+* Fixed avatars on retina screen
+* Optimized registration process
+* Fixed Shopkeeper theme conflict
+* WP HTTP api replaced the native cURL
+* Twitter provider client optimization, removed force_login param, [added email permission](https://nextendweb.com/nextend-social-login-docs/provider-twitter/#get-email)
+* Removed mb_strlen, so "PHP Multibyte String" not required anymore
+* Fixed rare case when the redirect to last state url was missing
+* Added [WebView support](https://nextendweb.com/nextend-social-login-docs/can-use-nextend-social-login-webview/) (Google buttons are hidden in WebView as Google does not allow to use)
+* Fixed rare case when user can stuck in legacy mode while importing provider.
+
+= 3.0.2 =
+* Fixed upgrade script
+
+= 3.0.1 =
+* Nextend Facebook Connect renamed to Nextend Social Login and contains Google and Twitter providers too.
+* Brand new UI
+* Popup login
+* Pro Addon
+
+= 2.1 =
+* New providers: Twitter and Google
+* Major UI redesign
+* API testing before a provider is enabled to eliminate possible configuration issues
 
 = 2.0.2 =
 * Fix: Fatal error: Call to undefined method Facebook\Facebook::getAccessToken()
@@ -82,182 +220,3 @@ After you activated the plugin, the plugin will automatically
 * The latest Facebook PHP API used: https://github.com/facebook/php-graph-sdk
 * Facebook SDK for PHP requires PHP 5.4 or greater.
 * Fix: Facebook 2.2 API does not work anymore
-
-= 1.5.9 =
-* Nonce added to backend
-
-= 1.5.8 =
-* Vulnerability fix
-
-= 1.5.7 =
-* Facebook 2.4 api support added
-
-= 1.5.6 =
-* XSS Vulnerability fix
-
-= 1.5.4 =
-* Updated installation instruction
-
-= 1.5.3 =
-* Updated installation instruction
-
-= 1.5.2 =
-* Fixed username generation (Thanks to: Cyrus Collier)
-* Fixed redirect issue (Thanks to: Cyrus Collier)
-
-= 1.5.1 =
-* Security fix for XSS
-
-= 1.5.0 =
-* Security fix for redirects (Thanks to: Kacper Szurek and Elger Jonker)
-
-= 1.4.59 =
-* Avatar fix
-* Buddypress avatar support. If Buddypress avatar not exists, then FB avatar used. If there is a BuddyPress avatar, that will be used.
-
-= 1.4.58 =
-* Typo in redirects
-
-= 1.4.57 =
-* Fix: WordPress transient functions used to store the required session variables. $_SESSION fully removed. Beta!!!
-
-= 1.4.56 =
-* Fix: Now the plugin use wp transient for the admin messages
-* NOTICE: If the 1.4.54 version work for you fine, do NOT update yet!
-
-= 1.4.55 =
-* Fix: Now the plugin use cookies instead of PHP session. Maybe this fixes the problems.
-* NOTICE: If the previous version work for you fine, do NOT update yet!
-
-= 1.4.54 =
-* Feature: You can now define NEXTEND_FB_APP_ID and NEXTEND_FB_APP_SECRET contant and it will overwrite the backend settings.
-
-= 1.4.53 =
-* Error messages added if some PHP components are missing.
-
-= 1.4.52 =
-* Avatar fix
-
-= 1.4.48 =
-* Avatar fix
-* Changes in actions 
-
-= 1.4.47 =
-* Optimalizations
-
-= 1.4.46 =
-* Redirection fix
-* Unlink speed up
-
-= 1.4.45 =
-* New filter added to get extended Facebook permissions: nextend_fb_scope
-* Read more on the new filter: http://www.nextendweb.com/knowledgebase/question/how-can-i-get-extended-facebook-permissions-for-other-fields
-
-= 1.4.44 =
-* Now user not logged out after the unlinking process.
-
-= 1.4.43 =
-* Redirection fix
-* Added feature: unlink account
-* Added WP actions for register/login/account linking. Read more: http://www.nextendweb.com/knowledgebase/question/how-can-i-make-custom-calls-when-a-visitor-log-in-with-facebook-connect
-
-= 1.4.42 =
-* Added check for login inputs
-
-= 1.4.36 =
-* PHP notice fixes
-
-= 1.4.35 =
-* With `new_fb_get_user_access_token($user_id)` PHP function you can get the user access token, if any...
-* Javascript login fix for "SimpleModal Login"
-
-= 1.4.34 =
-* Typo fix, please update from 1.4.3x to this version!
-
-= 1.4.33 =
-* Double login button fix
-
-= 1.4.32 =
-* Official SSL support added - Thanks for Chin for the help
-
-= 1.4.29 =
-* "There was an error with the FB auth!" fix
-
-= 1.4.28 =
-* Certificate fix
-
-= 1.4.27 =
-* Important security fix
-
-= 1.4.26 =
-* Added e-mail notification on registration
-
-= 1.4.25 =
-* wp_login do_action fix
-
-= 1.4.23 =
-* Bugfix for Wordpress 3.5RC1
-* Added email check
-* Fixed get avatar filter
-* new_fb_is_user_connected() function now returns with the Facebook id if authenticated, null if not...
-
-= 1.4.21 =
-* Bugfix for Wordpress 3.5RC1
-
-= 1.4.20 =
-* Avatar bugfix
-
-= 1.4.19 =
-* Added profile picture support for avatars
-
-= 1.4.18 =
-* Fixed SDK loading
-
-= 1.4.16 =
-* Buttons added to registration form
-
-= 1.4.15 =
-* Email fix
-* Added the option for different redirect for Login and Registration
-
-= 1.4.14 =
-* Login page jQuery fix
-
-= 1.4.13 =
-* Some login fixes
-
-= 1.4.12 =
-* Fixed session check
-
-= 1.4.11 =
-* Added a fix when Facebook class already loaded
-
-= 1.4.10 =
-* Added editProfileRedirect parameter for buddypress edit profile redirect. Usage: siteurl?editProfileRedirect=1
-
-= 1.4.9 =
-* https bugfix - author Michel Weimerskirch
-
-= 1.4.8 =
-* Added name, first name and last name support.
-
-= 1.4.4 =
-* Modified login redirect issue for wp-login.php - author Michel Weimerskirch
-* Added fix redirect url support. If you leave it empty or "auto" it will try to redirect back the user to the last visited page. 
-
-= 1.4.3 =
-* Facebook Certification bugfix
- 
-= 1.4 =
-* Added Social button generator support
-
-= 1.3 =
-* Added linking option to the profile page, so an already registered user can easily link the profile with a Facebook profile.
-
-= 1.2 =
-* Fixed a bug when the htaccess short urls not enabled.
-
-== Upgrade Notice ==
-
-= 2.0 =
-Facebook SDK for PHP requires PHP 5.4 or greater. Please check your server configuration before updating!

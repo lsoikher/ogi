@@ -3,7 +3,7 @@
 // Set Default Flatsome Options
 if(!function_exists('flatsome_defaults')){
   function flatsome_defaults($option) {
-    $df = array(      
+    $df = array(
       // Blog
       'blog_layout' => 'right-sidebar',
       'blog_layout_divider' => 1,
@@ -57,7 +57,6 @@ if(!function_exists('flatsome_defaults')){
       'blog_post_style' => 'default',
       // Main header
       'header_sticky' => 1,
-      'product_lightbox' => 'default',
       'disable_quick_view' => 0,
       'product_box_rating' => 1,
       'product_box_category' => 1,
@@ -121,7 +120,7 @@ if(!function_exists('flatsome_defaults')){
       'type_texts' => array('font-family'=> 'Lato','variant' => '400'),
       'type_nav' => array('font-family'=> 'Lato','variant' => '700'),
       'type_alt' => array('font-family'=> 'Dancing Script'),
-      'nav_uppercase_bottom' => 1, 
+      'nav_uppercase_bottom' => 1,
       'breadcrumb_title_pos' => 'left',
       'breadcrumb_nav_pos' => 'right',
       'product_image_width' => '6',

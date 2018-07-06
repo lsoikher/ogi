@@ -4,7 +4,7 @@
 Plugin Name: Nextend Google Connect
 Plugin URI: http://nextendweb.com/
 Description: Google connect
-Version: 1.6.1
+Version: 1.6.2
 Author: Roland Soos, Jamie Bainbridge
 License: GPL2
 */
@@ -519,3 +519,33 @@ function new_google_admin_notice() {
   }
 }
 add_action('admin_notices', 'new_google_admin_notice');
+
+function new_google_update_notice() {
+    if (!get_transient('new-google-update')) {
+        if (!empty($_GET['nextendgoogleconnect']) && $_GET['nextendgoogleconnect'] == 'new-google-update') {
+            set_transient('new-google-update', true, WEEK_IN_SECONDS);
+            return;
+        }
+        ?>
+        <div class="nextend-google-connect-dismiss notice notice-warning is-dismissible">
+        	<p>Nextend Google Connect is discontinued and <strong>Nextend Social Login</strong> handles Google login in the future. Please install and enjoy <strong>Nextend Social Login</strong>. The current settings of Nextend Google Connect will be imported to Nextend Social Login.
+            <br><br>
+          
+            <a href="<?php echo admin_url('plugin-install.php?s=nextend+social+login&tab=search&type=term');?>"><b>Click here to install Nextend Social Login!</b></a>
+          </p>
+        </div>
+        <script>
+			jQuery(function ($) {
+                $(document).ready(function () {
+                    $('.nextend-google-connect-dismiss .notice-dismiss').on('click', function () {
+                        window.location = window.location + (window.location.href.indexOf('?') > 0 ? '&' : '?') +
+                            'nextendgoogleconnect=new-google-update';
+                    });
+                });
+            });
+        </script>
+        <?php
+    }
+}
+
+add_action('admin_notices', 'new_google_update_notice');

@@ -130,6 +130,6 @@
 
 [ux_products style="normal" columns="5" depth="1" show="featured"]
 
-[title style="bold-center" text="Follow us on Instgram" margin_top="10px" size="undefined"]
+[title style="bold-center" text="Follow us on Instagram" margin_top="10px" size="undefined"]
 
 [ux_instagram_feed username="stylechild_no" type="slider" width="full-width" columns="8"]

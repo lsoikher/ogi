@@ -529,6 +529,8 @@ function wpsc_register_post_types() {
 	$args = array(
 		'hierarchical' => false,
 		'labels' => $labels,
+		'show_in_rest' => true,
+		'rest_controller_class' => 'WPSC_REST_Tags_Controller',
 		'rewrite' => array(
 			'slug' => '/' . sanitize_title_with_dashes( _x( 'tagged', 'slug, part of url', 'wp-e-commerce' ) ),
 			'with_front' => false )
@@ -553,6 +555,8 @@ function wpsc_register_post_types() {
 	$args = array(
 		'labels'       => $labels,
 		'hierarchical' => true,
+		'show_in_rest' => true,
+		'rest_controller_class' => 'WPSC_REST_Categories_Controller',
 		'rewrite'      => array(
 			'slug'         => str_replace( basename( home_url() ), '', $wpsc_page_titles['products'] ),
 			'with_front'   => false,
@@ -576,6 +580,8 @@ function wpsc_register_post_types() {
 	);
 	$args = array(
 		'hierarchical' => true,
+		'show_in_rest' => true,
+		'rest_controller_class' => 'WPSC_REST_Variations_Controller',
 		'query_var'    => 'variations',
 		'rewrite'      => false,
 		'public'       => true,
@@ -644,12 +650,14 @@ function wpsc_serialize_shopping_cart() {
 		$wpsc_cart->errors = array();
 	}
 
-	// need to prevent set_cookie from being called at this stage in case the user just logged out
-	// because by now, some output must have been printed out
-	$customer_id = wpsc_get_current_customer_id();
+	if ( function_exists( 'wpsc_get_current_customer_id' ) ) {
+		// Need to prevent set_cookie from being called at this stage in case the user
+		// just logged out because by now, some output must have been printed out.
+		$customer_id = wpsc_get_current_customer_id();
 
-	if ( $customer_id ) {
-		wpsc_update_customer_cart( $wpsc_cart, $customer_id );
+		if ( $customer_id ) {
+			wpsc_update_customer_cart( $wpsc_cart, $customer_id );
+		}
 	}
 
 	return true;

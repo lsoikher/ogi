@@ -44,7 +44,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 	public function xmlrpc_init() {
 		try {
 			$this->init_compressor();
-		} catch (Tiny_Exception $e) {
+		} catch ( Tiny_Exception $e ) {
 		}
 	}
 
@@ -87,14 +87,14 @@ class Tiny_Settings extends Tiny_WP_Base {
 				);
 				$this->notices->show( 'deprecated', $message, 'notice-warning', false );
 			}
-		}
+		}// End if().
 
 		try {
 			$this->init_compressor();
-		} catch (Tiny_Exception $e) {
+		} catch ( Tiny_Exception $e ) {
 			$this->notices->show(
 				'compressor_exception',
-				esc_html__( $e->getMessage(), 'tiny-compress-images' ),
+				esc_html( $e->getMessage(), 'tiny-compress-images' ),
 				'error', false
 			);
 		}
@@ -395,7 +395,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 				$height = '?';
 			}
 
-			$label = esc_html__( ucfirst( str_replace( '_', ' ', $size ) ) )
+			$label = esc_html( ucfirst( str_replace( '_', ' ', $size ) ) )
 				. ' - ' . $width . 'x' . $height;
 		}
 		echo '<p>';
@@ -424,12 +424,15 @@ class Tiny_Settings extends Tiny_WP_Base {
 			$free_images_per_month = floor(
 				Tiny_Config::MONTHLY_FREE_COMPRESSIONS / $active_sizes_count
 			);
+
+			$strong = array(
+				'strong' => array(),
+			);
+
 			printf( wp_kses( __(
-				'With these settings you can compress '
-				. '<strong>at least %s images</strong>'
-				. ' for free each month.',
+				'With these settings you can compress <strong>at least %1$s images</strong> %2$s',
 				'tiny-compress-images'
-			), array( 'strong' => array() ) ), $free_images_per_month );
+			), $strong ), $free_images_per_month, 'for free each month.' );
 
 			if ( self::wr2x_active() ) {
 				echo '</p>';
@@ -520,7 +523,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 		$id = sprintf( self::get_prefixed_name( 'preserve_data_%s' ), $name );
 		$field = sprintf( self::get_prefixed_name( 'preserve_data[%s]' ), $name );
 		$checked = ( $this->get_preserve_enabled( $name ) ? ' checked="checked"' : '' );
-		$label = esc_html__( $description, 'tiny-compress-images' );
+		$label = esc_html( $description, 'tiny-compress-images' );
 		echo '<input type="checkbox" id="' . $id . '" name="' . $field .
 			'" value="on" ' . $checked . '/>';
 		echo '<label for="' . $id . '">' . $label . '</label>';
@@ -543,12 +546,13 @@ class Tiny_Settings extends Tiny_WP_Base {
 	}
 
 	public function after_compress_callback( $compressor ) {
-		if ( ! is_null( $count = $compressor->get_compression_count() ) ) {
+		$count = $compressor->get_compression_count();
+		if ( ! is_null( $count ) ) {
 			$field = self::get_prefixed_name( 'status' );
 			update_option( $field, $count );
 		}
 		if ( $compressor->limit_reached() ) {
-			$link = '<a href="https://tinypng.com/developers" target="_blank">' .
+			$link = '<a href="https://tinypng.com/dashboard/developers" target="_blank">' .
 				esc_html__( 'TinyPNG API account', 'tiny-compress-images' ) . '</a>';
 
 			$this->notices->add('limit-reached',
@@ -584,7 +588,6 @@ class Tiny_Settings extends Tiny_WP_Base {
 		} else {
 			$status = $this->compressor->get_status();
 			$status->pending = false;
-
 			if ( $status->ok ) {
 				if ( $this->get_api_key_pending() ) {
 					$this->clear_api_key_pending();
@@ -598,7 +601,6 @@ class Tiny_Settings extends Tiny_WP_Base {
 					);
 				}
 			}
-
 			include( dirname( __FILE__ ) . '/views/account-status-connected.php' );
 		}
 	}
@@ -660,7 +662,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 					'ok' => true,
 					'message' => null,
 				);
-			} catch (Tiny_Exception $err) {
+			} catch ( Tiny_Exception $err ) {
 				list( $message ) = explode( ' (HTTP', $err->getMessage(), 2 );
 				$status = (object) array(
 					'ok' => false,
@@ -672,9 +674,8 @@ class Tiny_Settings extends Tiny_WP_Base {
 				'ok' => false,
 				'message' => 'This feature is not available on your platform',
 			);
-		}
+		}// End if().
 
-		$status->message = __( $status->message, 'tiny-compress-images' );
 		echo json_encode( $status );
 		exit();
 	}
@@ -694,7 +695,6 @@ class Tiny_Settings extends Tiny_WP_Base {
 			update_option( self::get_prefixed_name( 'api_key_pending' ), false );
 			update_option( self::get_prefixed_name( 'api_key' ), $key );
 		}
-		$status->message = __( $status->message, 'tiny-compress-images' );
 		echo json_encode( $status );
 		exit();
 	}

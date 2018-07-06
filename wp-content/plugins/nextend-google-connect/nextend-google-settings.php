@@ -71,6 +71,17 @@ if (!class_exists('NextendGoogleSettings')) {
                     echo $message;
                     ?></p></strong></div><?php
         } ?>
+
+        <?php if (get_transient('new-google-update')) { ?>
+<div class="notice notice-info is-dismissible"> 
+	<p>Nextend Google Connect is discontinued and <strong>Nextend Social Login</strong> handles Google login in the future. Please install and enjoy <strong>Nextend Social Login</strong>. The current settings of Nextend Google Connect will be imported to Nextend Social Login.
+  <br><br>
+  
+  <a href="<?php echo admin_url('plugin-install.php?s=nextend+social+login&tab=search&type=term');?>"><b>Click here to install Nextend Social Login!</b></a>
+  </p>
+</div>
+<?php } ?>
+
         <div id="newgoogle-desc">
 	<p><?php _e('This plugins helps you create Google login and register buttons. The login and register process only takes one click and you can fully customize the buttons with images and other assets.', 'nextend-google-connect'); ?></p>
 	<h3><?php _e('Setup', 'nextend-google-connect'); ?></h3>

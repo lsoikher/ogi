@@ -13,7 +13,7 @@
  * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,52 +22,75 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $product, $woocommerce_loop;
 
-if ( ! $upsells = $product->get_upsells() ) {
-	return;
+// Fallback to WC.2x Versions.
+if(!fl_woocommerce_version_check('3.0.0') ) {
+  wc_get_template( 'woocommerce/single-product/w2-up-sells.php' );
+  return;
 }
 
+if ( $upsells ) : ?>
+  <?php if(get_theme_mod('product_upsell','sidebar') !== 'sidebar') {
 
-$args = array(
-	'post_type'           => 'product',
-	'ignore_sticky_posts' => 1,
-	'no_found_rows'       => 1,
-	'posts_per_page'      => $posts_per_page,
-	'orderby'             => $orderby,
-	'post__in'            => $upsells,
-	'post__not_in'        => array( $product->id ),
-	'meta_query'          => WC()->query->get_meta_query()
-);
+      $type = get_theme_mod('related_products','slider');
 
-$products = new WP_Query( $args );
+      if($type == 'grid') $type = 'row';
 
+      $repater['type'] = $type;
+      $repater['columns'] = get_theme_mod('related_products_pr_row','4');
+      $repater['slider_style'] = 'reveal';
+      $repater['row_spacing'] = 'small';
 
-$type = flatsome_option('related_products');
-if($type == 'grid') $type = 'row';
-
-$repater['type'] = $type;
-$repater['columns'] = flatsome_option('related_products_pr_row');
-$repater['slider_style'] = 'reveal';
-$repater['row_spacing'] = 'small';
-
-if ( $products->have_posts() ) : ?>
-
+      if(count($upsells) < $repater['columns']){
+        $repater['type'] = 'row';
+      }
+  ?>
 	<div class="up-sells upsells upsells-wrapper product-section">
 
-		<h3 class="product-section-title product-section-title-upsell pt-half pb-half uppercase">
-			<?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
-		</h3>
+  		<h3 class="product-section-title product-section-title-upsell pt-half pb-half uppercase">
+  			<?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
+  		</h3>
 
 			<?php echo get_flatsome_repeater_start($repater); ?>
 
-				<?php while ( $products->have_posts() ) : $products->the_post(); ?>
+      <?php foreach ( $upsells as $upsell ) : ?>
 
-					<?php wc_get_template_part( 'content', 'product' ); ?>
+        <?php
+          $post_object = get_post( $upsell->get_id() );
 
-				<?php endwhile; // end of the loop. ?>
+          setup_postdata( $GLOBALS['post'] =& $post_object );
+
+          wc_get_template_part( 'content', 'product' ); ?>
+
+      <?php endforeach; ?>
 
 			<?php echo get_flatsome_repeater_end($repater); ?>
 
 	</div>
+  <?php } else { ?>
+
+  <aside class="widget widget-upsell">
+
+    <h3 class="widget-title shop-sidebar">
+      <?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
+      <div class="is-divider small"></div>
+    </h3>
+
+    <!-- Upsell List style -->
+    <ul class="product_list_widget">
+    <?php foreach ( $upsells as $upsell ) : ?>
+
+      <?php
+          $post_object = get_post( $upsell->get_id() );
+
+          setup_postdata( $GLOBALS['post'] =& $post_object );
+
+          wc_get_template_part( 'content', 'product-small' ); ?>
+
+      <?php endforeach; ?>
+    </ul><!-- row -->
+  </aside>
+
+  <?php } ?>
 
 <?php endif;
 

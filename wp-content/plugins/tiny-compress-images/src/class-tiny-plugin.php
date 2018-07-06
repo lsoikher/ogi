@@ -18,7 +18,7 @@
 * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 class Tiny_Plugin extends Tiny_WP_Base {
-	const VERSION = '2.2.2';
+	const VERSION = '2.2.6';
 	const MEDIA_COLUMN = self::NAME;
 	const DATETIME_FORMAT = 'Y-m-d G:i:s';
 
@@ -296,7 +296,9 @@ class Tiny_Plugin extends Tiny_WP_Base {
 				"You don't have permission to upload files.",
 				'tiny-compress-images'
 			);
-			echo json_encode( array( 'error' => $message ) );
+			echo json_encode( array(
+				'error' => $message,
+			) );
 			exit();
 		}
 		if ( empty( $_POST['id'] ) ) {
@@ -304,7 +306,9 @@ class Tiny_Plugin extends Tiny_WP_Base {
 				'Not a valid media file.',
 				'tiny-compress-images'
 			);
-			echo json_encode( array( 'error' => $message ) );
+			echo json_encode( array(
+				'error' => $message,
+			) );
 			exit();
 		}
 		$id = intval( $_POST['id'] );
@@ -314,7 +318,9 @@ class Tiny_Plugin extends Tiny_WP_Base {
 				'Could not find metadata of media file.',
 				'tiny-compress-images'
 			);
-			echo json_encode( array( 'error' => $message ) );
+			echo json_encode( array(
+				'error' => $message,
+			) );
 			exit;
 		}
 
@@ -460,6 +466,13 @@ class Tiny_Plugin extends Tiny_WP_Base {
 			array(), self::version(), true
 		);
 
+		/* This might be deduplicated with the admin script localization, but
+		   the order of including scripts is sometimes different. So in that
+		   case we need to make sure that the order of inclusion is correc.t */
+		wp_localize_script( self::NAME . '_dashboard_widget', 'tinyCompressDashboard', array(
+			'nonce' => wp_create_nonce( 'tiny-compress' ),
+		));
+
 		wp_enqueue_script( self::NAME . '_dashboard_widget' );
 
 		wp_add_dashboard_widget(
@@ -516,10 +529,10 @@ class Tiny_Plugin extends Tiny_WP_Base {
 		$condition = "AND ID IN($ids)";
 
 		global $wpdb;
-		return $wpdb->get_results(
+		return $wpdb->get_results( // WPCS: unprepared SQL OK.
 			"SELECT ID, post_title FROM $wpdb->posts
-						 WHERE post_type = 'attachment' $condition
-						 AND (post_mime_type = 'image/jpeg' OR post_mime_type = 'image/png')
-						 ORDER BY ID DESC", ARRAY_A);
+			WHERE post_type = 'attachment' $condition
+			AND (post_mime_type = 'image/jpeg' OR post_mime_type = 'image/png')
+			ORDER BY ID DESC", ARRAY_A);
 	}
 }

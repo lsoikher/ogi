@@ -37,7 +37,7 @@ function _wpsc_ajax_purchase_log_refund_items() {
 			}
 		}
 
-		if ( $log->get_remaining_refund() > 0 ) {
+		if ( $log->get_remaining_refund() > 0 && $refund_amount != $log->get( 'totalprice' ) ) {
 			/**
 			 * wpsc_order_partially_refunded.
 			 *
@@ -104,7 +104,7 @@ function _wpsc_ajax_purchase_log_capture_payment() {
 			}
 
 			if ( ! $result ) {
-				throw new Exception( __( 'Refund failed', 'wp-e-commerce' ) );
+				throw new Exception( __( 'Capture failed', 'wp-e-commerce' ) );
 			}
 		}
 

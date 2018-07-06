@@ -1,177 +1,186 @@
 <?php
-class InstapageCmsPluginSubaccountModel
-{
+
+/**
+ * Class responsible for managing the subaccounts in Instapage app.
+ */
+class InstapageCmsPluginSubaccountModel {
+
+  /**
+   * @var object Class instance.
+   */
   private static $subaccountModel = null;
-  private $subaccount_tokens = null;
-  
-  public static function getInstance()
-  {
-    if( self::$subaccountModel === null )
-    {
+
+  /**
+   * @var array List of subaccount tokens.
+   */
+  private $subaccountTokens = null;
+
+  /**
+   * Gets the class instance.
+   *
+   * @return object Class instance.
+   */
+  public static function getInstance() {
+    if (self::$subaccountModel === null) {
       self::$subaccountModel = new InstapageCmsPluginSubaccountModel();
     }
 
     return self::$subaccountModel;
   }
 
-  public function getAllTokens()
-  {
-    if( $this->subaccount_tokens === null )
-    {
+  /**
+   * Gets all the tokens - stored in plugin's settings and bound to currently used app user account.
+   *
+   * @return array List of tokens.
+   */
+  public function getAllTokens() {
+    if ($this->subaccountTokens === null) {
       $tokens = InstapageCmsPluginHelper::getTokens();
-      $account_keys = $this->getAccountBoundTokens();
-      $this->subaccount_tokens = array_merge( $tokens, $account_keys );
+      $accountKeys = $this->getAccountBoundTokens();
+      $this->subaccountTokens = array_merge($tokens, $accountKeys);
     }
 
-    return $this->subaccount_tokens;
+    return $this->subaccountTokens;
   }
 
-  public function getAccountBoundTokens()
-  {
+  /**
+   * Gets the list of tokens bound to subaccount. User has to be logged in via email and password.
+   *
+   * @return array List of tokens bound to an account.
+   */
+  public function getAccountBoundTokens() {
     $api = InstapageCmsPluginAPIModel::getInstance();
-    $user_token = InstapageCmsPluginHelper::getOption( 'plugin_hash' );
-    $account_keys = array();
+    $userToken = InstapageCmsPluginHelper::getOption('plugin_hash');
+    $accountKeys = array();
 
-    if( $user_token )
-    {
-      $headers = array( 'usertoken' => $user_token );
-      $response_json = $api->apiCall( 'page/get-account-keys', null, $headers );
-      $response = json_decode( $response_json );
+    if ($userToken) {
+      $headers = array('usertoken' => $userToken);
+      $responseJson = $api->apiCall('page/get-account-keys', null, $headers);
+      $response = json_decode($responseJson);
 
-      if( !is_null( $response ) && $response->success )
-      {
-        $account_keys = $response->data->accountkeys;
+      if (!is_null($response) && $response->success) {
+        $accountKeys = $response->data->accountkeys;
       }
     }
 
-    return $account_keys;
+    return $accountKeys;
   }
 
-  public function getAccountBoundSubAccounts( $format = 'json' )
-  {
+  /**
+   * Gets the list of subaccounts of currently logged in user.
+   *
+   * @param string $format Format for the response. Default: 'json'.
+   *
+   * @return (string|array) List of subaccounts as a JSON string or an array.
+   */
+  public function getAccountBoundSubAccounts($format = 'json') {
     $api = InstapageCmsPluginAPIModel::getInstance();
     $tokens = $this->getAccountBoundTokens();
-    $sub_accounts = array();
-    
-    if( is_array( $tokens ) && count( $tokens ) )
-    {
-      $headers = array( 'accountkeys' => InstapageCmsPluginHelper::getAuthHeader( $tokens ) );
-      $response = json_decode( $api->apiCall( 'page/get-sub-accounts-list', null, $headers ) );
-      $sub_accounts = @InstapageCmsPluginHelper::getVar( $response->data, null );  
+    $subAccounts = array();
+
+    if (is_array($tokens) && count($tokens)) {
+      $headers = array('accountkeys' => InstapageCmsPluginHelper::getAuthHeader($tokens));
+      $response = json_decode($api->apiCall('page/get-sub-accounts-list', null, $headers));
+      $subAccounts = @InstapageCmsPluginHelper::getVar($response->data, null);
     }
-    
-    if( $format == 'json' )
-    {
-      echo json_encode( (object) array( 
-        'status' => 'OK', 
-        'data' => $sub_accounts
-      ) );
-    }
-    else
-    {
-      return $sub_accounts;
+
+    if ($format == 'json') {
+      echo json_encode((object) array(
+        'status' => 'OK',
+        'data' => $subAccounts
+     ));
+    } else {
+      return $subAccounts;
     }
   }
 
-  public function setSubAccountsStatus( $status = 'connect', $tokens = null, $silent = false )
-  {
+  /**
+   * Sets the status of subaccount in Instapage app. Subaccount can be connected to or disconnected from a CMS.
+   *
+   * @param string $status Status to be set. Default: 'connect'. 'disconnect' is another option.
+   * @param array $tokens List of tokens, that are meant to be connected of disconnected.
+   * @param bool $silent Do you want a message to appear?
+   */
+  public function setSubAccountsStatus($status = 'connect', $tokens = null, $silent = false) {
     $api = InstapageCmsPluginAPIModel::getInstance();
     $subaccount = InstapageCmsPluginSubaccountModel::getInstance();
     $post = InstapageCmsPluginHelper::getPostData();
-    
-    if( $tokens !== null )
-    {
-      $selected_subaccounts = $tokens;
+
+    if ($tokens !== null) {
+      $selectedSubaccounts = $tokens;
+    } else {
+      $selectedSubaccounts = InstapageCmsPluginHelper::getVar($post->data->tokens, array());
     }
-    else
-    {
-      $selected_subaccounts = InstapageCmsPluginHelper::getVar( $post->data->tokens, array() );  
-    }
-    
-    
-    if( count( $selected_subaccounts ) )
-    {
+
+    if (count($selectedSubaccounts)) {
       $tokens = $subaccount->getAllTokens();
-      $headers = array( 'accountkeys' => InstapageCmsPluginHelper::getAuthHeader( $tokens ) );
-      $data = array( 
-        'accountkeys' => base64_encode( json_encode( $selected_subaccounts ) ),
+      $headers = array('accountkeys' => InstapageCmsPluginHelper::getAuthHeader($tokens));
+      $data = array(
+        'accountkeys' => base64_encode(json_encode($selectedSubaccounts)),
         'status' => $status,
-        'domain' => InstapageCmsPluginConnector::getHomeURL( false )
-      );
+        'domain' => InstapageCmsPluginConnector::getHomeURL(false)
+     );
 
-      $response = json_decode( $api->apiCall( 'page/connection-status', $data, $headers ) );
+      $response = json_decode($api->apiCall('page/connection-status', $data, $headers));
 
-      if( $silent )
-      {
+      if ($silent) {
         return;
       }
 
-      if( 
-        !InstapageCmsPluginHelper::checkResponse( $response, null, false ) || 
-        !$response->success || 
-        !isset( $response->data->changed ) || 
-        $response->data->changed != count( $selected_subaccounts )
-      )
-      {
-        $actions = array();
-        $action[ 0 ] = $status == 'connect' ? 'connected to' : 'disconnected from';
-        $action[ 1 ] = $status == 'connect' ? 'connect' : 'disconnect';
-        
-        if( count( $selected_subaccounts ) > 1 )
-        {
-          $message = InstapageCmsPluginHelper::getVar( $response->message, InstapageCmsPluginConnector::lang( 'There was an error, selected subaccounts are not properly %s app. Try to %s subaccounts again.', $artion[ 0 ], $action[ 1 ] ) );
-        }
-        else
-        {
-          $message = InstapageCmsPluginHelper::getVar( $response->message, InstapageCmsPluginConnector::lang( 'There was an error, selected subaccount is not properly %s app. Try to %s subaccounts again.', $artion[ 0 ], $action[ 1 ] ) );
-        }
-
-        echo InstapageCmsPluginHelper::formatJsonMessage( $message, 'ERROR' );
-      }
-      else
-      {
+      if (
+        !InstapageCmsPluginHelper::checkResponse($response, null, false) ||
+        !$response->success ||
+        !isset($response->data->changed) ||
+        $response->data->changed != count($selectedSubaccounts)
+     ) {
         $action = array();
-        $action[ 0 ] = $status == 'connect' ? 'Selected subaccounts' : 'Subaccounts bound to your account';
-        $action[ 1 ] = $status == 'connect' ? 'connected' : 'disconnected';
+        $action[0] = $status == 'connect' ? 'connected to' : 'disconnected from';
+        $action[1] = $status == 'connect' ? 'connect' : 'disconnect';
 
-        if( count( $selected_subaccounts ) > 1 )
-        {
-          $message = InstapageCmsPluginHelper::getVar( $response->message, InstapageCmsPluginConnector::lang( '%s are %s.', $action[ 0 ], $action[ 1 ] ) );
+        if (count($selectedSubaccounts) > 1) {
+          $message = InstapageCmsPluginHelper::getVar($response->message, InstapageCmsPluginConnector::lang('There was an error, selected subaccounts are not properly %s app. Try to %s subaccounts again.', $action[0], $action[1]));
+        } else {
+          $message = InstapageCmsPluginHelper::getVar($response->message, InstapageCmsPluginConnector::lang('There was an error, selected subaccount is not properly %s app. Try to %s subaccounts again.', $action[0], $action[1]));
         }
-        else
-        {
-          $message = InstapageCmsPluginHelper::getVar( $response->message, InstapageCmsPluginConnector::lang( 'Selected subaccount is %s.', $action[ 1 ]) );
+
+        echo InstapageCmsPluginHelper::formatJsonMessage($message, 'ERROR');
+      } else {
+        $action = array();
+        $action[0] = $status == 'connect' ? 'Selected subaccounts' : 'Subaccounts bound to your account';
+        $action[1] = $status == 'connect' ? 'connected' : 'disconnected';
+
+        if (count($selectedSubaccounts) > 1) {
+          $message = InstapageCmsPluginHelper::getVar($response->message, InstapageCmsPluginConnector::lang('%s are %s.', $action[0], $action[1]));
+        } else {
+          $message = InstapageCmsPluginHelper::getVar($response->message, InstapageCmsPluginConnector::lang('Selected subaccount is %s.', $action[1]));
         }
-        
-        echo InstapageCmsPluginHelper::formatJsonMessage( $message );
+
+        echo InstapageCmsPluginHelper::formatJsonMessage($message);
       }
-    }
-    else
-    {
-      echo InstapageCmsPluginHelper::formatJsonMessage( InstapageCmsPluginConnector::lang( 'No subaccounts were connected.' ) );
+    } else {
+      echo InstapageCmsPluginHelper::formatJsonMessage(InstapageCmsPluginConnector::lang('No subaccounts were connected.'));
     }
   }
 
-  public function disconnectAccountBoundSubaccounts( $silent = false )
-  {
-    $sub_accounts = $this->getAccountBoundSubAccounts( 'array' );
+  /**
+   * Disconnects all subaccount bound to an account. User has to be looged in via email and password.
+   *
+   * @param bool $silent Do you want a message to appear? Default: false.
+   */
+  public function disconnectAccountBoundSubaccounts($silent = false) {
+    $subAccounts = $this->getAccountBoundSubAccounts('array');
 
-    if( count( $sub_accounts ) )
-    {
-      $tokens = array();  
+    if (count($subAccounts)) {
+      $tokens = array();
 
-      foreach( $sub_accounts as $item )
-      {
-        $tokens[] = InstapageCmsPluginHelper::getVar( $item->accountkey, '' );
+      foreach ($subAccounts as $item) {
+        $tokens[] = InstapageCmsPluginHelper::getVar($item->accountkey, '');
       }
 
-      $this->setSubAccountsStatus( 'disconnect', $tokens, $silent );
-    }
-    else
-    {
-      if( !$silent )
-      {
-        echo InstapageCmsPluginHelper::formatJsonMessage( InstapageCmsPluginConnector::lang( 'Subaccounts bound to your account are dissconnected' ) );
+      $this->setSubAccountsStatus('disconnect', $tokens, $silent);
+    } else {
+      if (!$silent) {
+        echo InstapageCmsPluginHelper::formatJsonMessage(InstapageCmsPluginConnector::lang('Subaccounts bound to your account are disconnected'));
       }
     }
   }

@@ -1,11 +1,11 @@
 /**
  * @version 1.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
- 
+
 /* Load images in IE7 instead of using Data URI */
 form.pwebcontact-form .pweb-msg .pweb-progress,
 .pweb-modal.modal .modal-body.pweb-progress {
@@ -40,16 +40,16 @@ form.pwebcontact-form .pweb-uploader .fileinput-button.btn {
 }
 
 /* Fields */
-form.pwebcontact-form input.pweb-input, 
-form.pwebcontact-form select, 
+form.pwebcontact-form input.pweb-input,
+form.pwebcontact-form select,
 form.pwebcontact-form textarea {
 	*display: block; /* IE7 */
 }
-form.pwebcontact-form input.pweb-input, 
+form.pwebcontact-form input.pweb-input,
 form.pwebcontact-form select {
 	*height: 22px; /* IE7 */
 }
-form.pwebcontact-form input.pweb-checkbox, 
+form.pwebcontact-form input.pweb-checkbox,
 form.pwebcontact-form input.pweb-radio {
 	margin-top: 0;
 }
@@ -233,7 +233,7 @@ form.pwebcontact-form .pweb-msg-button {
  * Copyright 2012 Twitter, Inc
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Redeclared styles only for contact form
  */
 

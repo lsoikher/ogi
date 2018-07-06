@@ -22,7 +22,7 @@
 							 woocommerce_template_single_title();
 							 woocommerce_template_single_rating();
 							 woocommerce_template_single_excerpt();
-							 
+
 							 if(get_theme_mod('product_info_share', 1)){
 							 	woocommerce_template_single_sharing();
 							 }
@@ -32,7 +32,7 @@
 				<div class="large-5 col">
 					<div class="is-well add-to-cart-wrapper">
 						<?php
-						
+
 							if(!flatsome_option('catalog_mode')){
 								woocommerce_template_single_price();
 								woocommerce_template_single_add_to_cart();
@@ -64,7 +64,5 @@
 		</div><!-- product-footer -->
 	</div><!-- .large-12 -->
 	</div><!-- .row -->
-
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
-
+  
 </div><!-- product-container -->

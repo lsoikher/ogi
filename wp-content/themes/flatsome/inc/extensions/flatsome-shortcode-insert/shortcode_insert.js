@@ -212,7 +212,7 @@
                                 },
                                 {
                                     text: 'Accordion',
-                                    value: '[accordion title="Accordian title"]<br><br>[accordion-item title="Accordion Item 1 Title"]<br>Accordion Item 1 Content Goes Here<br>[/accordion-item]<br><br>[accordion-item title="Accordion Item 1 Title"]<br>Accordion Item 1 Content Goes Here<br>[/accordion-item]<br><br>[accordion-item title="Accordion Item 1 Title"]<br> Accordion Item 1 Content Goes Here<br> [/accordion-item]<br><br>[/accordion]',
+                                    value: '[accordion title="Accordion title"]<br><br>[accordion-item title="Accordion Item 1 Title"]<br>Accordion Item 1 Content Goes Here<br>[/accordion-item]<br><br>[accordion-item title="Accordion Item 1 Title"]<br>Accordion Item 1 Content Goes Here<br>[/accordion-item]<br><br>[accordion-item title="Accordion Item 1 Title"]<br> Accordion Item 1 Content Goes Here<br> [/accordion-item]<br><br>[/accordion]',
                                     onclick: function(e) {
                                         e.stopPropagation();
                                         editor.insertContent(this.value());

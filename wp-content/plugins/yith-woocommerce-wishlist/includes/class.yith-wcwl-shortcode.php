@@ -121,7 +121,7 @@ if( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 
 						if( ! empty( $wishlist ) && $wishlist['user_id'] != get_current_user_id() ){
 							$query_args[ 'user_id' ] = false;
-							if( ! current_user_can( 'manage_options' ) ){
+							if( ! current_user_can( apply_filters( 'yith_wcwl_view_wishlist_capability', 'manage_options' ) ) ){
 								$query_args[ 'wishlist_visibility' ] = 'visible';
 							}
 						}
@@ -321,6 +321,11 @@ if( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 			// product object
 			$current_product = ( isset( $atts['product_id'] ) ) ? wc_get_product( $atts['product_id'] ) : false;
 			$current_product = $current_product ? $current_product : $product;
+
+			if( ! $current_product ){
+				return '';
+			}
+
 			$current_product_id = yit_get_product_id( $current_product );
 
 			$template_part = 'button';
@@ -358,7 +363,7 @@ if( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 			$wishlist_url = YITH_WCWL()->get_wishlist_url();
 
 			// get product type
-			$product_type = $product->get_type();
+			$product_type = $current_product->get_type();
 
 			$additional_params = array(
 				'wishlist_url' => $wishlist_url,

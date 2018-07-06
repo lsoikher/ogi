@@ -1,27 +1,27 @@
 <?php
 /*
 Template name: WooCommerce - My Account
-This templates add My account to the sidebar. 
+This templates add My account to the sidebar.
 */
 
 get_header(); ?>
 
 <?php do_action( 'flatsome_before_page' ); ?>
 
-<?php woocommerce_get_template('myaccount/header.php'); ?>
+<?php wc_get_template('myaccount/header.php'); ?>
 
 <div class="page-wrapper my-account mb">
 <div class="container" role="main">
 
-<?php if(is_user_logged_in()){?> 
+<?php if(is_user_logged_in()){?>
 
 <div class="row vertical-tabs">
 <div class="large-3 col col-border">
-	
-	<?php woocommerce_get_template('myaccount/account-user.php'); ?>
+
+	<?php wc_get_template('myaccount/account-user.php'); ?>
 
 	<ul id="my-account-nav" class="account-nav nav nav-line nav-uppercase nav-vertical mt-half">
-	     <?php woocommerce_get_template('myaccount/account-links.php'); ?>
+	     <?php wc_get_template('myaccount/account-links.php'); ?>
 	</ul><!-- .account-nav -->
 </div><!-- .large-3 -->
 
@@ -32,13 +32,13 @@ get_header(); ?>
 	</div><!-- .large-9 -->
 </div><!-- .row .vertical-tabs -->
 
-<?php } else { ?>  
-	
+<?php } else { ?>
+
 	<?php while ( have_posts() ) : the_post(); ?>
-	
+
 		<?php the_content(); ?>
-	
-	<?php endwhile; // end of the loop. ?>		
+
+	<?php endwhile; // end of the loop. ?>
 
 <?php } ?>
 

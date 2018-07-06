@@ -5,7 +5,7 @@ function ux_pages($atts) {
       // meta
       '_id' => 'pages-'.rand(),
       'parent' => '',
-      'ids' => '',
+      'ids' => false,
       'target' => '',
 
       // Layout
@@ -53,7 +53,11 @@ function ux_pages($atts) {
 
       global $post;
 
-      if ( is_page() && $post->post_parent && !$parent ){
+      if ( !empty( $ids ) ) {
+        $ids = explode( ',', $ids );
+        $ids = array_map( 'trim', $ids );
+        $childpages = get_pages( array( 'include' => $ids, 'sort_column' => 'menu_order' ) );
+      } else if ( is_page() && $post->post_parent && !$parent ){
           $childpages = get_pages( array( 'child_of' => $post->post_parent, 'sort_column' => 'menu_order' ) );
       } else {
           $post_id = $post->ID;

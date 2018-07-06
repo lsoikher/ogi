@@ -5,6 +5,20 @@ Flatsome_Option::add_section( 'cart-checkout', array(
 	'panel' => 'shop'
 ) );
 
+
+Flatsome_Option::add_field( 'option', array(
+  'type'        => 'radio-buttonset',
+  'settings'     => 'checkout_layout',
+  'label'       => __( 'Cart / Checkout layout', 'flatsome-admin' ),
+  'section'     => 'cart-checkout',
+  'default'     => '',
+  'choices'     => array(
+    '' => __( 'Default', 'flatsome-admin' ),
+    'simple' => __( 'Simple (New)', 'flatsome-admin' ),
+    'focused' => __( 'Focused', 'flatsome-admin' ),
+  ),
+));
+
 Flatsome_Option::add_field( '', array(
     'type'        => 'custom',
     'settings' => 'custom_title_cart',
@@ -61,24 +75,6 @@ Flatsome_Option::add_field( 'option',  array(
 	'transport' => $transport,
 	'label'       => __( 'Checkout Sidebar content', 'flatsome-admin' ),
 	'help'        => __( 'Enter HTML that will show on bottom of checkout sidebar' ),
-	'section'     => 'cart-checkout',
-	'default'     => '',
-));
-
-Flatsome_Option::add_field( '', array(
-    'type'        => 'custom',
-    'settings' => 'custom_title_thankyou',
-    'label'       => __( '', 'flatsome-admin' ),
-	'section'     => 'cart-checkout',
-    'default'     => '<div class="options-title-divider">Thank You</div>',
-) );
-
-Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'textarea',
-	'settings'     => 'html_thank_you',
-	'transport' => $transport,
-	'label'       => __( 'Thank you page HTML / Scripts', 'flatsome-admin' ),
-	'help'        => __( 'Enter scripts or custom HTML content for the thank you page here' ),
 	'section'     => 'cart-checkout',
 	'default'     => '',
 ));

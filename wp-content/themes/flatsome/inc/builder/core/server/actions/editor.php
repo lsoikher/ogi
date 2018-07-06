@@ -2,6 +2,10 @@
 
 $priority = 1000;
 
+add_action( 'init', function () {
+  remove_action( 'init', 'ckeditor_init' ); // ckeditor is not supported
+}, -$priority );
+
 /**
 * Render editor template.
 *
@@ -31,64 +35,69 @@ add_filter( 'language_attributes', function ( $output, $doctype ) {
 * then enqueue scripts for the builder.
 */
 add_action( 'admin_enqueue_scripts', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_enqueue_scripts', array(
-    'wp_auth_check_load',
-    'ux_builder_enqueue_scripts',
-  ) );
-  do_action( 'ux_builder_enqueue_scripts', 'editor' );
+  // remove unwanted styles and scripts here
+  wp_dequeue_style( 'woocommerce_admin_menu_styles' );
+  wp_dequeue_style( 'woocommerce_admin_styles' );
+  wp_dequeue_script( 'woocommerce_settings' );
+
+//   _ux_builder_filter_scripts();
+//   _ux_builder_filter_styles();
+//   _ux_builder_keep_actions( 'admin_enqueue_scripts', array(
+//     'wp_auth_check_load',
+//     'ux_builder_enqueue_scripts',
+//   ) );
+   do_action( 'ux_builder_enqueue_scripts', 'editor' );
 }, $priority );
 
 /**
  * Removes unwanted actions and assets in the «admin_print_scripts» action.
  */
-add_action( 'admin_print_scripts', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_print_scripts', array(
-    'print_head_scripts',
-  ) );
-}, $priority );
+// add_action( 'admin_print_scripts', function () {
+//   _ux_builder_filter_scripts();
+//   _ux_builder_filter_styles();
+//   _ux_builder_keep_actions( 'admin_print_scripts', array(
+//     'print_head_scripts',
+//   ) );
+// }, $priority );
 
 /**
  * Removes unwanted actions and assets in the «admin_print_scripts» action.
  */
-add_action( 'admin_print_styles', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_print_styles', array(
-    'print_admin_styles',
-  ) );
-}, $priority );
+// add_action( 'admin_print_styles', function () {
+//   _ux_builder_filter_scripts();
+//   _ux_builder_filter_styles();
+//   _ux_builder_keep_actions( 'admin_print_styles', array(
+//     'print_admin_styles',
+//   ) );
+// }, $priority );
 
 /**
  * Removes unwanted actions and assets in the «admin_head» action.
  */
-add_action( 'admin_head', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_head', array(
-    '_wp_render_title_tag',
-    'wp_enqueue_scripts',
-    'wp_print_styles',
-    'wp_print_head_scripts',
-    'ux_builder_enqueue_scripts',
-  ) );
-}, $priority );
+// add_action( 'admin_head', function () {
+//   _ux_builder_filter_scripts();
+//   _ux_builder_filter_styles();
+//   _ux_builder_keep_actions( 'admin_head', array(
+//     '_wp_render_title_tag',
+//     'wp_enqueue_scripts',
+//     'wp_print_styles',
+//     'wp_print_head_scripts',
+//     'ux_builder_enqueue_scripts',
+//   ) );
+// }, $priority );
 
 /**
  * Removes unwanted actions and assets in the «admin_footer» action.
  */
 add_action( 'admin_footer', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_footer', array(
-    'wp_print_footer_scripts',
-  ) );
+  // _ux_builder_filter_scripts();
+  // _ux_builder_filter_styles();
+  // _ux_builder_keep_actions( 'admin_footer', array(
+  //   'wp_print_footer_scripts',
+  // ) );
 
   // Add media modal
-  wp_print_media_templates();
+  // wp_print_media_templates();
 
 }, -$priority );
 
@@ -99,13 +108,13 @@ add_action( 'admin_footer', function () {
  * Then prints all builder data.
  */
 add_action( 'admin_print_footer_scripts', function () {
-  _ux_builder_filter_scripts();
-  _ux_builder_filter_styles();
-  _ux_builder_keep_actions( 'admin_print_footer_scripts', array(
-    '_wp_footer_scripts',
-    '_WP_Editors::enqueue_scripts',
-    '_WP_Editors::editor_js',
-  ) );
+  // _ux_builder_filter_scripts();
+  // _ux_builder_filter_styles();
+  // _ux_builder_keep_actions( 'admin_print_footer_scripts', array(
+  //   '_wp_footer_scripts',
+  //   '_WP_Editors::enqueue_scripts',
+  //   '_WP_Editors::editor_js',
+  // ) );
 
   $current_post = ux_builder( 'current-post' );
   $editing_post = ux_builder( 'editing-post' );
@@ -147,6 +156,7 @@ add_action( 'admin_print_footer_scripts', function () {
     'postUrl' => $current_post->permalink(),
     'post' => $editing_post->to_array(),
     'saveButton' => $save_button,
+    'showSidebar' => true,
     'breakpoints' => array(
       'current' => get_default_ux_builder_breakpoint(),
       'default' => get_default_ux_builder_breakpoint(),
@@ -249,18 +259,18 @@ function _ux_builder_filter_scripts() {
   }
 }
 
-function _ux_builder_filter_styles() {
-  $wp_styles = wp_styles();
-  $keep_styles = array(
-    'wp-core-ui',
-    'wp-core-ui-colors',
-    'media-views',
-    'imgareaselect',
-  );
-  foreach ( $wp_styles->queue as $style ) {
-    if( strpos( $style, 'ux-builder' ) === 0 ) continue;
-    if( ! in_array( $style, $keep_styles ) ) {
-      wp_dequeue_style( $style );
-    }
-  }
-}
+// function _ux_builder_filter_styles() {
+//   $wp_styles = wp_styles();
+//   $keep_styles = array(
+//     'wp-core-ui',
+//     'wp-core-ui-colors',
+//     'media-views',
+//     'imgareaselect',
+//   );
+//   foreach ( $wp_styles->queue as $style ) {
+//     if( strpos( $style, 'ux-builder' ) === 0 ) continue;
+//     if( ! in_array( $style, $keep_styles ) ) {
+//       wp_dequeue_style( $style );
+//     }
+//   }
+// }

@@ -1,23 +1,4 @@
 <?php
-
-/*
-(-) "every Nth" 
-	DEAL TYPE
-	BUY GROUP AMOUNT
-    deprecated - commented out in framework only
-*/
-
-/*
-v1.1 global changes
-
-change "By Single Product with Variations"
-to "By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; 
-
-change "By Single Product"
-to "By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; 
-
-*/
-
 class VTPRD_Rules_UI_Framework {
 	
 	public function __construct(){
@@ -27,8 +8,8 @@ class VTPRD_Rules_UI_Framework {
             $vtprd_deal_edits_framework,
             $vtprd_deal_structure_framework,
             $vtprd_deal_screen_framework,
-            $vtprd_template_structures_framework;
-            $vtprd_rule_test_info_framework;    
+            $vtprd_template_structures_framework,
+            $vtprd_edit_arrays_framework; //v2.0.0
   /*
     //                                *************                               *************
     $vtprd_discount_display_framework GOES INTO => $vtprd_discount_info_framework GOES INTO => $vtprd_deal_structure_framework
@@ -38,13 +19,12 @@ class VTPRD_Rules_UI_Framework {
     
     $vtprd_rule_display_framework = array (
        //TOP LEVEL DROPDOWNS
+         //v2.0.0  RECONFIGURED
           'cart_or_catalog_select' =>  array ( 
               //dropdown select info
               'label'    => array(
                     'for'    => 'cart-or-catalog-select',
-                    'title'  => __('Cart or Catalog ', 'vtprd') .'<br>'.  __('Discount ', 'vtprd')
-                    
-                    //'title'  => __('Cart Purchase / Catalog Display', 'vtprd')    .'&nbsp;&nbsp;'.  __('Discount Type', 'vtprd')       
+                    'title'  => __('Discount Type ', 'vtprd')     
                 ),
                 'select'    => array(
                     'id'    => 'cart-or-catalog-select',
@@ -54,25 +34,24 @@ class VTPRD_Rules_UI_Framework {
                 ),
               //dropdown options
               'option'  => array(
-                  array (
-                    'id'       => 'cart-or-catalog-Choose',
-                    'class'    => '',
-                    'value'    => 'choose',
-                    'title'    => __(' - Cart or Catalog Discount?', 'vtprd') //Cart or Catalog Discount?   
-                   ),                   
-                  array (
-                    'id'       => 'cart-or-catalog-Cart',
-                    'class'    => '',
-                    'value'    => 'cart',
-                    'title'    => __('CART Purchase Discount', 'vtprd')   //Cart Discount (when Added to Cart) 
-                   ),                                     
-                  array (
-                    'id'       => 'cart-or-catalog-Catalog',
-                    'class'    => '',
-                    'value'    => 'catalog',
-                    'title'    => __('CATALOG Price Reduction', 'vtprd')  .'&nbsp;&nbsp;&nbsp;'.    __('(Wholesale Pricing +)', 'vtprd')   //CATALOG Price Display Discount 
-                   ) 
+                  array(  
+                    'id'    => 'cart-or-catalog-Cart',
+                    'class'  => 'cart-or-catalog',
+                    'type'   => 'radio',
+                    'name'    => 'cart-or-catalog-select',  
+                    'value'  => 'cart', 
+                    'label'  =>  __('CART Deal', 'vtprd')                                   
+                  ),
+                  array(  
+                    'id'    => 'cart-or-catalog-Catalog',
+                    'class'  => 'cart-or-catalog',
+                    'type'   => 'radio',
+                    'name'    => 'cart-or-catalog-select',  
+                    'value'  => 'catalog', 
+                    'label'  =>  __('CATALOG Discount', 'vtprd')                                 
+                  )   
                  )
+
             ),
           'pricing_type_select' =>  array ( 
               //dropdown select info
@@ -93,23 +72,29 @@ class VTPRD_Rules_UI_Framework {
                     'class'    => '',
                     'value'    => 'choose',
                     'title'    => __('- Deal Type ? - ', 'vtprd')        
+                   ),                   
+                  array (
+                    'id'       => 'pricing-type-Bogo',
+                    'class'    => '',
+                    'value'    => 'bogo',
+                    'title'    => __('Buy One Get One ', 'vtprd')  .'&nbsp;&nbsp;'. __(' (&nbsp;BOGO&nbsp;)', 'vtprd')   
                    ),
-                   
+                  array (
+                    'id'       => 'pricing-type-Bulk',   //v1.1.8.0  Bulk Option
+                    'class'    => '',
+                    'value'    => 'bulk',
+                    'title'    => __('Bulk Purchasing ', 'vtprd')  .'&nbsp;&nbsp;<span id="bulk-suffix-title">'. __(' ( Pricing Table )', 'vtprd') .'</span>'   
+                   ),                   
                   array (
                     'id'       => 'pricing-type-Simple',
                     'class'    => '',
                     'value'    => 'simple',
                     //Part of the store on sale
-                    'title'    => __('Just Discount the Items ', 'vtprd') ,
+                    //'title'    => __('Simple Discount ', 'vtprd') .'&nbsp;&nbsp;&nbsp;'. __( '( by Category, Product, Role, Email ... ) ', 'vtprd') , //v2.0.0
+                    'title'    => __('Simple Discount ', 'vtprd') .'&nbsp;&nbsp;&nbsp;&nbsp;'. __( '( just discount the item ... ) ', 'vtprd') , //v2.0.0
                     'title-catalog'
-                               => __('Catalog Discount by Category, Logged-in Role ... ', 'vtprd')    //v1.0.4 enlivened
+                               => __('Simple Discount ', 'vtprd') .'&nbsp;&nbsp;&nbsp;&nbsp;'. __( '( just discount the item ... ) ', 'vtprd')  //v2.0.0
                    ),                                     
-                  array (
-                    'id'       => 'pricing-type-Bogo',
-                    'class'    => '',
-                    'value'    => 'bogo',
-                    'title'    => __('Buy One Get One ', 'vtprd')  .'&nbsp;'. __(' (Bogo)', 'vtprd')   
-                   ),
                   array (
                     'id'       => 'pricing-type-Group',
                     'class'    => '',
@@ -117,34 +102,23 @@ class VTPRD_Rules_UI_Framework {
                     'title'    => __('Package Pricing', 'vtprd')   
                    ), 
                   array (
-                    'id'       => 'pricing-type-Cheapest',
-                    'class'    => '',
-                    'value'    => 'cheapest',
-                    'title'    => __('Discount Cheapest / Most Expensive', 'vtprd')   
-                   ),
-                  array (
                     'id'       => 'pricing-type-All',
                     'class'    => '',
                     'value'    => 'all',
                     //all of the store on sale
-                    'title'    => __('Whole store on sale', 'vtprd'), //Discount the whole catalog    //vs Discount anything in the cart 
+                    'title'    => __('Whole store on sale', 'vtprd'),  //v2.0.0
                     'title-catalog'   
-                               => __('Whole Catalog on sale', 'vtprd')
-                   )/*,                                       
+                               => __('Whole store on sale', 'vtprd') //v2.0.0
+                   ), 
                   array (
-                    'id'       => 'pricing-type-Nth',
+                    'id'       => 'pricing-type-Cheapest',
                     'class'    => '',
-                    'value'    => 'nth',
-                    'title'    => __('Discount each Nth', 'vtprd')   
-                   ),                   
-                  array (
-                    'id'       => 'pricing-type-Upcharge',       //v1.0.4 commented
-                    'class'    => '',
-                    'value'    => 'upcharge',
-                    'title'    => __('Upcharge (Base Price + UpCharge) - Coming Soon...', 'vtprd')   
-                   ) */                    
+                    'value'    => 'cheapest',
+                    'title'    => __('Discount Cheapest / Most Expensive', 'vtprd')  . '&nbsp;&nbsp;' . __('(replaced by "Apply Discount to ..." below)', 'vtprd')   //v2.0.0
+                   )
                  )
             ), 
+         //v2.0.0  reworked to be radio buttons
           'minimum_purchase_select' =>  array ( 
               //dropdown select info
               'label'    => array(
@@ -160,47 +134,29 @@ class VTPRD_Rules_UI_Framework {
                 ),
               //dropdown options
               'option'  => array(                   
-                  /*array (
-                    'id'       => 'minimum-purchase-Choose',
-                    'class'    => '',
-                    'value'    => 'choose',
-                    'title'    => __(' - Select Minimum Purchase -', 'vtprd')    
-                   ),*/
-                  array (
-                    'id'       => 'minimum-purchase-Choose',
-                    'class'    => '',
-                    'value'    => 'choose',
-                    'title'    => __(' - Discount Next Item / This Item ?  - ', 'vtprd')    
-                   ),    
-
-                  array (
+                   array (
                     'id'       => 'minimum-purchase-Next',
-                    'class'    => '',
+                    'class'    => 'minimum-purchase',
+                    'name'    => 'minimum-purchase-select',
+                    'type'   => 'radio',
                     'value'    => 'next',
-                    'title'    => __('Buy something, discount the *next* item', 'vtprd')
+                    'label'    => __('Discount Next item added to cart', 'vtprd')
                     //'title'    => __('Buy these, discount *next* purchases', 'vtprd')
-                   ),
-                  array (
+                   ),                  
+                 array (
                     'id'       => 'minimum-purchase-None',
-                    'class'    => '',
+                    'class'    => 'minimum-purchase',
+                    'name'    => 'minimum-purchase-select',
+                    'type'   => 'radio',
                     'value'    => 'none',
-                    'title'    => __('Buy something, discount the item', 'vtprd'),
+                    'label'    => __('Discount item in cart already', 'vtprd'),  //v2.0.0
                     //'title'    => __('Buy these, discount *these* purchases', 'vtprd'),
-                    'title-catalog'   
-                               => __('Apply Discount to Catalog Item', 'vtprd')      //Buy these, these purchases discounted
+                    'label-catalog'  => __('Discount item in cart already', 'vtprd')      //v2.0.0
+                    //'title-catalog'  => __('Apply Discount to Catalog Item', 'vtprd')      //Buy these, these purchases discounted
                    )
-                   
-                   /*
-                   ,                                                                                           
-                  array (
-                    'id'       => 'minimum-purchase-Minimum',
-                    'class'    => '',
-                    'value'    => 'next',
-                    'title'    => __('Minimum Purchase required, then Apply cart discount ', 'vtprd')   
-                   )
-                   */ 
+
                  )
-            ),        
+            ),       
           'buy_group_filter_select' =>  array ( 
               //dropdown select info
               'label'    => array(
@@ -250,35 +206,18 @@ class VTPRD_Rules_UI_Framework {
                     'value'    => 'wholeStore',
                     'title'    => __('Buy Any Product', 'vtprd'),
                     'title2'   => __('Discount Each Item', 'vtprd'),
-                    'title-catalog'   => __('Any Catalog Product', 'vtprd')    
+                    'title-catalog'   => __('Any Product &nbsp;&nbsp;&nbsp;(and Any Role)', 'vtprd')    
                    ),                                                      
                   array (
                     'id'       => 'buy-group-filter-Group',
                     'class'    => '',
                     'value'    => 'groups',
-                    'title'    => __('By Category / Logged-in Role ... (pro only) ...  ', 'vtprd') . '&nbsp;&nbsp;',  //free version
-                    'title2'   => __('By Category / Logged-in Role ... (pro only) ...  ', 'vtprd') . '&nbsp;&nbsp;',   //free version
-                    'title3'   => __('By Category / Logged-in Role / Plugin Category', 'vtprd') . '&nbsp;&nbsp;',    //pro version
-                    'title4'   => __('By Category / Logged-in Role / Plugin Category', 'vtprd') . '&nbsp;&nbsp;'      //pro version
-                   ),
-                  array (
-                    'id'       => 'buy-group-filter-Vargroup',
-                    'class'    => '',
-                    'value'    => 'vargroup',
-                    'title'    => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;   ... (pro only) ... ', 'vtprd'),      //free version
-                    'title2'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;   ... (pro only) ... ', 'vtprd'),   //free version
-                    'title3'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; ', 'vtprd'),
-                    'title4'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; ', 'vtprd')   
-                   ),                   
-                  array (
-                    'id'       => 'buy-group-filter-Single',
-                    'class'    => '',
-                    'value'    => 'single',
-                    'title'    => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ... ', 'vtprd'),          //free version
-                    'title2'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ... ', 'vtprd'),      //free version
-                    'title3'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; ', 'vtprd'), 
-                    'title4'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp; ', 'vtprd') 
-                   )                    
+                    'title'    => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',  //free version
+                    'title2'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',  //free version
+                    'title3'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',    //pro version  v2.0.0 
+                    'title4'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;'      //pro version  v2.0.0 
+                   )
+                                     
                  )
             ),
           'get_group_filter_select' =>  array ( 
@@ -340,23 +279,10 @@ class VTPRD_Rules_UI_Framework {
                     'id'       => 'get-group-filter-Group',
                     'class'    => '',
                     'value'    => 'groups',
-                    'title'    => __('By Category / Plugin Category  ... (pro only) ...  ', 'vtprd'),  //free version 
-                    'title3'   => __('By Category / Plugin Category', 'vtprd')    //pro version 
-                   ),                   
-                  array (
-                    'id'       => 'get-group-filter-Vargroup',
-                    'class'    => '',
-                    'value'    => 'vargroup',
-                    'title'    => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;   ... (pro only) ...  ', 'vtprd'),
-                    'title3'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')    //pro version   
-                   ),                   
-                  array (
-                    'id'       => 'get-group-filter-Single',
-                    'class'    => '',
-                    'value'    => 'single',
-                    'title'    => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;   ... (pro only) ...  ', 'vtprd'),
-                    'title3'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')    //pro version   
-                   )                    
+                    'title'    => __('By Category / Product / Variation / Variation Name ...', 'vtprd'),  //free version
+                    'title3'   => __('By Category / Product / Variation / Variation Name ...', 'vtprd')    //pro version v2.0.0
+                   )
+                                  
                  )
             ), 
            'rule-type-select' =>  array ( 
@@ -455,13 +381,19 @@ class VTPRD_Rules_UI_Framework {
                     'id'       => 'apply-deal-to-cheapest-on',
                     'class'    => '',
                     'value'    => 'cheapest',
-                    'title'    => __('Apply to Cheapest item first', 'vtprd')    
+                    'title'    => __('Apply Discount to Cheapest Item first', 'vtprd')    
                    ), 
                  array (
                     'id'       => 'apply-deal-to-most-expensive-on',
                     'class'    => '',
                     'value'    => 'most-expensive',
-                    'title'    => __('Apply to Most Expensive first', 'vtprd')    
+                    'title'    => __('Apply Discount to Most Expensive Item first', 'vtprd')    
+                   ),                                                                         
+                 array (
+                    'id'       => 'apply-deal-to-equal-or-less',
+                    'class'    => '',
+                    'value'    => 'equal-or-less',
+                    'title'    => __('Apply Discount to Equal or Lesser Value Item first', 'vtprd')    
                    )                                                                         
 
                  )
@@ -474,7 +406,20 @@ class VTPRD_Rules_UI_Framework {
               'type'  => 'text',
               'name'  => 'only_for_this_coupon_name'
             ),
-            
+           //v1.1.7.1 begin          
+          'buy_group_varName' => array (   
+              'id'    => 'buy_group_varName',
+              'class'  => 'msg-text',
+              'type'  => 'text',
+              'name'  => 'buy_group_varName'
+            ),          
+          'action_group_varName' => array (   
+              'id'    => 'action_group_varName',
+              'class'  => 'msg-text',
+              'type'  => 'text',
+              'name'  => 'action_group_varName'
+            ), 
+			    //v1.1.7.1 end			
           //v1.0.9.0            
           'msg_badge_on_off_sw_select' =>  array ( 
               //dropdown select info
@@ -641,47 +586,23 @@ class VTPRD_Rules_UI_Framework {
                 'name'  => 'popChoiceIn'
             ),
           //dropdown options
-          'option'  => array(
-              array (
-                'id'       => 'popChoiceInTitle',
-                'class'    => 'popChoiceInOptions',
-                'value'    => '0',
-                'title'    => __('- Group Filter Type -  ', 'vtprd')
-               ),  
+          'option'  => array(  
               array (
                 'id'       => 'cartChoiceIn',
                 'class'    => 'popChoiceInOptions',
                 'value'    => 'wholeStore',
-                'title'    => __('Any Product  ', 'vtprd'),
-                'title2'   => __('Any Catalog Product  ', 'vtprd')    
+                'title'    => __('Any Product', 'vtprd'),
+                'title2'   => __('Any Product', 'vtprd')    
                ),               
                array (
                 'id'       => 'groupChoiceIn',
                 'class'    => 'popChoiceInOptions',
                 'value'    => 'groups',
-                'title'    => __('By Category / Logged-in Role / Plugin Category ... (pro only) ...', 'vtprd') . '&nbsp;&nbsp;',   
-                'title2'   => __('By Category / Logged-in Role / Plugin Category ... (pro only) ...', 'vtprd') . '&nbsp;&nbsp;',   //free version
-                'title3'   => __('By Category / Logged-in Role / Plugin Category', 'vtprd') . '&nbsp;&nbsp;',    //pro version
-                'title4'   => __('By Category / Logged-in Role / Plugin Category', 'vtprd') . '&nbsp;&nbsp;'      //pro version   
-               ),
-               array (
-                'id'       => 'varChoiceIn',
-                'class'    => 'popChoiceInOptions',
-                'value'    => 'vargroup',
-                'title'    => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),
-                'title2'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),   //free version
-                'title3'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;   ', 'vtprd'),    //pro version
-                'title4'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')      //pro version  
-               ),
-               array (
-                'id'       => 'singleChoiceIn',
-                'class'    => 'popChoiceInOptions',
-                'value'    => 'single',
-                'title'    => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),
-                'title2'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),   //free version
-                'title3'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd'),    //pro version
-                'title4'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')      //pro version      
-               )             
+                'title'    => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',   
+                'title2'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',   //free version
+                'title3'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;',    //pro version v2.0.0 
+                'title4'   => __('By Category / Role / Product / Variation / Variation Name / Customer / ...', 'vtprd') . '&nbsp;&nbsp;'      //pro version v2.0.0   
+               )          
             )          
         ),
               
@@ -792,6 +713,139 @@ class VTPRD_Rules_UI_Framework {
               'type'  => 'text',
               'name'  => 'amtChoiceIn-count'                      
             ),
+
+        /* ************** */ 
+        /* v1.1.8.0 begin */
+        /* ************** */ 
+        
+        //*****************
+        //  Bulk Area
+        //*****************
+                
+       'inBulkMethod' =>  array (
+            //dropdown select info
+            'select'    => array(                                                                            
+                  'id'    => 'bulkMethodIn',
+                  'class' => 'bulkMethod',
+                  'name'  => 'bulkMethodIn',
+                  'title' => __('Method', 'vtprd')
+              ),
+            //dropdown options
+            'option'  => array( 
+                array (
+                  'id'       => 'bulkMethodUnits',
+                  'class'    => 'bulkMethodInOptions',
+                  'value'    => 'units',
+                  'title'    => __('Units - Count by Product Units  ', 'vtprd'),
+                 ), 
+                array (
+                  'id'       => 'bulkMethodCurrency',
+                  'class'    => 'bulkMethodInOptions',
+                  'value'    => 'currency',
+                  'title'    => __('$$ - Count by $$ Value  ', 'vtprd'),
+                 )           
+              )          
+          ),
+          
+         'inBulkCountBy' =>  array (
+            //dropdown select info
+            'select'    => array(                                                                            
+                  'id'    => 'bulkCountByIn',
+                  'class' => 'bulkCountBy',
+                  'name'  => 'bulkCountByIn',
+                  'title' => __('Quantities Counted By', 'vtprd')
+              ),
+            //dropdown options
+            'option'  => array( 
+                array (
+                  'id'       => 'bulkCountByEach',
+                  'class'    => 'bulkCountByInOptions',
+                  'value'    => 'units',
+                  'title'    => __('- Each - Each individual Cart line item  ', 'vtprd'),
+                 ), 
+                array (
+                  'id'       => 'bulkCountByAll',
+                  'class'    => 'bulkCountByInOptions',
+                  'value'    => 'currency',
+                  'title'    => __('- All - All items in the Group counted together  ', 'vtprd'),
+                 )           
+              )          
+        ), 
+        
+        
+        //Bulk Row Begin
+        
+        'minVal' => array (   
+              'spanClass' => 'pricing_table_column1',
+              'spanId' => 'minVal_',
+              'id'     => 'minVal_row_',
+              'class'  => '',
+              'type'   => 'text',
+              'name'   => 'minVal[]',
+              'placeholder'    => __('From', 'vtprd')
+            ),              
+        
+        'maxVal' => array (   
+              'spanClass' => 'pricing_table_column2',
+              'spanId' => 'maxVal_',
+              'id'     => 'maxVal_row_',
+              'class'  => '',
+              'type'   => 'text',
+              'name'   => 'maxVal[]',
+              'placeholder'    => __('To - No limit', 'vtprd')
+            ),
+            
+        'pricing_table_discount_type' => array (  
+             //dropdown select info
+              'select'    => array(
+                    'spanClass' => 'class="pricing_table_column3',
+                    'spanId' => 'discountType_',              
+                    'id'    => 'pricing_table_discount_amt_type_',
+                    'class' => 'pricing_table_discount_amt_type',
+                    'name'  => 'discountType[]',
+                    'tabindex'  => ''
+                ),
+              //dropdown options
+
+              'option'  => array(
+                  array (
+                    'id'       => 'pricing_table_discount_amt_type_percent_',
+                    'class'    => 'pricing_table_discount_amt_type_percent',
+                    'value'    => 'percent',
+                    'title'    => __('Percent Discount ', 'vtprd')
+                   ),                                                       
+                   array (
+                    'id'       => 'pricing_table_discount_amt_type_currency_',
+                    'class'    => 'pricing_table_discount_amt_type_currency',
+                    'value'    => 'currency',
+                    'title'    => __('Price Discount ', 'vtprd')
+                   ),
+                   array (
+                    'id'       => 'pricing_table_discount_amt_type_fixedPrice_',
+                    'class'    => 'pricing_table_discount_amt_type_fixedPrice',
+                    'value'    => 'fixedPrice',
+                    'title'    => __('Fixed Price ', 'vtprd')
+                   )                                                  
+               )  
+            ),
+            
+        'discountVal' => array (   
+              'spanClass' => 'pricing_table_column3',
+              'spanId' => 'discountVal_',
+              'id'     => 'discountVal_row_',
+              'class'  => '',
+              'type'   => 'text',
+              'name'   => 'discountVal[]',
+              'placeholder'    => __('0.00', 'vtprd')
+            ),            
+         //***************
+         //Bulk Row end
+         //***************
+                 
+        /* ************ */                 
+        /* v1.1.8.0 end */
+        /* ************ */ 
+
             
        //END inPop     
             
@@ -809,13 +863,7 @@ class VTPRD_Rules_UI_Framework {
             ),
           //dropdown options
     
-          'option'  => array(
-              array (
-                'id'       => 'popChoiceOutTitle',
-                'class'    => 'popChoiceOutOptions',
-                'value'    => '0',
-                'title'    => __('- Group Filter Type -  ', 'vtprd')
-               ), 
+          'option'  => array( 
               array (                    //SAME AS inPop
                 'id'       => 'sameChoiceOut',
                 'class'    => 'popChoiceOutOptions',
@@ -833,23 +881,9 @@ class VTPRD_Rules_UI_Framework {
                 'id'       => 'groupChoiceOut',
                 'class'    => 'popChoiceOutOptions',
                 'value'    => 'groups',
-                'title'    => __('By Category / Plugin Category ... (pro only) ...', 'vtprd'),   //free version
-                'title3'   => __('By Category / Plugin Category', 'vtprd')    //pro version   
-               ),
-               array (
-                'id'       => 'varChoiceOut',
-                'class'    => 'popChoiceOutOptions',
-                'value'    => 'vargroup',
-                'title'    => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),   //free version
-                'title3'   => __('By Single Product with Variations &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')    //pro version 
-               ),
-               array (
-                'id'       => 'singleChoiceOut',
-                'class'    => 'popChoiceOutOptions',
-                'value'    => 'single',
-                'title'    => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ... (pro only) ...', 'vtprd'),   //free version
-                'title3'   => __('By Single Product &nbsp;&nbsp; (+ Logged-in Role)&nbsp;&nbsp;  ', 'vtprd')    //pro version    
-               )             
+                'title'    => __('By Category / Product / Variation / Variation Name ...', 'vtprd'),   //free version
+                'title3'   => __('By Category / Product / Variation / Variation Name ...', 'vtprd')    //pro version   v2.0.0
+               )          
             )          
         ),
               
@@ -1103,7 +1137,16 @@ class VTPRD_Rules_UI_Framework {
             'title'    =>  __('Simple Discount', 'vtprd') .'&nbsp;&nbsp;&nbsp;'.
                            __('(by Membership / Wholesale  / Product Category / Pricing Deal Category / Product / Variation)', 'vtprd') 
                            .'&nbsp;&nbsp;&nbsp;'.  __('- Cart -', 'vtprd')
-           ),             
+           ), 
+           //v1.1.8.0 begin
+          array (     
+            'id'       => 'any-bulk-cart',
+            'class'    => 'rule-type-enable-this',
+            'value'    => 'C-bulkDiscount',
+            'title'    =>  __('Bulk Discount', 'vtprd') .'&nbsp;&nbsp;&nbsp;'
+                           .'&nbsp;&nbsp;&nbsp;'.  __('- Cart -', 'vtprd')
+           ),            
+           //v1.1.8.0 end            
           array (
             'id'       => 'optgroup-addToCart-already-in-cart',
             'class'    => 'optgroup-class',
@@ -1343,7 +1386,7 @@ class VTPRD_Rules_UI_Framework {
               //not in Deal Line, used in general processing, NOT an array!!!... 
               'discountAppliesWhere'        	     => 'inCurrentInPopOnly', //'allActionPop', 
               'inPopAllowed'                       => 'wholeStore',   // wholeStore / groups / vargroup / single   OR  any
-              'actionPopAllowed'                   => 'sameAsInPop', //sameAsInPop / wholeStore / groups / vargroup / single   OR  any                
+              'actionPopAllowed'                   => 'sameAsInPop', //sameAsInPop / wholeStore / groups / varName / vargroup / single   OR  any                
               'cumulativeRulePricingAllowed'       => 'yes',
               'cumulativeSalePricingAllowed'       => 'yes',
               'replaceSalePricingAllowed'          => 'yes',
@@ -1505,6 +1548,134 @@ class VTPRD_Rules_UI_Framework {
               'replaceSalePricingAllowed'          => 'yes',
               'cumulativeCouponPricingAllowed'     => 'yes'       
          ),
+         
+         //***************
+         //v1.1.8.0 begin
+         //***************          
+        'C-bulkDiscount' =>   array( //Cart => bulk iterative discount       
+              //**********************
+              // placeholder begin - just for EDITING, all set to OPTIONAL - non-placeholder stuff BELOW
+              'buy_repeat_condition'  => array (
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   =>  'all',  //'' = none are allowed, 'all' or an array
+                'template_profile_error_msg'       =>  ''
+              ),              
+              'buy_repeat_count'  => array (
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       => ''
+              ),
+              'buy_amt_type'  => array (
+                'required_or_optional'             => 'optional',  
+                'allowed_values'                   => array('none'),
+                'template_profile_error_msg'       =>  __('"Buy group amount" - only "No buy condition" is allowed for this setup type ', 'vtprd')
+              ),
+              'buy_amt_count'  => array (
+                'required_or_optional'             => '', 
+                'allowed_values'                   => '',
+                'template_profile_error_msg'       =>  __('"Buy pool amount" - no values allowed for this setup type ', 'vtprd')
+              ),              
+              'buy_amt_applies_to'  => array (
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => array('each'),
+                'template_profile_error_msg'       =>  __('"Buy pool amount applies to" - only "Each buy pool product" is allowed for this setup type ', 'vtprd')
+              ),              
+              'buy_amt_mod'  => array (
+                'required_or_optional'             => 'optional',  
+                'allowed_values'                   => array('none'),
+                'template_profile_error_msg'       =>  __('"Buy group min / max" - only "No Discount Group Amount Min / Max " is allowed for this setup type ', 'vtprd')
+              ),                   
+              'buy_amt_mod_count'  => array (
+                'required_or_optional'             => '', 
+                'allowed_values'                   => '',
+                'template_profile_error_msg'       =>  __('"Buy group min / max amount" - no values allowed for this setup type ', 'vtprd')
+              ),
+              'action_repeat_condition'  => array (
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   =>  array('none'),
+                'template_profile_error_msg'       =>  __('"Get repeat condition" - only "Apply the Get Pool Once (No Repeats)" is allowed for this setup type ', 'vtprd')
+              ), 
+              'action_repeat_count'  => array (
+                'required_or_optional'             => '', 
+                'allowed_values'                   => '',
+                'template_profile_error_msg'       =>  __('"Get repeat amount" - no values allowed for this setup type ', 'vtprd')
+              ),
+              'action_amt_type'  => array (
+                'required_or_optional'             => 'optional',  
+                'allowed_values'                   => array('none'),
+                'template_profile_error_msg'       =>  __('"Get group amount" - only "Discount Each Unit" is allowed for this setup type ', 'vtprd')
+              ),
+              'action_amt_count'  => array (
+                'required_or_optional'             => '', 
+                'allowed_values'                   => '',
+                'template_profile_error_msg'       =>  __('"Get pool amount" - no values allowed for this setup type ', 'vtprd')
+              ),
+              'action_amt_applies_to'  => array (
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => array('all'),
+                'template_profile_error_msg'       =>  __('"Get pool amount applies to" - only "All action pool products" is allowed for this setup type ', 'vtprd')
+              ),
+              'action_amt_mod'  => array (
+                'required_or_optional'             => 'optional',  
+                'allowed_values'                   => array('none'),
+                'template_profile_error_msg'       =>  __('"Get group min/mx - only "No Discount Group Amount Min / Max " is allowed for this setup type ', 'vtprd')
+              ),     
+              'action_amt_mod_count'  => array (
+                'required_or_optional'             => '', 
+                'allowed_values'                   => '',
+                'template_profile_error_msg'       =>  __('"Get pool amount amount" - no values allowed for this setup type ', 'vtprd')
+              ),
+              // placeholder end
+              //**********************
+              
+              'discount_applies_to'  => array (
+                'required_or_optional'             => 'required', 
+                'allowed_values'                   => array('each', 'all'),
+                'template_profile_error_msg'       =>  __('"Discount applies to" - "each product" or "all products" only allowed for this setup type ', 'vtprd')
+              ),              
+            //  'discount_applies_to_nth_count'      => '',
+              'discount_rule_max_amt_type'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'required', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       => ''
+              ),
+              'discount_rule_max_amt_count'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       =>  ''
+              ),
+              'discount_lifetime_max_amt_type'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       =>  ''
+              ),
+              'discount_lifetime_max_amt_count'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       =>  ''
+              ),
+              'discount_rule_cum_max_amt_type'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       =>  ''
+              ),
+              'discount_rule_cum_max_amt_count'  => array (              //only used in 1st iteration
+                'required_or_optional'             => 'optional', 
+                'allowed_values'                   => 'all',
+                'template_profile_error_msg'       =>  ''
+              ),
+              //not in Deal Line, used in general processing... 
+              'discountAppliesWhere'        		   => 'inCurrentInPopOnly', //'allActionPop', 
+              'inPopAllowed'                       => 'any',   // wholeStore / groups / vargroup / single   OR  any
+              'actionPopAllowed'                   => 'sameAsInPop', //sameAsInPop / wholeStore / groups / vargroup / single   OR  any   
+              'cumulativeRulePricingAllowed'       => 'yes',
+              'cumulativeSalePricingAllowed'       => 'yes',
+              'replaceSalePricingAllowed'          => 'yes',
+              'cumulativeCouponPricingAllowed'     => 'yes'       
+         ),
+
+         //v1.1..8.0 end
+
         
         //'C-discount-inCart' - Cart => buy x/$x get discount on y in same group 
         //      Buy 5/$500, get a discount for Some/All 5  
@@ -1604,22 +1775,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',              
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                  /*array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ), */                 
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -1820,22 +1975,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',                 
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                 /* array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ), */                 
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -2035,22 +2174,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',                 
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                  /*array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ), */                 
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -2250,22 +2373,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                /*  array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ),  */                
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -2465,22 +2572,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                 /* array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ),*/                  
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -2680,22 +2771,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                /*  array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ),  */                
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -2895,22 +2970,6 @@ class VTPRD_Rules_UI_Framework {
                 'allowed_values'                   => 'all',
                 'template_profile_error_msg'       => '',
                 'cross_field_edits'                =>  array (    //only there where needed!     "Discount a Single Product Only"           
-                /*  array ( 
-                    'cross_field_name'            => 'buy_amt_type',
-                    'cross_field_insertBefore'    => '#buy_amt_type',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('none', 'one', 'quantity'),
-                    'cross_error_msg'             => __('"Buy Group Amount" may not be: "Buy $$ Value" or "Nth Quantity" , When "Automatically Add Free Product to Cart" is Selected', 'vtprd')
-                  ),   */               
-                  array ( 
-                    'cross_field_name'            => 'popChoiceOut',
-                    'cross_field_insertBefore'    => '#action_group_box',
-                    'cross_required_or_optional'  => 'required', 
-                    'applies_to_this_field_values'  => array ('yes'),
-                    'cross_allowed_values'        => array ('single', 'vargroup', 'sameAsInPop'),   //additional edit added to check inpop for single/single var...
-                    'cross_error_msg'             => __('"Get (Discount) Group Filter" must be either a single product, or a single product variation, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Choose either "Discount a Single Product Only", or "Discount a Single Product with Variations" and select a *Single* Variation. ', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
-                  ),
                   array ( 
                     'cross_field_name'            => 'action_amt_type',
                     'cross_field_insertBefore'    => '#action_amt_box',
@@ -3507,7 +3566,7 @@ class VTPRD_Rules_UI_Framework {
             'matching_dropdown_label'       =>  '', // empty = no matching dropdown
             'matching_dropdown_label_id'    =>  '', // empty = no matching dropdown
             'insert_error_before_selector'  =>  '#discount_amt_box',
-            'field_label'                   =>  __('Discount Amount Type', 'vtprd'),
+            'field_label'                   =>  __('Discount Type', 'vtprd'), //Discount Amount Type v2.0.0
             'allowed_values'                =>  '',
             'template_profile_error_msg'    =>  '',
             'cross_field_edits'             =>  array()
@@ -3642,7 +3701,202 @@ class VTPRD_Rules_UI_Framework {
             'template_profile_error_msg'    =>  '',
             'cross_field_edits'             =>  array()
           ),
-    ); //end vtprd_deal_edits_framework                                                 
+    ); //end vtprd_deal_edits_framework  
+    
+    
+    /**********************
+    v2.0.0 NEW Framework
+    **********************    
+    Edit group filter Product arrays, bot $buy_group and $action_group
+    */  
+    $vtprd_edit_arrays_framework = array (
+    
+      'buy_group_framework'  => array ( 		  
+         'buy_group_prod_cat_incl_array'            => array(),
+         'buy_group_prod_cat_excl_array'            => array(), 
+         'buy_group_plugin_cat_incl_array'          => array(),
+         'buy_group_plugin_cat_excl_array'          => array(), 
+         'buy_group_product_incl_array'             => array(),
+         'buy_group_product_excl_array'             => array(),		 
+         'buy_group_var_name_incl_array'            => array(), 
+         'buy_group_var_name_excl_array'            => array(),
+         'buy_group_brands_incl_array'              => array(), //woo brands plugin / other brands plugins by filter
+         'buy_group_brands_excl_array'              => array(), //woo brands plugin / other brands plugins by filter 
+         'buy_group_subscriptions_incl_array'       => array(), //woo subscriptions plugin (not active)
+         'buy_group_subscriptions_excl_array'       => array(), //woo subscriptions plugin (not active)                              
+         //Roles / Customers / Groups / Brands / Other
+         'buy_group_customer_and_or'                => 'or', //'and' = 1 of the customer identifiers is required, 'or' = optional
+         'buy_group_role_incl_array'                => array(),
+         'buy_group_role_excl_array'                => array(),  
+         'buy_group_email_incl_array'               => array(), 
+         'buy_group_email_excl_array'               => array(), 
+         'buy_group_groups_incl_array'              => array(), //groups plugin / woo groups plugin
+         'buy_group_groups_excl_array'              => array(), //groups plugin / woo groups plugin
+         'buy_group_memberships_incl_array'         => array(), //official Woo membership plugin
+         'buy_group_memberships_excl_array'         => array(), //official Woo membership plugin
+         
+         //OR = 'can trigger discount' AND = 'must be present for discount' EACH = 'all listed must be present for discount'
+         'buy_group_show_and_or_switches'           => 'no',
+         'buy_group_prod_cat_and_or'                => 'or',
+         'buy_group_plugin_cat_and_or'              => 'or',
+         'buy_group_product_and_or'                 => 'or',
+         'buy_group_var_name_and_or'                => 'or',
+         'buy_group_brands_and_or'                  => 'or',
+         'buy_group_subscriptions_and_or'           => 'or',  
+         'buy_group_and_switch_count'               => 0,
+         //if inpop='groups' selected and only excludes chosen, show here        
+         'buy_group_set_to_exclude_only'            => false      
+       ),
+
+      'action_group_framework'  => array (             
+         'action_group_prod_cat_incl_array'         => array(),
+         'action_group_prod_cat_excl_array'         => array(), 
+         'action_group_plugin_cat_incl_array'       => array(),
+         'action_group_plugin_cat_excl_array'       => array(), 
+         'action_group_product_incl_array'          => array(),
+         'action_group_product_excl_array'          => array(),		 
+         'action_group_var_name_incl_array'         => array(), 
+         'action_group_var_name_excl_array'         => array(),
+         'action_group_brands_incl_array'           => array(), //woo brands plugin / other brands plugins by filter
+         'action_group_brands_excl_array'           => array(), //woo brands plugin / other brands plugins by filter 
+         'action_group_subscriptions_incl_array'    => array(), //woo subscriptions plugin (not active)
+         'action_group_subscriptions_excl_array'    => array(), //woo subscriptions plugin (not active)   
+         
+         //OR = 'can trigger discount' AND = 'must be present for discount' EACH = 'all listed must be present for discount'
+         'action_group_show_and_or_switches'        => 'no',
+         'action_group_prod_cat_and_or'             => 'or',
+         'action_group_plugin_cat_and_or'           => 'or',
+         'action_group_product_and_or'              => 'or',
+         'action_group_var_name_and_or'             => 'or',
+         'action_group_brands_and_or'               => 'or',
+         'action_group_subscriptions_and_or'        => 'or',  
+         'action_group_and_switch_count'            => 0,
+         
+         'action_group_set_to_exclude_only'         => false           
+       ),
+
+	   'buy_group_array_duplicate_edits'  => array ( 
+			  array (
+					'compareA'               		=>  'buy_group_prod_cat_incl_array' ,
+					'compareB'          			  =>  'buy_group_prod_cat_excl_array',
+					'error_fields' 	                =>  array('.buy-prod-category-incl-label', '.buy-prod-category-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-prod-cat-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Product Category - same category used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ), 
+			  array (
+					'compareA'               		=>  'buy_group_plugin_cat_incl_array' ,
+					'compareB'          			  =>  'buy_group_plugin_cat_excl_array',
+					'error_fields' 	                =>  array('.buy-plugin-category-incl-label', '.buy-plugin-category-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-plugin-cat-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Plugin Category - same category used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  array (
+					'compareA'               		=>  'buy_group_product_incl_array' ,
+					'compareB'          			  =>  'buy_group_product_excl_array',
+					'error_fields' 	                =>  array('.buy-product-incl-label', '.buy-product-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-product-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Product - same product or variation used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+        /*
+        array ( 
+					'compareA'               		=>  'buy_group_var_name_incl_array' ,
+					'compareB'          			  =>  'buy_group_var_name_excl_array',
+					'error_fields' 	                =>  array('.buy-var-name-incl-label', '.buy-var-name-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-var_name-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Variation Name  - same variation name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+          */
+			  array (
+					'compareA'               		=>  'buy_group_brands_incl_array' ,
+					'compareB'          			  =>  'buy_group_brands_excl_array',
+					'error_fields' 	                =>  array('.buy-brands-incl-label', '.buy-brands-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-brands-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group "brands"  - same brand name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),          
+			  array (
+					'compareA'               		=>  'buy_group_role_incl_array' ,
+					'compareB'          			  =>  'buy_group_role_excl_array',
+					'error_fields' 	                =>  array('.buy-role-incl-label', '.buy-role-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-role-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Role - same role used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  array (
+					'compareA'               		=>  'buy_group_email_incl_array' ,
+					'compareB'          			  =>  'buy_group_email_excl_array',
+					'error_fields' 	                =>  array('.buy-email-incl-label', '.buy-email-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-email-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group Email  - same email address used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  array (
+					'compareA'               		=>  'buy_group_groups_incl_array' ,
+					'compareB'          			  =>  'buy_group_groups_excl_array',
+					'error_fields' 	                =>  array('.buy-groups-incl-label', '.buy-groups-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-groups-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group "Groups" - same group name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  array (
+					'compareA'               		=>  'buy_group_memberships_incl_array' ,
+					'compareB'          			  =>  'buy_group_memberships_excl_array',
+					'error_fields' 	                =>  array('.buy-members-incl-label', '.buy-members-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-group-memberships-incl-excl-group',
+					'error_msg'    				      =>  'Buy Group "Membership" - same group name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  )          
+          /*,
+			  array (
+					'compareA'               		=>  'buy_group_other_incl_array' ,
+					'compareB'          			  =>  'buy_group_other_excl_array',
+					'error_fields' 	                =>  array('.buy-other-incl-label', '.buy-other-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.buy-other-incl-label',
+					'error_msg'    				      =>  'Buy Group "other"  - same "other" name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  )*/          	          				  
+		  ),
+	   	   
+	   'action_group_array_duplicate_edits'  => array ( 
+			  array (
+					'compareA'               		=>  'action_group_prod_cat_incl_array' ,
+					'compareB'          			  =>  'action_group_prod_cat_excl_array',
+					'error_fields' 	                =>  array('.action-prod-category-incl-label', '.action-prod-category-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.action-group-prod-cat-incl-excl-group',
+					'error_msg'    				      =>  'Action Group Product Category - same category used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ), 
+			  array (
+					'compareA'               		=>  'action_group_plugin_cat_incl_array' ,
+					'compareB'          			  =>  'action_group_plugin_cat_excl_array',
+					'error_fields' 	                =>  array('.action-plugin-category-incl-label', '.action-plugin-category-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.action-group-plugin-cat-incl-excl-group',
+					'error_msg'    				      =>  'Action Group Plugin Category - same category used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  array (
+					'compareA'               		=>  'action_group_product_incl_array' ,
+					'compareB'          			  =>  'action_group_product_excl_array',
+					'error_fields' 	                =>  array('.action-product-incl-label', '.action-product-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.action-group-product-incl-excl-group',
+					'error_msg'    				      =>  'Action Group Product - same product or variation used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+			  /*
+        array (
+					'compareA'               		=>  'action_group_var_name_incl_array' ,
+					'compareB'          			  =>  'action_group_var_name_excl_array',
+					'error_fields' 	                =>  array('.action-var-name-incl-label', '.action-var-name-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.action-group-var-name-incl-excl-group',
+					'error_msg'    				      =>  'Action Group Variation Name - same variation name used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  ),
+          */
+			  array (
+					'compareA'               		=>  'action_group_brands_incl_array' ,
+					'compareB'          			  =>  'action_group_brands_excl_array',
+					'error_fields' 	                =>  array('.action-brands-incl-label', '.action-brands-excl-label', '#vtab-products-to-discount'),
+					'insert_error_before_selector'  =>  '.action-group-brands-incl-excl-group',
+					'error_msg'    				      =>  'Action Group "brands" - same brand used in both Include and Exclude selection.  <br><br>Please supply either Include *or* Exclude.'
+				  )
+	   	)
+
+
+    ); //vtprd_edit_arrays_framework
+  
+    
+    
+                                                   
     /*
     occurrence of rule deal info
     *********************************************************************
@@ -3697,13 +3951,7 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                  array (          //needs to default to NONE
-                    'id'       => 'buy_repeat_condition_heading',
-                    'class'    => 'buy_repeat_condition_options',
-                    'value'    => '0',
-                    'title'    => __(' - Rule Usage Count Type - ', 'vtprd')    
-                   ),   
+              'option'  => array(  
                   array (
                     'id'       => 'buy_repeat_condition_none',
                     'class'    => 'buy_repeat_condition_none',
@@ -3771,13 +4019,7 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                  array (
-                    'id'       => 'buy_amt_type_heading',
-                    'class'    => 'buy_amt_type_options',
-                    'value'    => '0',
-                    'title'    => __(' - Group Amount Type - ', 'vtprd')     //if count is selected, buy_repeat_count is unprotected => otherwise reverts to protected
-                   ),  
+              'option'  => array(  
                    array (
                     'id'       => 'buy_amt_type_none',
                     'class'    => 'buy_amt_type_none',
@@ -3842,13 +4084,7 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                  array (
-                    'id'       => 'buy_amt_applies_to_heading',
-                    'class'    => 'buy_amt_applies_to_options',
-                    'value'    => '0',
-                    'title'    => __(' - Applies to Type - ', 'vtprd')     //if count is selected, buy_repeat_count is unprotected => otherwise reverts to protected
-                   ),  
+              'option'  => array( 
                    array (
                     'id'       => 'buy_amt_applies_to_all',
                     'class'    => 'buy_amt_applies_to_all',
@@ -3883,12 +4119,6 @@ class VTPRD_Rules_UI_Framework {
                 ),
               //dropdown options
               'option'  => array(
-                  array (
-                    'id'       => 'buy_amt_mod_heading',
-                    'class'    => 'buy_amt_mod_options',
-                    'value'    => '0',
-                    'title'    => __(' - Min / Max Type - ', 'vtprd')            //if none, buy_amt_mod_amt and buy_amt_mod_amt_type protected and greyed out 
-                   ),
                   array (
                     'id'       => 'buy_amt_mod_none',
                     'class'    => 'buy_amt_mod_none',
@@ -3964,13 +4194,7 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                  array (
-                    'id'       => 'action_repeat_condition_heading',
-                    'class'    => 'action_repeat_condition_options',
-                    'value'    => '0',
-                    'title'    => __(' - Group Repeat Type - ', 'vtprd')  
-                   ), 
+              'option'  => array( 
                   array (
                     'id'       => 'action_repeat_condition_none',
                     'class'    => 'action_repeat_condition_none',
@@ -4041,12 +4265,6 @@ class VTPRD_Rules_UI_Framework {
               //****************************************************************
               'option'  => array(                  
                    array (
-                    'id'       => 'action_amt_type_heading',
-                    'class'    => 'action_amt_type_Options',
-                    'value'    => '0',
-                    'title'    => __(' - Discount Amount Type - ', 'vtprd')    
-                   ),
-                   array (
                     'id'       => 'action_amt_type_none',
                     'class'    => 'action_amt_type_none',
                     'value'    => 'none',
@@ -4114,13 +4332,7 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                  array (
-                    'id'       => 'action_amt_applies_to_heading',
-                    'class'    => 'action_amt_applies_to_options',
-                    'value'    => '0',
-                    'title'    => __(' - Applies to Type - ', 'vtprd')     //if count is selected, action_repeat_count is unprotected => otherwise reverts to protected
-                   ),  
+              'option'  => array( 
                    array (
                     'id'       => 'action_amt_applies_to_all',
                     'class'    => 'action_amt_applies_to_all',
@@ -4148,12 +4360,6 @@ class VTPRD_Rules_UI_Framework {
                 ),
               //dropdown options
               'option'  => array(
-                  array (
-                    'id'       => 'action_amt_mod_heading',
-                    'class'    => 'action_amt_mod_options',
-                    'value'    => '0',
-                    'title'    => __(' - Min / Max Type - ', 'vtprd')            //if none, action_amt_mod_amt and action_amt_mod_amt_type protected and greyed out
-                   ),
                   array (
                     'id'       => 'action_amt_mod_none',
                     'class'    => 'action_amt_mod_none',
@@ -4221,10 +4427,10 @@ class VTPRD_Rules_UI_Framework {
               //dropdown options
               'option'  => array(
                    array (
-                    'id'       => 'discount_amt_type_heading',
+                    'id'       => 'discount_amt_type_heading', //KEEP THIS HEADING
                     'class'    => 'discount_amt_type_heading',
                     'value'    => '0',
-                    'title'    => __(' - Discount Amount Type - ', 'vtprd')   
+                    'title'    => __(' - Discount Type ? - ', 'vtprd') //v2.0.0   was discount amount type
                    ),
                    array (   //WHEN amount is a PERCENT, divide by 100 before using!
                     'id'       => 'discount_amt_type_percent',
@@ -4318,24 +4524,19 @@ class VTPRD_Rules_UI_Framework {
                     'tabindex'  => ''
                 ),
               //dropdown options
-              'option'  => array(
-                   array (
-                    'id'       => 'discount_applies_to_heading',
-                    'class'    => 'discount_applies_to_heading',
-                    'value'    => '0',
-                    'title'    => __(' - Applies to Type -', 'vtprd')    
-                   ), 
+              'option'  => array( 
                    array (
                     'id'       => 'discount_applies_to_each',
                     'class'    => 'discount_applies_to_each',
                     'value'    => 'each',
-                    'title'    => __('Each Product', 'vtprd')  .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('(each product unit singly)', 'vtprd')  . '&nbsp;&nbsp;' 
+                    'title'    => __('Each Product', 'vtprd')  .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('- Discount each product ', 'vtprd')  . '&nbsp;&nbsp;' //v1.1.8.0 wording changed
+                    //'title'    => __('Each Product', 'vtprd')  .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('- Discount each product &nbsp;&nbsp; [ ex: "$5 off of each Product" ]', 'vtprd')  . '&nbsp;&nbsp;' //v1.1.8.0 wording changed
                    ),                                                                          
                   array (               
                     'id'       => 'discount_applies_to_all',
                     'class'    => 'discount_applies_to_all',
                     'value'    => 'all',
-                    'title'    => __('All Products', 'vtprd')   .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.  __('(all products as a group)', 'vtprd') 
+                    'title'    => __('ALL Products', 'vtprd')   .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.  __('- Discount across whole group &nbsp;&nbsp; [ ex: "$5 off of Cart" ] ', 'vtprd')  //v1.1.8.0 wording changed
                    ),
                   array (
                     'id'       => 'discount_applies_to_cheapest',
@@ -4383,12 +4584,6 @@ class VTPRD_Rules_UI_Framework {
               //dropdown options
               'option'  => array(
                    array (
-                    'id'       => 'discount_pop_group_heading',
-                    'class'    => 'discount_pop_group_options',
-                    'value'    => '0',
-                    'title'    => __(' - Discount Applies to which Group... - ', 'vtprd')
-                   ),
-                   array (
                     'id'       => 'discount_pop_group_any',
                     'class'    => 'discount_pop_group_options',
                     'value'    => 'any',
@@ -4425,12 +4620,6 @@ class VTPRD_Rules_UI_Framework {
                     ),
                   //dropdown options
                   'option'  => array(
-                       array (
-                        'id'       => 'discount_rule_max_amt_type_heading',
-                        'class'    => 'discount_rule_max_amt_type_options',
-                        'value'    => '0',
-                        'title'    => __(' - Cart Limit Type - ', 'vtprd')    
-                       ),
                        array (
                         'id'       => 'discount_rule_max_amt_type_none',
                         'class'    => 'discount_rule_max_amt_type_none',
@@ -4480,12 +4669,6 @@ class VTPRD_Rules_UI_Framework {
                   //dropdown options
                   'option'  => array(
                        array (
-                        'id'       => 'discount_lifetime_max_amt_type_heading',
-                        'class'    => 'discount_lifetime_max_amt_type_options',
-                        'value'    => '0',
-                        'title'    => __(' - Customer Lifetime Limit Type - ', 'vtprd')  
-                       ),
-                       array (
                         'id'       => 'discount_lifetime_max_amt_type_none',
                         'class'    => 'discount_lifetime_max_amt_type_none',
                         'value'    => 'none',
@@ -4526,12 +4709,6 @@ class VTPRD_Rules_UI_Framework {
                     ),
                   //dropdown options
                   'option'  => array(
-                       array (
-                        'id'       => 'discount_rule_cum_max_amt_type_heading',
-                        'class'    => 'discount_rule_cum_max_amt_type_options',
-                        'value'    => '0',
-                        'title'    => __(' - Product Limit Type - ', 'vtprd')    
-                       ),
                        array (
                         'id'       => 'discount_rule_cum_max_amt_type_none',
                         'class'    => 'discount_rule_cum_max_amt_type_none',

@@ -9,6 +9,22 @@
 
 require_once dirname( __FILE__ ) . '/sitemap-constants.php';
 require_once dirname( __FILE__ ) . '/sitemap-buffer.php';
+
+if ( ! class_exists( 'DOMDocument' ) ) {
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-fallback.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-image-fallback.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-master-fallback.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-news-fallback.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-page-fallback.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-video-fallback.php';
+} else {
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-image.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-master.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-news.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-page.php';
+	require_once dirname( __FILE__ ) . '/sitemap-buffer-video.php';
+}
+
 require_once dirname( __FILE__ ) . '/sitemap-librarian.php';
 require_once dirname( __FILE__ ) . '/sitemap-finder.php';
 require_once dirname( __FILE__ ) . '/sitemap-state.php';
@@ -87,8 +103,6 @@ class Jetpack_Sitemap_Builder {
 				array( 'post', 'page' )
 			)
 		);
-
-		return;
 	}
 
 	/**
@@ -101,10 +115,24 @@ class Jetpack_Sitemap_Builder {
 	public function update_sitemap() {
 		if ( $this->logger ) {
 			$this->logger->report( '-- Updating...' );
+			if ( ! class_exists( 'DOMDocument' ) ) {
+				$this->logger->report(
+					__(
+						'-- WARNING: Jetpack can not load necessary XML manipulation libraries. '
+						. 'This can happen if XML support in PHP is not enabled on your server. '
+						. 'XML support is highly recommended for WordPress and Jetpack, please enable '
+						. 'it or contact your hosting provider about it.',
+						'jetpack'
+					),
+					true
+				);
+			}
 		}
 
 		for ( $i = 1; $i <= JP_SITEMAP_UPDATE_SIZE; $i++ ) {
-			$this->build_next_sitemap_file();
+			if ( true === $this->build_next_sitemap_file() ) {
+				break; // All finished!
+			}
 		}
 
 		if ( $this->logger ) {
@@ -120,14 +148,18 @@ class Jetpack_Sitemap_Builder {
 	 * constructs the next file, and updates the state.
 	 *
 	 * @since 4.8.0
+	 *
+	 * @return bool True when finished.
 	 */
 	private function build_next_sitemap_file() {
+		$finished = false; // Initialize finished flag.
+
 		// Get the most recent state, and lock the state.
 		$state = Jetpack_Sitemap_State::check_out();
 
 		// Do nothing if the state was locked.
 		if ( false === $state ) {
-			return;
+			return false;
 		}
 
 		// Otherwise, branch on the sitemap-type key of $state.
@@ -192,21 +224,23 @@ class Jetpack_Sitemap_Builder {
 					$this->logger->report( '-- Finished.' );
 					$this->logger->time();
 				}
+				$finished = true;
 
-				die();
+				break;
 
 			default:
-				// Otherwise, reset the state.
 				Jetpack_Sitemap_State::reset(
 					JP_PAGE_SITEMAP_TYPE
 				);
-				die();
-		}
+				$finished = true;
+
+				break;
+		} // End switch().
 
 		// Unlock the state.
 		Jetpack_Sitemap_State::unlock();
 
-		return;
+		return $finished;
 	}
 
 	/**
@@ -280,8 +314,6 @@ class Jetpack_Sitemap_Builder {
 		$this->librarian->delete_numbered_sitemap_rows_after(
 			$state['number'] + 1, $sitemap_type
 		);
-
-		return;
 	}
 
 	/**
@@ -387,29 +419,13 @@ class Jetpack_Sitemap_Builder {
 	 * @since 4.8.0
 	 */
 	private function build_master_sitemap( $max ) {
-		$sitemap_index_xsl_url = $this->finder->construct_sitemap_url( 'sitemap-index.xsl' );
-		$jetpack_version = JETPACK__VERSION;
-
 		if ( $this->logger ) {
 			$this->logger->report( '-- Building Master Sitemap.' );
 		}
 
-		$buffer = new Jetpack_Sitemap_Buffer(
+		$buffer = new Jetpack_Sitemap_Buffer_Master(
 			JP_SITEMAP_MAX_ITEMS,
-			JP_SITEMAP_MAX_BYTES,
-			<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$sitemap_index_xsl_url}'?>
-<sitemapindex xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-HEADER
-			,
-			<<<FOOTER
-</sitemapindex>\n
-FOOTER
-			,
-			/* epoch */
-			'1970-01-01 00:00:00'
+			JP_SITEMAP_MAX_BYTES
 		);
 
 		if ( 0 < $max[ JP_PAGE_SITEMAP_TYPE ]['number'] ) {
@@ -424,14 +440,14 @@ FOOTER
 				$page['last_modified'] = jp_sitemap_datetime( $max[ JP_PAGE_SITEMAP_INDEX_TYPE ]['lastmod'] );
 			}
 
-			$buffer->try_to_add_item( Jetpack_Sitemap_Buffer::array_to_xml_string(
+			$buffer->append(
 				array(
 					'sitemap' => array(
 						'loc'     => $this->finder->construct_sitemap_url( $page['filename'] ),
 						'lastmod' => $page['last_modified'],
 					),
 				)
-			) );
+			);
 		}
 
 		if ( 0 < $max[ JP_IMAGE_SITEMAP_TYPE ]['number'] ) {
@@ -446,14 +462,14 @@ FOOTER
 				$image['last_modified'] = jp_sitemap_datetime( $max[ JP_IMAGE_SITEMAP_INDEX_TYPE ]['lastmod'] );
 			}
 
-			$buffer->try_to_add_item( Jetpack_Sitemap_Buffer::array_to_xml_string(
+			$buffer->append(
 				array(
 					'sitemap' => array(
 						'loc'     => $this->finder->construct_sitemap_url( $image['filename'] ),
 						'lastmod' => $image['last_modified'],
 					),
 				)
-			) );
+			);
 		}
 
 		if ( 0 < $max[ JP_VIDEO_SITEMAP_TYPE ]['number'] ) {
@@ -468,14 +484,14 @@ FOOTER
 				$video['last_modified'] = $max[ JP_VIDEO_SITEMAP_INDEX_TYPE ]['lastmod'];
 			}
 
-			$buffer->try_to_add_item( Jetpack_Sitemap_Buffer::array_to_xml_string(
+			$buffer->append(
 				array(
 					'sitemap' => array(
 						'loc'     => $this->finder->construct_sitemap_url( $video['filename'] ),
 						'lastmod' => $video['last_modified'],
 					),
 				)
-			) );
+			);
 		}
 
 		$this->librarian->store_sitemap_data(
@@ -484,8 +500,6 @@ FOOTER
 			$buffer->contents(),
 			''
 		);
-
-		return;
 	}
 
 	/**
@@ -506,7 +520,7 @@ FOOTER
 	 * }
 	 */
 	public function build_one_page_sitemap( $number, $from_id ) {
-		$last_post_id = $from_id;
+		$last_post_id   = $from_id;
 		$any_posts_left = true;
 
 		if ( $this->logger ) {
@@ -514,46 +528,9 @@ FOOTER
 			$this->logger->report( "-- Building $debug_name" );
 		}
 
-		$sitemap_xsl_url = $this->finder->construct_sitemap_url( 'sitemap.xsl' );
-
-		$jetpack_version = JETPACK__VERSION;
-
-		$namespaces = Jetpack_Sitemap_Buffer::array_to_xml_attr_string(
-			/**
-			 * Filter the attribute value pairs used for namespace and namespace URI mappings.
-			 *
-			 * @module sitemaps
-			 *
-			 * @since 3.9.0
-			 *
-			 * @param array $namespaces Associative array with namespaces and namespace URIs.
-			 */
-			apply_filters(
-				'jetpack_sitemap_ns',
-				array(
-					'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-					'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
-					'xmlns'              => 'http://www.sitemaps.org/schemas/sitemap/0.9',
-				)
-			)
-		);
-
-		$buffer = new Jetpack_Sitemap_Buffer(
+		$buffer = new Jetpack_Sitemap_Buffer_Page(
 			JP_SITEMAP_MAX_ITEMS,
-			JP_SITEMAP_MAX_BYTES,
-			<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$sitemap_xsl_url}'?>
-<urlset{$namespaces}>\n
-HEADER
-			,
-			<<<FOOTER
-</urlset>\n
-FOOTER
-			,
-			/* epoch */
-			'1970-01-01 00:00:00'
+			JP_SITEMAP_MAX_BYTES
 		);
 
 		// Add entry for the main page (only if we're at the first one).
@@ -576,11 +553,11 @@ FOOTER
 			 */
 			$item_array = apply_filters( 'jetpack_sitemap_url_home', $item_array );
 
-			$buffer->try_to_add_item( Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ) );
+			$buffer->append( $item_array );
 		}
 
 		// Add as many items to the buffer as possible.
-		while ( false === $buffer->is_full() ) {
+		while ( $last_post_id >= 0 && false === $buffer->is_full() ) {
 			$posts = $this->librarian->query_posts_after_id(
 				$last_post_id, JP_SITEMAP_BATCH_SIZE
 			);
@@ -593,11 +570,65 @@ FOOTER
 			foreach ( $posts as $post ) {
 				$current_item = $this->post_to_sitemap_item( $post );
 
-				if ( true === $buffer->try_to_add_item( $current_item['xml'] ) ) {
+				if ( true === $buffer->append( $current_item['xml'] ) ) {
 					$last_post_id = $post->ID;
 					$buffer->view_time( $current_item['last_modified'] );
 				} else {
 					break;
+				}
+			}
+		}
+
+		// Handle other page sitemap URLs.
+		if ( false === $any_posts_left || $last_post_id < 0 ) {
+			// Negative IDs are used to track URL indexes.
+			$last_post_id   = min( 0, $last_post_id );
+			$any_posts_left = true; // Reinitialize.
+
+			/**
+			 * Filter other page sitemap URLs.
+			 *
+			 * @module sitemaps
+			 *
+			 * @since 6.1.0
+			 *
+			 * @param array $urls An array of other URLs.
+			 */
+			$other_urls = apply_filters( 'jetpack_page_sitemap_other_urls', array() );
+
+			if ( $other_urls ) { // Start with index [1].
+				$other_urls = array_values( $other_urls );
+				array_unshift( $other_urls, $other_urls[0] );
+				unset( $other_urls[0] );
+			}
+
+			// Add as many items to the buffer as possible.
+			while ( false === $buffer->is_full() ) {
+				$last_post_id_index       = abs( $last_post_id );
+				$start_from_post_id_index = $last_post_id_index ? $last_post_id_index + 1 : 0;
+				$urls                     = array_slice(
+					$other_urls,
+					$start_from_post_id_index,
+					JP_SITEMAP_BATCH_SIZE,
+					true
+				);
+
+				if ( ! $urls ) {
+					$any_posts_left = false;
+					break;
+				}
+
+				foreach ( $urls as $index => $url ) {
+					if ( ! is_array( $url ) ) {
+						$url = array( 'loc' => $url );
+					}
+					$item = array( 'xml' => compact( 'url' ) );
+
+					if ( true === $buffer->append( $item['xml'] ) ) {
+						$last_post_id = -$index;
+					} else {
+						break;
+					}
 				}
 			}
 		}
@@ -613,13 +644,14 @@ FOOTER
 		 * @module sitemaps
 		 *
 		 * @since 3.9.0
+		 * @since 5.3.0 returns an element of DOMDocument type instead of SimpleXMLElement
 		 *
-		 * @param SimpleXMLElement $tree Data tree for sitemap.
+		 * @param DOMDocument      $doc Data tree for sitemap.
 		 * @param string           $last_modified Date of last modification.
 		 */
 		$tree = apply_filters(
 			'jetpack_print_sitemap',
-			simplexml_load_string( $buffer->contents() ),
+			$buffer->get_document(),
 			$buffer->last_modified()
 		);
 
@@ -627,7 +659,7 @@ FOOTER
 		$this->librarian->store_sitemap_data(
 			$number,
 			JP_PAGE_SITEMAP_TYPE,
-			$tree->asXML(),
+			$buffer->contents(),
 			$buffer->last_modified()
 		);
 
@@ -668,47 +700,9 @@ FOOTER
 			$this->logger->report( "-- Building $debug_name" );
 		}
 
-		$image_sitemap_xsl_url = $this->finder->construct_sitemap_url( 'image-sitemap.xsl' );
-
-		$jetpack_version = JETPACK__VERSION;
-
-		$namespaces = Jetpack_Sitemap_Buffer::array_to_xml_attr_string(
-			/**
-			 * Filter the XML namespaces included in image sitemaps.
-			 *
-			 * @module sitemaps
-			 *
-			 * @since 4.8.0
-			 *
-			 * @param array $namespaces Associative array with namespaces and namespace URIs.
-			 */
-			apply_filters(
-				'jetpack_sitemap_image_ns',
-				array(
-					'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-					'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
-					'xmlns'              => 'http://www.sitemaps.org/schemas/sitemap/0.9',
-					'xmlns:image'        => 'http://www.google.com/schemas/sitemap-image/1.1',
-				)
-			)
-		);
-
-		$buffer = new Jetpack_Sitemap_Buffer(
+		$buffer = new Jetpack_Sitemap_Buffer_Image(
 			JP_SITEMAP_MAX_ITEMS,
-			JP_SITEMAP_MAX_BYTES,
-			<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$image_sitemap_xsl_url}'?>
-<urlset{$namespaces}>\n
-HEADER
-			,
-			<<<FOOTER
-</urlset>\n
-FOOTER
-			,
-			/* epoch */
-			'1970-01-01 00:00:00'
+			JP_SITEMAP_MAX_BYTES
 		);
 
 		// Add as many items to the buffer as possible.
@@ -725,7 +719,7 @@ FOOTER
 			foreach ( $posts as $post ) {
 				$current_item = $this->image_post_to_sitemap_item( $post );
 
-				if ( true === $buffer->try_to_add_item( $current_item['xml'] ) ) {
+				if ( true === $buffer->append( $current_item['xml'] ) ) {
 					$last_post_id = $post->ID;
 					$buffer->view_time( $current_item['last_modified'] );
 				} else {
@@ -784,47 +778,9 @@ FOOTER
 			$this->logger->report( "-- Building $debug_name" );
 		}
 
-		$video_sitemap_xsl_url = $this->finder->construct_sitemap_url( 'video-sitemap.xsl' );
-
-		$jetpack_version = JETPACK__VERSION;
-
-		$namespaces = Jetpack_Sitemap_Buffer::array_to_xml_attr_string(
-			/**
-			 * Filter the XML namespaces included in video sitemaps.
-			 *
-			 * @module sitemaps
-			 *
-			 * @since 4.8.0
-			 *
-			 * @param array $namespaces Associative array with namespaces and namespace URIs.
-			 */
-			apply_filters(
-				'jetpack_sitemap_video_ns',
-				array(
-					'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-					'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
-					'xmlns'              => 'http://www.sitemaps.org/schemas/sitemap/0.9',
-					'xmlns:video'        => 'http://www.google.com/schemas/sitemap-video/1.1',
-				)
-			)
-		);
-
-		$buffer = new Jetpack_Sitemap_Buffer(
+		$buffer = new Jetpack_Sitemap_Buffer_Video(
 			JP_SITEMAP_MAX_ITEMS,
-			JP_SITEMAP_MAX_BYTES,
-			<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$video_sitemap_xsl_url}'?>
-<urlset{$namespaces}>\n
-HEADER
-			,
-			<<<FOOTER
-</urlset>\n
-FOOTER
-			,
-			/* epoch */
-			'1970-01-01 00:00:00'
+			JP_SITEMAP_MAX_BYTES
 		);
 
 		// Add as many items to the buffer as possible.
@@ -841,7 +797,7 @@ FOOTER
 			foreach ( $posts as $post ) {
 				$current_item = $this->video_post_to_sitemap_item( $post );
 
-				if ( true === $buffer->try_to_add_item( $current_item['xml'] ) ) {
+				if ( true === $buffer->append( $current_item['xml'] ) ) {
 					$last_post_id = $post->ID;
 					$buffer->view_time( $current_item['last_modified'] );
 				} else {
@@ -908,25 +864,9 @@ FOOTER
 			$this->logger->report( "-- Building $index_debug_name" );
 		}
 
-		$sitemap_index_xsl_url = $this->finder->construct_sitemap_url( 'sitemap-index.xsl' );
-
-		$jetpack_version = JETPACK__VERSION;
-
-		$buffer = new Jetpack_Sitemap_Buffer(
+		$buffer = new Jetpack_Sitemap_Buffer_Master(
 			JP_SITEMAP_MAX_ITEMS,
 			JP_SITEMAP_MAX_BYTES,
-			<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$sitemap_index_xsl_url}'?>
-<sitemapindex xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n
-HEADER
-			,
-			<<<FOOTER
-</sitemapindex>\n
-FOOTER
-			,
-			/* initial last_modified value */
 			$datetime
 		);
 
@@ -944,7 +884,7 @@ FOOTER
 				),
 			);
 
-			$buffer->try_to_add_item( Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ) );
+			$buffer->append( $item_array );
 		}
 
 		// Add as many items to the buffer as possible.
@@ -966,7 +906,7 @@ FOOTER
 				$current_item = $this->sitemap_row_to_index_item( (array) $post );
 
 				// Try adding this item to the buffer.
-				if ( true === $buffer->try_to_add_item( $current_item['xml'] ) ) {
+				if ( true === $buffer->append( $current_item['xml'] ) ) {
 					$last_sitemap_id = $post['ID'];
 					$buffer->view_time( $current_item['last_modified'] );
 				} else {
@@ -1023,7 +963,7 @@ FOOTER
 		);
 
 		return array(
-			'xml'           => Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ),
+			'xml'           => $item_array,
 			'last_modified' => $row['post_date'],
 		);
 	}
@@ -1046,10 +986,6 @@ FOOTER
 				$this->logger->report( 'Beginning news sitemap generation.' );
 			}
 
-			$news_sitemap_xsl_url = $this->finder->construct_sitemap_url( 'news-sitemap.xsl' );
-
-			$jetpack_version = JETPACK__VERSION;
-
 			/**
 			 * Filter limit of entries to include in news sitemap.
 			 *
@@ -1064,43 +1000,9 @@ FOOTER
 				JP_NEWS_SITEMAP_MAX_ITEMS
 			);
 
-			$namespaces = Jetpack_Sitemap_Buffer::array_to_xml_attr_string(
-				/**
-				 * Filter the attribute value pairs used for namespace and namespace URI mappings.
-				 *
-				 * @module sitemaps
-				 *
-				 * @since 4.8.0
-				 *
-				 * @param array $namespaces Associative array with namespaces and namespace URIs.
-				 */
-				apply_filters(
-					'jetpack_sitemap_news_ns',
-					array(
-						'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-						'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
-						'xmlns'              => 'http://www.sitemaps.org/schemas/sitemap/0.9',
-						'xmlns:news'         => 'http://www.google.com/schemas/sitemap-news/0.9',
-					)
-				)
-			);
-
-			$buffer = new Jetpack_Sitemap_Buffer(
+			$buffer = new Jetpack_Sitemap_Buffer_News(
 				min( $item_limit, JP_NEWS_SITEMAP_MAX_ITEMS ),
-				JP_SITEMAP_MAX_BYTES,
-				<<<HEADER
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- generator='jetpack-{$jetpack_version}' -->
-<?xml-stylesheet type='text/xsl' href='{$news_sitemap_xsl_url}'?>
-<urlset{$namespaces}>\n
-HEADER
-				,
-				<<<FOOTER
-</urlset>\n
-FOOTER
-				,
-				/* epoch */
-				'1970-01-01 00:00:00'
+				JP_SITEMAP_MAX_BYTES
 			);
 
 			$posts = $this->librarian->query_most_recent_posts( JP_NEWS_SITEMAP_MAX_ITEMS );
@@ -1108,7 +1010,7 @@ FOOTER
 			foreach ( $posts as $post ) {
 				$current_item = $this->post_to_news_sitemap_item( $post );
 
-				if ( false === $buffer->try_to_add_item( $current_item['xml'] ) ) {
+				if ( false === $buffer->append( $current_item['xml'] ) ) {
 					break;
 				}
 			}
@@ -1124,7 +1026,7 @@ FOOTER
 				$the_stored_news_sitemap,
 				JP_NEWS_SITEMAP_INTERVAL
 			);
-		}
+		} // End if().
 
 		return $the_stored_news_sitemap;
 	}
@@ -1138,7 +1040,7 @@ FOOTER
 	 *
 	 * @param WP_Post $post The post to be processed.
 	 *
-	 * @return string An XML fragment representing the post URL.
+	 * @return array An array representing the post URL.
 	 */
 	private function post_to_sitemap_item( $post ) {
 
@@ -1159,7 +1061,7 @@ FOOTER
 			);
 		}
 
-		$url = get_permalink( $post );
+		$url = esc_url( get_permalink( $post ) );
 
 		/*
 		 * Spec requires the URL to be <=2048 bytes.
@@ -1200,7 +1102,7 @@ FOOTER
 		$item_array = apply_filters( 'jetpack_sitemap_url', $item_array, $post->ID );
 
 		return array(
-			'xml'           => Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ),
+			'xml'           => $item_array,
 			'last_modified' => $last_modified,
 		);
 	}
@@ -1253,15 +1155,8 @@ FOOTER
 			),
 		);
 
-		$title = esc_html( $post->post_title );
-		if ( '' !== $title ) {
-			$item_array['url']['image:image']['image:title'] = $title;
-		}
-
-		$caption = esc_html( $post->post_excerpt );
-		if ( '' !== $caption ) {
-			$item_array['url']['image:image']['image:caption'] = $caption;
-		}
+		$item_array['url']['image:image']['image:title'] = $post->post_title;
+		$item_array['url']['image:image']['image:caption'] = $post->post_excerpt;
 
 		/**
 		 * Filter associative array with data to build <url> node
@@ -1281,7 +1176,7 @@ FOOTER
 		);
 
 		return array(
-			'xml'           => Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ),
+			'xml'           => $item_array,
 			'last_modified' => $post->post_modified_gmt,
 		);
 	}
@@ -1318,20 +1213,29 @@ FOOTER
 			);
 		}
 
-		$parent_url = get_permalink( get_post( $post->post_parent ) );
+		$parent_url = esc_url( get_permalink( get_post( $post->post_parent ) ) );
 		if ( '' == $parent_url ) { // WPCS: loose comparison ok.
-			$parent_url = get_permalink( $post );
+			$parent_url = esc_url( get_permalink( $post ) );
 		}
+
+		// Prepare the content like get_the_content_feed().
+		$content = $post->post_content;
+		/** This filter is already documented in core/wp-includes/post-template.php */
+		$content = apply_filters( 'the_content', $content );
+
+		/** This filter is already documented in core/wp-includes/feed.php */
+		$content = apply_filters( 'the_content_feed', $content, 'rss2' );
 
 		$item_array = array(
 			'url' => array(
 				'loc'         => $parent_url,
 				'lastmod'     => jp_sitemap_datetime( $post->post_modified_gmt ),
 				'video:video' => array(
-					'video:title'         => esc_html( $post->post_title ),
+					/** This filter is already documented in core/wp-includes/feed.php */
+					'video:title'         => apply_filters( 'the_title_rss', $post->post_title ),
 					'video:thumbnail_loc' => '',
-					'video:description'   => esc_html( $post->post_content ),
-					'video:content_loc'   => wp_get_attachment_url( $post->ID ),
+					'video:description'   => $content,
+					'video:content_loc'   => esc_url( wp_get_attachment_url( $post->ID ) ),
 				),
 			),
 		);
@@ -1357,7 +1261,7 @@ FOOTER
 		);
 
 		return array(
-			'xml'           => Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ),
+			'xml'           => $item_array,
 			'last_modified' => $post->post_modified_gmt,
 		);
 	}
@@ -1421,10 +1325,11 @@ FOOTER
 				'lastmod' => jp_sitemap_datetime( $post->post_modified_gmt ),
 				'news:news' => array(
 					'news:publication' => array(
-						'news:name'     => esc_html( get_bloginfo( 'name' ) ),
+						'news:name'     => get_bloginfo( 'name' ),
 						'news:language' => $language,
 					),
-					'news:title'            => esc_html( $post->post_title ),
+					/** This filter is already documented in core/wp-includes/feed.php */
+					'news:title'            => apply_filters( 'the_title_rss', $post->post_title ),
 					'news:publication_date' => jp_sitemap_datetime( $post->post_date_gmt ),
 					'news:genres'           => 'Blog',
 				),
@@ -1449,8 +1354,7 @@ FOOTER
 		);
 
 		return array(
-			'xml' => Jetpack_Sitemap_Buffer::array_to_xml_string( $item_array ),
+			'xml' => $item_array,
 		);
 	}
-
 }

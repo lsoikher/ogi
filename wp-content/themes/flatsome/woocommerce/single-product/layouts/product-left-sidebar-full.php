@@ -48,8 +48,6 @@
 					do_action( 'woocommerce_after_single_product_summary' );
 				?>
 			</div>
-
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
 	
     </div><!-- col large-9 -->
 

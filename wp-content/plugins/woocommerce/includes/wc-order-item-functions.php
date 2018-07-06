@@ -4,23 +4,23 @@
  *
  * Functions for order specific things.
  *
- * @author      WooThemes
- * @category    Core
- * @package     WooCommerce/Functions
+ * @package WooCommerce/Functions
+ * @version 3.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Add a item to an order (for example a line item).
  *
- * @param int $order_id
- * @param array $item_array
+ * @param int   $order_id   Order ID.
+ * @param array $item_array Items list.
  * @return int|bool Item ID or false
  */
 function wc_add_order_item( $order_id, $item_array ) {
-	if ( ! $order_id = absint( $order_id ) ) {
+	$order_id = absint( $order_id );
+
+	if ( ! $order_id ) {
 		return false;
 	}
 
@@ -43,9 +43,9 @@ function wc_add_order_item( $order_id, $item_array ) {
  * Update an item for an order.
  *
  * @since 2.2
- * @param int $item_id
- * @param array $args either `order_item_type` or `order_item_name`
- * @return bool true if successfully updated, false otherwise
+ * @param int   $item_id Item ID.
+ * @param array $args    Either `order_item_type` or `order_item_name`.
+ * @return bool          True if successfully updated, false otherwise.
  */
 function wc_update_order_item( $item_id, $args ) {
 	$data_store = WC_Data_Store::load( 'order-item' );
@@ -63,13 +63,13 @@ function wc_update_order_item( $item_id, $args ) {
 /**
  * Delete an item from the order it belongs to based on item id.
  *
- * @access public
- * @param int $item_id
+ * @param int $item_id Item ID.
  * @return bool
  */
 function wc_delete_order_item( $item_id ) {
+	$item_id = absint( $item_id );
 
-	if ( ! $item_id = absint( $item_id ) ) {
+	if ( ! $item_id ) {
 		return false;
 	}
 
@@ -87,18 +87,16 @@ function wc_delete_order_item( $item_id ) {
 /**
  * WooCommerce Order Item Meta API - Update term meta.
  *
- * @access public
- * @param mixed $item_id
- * @param mixed $meta_key
- * @param mixed $meta_value
- * @param string $prev_value (default: '')
+ * @param int    $item_id    Item ID.
+ * @param string $meta_key   Meta key.
+ * @param string $meta_value Meta value.
+ * @param string $prev_value Previous value (default: '').
  * @return bool
  */
 function wc_update_order_item_meta( $item_id, $meta_key, $meta_value, $prev_value = '' ) {
 	$data_store = WC_Data_Store::load( 'order-item' );
 	if ( $data_store->update_metadata( $item_id, $meta_key, $meta_value, $prev_value ) ) {
-		$cache_key = WC_Cache_Helper::get_cache_prefix( 'order-items' ) . 'object_meta_' . $item_id;
-		wp_cache_delete( $cache_key, 'order-items' );
+		WC_Cache_Helper::incr_cache_prefix( 'object_' . $item_id ); // Invalidate cache.
 		return true;
 	}
 	return false;
@@ -107,18 +105,18 @@ function wc_update_order_item_meta( $item_id, $meta_key, $meta_value, $prev_valu
 /**
  * WooCommerce Order Item Meta API - Add term meta.
  *
- * @access public
- * @param mixed $item_id
- * @param mixed $meta_key
- * @param mixed $meta_value
- * @param bool $unique (default: false)
- * @return int New row ID or 0
+ * @param int    $item_id    Item ID.
+ * @param string $meta_key   Meta key.
+ * @param string $meta_value Meta value.
+ * @param bool   $unique     If meta data should be unique (default: false).
+ * @return int               New row ID or 0.
  */
 function wc_add_order_item_meta( $item_id, $meta_key, $meta_value, $unique = false ) {
 	$data_store = WC_Data_Store::load( 'order-item' );
-	if ( $meta_id = $data_store->add_metadata( $item_id, $meta_key, $meta_value, $unique ) ) {
-		$cache_key = WC_Cache_Helper::get_cache_prefix( 'order-items' ) . 'object_meta_' . $item_id;
-		wp_cache_delete( $cache_key, 'order-items' );
+	$meta_id    = $data_store->add_metadata( $item_id, $meta_key, $meta_value, $unique );
+
+	if ( $meta_id ) {
+		WC_Cache_Helper::incr_cache_prefix( 'object_' . $item_id ); // Invalidate cache.
 		return $meta_id;
 	}
 	return 0;
@@ -127,18 +125,16 @@ function wc_add_order_item_meta( $item_id, $meta_key, $meta_value, $unique = fal
 /**
  * WooCommerce Order Item Meta API - Delete term meta.
  *
- * @access public
- * @param mixed $item_id
- * @param mixed $meta_key
- * @param string $meta_value (default: '')
- * @param bool $delete_all (default: false)
+ * @param int    $item_id    Item ID.
+ * @param string $meta_key   Meta key.
+ * @param string $meta_value Meta value (default: '').
+ * @param bool   $delete_all Delete all meta data, defaults to `false`.
  * @return bool
  */
 function wc_delete_order_item_meta( $item_id, $meta_key, $meta_value = '', $delete_all = false ) {
 	$data_store = WC_Data_Store::load( 'order-item' );
 	if ( $data_store->delete_metadata( $item_id, $meta_key, $meta_value, $delete_all ) ) {
-		$cache_key = WC_Cache_Helper::get_cache_prefix( 'order-items' ) . 'object_meta_' . $item_id;
-		wp_cache_delete( $cache_key, 'order-items' );
+		WC_Cache_Helper::incr_cache_prefix( 'object_' . $item_id ); // Invalidate cache.
 		return true;
 	}
 	return false;
@@ -147,10 +143,9 @@ function wc_delete_order_item_meta( $item_id, $meta_key, $meta_value = '', $dele
 /**
  * WooCommerce Order Item Meta API - Get term meta.
  *
- * @access public
- * @param mixed $item_id
- * @param mixed $key
- * @param bool $single (default: true)
+ * @param int    $item_id Item ID.
+ * @param string $key     Meta key.
+ * @param bool   $single  Whether to return a single value. (default: true).
  * @return mixed
  */
 function wc_get_order_item_meta( $item_id, $key, $single = true ) {
@@ -161,7 +156,7 @@ function wc_get_order_item_meta( $item_id, $key, $single = true ) {
 /**
  * Get order ID by order item ID.
  *
- * @param  int $item_id
+ * @param  int $item_id Item ID.
  * @return int
  */
 function wc_get_order_id_by_order_item_id( $item_id ) {

@@ -17,6 +17,8 @@ class VTPRD_Cron {
 
     add_filter( 'cron_schedules', array( &$this, 'vtprd_add_schedules'   ) ); 
     
+    // https://wordpress.stackexchange.com/questions/179694/wp-schedule-event-every-day-at-specific-time
+    
     //AS the CLASS is instantiated in the INIT hook, you can't use that hook or an earlier one here.
     // wp_loaded follows INIT but is still early enough to be useful!
 		add_action( 'wp_loaded', array( &$this, 'vtprd_schedule_events' ) );

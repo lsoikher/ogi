@@ -1,5 +1,4 @@
-( function( $ )
-{
+(function($) {
   $(document).ready(function () {
     $(document).off('click', '.c-dropdown__trigger')
       .on('click', '.c-dropdown__trigger', function (e) {
@@ -17,4 +16,4 @@
         $('.c-dropdown').removeClass('is-open');
       });
   });
-} )( jQuery );
+})(jQuery);

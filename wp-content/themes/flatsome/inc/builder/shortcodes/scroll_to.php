@@ -19,7 +19,7 @@ add_ux_builder_shortcode( 'scroll_to', array(
         'title' => array(
             'type' => 'textfield',
             'heading' => 'Title',
-            'default' => '',
+            'default' => 'Change this',
         ),
         'link' => array(
             'type' => 'textfield',

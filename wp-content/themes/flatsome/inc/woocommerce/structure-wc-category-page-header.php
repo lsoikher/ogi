@@ -21,9 +21,15 @@ function flatsome_category_header(){
         echo wc_get_template_part('layouts/headers/category-title');
     }
     // Set Category headers
-    else if(is_product_category() || is_shop()){
+    else if(is_product_category() || is_shop() || is_product_tag() || is_tax()){
         // Get Custom Header Content
-        $cat_header_style = flatsome_option('category_title_style');
+        $cat_header_style = get_theme_mod('category_title_style');
+
+        // Fix Transparent header
+        if(get_theme_mod('category_header_transparent', 0) && !$cat_header_style){
+          $cat_header_style = 'featured';
+        }
+
         $queried_object = get_queried_object();
         if(!is_shop() && get_term_meta($queried_object->term_id, 'cat_meta')){
             $content = get_term_meta($queried_object->term_id, 'cat_meta');
@@ -53,9 +59,8 @@ add_action('flatsome_after_header','flatsome_category_header');
 // Add Transparent Header To Cateogry if Set
 function flatsome_category_header_classes($classes){
 
-    // Add transparent header to product page if set.
     $transparent = flatsome_option('category_header_transparent');
-    if($transparent && is_shop() || $transparent && is_product_category()){
+    if($transparent && is_shop() || $transparent && is_product_category() || $transparent && is_product_tag()){
          $classes[] = 'transparent has-transparent nav-dark toggle-nav-dark';
     }
 

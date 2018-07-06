@@ -21,7 +21,7 @@ function featured_box($atts, $content = null) {
 
   $classes = array('featured-box');
   $classes_img = array('icon-box-img');
-  
+
   $classes[] = 'icon-box-'.$pos;
   if($tooltip) $classes[] = 'tooltip';
   if($pos == 'center') $classes[] = 'text-center';
@@ -35,7 +35,6 @@ function featured_box($atts, $content = null) {
   $css_args_out = array(
     'margin' => array(
         'attribute' => 'margin',
-        'unit' => 'px',
         'value' => $margin,
     ),
   );
@@ -55,7 +54,10 @@ function featured_box($atts, $content = null) {
   $classes = implode(" ", $classes);
   $classes_img = implode(" ", $classes_img);
   ?>
+
+  <?php if($link) { echo '<a class="plain" href="'.$link.'">'; } ?>
   <div class="icon-box <?php echo $classes; ?>" <?php if($tooltip) echo 'title="'.$tooltip.'"'?> <?php echo get_shortcode_inline_css($css_args_out);?>>
+
         <?php if($img) { ?>
         <div class="<?php echo $classes_img; ?>" style="<?php if($img_width) echo $img_width; ?>">
           <div class="icon">
@@ -66,11 +68,14 @@ function featured_box($atts, $content = null) {
         </div>
         <?php } ?>
         <div class="icon-box-text last-reset">
+
             <?php if($title){ ?><h5 class="uppercase"><?php echo $title; ?></h5><?php } ?>
             <?php if($title_small){ ?><h6><?php echo $title_small; ?></h6><?php } ?>
+
             <?php echo flatsome_contentfix($content); ?>
         </div>
   </div><!-- .icon-box -->
+  <?php if($link) { echo '</a>'; } ?>
 
   <?php
   $content = ob_get_contents();

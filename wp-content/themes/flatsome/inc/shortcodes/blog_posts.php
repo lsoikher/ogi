@@ -219,20 +219,22 @@ while ( $recentPosts->have_posts() ) : $recentPosts->the_post();
 			<div class="col-inner">
 			<a href="<?php the_permalink() ?>" class="plain">
 				<div class="box <?php echo $classes_box; ?> box-blog-post has-hover">
-					<div class="box-image" <?php echo get_shortcode_inline_css($css_args_img); ?>>
-						<div class="<?php echo $classes_image; ?>" <?php echo get_shortcode_inline_css($css_image_height); ?>>
-							<?php the_post_thumbnail($image_size); ?>
-							<?php if($image_overlay){ ?><div class="overlay" style="background-color: <?php echo $image_overlay;?>"></div><?php } ?>
-							<?php if($style == 'shade'){ ?><div class="shade"></div><?php } ?>
-						</div>
-						<?php if($post_icon && get_post_format()) { ?>
-							<div class="absolute no-click x50 y50 md-x50 md-y50 lg-x50 lg-y50">
-				            	<div class="overlay-icon">
-				                    <i class="icon-play"></i>
-				                </div>
-				            </div>
-						<?php } ?>
-					</div><!-- .box-image -->
+          <?php if(has_post_thumbnail()) { ?>
+  					<div class="box-image" <?php echo get_shortcode_inline_css($css_args_img); ?>>
+  						<div class="<?php echo $classes_image; ?>" <?php echo get_shortcode_inline_css($css_image_height); ?>>
+  							<?php the_post_thumbnail($image_size); ?>
+  							<?php if($image_overlay){ ?><div class="overlay" style="background-color: <?php echo $image_overlay;?>"></div><?php } ?>
+  							<?php if($style == 'shade'){ ?><div class="shade"></div><?php } ?>
+  						</div>
+  						<?php if($post_icon && get_post_format()) { ?>
+  							<div class="absolute no-click x50 y50 md-x50 md-y50 lg-x50 lg-y50">
+  				            	<div class="overlay-icon">
+  				                    <i class="icon-play"></i>
+  				                </div>
+  				            </div>
+  						<?php } ?>
+  					</div><!-- .box-image -->
+          <?php } ?>
 					<div class="box-text <?php echo $classes_text; ?>" <?php echo get_shortcode_inline_css($css_args); ?>>
 					<div class="box-text-inner blog-post-inner">
 
@@ -257,9 +259,15 @@ while ( $recentPosts->have_posts() ) : $recentPosts->the_post();
 					?>
 					</p>
 					<?php } ?>
-					<?php if($comments == 'true' && comments_open() && '0' != get_comments_number()){ ?>
-						<p class="from_the_blog_comments uppercase is-xsmall"><?php echo get_comments_number( get_the_ID() ); ?> comments</p>
-					<?php } ?>
+                    <?php if ( $comments == 'true' && comments_open() && '0' != get_comments_number() ) { ?>
+                        <p class="from_the_blog_comments uppercase is-xsmall">
+                            <?php
+                                $comments_number = get_comments_number( get_the_ID() );
+                                printf( _n( '%1$s Comment', '%1$s Comments', $comments_number, 'flatsome' ),
+                                    number_format_i18n( $comments_number ) )
+                            ?>
+                        </p>
+                    <?php } ?>
 
 					<?php if($readmore) { ?>
 						<button href="<?php echo get_the_permalink(); ?>" class="button <?php echo $readmore_color; ?> is-<?php echo $readmore_style; ?> is-<?php echo $readmore_size; ?> mb-0">

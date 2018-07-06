@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 /*
 UpdraftPlus Addon: cloudfiles-enhanced:Rackspace Cloud Files, enhanced
 Description: Adds enhanced capabilities for Rackspace Cloud Files users
@@ -7,12 +8,12 @@ RequiresPHP: 5.3.3
 Shop: /shop/cloudfiles-enhanced/
 Latest Change: 1.12.18
 */
+// @codingStandardsIgnoreEnd
 
-# Future possibility: sub-folders
-
+// Future possibility: sub-folders
 if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed');
 
-# The new Rackspace SDK is PHP 5.3.3 or later
+// The new Rackspace SDK is PHP 5.3.3 or later
 if (version_compare(phpversion(), '5.3.3', '<') || (defined('UPDRAFTPLUS_CLOUDFILES_USEOLDSDK') && UPDRAFTPLUS_CLOUDFILES_USEOLDSDK)) return;
 
 use OpenCloud\Rackspace;
@@ -22,6 +23,7 @@ $updraftplus_addon_cloudfilesenhanced = new UpdraftPlus_Addon_CloudFilesEnhanced
 class UpdraftPlus_Addon_CloudFilesEnhanced {
 	
 	private $accounts;
+
 	private $regions;
 	
 	public function __construct() {
@@ -32,11 +34,11 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		add_filter('updraft_cloudfiles_apikeysetting', array($this, 'apikeysettings'));
 		
 		$this->accounts = array(
-			'us' => __('US (default)','updraftplus'),
+			'us' => __('US (default)', 'updraftplus'),
 			'uk' => __('UK', 'updraftplus')
 		);
 		
-		$this->regions= array(
+		$this->regions = array(
 			'DFW' => __('Dallas (DFW) (default)', 'updraftplus'),
 			'SYD' => __('Sydney (SYD)', 'updraftplus'),
 			'ORD' => __('Chicago (ORD)', 'updraftplus'),
@@ -55,7 +57,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		return $msg;
 	}
 	
-	public function create_api_user($use_settings){
+	public function create_api_user($use_settings) {
 		
 		if (!isset($use_settings['adminuser'])) {
 			return array('e' => 1, 'm' => __('You need to enter an admin username', 'updraftplus'));
@@ -69,15 +71,15 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		if (empty($use_settings['container'])) {
 			return array('e' => 1, 'm' => __('You need to enter a container', 'updraftplus'));
 		}
-		# Here, 0 == catches both 0 and false
+		// Here, 0 == catches both 0 and false
 		if (empty($use_settings['newemail']) || 0 == strpos($use_settings['newemail'], '@')) {
 			return array('e' => 1, 'm' => __('You need to enter a valid new email address', 'updraftplus'));
 		}
 		if (empty($use_settings['location'])) $use_settings['location'] = 'us';
 		if (empty($use_settings['region'])) $use_settings['region'] = 'DFW';
 		
-		require_once(UPDRAFTPLUS_DIR.'/methods/cloudfiles.php');
-		require_once(UPDRAFTPLUS_DIR.'/vendor/autoload.php');
+		include_once(UPDRAFTPLUS_DIR.'/methods/cloudfiles.php');
+		include_once(UPDRAFTPLUS_DIR.'/vendor/autoload.php');
 		$method = new UpdraftPlus_BackupModule_cloudfiles;
 		$useservercerts = !empty($use_settings['useservercerts']);
 		$disableverify = !empty($use_settings['disableverify']);
@@ -89,9 +91,10 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 				'apikey' => $use_settings['adminapikey'],
 				'authurl' => $auth_url,
 				'region' => $use_settings['region']
-			),
-			$useservercerts, $disableverify);
-		} catch(AuthenticationError $e) {
+				),
+				$useservercerts,
+			$disableverify);
+		} catch (AuthenticationError $e) {
 			$updraftplus->log('Cloud Files authentication failed ('.$e->getMessage().')');
 			$updraftplus->log(__('Cloud Files authentication failed', 'updraftplus').' ('.$e->getMessage().')', 'error');
 			return false;
@@ -103,7 +106,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		// Get the container
 		try {
 			$container_object = $service->getContainer($use_settings['container']);
-		} catch(Guzzle\Http\Exception\ClientErrorResponseException $e) {
+		} catch (Guzzle\Http\Exception\ClientErrorResponseException $e) {
 			$container_object = $service->createContainer($use_settings['container']);
 		} catch (Exception $e) {
 			return array('e' => 1, 'm' => __('Cloud Files authentication failed', 'updraftplus').' ('.get_class($e).', '.$e->getMessage().')');
@@ -113,9 +116,9 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 			return array('e' => 1, 'm' => __('Cloud Files authentication failed', 'updraftplus').' ('.get_class($container_object).')');
 		}
 		
-		# Create the new user
+		// Create the new user
 		$json = json_encode(
-			array( 
+			array(
 				'user' => array(
 					'username' => $use_settings['newuser'],
 					'email' => $use_settings['newemail'],
@@ -151,7 +154,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		$pass = $response['user']['OS-KSADM:password'];
 		$id = $response['user']['id'];
 		
-		# Add the user to the container
+		// Add the user to the container
 		try {
 			$headers = array('X-Container-Write' => $user, 'X-Container-Read' => $user);
 			$container_object->getClient()->post($container_object->getUrl(), $headers)->send();
@@ -159,7 +162,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 			return array('e' => 1, 'm' => sprintf(__('Cloud Files operation failed (%s)', 'updraftplus'), 1).' ('.$e->getMessage().') ('.get_class($e).')');
 		}
 		
-		# Get an API key for the user
+		// Get an API key for the user
 		try {
 			$response = $container_object->getClient()->post($auth_url."users/$id/OS-KSADM/credentials/RAX-KSKEY:apiKeyCredentials/RAX-AUTH/reset", array())->send()->json();
 			if (empty($response['RAX-KSKEY:apiKeyCredentials']['apiKey'])) {
@@ -189,13 +192,13 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		die();
 	}
 
-	public function admin_footer() {	
+	public function admin_footer() {
 		$this->modal_css();
 		$this->modal_html();
 		$this->modal_script();
 	}
 	
-	private function modal_css(){
+	private function modal_css() {
 		?>
 		<style type="text/css">
 			#updraft_cfnewapiuser_form label {
@@ -212,11 +215,11 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		<?php
 	}
 	
-	public function account_options(){
+	public function account_options() {
 		return $this->accounts;
 	}
 	
-	private function get_account_options(){
+	private function get_account_options() {
 		
 		$selaccount = 'us';
 		foreach ($this->accounts as $acc => $desc) {
@@ -224,11 +227,11 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		};
 	}
 	
-	public function region_options(){
+	public function region_options() {
 		return $this->regions;
 	}
 	
-	private function get_region_options(){
+	private function get_region_options() {
 		
 		$selregion = 'DFW';
 		foreach ($this->regions as $reg => $desc) {
@@ -238,7 +241,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		};
 	}
 	
-	public function modal_html(){
+	public function modal_html() {
 		?>
 		<div id="updraft-cfnewapiuser-modal" title="<?php _e('Create new API user and container', 'updraftplus');?>" style="display:none;">
 			<div id="updraft_cfnewapiuser_form">
@@ -268,7 +271,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 					<label for="updraft_cfnewapiuser_newemail"><?php _e("New User's Email Address", 'updraftplus');?></label>
 					<input type="text" id="updraft_cfnewapiuser_newemail" value="">
 
-					<label for="updraft_cfnewapiuser_region"><?php _e('Cloud Files Storage Region','updraftplus');?>:</label>
+					<label for="updraft_cfnewapiuser_region"><?php _e('Cloud Files Storage Region', 'updraftplus');?>:</label>
 					<select id="updraft_cfnewapiuser_region">
 						<?php $this->get_region_options();?>
 					</select>
@@ -285,7 +288,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		<?php
 	}
 	
-	private function modal_script(){
+	private function modal_script() {
 		?>
 		<script>
 		jQuery(document).ready(function($) {
@@ -355,7 +358,7 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 					}
 				}, { json_parse: false });
 			};
-			jQuery( "#updraft-cfnewapiuser-modal" ).dialog({
+			jQuery("#updraft-cfnewapiuser-modal").dialog({
 				autoOpen: false, height: 465, width: 555, modal: true,
 				buttons: updraft_cfnewapiuser_modal_buttons
 			});
@@ -364,4 +367,4 @@ class UpdraftPlus_Addon_CloudFilesEnhanced {
 		</script>
 		<?php
 	}
-};
+}

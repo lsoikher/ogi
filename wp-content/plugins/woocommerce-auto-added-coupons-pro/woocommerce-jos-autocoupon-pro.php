@@ -3,93 +3,88 @@
  * Plugin Name: WooCommerce Extended Coupon Features PRO
  * Plugin URI: http://www.soft79.nl
  * Description: Additional functionality for WooCommerce Coupons: Apply certain coupons automatically, allow applying coupons via an url, etc...
- * Version: 2.3.5
- * Author: Jos Koenis
+ * Version: 2.5.2.2
+ * Author: Soft79
  * License: GPL2
  */
  
-// Change history: see readme.txt
+if ( ! defined('WJECF_VERSION') ) define ('WJECF_VERSION', '2.5.2.2');
+
+// Changelog: see readme.txt
+
 /*
-* TODO: Apply filter for autocoupon individual_use_filter
-* TODO: (PRO) Eval
-* TODO: Admin page: Option to enable/disable functionality
-* TODO: Admin page: Enable/disable debugging
-*
+ TODO:
+ - Apply filter for autocoupon individual_use_filter
+ - (PRO) Eval
 */
- 
-defined('ABSPATH') or die();
-
-if ( ! function_exists( 'wjecf_load_plugin_textdomain' ) ) {
-
-	require_once( 'includes/wjecf-controller.php' );
-	require_once( 'includes/abstract-wjecf-plugin.php' );
-	require_once( 'includes/admin/wjecf-admin.php' );
-	require_once( 'includes/admin/wjecf-admin-auto-upgrade.php' );
-	//Optional
-	@include_once( 'includes/wjecf-autocoupon.php' );
-	@include_once( 'includes/wjecf-wpml.php' );
-	//PRO
-	@include_once( 'includes/wjecf-pro-controller.php' );
-	@include_once( 'includes/wjecf-pro-free-products.php' );
-	@include_once( 'includes/wjecf-pro-coupon-queueing.php' );
-	@include_once( 'includes/wjecf-pro-api.php' );	
 
 
-	// Only Initiate the plugin if WooCommerce is active
-	if ( WJECF_Controller::get_woocommerce_version() == false ) {
-		add_action( 'admin_notices', 'wjecf_admin_notice' );
-	    function wjecf_admin_notice() {
-	        $msg = __( 'WooCommerce Extended Coupon Features is disabled because WooCommerce could not be detected.', 'woocommerce-jos-autocoupon' );
-	        echo '<div class="error"><p>' . $msg . '</p></div>';
-	    }
-	} else {	
-		function wjecf_load_plugin_textdomain() {
-			load_plugin_textdomain('woocommerce-jos-autocoupon', false, basename(dirname(__FILE__)) . '/languages/' );
-		}
-		add_action('plugins_loaded', 'wjecf_load_plugin_textdomain');
+if ( ! defined('ABSPATH') ) die();
+if ( ! function_exists( 'wjecf_load_plugin_textdomain' ) ) {   
 
-		/**
-		 * Get the instance if the WJECF_Controller
-		 */
-		function WJECF() {
-			if ( class_exists( 'WJECF_Pro_Controller' ) ) { 
-				return WJECF_Pro_Controller::instance();
-			} else {
-				return WJECF_Controller::instance();
-			}
-		}
+    //Translations
+    add_action( 'plugins_loaded', 'wjecf_load_plugin_textdomain' );
+    function wjecf_load_plugin_textdomain() {
+        $locale = apply_filters( 'plugin_locale', get_locale(), 'woocommerce' );
 
-		/**
-		 * Get the instance if the WJECF_Admin plugin
-		 */
-		function WJECF_ADMIN() {
-			return WJECF()->get_plugin('WJECF_Admin');
-		}
+        load_textdomain( 'woocommerce-jos-autocoupon', WP_LANG_DIR . '/woocommerce-jos-autocoupon/woocommerce-jos-autocoupon-' . $locale . '.mo' );        
+        load_plugin_textdomain('woocommerce-jos-autocoupon', false, basename(dirname(__FILE__)) . '/languages/' );
+    }
 
-		$wjecf_extended_coupon_features = WJECF();
-		WJECF()->add_plugin('WJECF_Admin');
-		WJECF()->add_plugin('WJECF_Admin_Auto_Upgrade');
-		WJECF()->add_plugin('WJECF_AutoCoupon');
-		WJECF()->add_plugin('WJECF_WPML');
-		WJECF()->add_plugin('WJECF_Pro_Free_Products');
-		WJECF()->add_plugin('WJECF_Pro_Coupon_Queueing');
-	}
+    /**
+     * Get the instance of WJECF
+     * @return WJECF_Controller|WJECF_Pro_Controller The instance of WJECF
+     */
+    function WJECF() {
+        if ( class_exists( 'WJECF_Pro_Controller' ) ) { 
+            return WJECF_Pro_Controller::instance();
+        } else {
+            return WJECF_Controller::instance();
+        }
+    }
+
+    /**
+     * Get the instance of WJECF_Admin
+     * @return WJECF_Admin The instance of WJECF_Admin
+     */
+    function WJECF_ADMIN() {
+        return WJECF()->get_plugin('WJECF_Admin');
+    }
+
+    /**
+     * Get the instance of WJECF_WC
+     * @return WJECF_WC The instance of WJECF_WC
+     */
+    function WJECF_WC() {
+        return WJECF_WC::instance();
+    }
+
+    /**
+     * Get the instance if the WooCommerce Extended Coupon Features API
+     * @return WJECF_Pro_API The API object
+     */
+    function WJECF_API() {
+        return WJECF_Pro_API::instance();
+    }       
+
+    /**
+     * Wraps a product or coupon in a decorator
+     * @param mixed $object The WC_Coupon or WC_Product instance, or the post id
+     * @return WJECF_Wrap
+     */
+    function WJECF_Wrap( $object ) {
+        return WJECF_WC::instance()->wrap( $object );
+    }
+
+    require_once( 'includes/WJECF_Bootstrap.php' );
+    
+    WJECF_Bootstrap::execute();
+
+    //DEPRECATED. We keep $wjecf_extended_coupon_features for backwards compatibility; use WJECF_API()
+    $wjecf_extended_coupon_features = WJECF();
+
 
 }
-
-/**
- * Add donate-link to plugin page
- */
-if ( ! function_exists( 'wjecf_plugin_meta' ) ) {
-	function wjecf_plugin_meta( $links, $file ) {
-		if ( strpos( $file, 'woocommerce-jos-autocoupon.php' ) !== false ) {
-			$links = array_merge( $links, array( '<a href="' . WJECF_Admin::get_donate_url() . '" title="Support the development" target="_blank">Donate</a>' ) );
-		}
-		return $links;
-	}
-	add_filter( 'plugin_row_meta', 'wjecf_plugin_meta', 10, 2 );
-}
-
 
 
 // =========================================================================================================
@@ -100,8 +95,8 @@ if ( ! function_exists( 'wjecf_plugin_meta' ) ) {
 
 //Update the cart preview when the billing email is changed by the customer
 add_filter( 'woocommerce_checkout_fields', function( $checkout_fields ) {
-	$checkout_fields['billing']['billing_email']['class'][] = 'update_totals_on_change';
-	return $checkout_fields;	
+    $checkout_fields['billing']['billing_email']['class'][] = 'update_totals_on_change';
+    return $checkout_fields;    
 } );
  
 // */ 
@@ -113,13 +108,13 @@ add_filter( 'woocommerce_checkout_fields', function( $checkout_fields ) {
 
 //Update the cart preview when payment method is changed by the customer
 add_action( 'woocommerce_review_order_after_submit' , function () {
-	?><script type="text/javascript">
-		jQuery(document).ready(function($){
-			$(document.body).on('change', 'input[name="payment_method"]', function() {
-				$('body').trigger('update_checkout');
-				//$.ajax( $fragment_refresh );
-			});
-		});
-	</script><?php 
+    ?><script type="text/javascript">
+        jQuery(document).ready(function($){
+            $(document.body).on('change', 'input[name="payment_method"]', function() {
+                $('body').trigger('update_checkout');
+                //$.ajax( $fragment_refresh );
+            });
+        });
+    </script><?php 
 } );
 // */

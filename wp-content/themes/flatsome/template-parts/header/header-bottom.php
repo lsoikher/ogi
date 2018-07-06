@@ -1,4 +1,4 @@
-<?php if(flatsome_has_bottom_bar()) { 
+<?php if(flatsome_has_bottom_bar()) {
 ?>
 <div id="wide-nav" class="header-bottom wide-nav <?php header_inner_class('bottom'); ?>">
     <div class="flex-row container">
@@ -29,12 +29,12 @@
 
             <?php if(get_theme_mod('header_mobile_elements_bottom')) { ?>
               <div class="flex-col show-for-medium flex-grow">
-                  <ul class="nav header-bottom-nav nav-left mobile-nav <?php flatsome_nav_classes('bottom'); ?>">
+                  <ul class="nav header-bottom-nav nav-center mobile-nav <?php flatsome_nav_classes('bottom'); ?>">
                       <?php flatsome_header_elements('header_mobile_elements_bottom'); ?>
                   </ul>
               </div>
             <?php } ?>
-            
+
     </div><!-- .flex-row -->
 </div><!-- .header-bottom -->
 <?php } ?>

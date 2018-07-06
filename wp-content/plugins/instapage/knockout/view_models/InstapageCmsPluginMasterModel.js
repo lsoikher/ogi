@@ -56,33 +56,59 @@ var InstapageCmsPluginMasterModel = function InstapageCmsPluginMasterModel() {
     }
   };
 
+  self.getOptions = function getOptions(onSuccessFunction) {
+    if (masterModel.settingsModel) {
+      onSuccessFunction(masterModel.settingsModel.getConfig());
+      return;
+    }
+
+    iAjax.post(INSTAPAGE_AJAXURL, {action: 'getOptions'}, function getOptionsCallback(responseJson) {
+      var response = masterModel.parseResponse(responseJson);
+
+      if (response.status === 'OK' && response.data && response.data.config) {
+        onSuccessFunction(response.data.config);
+        return;
+      }
+    });
+  };
+
+  self.addDiagnosticsWarning = function addDiagnosticsWarning(config) {
+    if (config.diagnostics) {
+      self.messagesModel.addMessage(iLang.get('DIAGNOSTIC_IS_ON_WARNING'));
+    }
+  }
+
   instapageKO.applyBindings(self.messagesModel, document.getElementById('messages-container'));
   instapageKO.applyBindings(self.toolbarModel, document.getElementById('instapage-toolbar'));
 };
 
 var loadPageList = function loadPageList() {
-  var post = {action: 'loadListPages', apiTokens: masterModel.apiTokens};
+  var post = { 
+      action: 'loadListPages', 
+      apiTokens: masterModel.apiTokens
+  };
+  
   iAjax.post(INSTAPAGE_AJAXURL, post, function loadPageListCallback(responseJson) {
     var response = masterModel.parseResponse(responseJson);
+    var element = document.getElementById('instapage-container');
 
     if (response.status === 'OK') {
-      var element = document.getElementById('instapage-container');
-
       instapageKO.cleanNode(element);
       element.innerHTML = response.html;
-
+      
       if (Array.isArray(response.initialData)) {
         response = masterModel.prepareInitialData(response);
       }
+      
       masterModel.pagedGridModel = new InstapageCmsPluginPagedGridModel(response.initialData);
       instapageKO.applyBindings(masterModel.pagedGridModel, element);
     } else {
       masterModel.messagesModel.addMessage(response.message, response.status);
+      element.innerHTML = '';
     }
   });
 };
 
 var masterModel = new InstapageCmsPluginMasterModel();
 masterModel.updateApiTokens(loadPageList, loadPageList);
-
-
+masterModel.getOptions(masterModel.addDiagnosticsWarning);

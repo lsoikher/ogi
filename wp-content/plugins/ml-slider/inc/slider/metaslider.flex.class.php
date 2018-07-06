@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Flex Slider specific markup, javascript, css and settings.
@@ -10,13 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MetaFlexSlider extends MetaSlider {
 
     protected $js_function = 'flexslider';
-    protected $js_path = 'sliders/flexslider/jquery.flexslider-min.js';
+    protected $js_path = 'sliders/flexslider/jquery.flexslider.min.js';
     protected $css_path = 'sliders/flexslider/flexslider.css';
 
     /**
      * Constructor
      *
      * @param integer $id slideshow ID
+     */
+    /**
+     * Constructor
+     *
+     * @param int   $id                 ID
+     * @param array $shortcode_settings Short code settings
      */
     public function __construct( $id, $shortcode_settings ) {
         parent::__construct( $id, $shortcode_settings );
@@ -30,8 +34,8 @@ class MetaFlexSlider extends MetaSlider {
     /**
      * Adjust the slider parameters so they're comparible with the carousel mode
      *
-     * @param array   $options
-     * @param integer $slider_id
+     * @param array   $options   Slider options
+     * @param integer $slider_id Slider ID
      * @return array $options
      */
     public function enable_carousel_mode( $options, $slider_id ) {
@@ -56,8 +60,8 @@ class MetaFlexSlider extends MetaSlider {
     /**
      * Ensure CSS transitions are disabled when easing is enabled.
      *
-     * @param array   $options
-     * @param integer $slider_id
+     * @param array   $options   Slider options
+     * @param integer $slider_id Slider ID
      * @return array $options
      */
     public function manage_easing( $options, $slider_id ) {
@@ -78,12 +82,12 @@ class MetaFlexSlider extends MetaSlider {
     }
 
     /**
-     * Add a 'nav-hidden' class to slideshows where the navigation is hidden.
+     * Add a 'nav-hidden' class to slideshows where the navigation is hidde
      *
-     * @param string  $css
-     * @param array   $settings
-     * @param integer $slider_id
-     * @return string $css
+     * @param  string $class    Slider class
+     * @param  int    $id       Slider ID
+     * @param  array  $settings Slider Settings
+     * @return string
      */
     public function remove_bottom_margin( $class, $id, $settings ) {
         if ( isset( $settings["navigation"] ) && $settings['navigation'] == 'false' ) {
@@ -99,9 +103,9 @@ class MetaFlexSlider extends MetaSlider {
     /**
      * Return css to ensure our slides are rendered correctly in the carousel
      *
-     * @param string  $css
-     * @param array   $settings
-     * @param integer $slider_id
+     * @param string  $css       Css
+     * @param array   $settings  Css settings
+     * @param integer $slider_id SliderID
      * @return string $css
      */
     public function get_carousel_css( $css, $settings, $slider_id ) {
@@ -116,35 +120,31 @@ class MetaFlexSlider extends MetaSlider {
         return $css;
     }
 
-    /**
-     * Enable the parameters that are accepted by the slider
-     *
-     * @param string  $param
-     * @return array|boolean enabled parameters (false if parameter doesn't exist)
-     */
-    protected function get_param( $param ) {
-        $params = array(
-            'effect' => 'animation',
-            'direction' => 'direction',
-            'prevText' => 'prevText',
-            'nextText' => 'nextText',
-            'delay' => 'slideshowSpeed',
-            'animationSpeed' => 'animationSpeed',
-            'hoverPause' => 'pauseOnHover',
-            'reverse' => 'reverse',
-            'navigation' => 'controlNav',
-            'links' =>'directionNav',
-            'carouselMode' => 'carouselMode',
-            'easing' => 'easing',
-            'autoPlay' => 'slideshow'
-        );
-
-        if ( isset( $params[$param] ) ) {
-            return $params[$param];
-        }
-
-        return false;
-    }
+	/**
+	 * Enable the parameters that are accepted by the slider
+	 *
+	 * @param  string $param Parameters
+	 * @return array|boolean enabled parameters (false if parameter doesn't exist)
+	 */
+	protected function get_param($param) {
+		$params = array(
+			'effect' => 'animation',
+			'direction' => 'direction',
+			'prevText' => 'prevText',
+			'nextText' => 'nextText',
+			'delay' => 'slideshowSpeed',
+			'animationSpeed' => 'animationSpeed',
+			'hoverPause' => 'pauseOnHover',
+			'reverse' => 'reverse',
+			'navigation' => 'controlNav',
+			'links' =>'directionNav',
+			'carouselMode' => 'carouselMode',
+			'easing' => 'easing',
+			'autoPlay' => 'slideshow',
+			'firstSlideFadeIn' => 'fadeFirstSlide'
+		);
+		return isset($params[$param]) ? $params[$param] : false;
+	}
 
     /**
      * Include slider assets
@@ -169,7 +169,7 @@ class MetaFlexSlider extends MetaSlider {
         $return_value .= "\n            <ul class=\"slides\">";
 
         foreach ( $this->slides as $slide ) {
-            // backwards compatibility with older versions of Meta Slider Pro (< v2.0)
+            // backwards compatibility with older versions of MetaSlider Pro (< v2.0)
             // MS Pro < 2.0 does not include the <li>
             // MS Pro 2.0+ returns the <li>
             if ( strpos( $slide, '<li' ) === 0 ) {

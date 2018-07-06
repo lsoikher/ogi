@@ -4,14 +4,33 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     2.3.0
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$row_classes = array();
+$main_classes = array();
+$sidebar_classes = array();
 
-wc_print_notices();
+$layout = get_theme_mod('checkout_layout');
+
+if(!$layout){
+  $sidebar_classes[] = 'has-border';
+}
+
+if($layout == 'simple'){
+  $sidebar_classes[] = 'is-well';
+}
+
+$row_classes = implode(" ", $row_classes);
+$main_classes = implode(" ", $main_classes);
+$sidebar_classes = implode(" ", $sidebar_classes);
+
+wc_print_notices(); ?>
+
+<?php
 
 do_action( 'woocommerce_before_checkout_form', $checkout );
 
@@ -24,49 +43,48 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 // filter hook for include new pages inside the payment method
 $get_checkout_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_checkout_url() ); ?>
 
-<?php 
+<?php
 // Social login
 if(flatsome_option('facebook_login_checkout') && get_option('woocommerce_enable_myaccount_registration')=='yes' && !is_user_logged_in()){
-	woocommerce_get_template('checkout/social-login.php');
+	wc_get_template('checkout/social-login.php');
 } ?>
- 
+
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( $get_checkout_url ); ?>" enctype="multipart/form-data">
-		
-	<div class="row pt-0">
-	<div class="large-7 col">
-	<?php if ( sizeof( $checkout->checkout_fields ) > 0 ) : ?>
 
-		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+	<div class="row pt-0 <?php echo $row_classes; ?>">
+  	<div class="large-7 col  <?php echo $main_classes; ?>">
+    <?php if ( $checkout->checkout_fields ) : ?>
 
-		<div id="customer_details">
-			<div>
-				<?php do_action( 'woocommerce_checkout_billing' ); ?>
-			</div>
+  		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
-			<div>
-				<?php do_action( 'woocommerce_checkout_shipping' ); ?>
-			</div>
-		</div>
+  		<div id="customer_details">
+  			<div class="clear">
+  				<?php do_action( 'woocommerce_checkout_billing' ); ?>
+  			</div>
+  			<div class="clear">
+  				<?php do_action( 'woocommerce_checkout_shipping' ); ?>
+  			</div>
+  		</div>
 
-		<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
+  		<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 
-	<?php endif; ?>
-	</div><!-- large-7 -->
+  	<?php endif; ?>
+  	</div><!-- large-7 -->
 
-	<div class="large-5 col">
-		<div class="col-inner">
-			<div class="checkout-sidebar has-border sm-touch-scroll">
-				<h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
-				<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
-		
-				<div id="order_review" class="woocommerce-checkout-review-order">
-					<?php do_action( 'woocommerce_checkout_order_review' ); ?>
-				</div>
-				<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
-			</div>
-		</div>
-	</div><!-- large-5 -->
-	
+  	<div class="large-5 col">
+  		<div class="col-inner <?php echo $sidebar_classes; ?>">
+  			<div class="checkout-sidebar sm-touch-scroll">
+  				<h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
+  				<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+
+  				<div id="order_review" class="woocommerce-checkout-review-order">
+  					<?php do_action( 'woocommerce_checkout_order_review' ); ?>
+  				</div>
+  				<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
+  			</div>
+  		</div>
+  	</div><!-- large-5 -->
+
 	</div><!-- row -->
 </form>
 

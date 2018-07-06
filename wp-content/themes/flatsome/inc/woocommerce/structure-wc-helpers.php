@@ -6,7 +6,7 @@ function ux_list_products($args) {
               if(isset($args)){
                   $options = $args;
 
-                  $number = '8';
+                  $number = 8;
                   if(isset($options['products'])) $number = $options['products'];
 
                   $show = ''; //featured, onsale
@@ -40,9 +40,6 @@ function ux_list_products($args) {
                     $tags = $options['tags'];
                   }
 
-                  $show_hidden = 0;
-                  $hide_free = 0;
-
                   $offset = '';
                   if(isset($options['offset'])) $offset = $options['offset'];
 
@@ -59,39 +56,29 @@ function ux_list_products($args) {
                 'order'          => $order,
                 'product_tag' => $tags,
                 'offset' => $offset,
-                'product_cat' => $cat,
-                'meta_query'     => array()
+                'meta_query'  => WC()->query->get_meta_query(),
+                'tax_query'   => WC()->query->get_tax_query(),
               );
-
-              if ( empty( $show_hidden ) ) {
-                $query_args['meta_query'][] = WC()->query->visibility_meta_query();
-                $query_args['post_parent']  = 0;
-              }
-
-              if ( ! empty( $hide_free ) ) {
-                $query_args['meta_query'][] = array(
-                  'key'     => '_price',
-                  'value'   => 0,
-                  'compare' => '>',
-                  'type'    => 'DECIMAL',
-                );
-              }
-
-              $query_args['meta_query'][] = WC()->query->stock_status_meta_query();
-              $query_args['meta_query']   = array_filter( $query_args['meta_query'] );
 
               switch ( $show ) {
                 case 'featured' :
-                  $query_args['meta_query'][] = array(
-                    'key'   => '_featured',
-                    'value' => 'yes'
-                  );
+
+                  if(fl_woocommerce_version_check('3.0.0')) {
+                  $query_args['tax_query'][] = array(
+                    'taxonomy' => 'product_visibility',
+                    'field'    => 'name',
+                    'terms'    => 'featured',
+                    'operator' => 'IN',
+                  ); } else {
+                    $query_args['meta_query'][] = array(
+                      'key'   => '_featured',
+                      'value' => 'yes'
+                    );
+                  }
                   break;
                 case 'onsale' :
-                  $product_ids_on_sale    = wc_get_product_ids_on_sale();
-                  $product_ids_on_sale[]  = 0;
-                  $query_args['post__in'] = $product_ids_on_sale;
-                  break;
+                  $query_args['post__in'] = array_merge( array( 0 ), wc_get_product_ids_on_sale() );
+                break;
               }
 
               switch ( $orderby ) {
@@ -119,11 +106,32 @@ function ux_list_products($args) {
                   $query_args['orderby']  = 'date';
               }
 
-               $results = new WP_Query( $query_args );
+              if(!empty($cat)) {
+                $query_args = ux_maybe_add_category_args( $query_args, $cat, 'IN' );
+              }
 
-               return $results;
+              $results = new WP_Query( $query_args );
+
+              return $results;
 } // List products
 
+
+function ux_maybe_add_category_args( $args, $category, $operator ) {
+    if ( ! empty( $category ) ) {
+      if ( empty( $args['tax_query'] ) ) {
+        $args['tax_query'] = array();
+      }
+      $args['tax_query'][] = array(
+        array(
+          'taxonomy' => 'product_cat',
+          'terms'    => array_map( 'sanitize_title', explode( ',', $category ) ),
+          'field'    => 'slug',
+          'operator' => $operator,
+        ),
+      );
+    }
+    return $args;
+}
 
 /* Set Default WooCommerce Image sizes */
 global $pagenow;

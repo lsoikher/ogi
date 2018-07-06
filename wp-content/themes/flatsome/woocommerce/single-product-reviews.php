@@ -23,7 +23,7 @@ $tab_style = get_theme_mod('product_display');
 	<div class="col large-<?php if ( get_comment_pages_count() == 0 || $tab_style == 'sections' || $tab_style == 'tabs_vertical') {echo '12';} else {echo '7';} ?>" id="comments">
 		<h3 class="normal"><?php
 			if ( get_option( 'woocommerce_enable_review_rating' ) === 'yes' && ( $count = $product->get_review_count() ) )
-				printf( _n( '%s review for %s%s%s', '%s reviews for %s%s%s', $count, 'woocommerce' ), $count, '<span>', get_the_title(), '</span>' );
+			 printf( esc_html( _n( '%1$s review for %2$s', '%1$s reviews for %2$s', $count, 'woocommerce' ) ), esc_html( $count ), '<span>' . get_the_title() . '</span>' );
 			else
 				_e( 'Reviews', 'woocommerce' );
 		?></h3>
@@ -36,11 +36,15 @@ $tab_style = get_theme_mod('product_display');
 
 			<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 				echo '<nav class="woocommerce-pagination">';
-				paginate_comments_links( apply_filters( 'woocommerce_comment_pagination_args', array(
+				$pagination = paginate_comments_links( apply_filters( 'woocommerce_comment_pagination_args', array(
 					'prev_text' => '&larr;',
 					'next_text' => '&rarr;',
 					'type'      => 'list',
+					'echo'		=> false,
 				) ) );
+				$pagination = str_replace( 'page-numbers', 'page-number', $pagination );
+				$pagination = str_replace( "<ul class='page-number'>", '<ul class="page-numbers nav-pagination links text-center">', $pagination );
+				echo $pagination;
 				echo '</nav>';
 			endif; ?>
 		<?php else : ?>
@@ -50,7 +54,7 @@ $tab_style = get_theme_mod('product_display');
 		<?php endif; ?>
 	</div>
 
-	<?php if ( get_option( 'woocommerce_review_rating_verification_required' ) === 'no' || wc_customer_bought_product( '', get_current_user_id(), $product->id ) ) : ?>
+	<?php if ( get_option( 'woocommerce_review_rating_verification_required' ) === 'no' || wc_customer_bought_product( '', get_current_user_id(), $product->get_id() ) ) : ?>
 		<div id="review_form_wrapper" class="large-<?php if ( get_comment_pages_count() == 0 || $tab_style == 'sections' || $tab_style == 'tabs_vertical') {echo '12';} else {echo '5';} ?> col">
 			<div id="review_form" class="col-inner">
 			  <div class="review-form-inner has-border">
@@ -78,7 +82,7 @@ $tab_style = get_theme_mod('product_display');
 					}
 
 					if ( get_option( 'woocommerce_enable_review_rating' ) === 'yes' ) {
-						$comment_form['comment_field'] = '<p class="comment-form-rating"><label for="rating">' . __( 'Your Rating', 'woocommerce' ) .'</label><select name="rating" id="rating">
+						$comment_form['comment_field'] = '<p class="comment-form-rating"><label for="rating">' . __( 'Your rating', 'woocommerce' ) .'</label><select name="rating" id="rating">
 							<option value="">' . __( 'Rate&hellip;', 'woocommerce' ) . '</option>
 							<option value="5">' . __( 'Perfect', 'woocommerce' ) . '</option>
 							<option value="4">' . __( 'Good', 'woocommerce' ) . '</option>
@@ -88,7 +92,7 @@ $tab_style = get_theme_mod('product_display');
 						</select></p>';
 					}
 
-					$comment_form['comment_field'] .= '<p class="comment-form-comment"><label for="comment">' . __( 'Your Review', 'woocommerce' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
+					$comment_form['comment_field'] .= '<p class="comment-form-comment"><label for="comment">' . __( 'Your review', 'woocommerce' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
 
 					comment_form( apply_filters( 'woocommerce_product_review_comment_form_args', $comment_form ) );
 				?>

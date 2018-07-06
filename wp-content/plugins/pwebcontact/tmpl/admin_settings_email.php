@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 1.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -27,9 +27,9 @@ $php_mail_enabled = (function_exists('mail') AND is_callable('mail'));
     'group' => 'settings',
     'label' => 'Sender email',
     'header' => 'Email settings',
-    'desc' => sprintf(__('Leave blank to use email: &bdquo;%s&rdquo; set in %s.', 'pwebcontact'), get_bloginfo('admin_email'), 
-                        '<a href="'.admin_url('options-general.php').'" target="_blank">'.__('WordPress General Settings', 'pwebcontact').'</a>') 
-                . ($isLocalhsot ? '' : ' '.sprintf(__('Sender email should be in the same domain as your website, example: %s'), 'info@'.$domain)),
+    'desc' => sprintf(__('Leave blank to use email: &quot;%s&quot; set in %s.', 'pwebcontact'), get_bloginfo('admin_email'),
+                        '<a href="'.admin_url('options-general.php').'" target="_blank">'.__('WordPress General Settings', 'pwebcontact').'</a>')
+                . ($isLocalhsot ? '' : ' '.sprintf(__('The sender email should be from the same domain as your website, example: %s'), 'info@'.$domain)),
     'class' => 'pweb-filter-email'
 )); ?>
 
@@ -38,7 +38,7 @@ $php_mail_enabled = (function_exists('mail') AND is_callable('mail'));
     'name' => 'email_from_name',
     'group' => 'settings',
     'label' => 'Sender name',
-    'desc' => sprintf(__('Leave blank to use Site Title: &bdquo;%s&rdquo; set in %s.', 'pwebcontact'), get_bloginfo('name'),
+    'desc' => sprintf(__('Leave blank to use Site Title: &quot;%s&quot; set in %s.', 'pwebcontact'), get_bloginfo('name'),
                         '<a href="'.admin_url('options-general.php').'" target="_blank">'.__('WordPress General Settings', 'pwebcontact').'</a>')
 )); ?>
 

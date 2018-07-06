@@ -119,12 +119,14 @@ class Ignition_Updater_Update_Checker {
 
 		$themes_to_check_updates_for = array();
 		// Loop through all Ignition themes
-		foreach ( $this->themes as $theme ) {
-			// $theme - 0=file, 1=product_id, 2=file_id, 3=license_hash, 4=version
-			// Always fetch all theme data in one call, we loop to append the url
-			$theme[0] = str_replace( '/style.css', '', $theme[0] );
-			$theme[] = esc_url( home_url( '/' ) );
-			$themes_to_check_updates_for[] = $theme;
+		if ( !empty( $this->themes ) ) {
+			foreach ( $this->themes as $theme ) {
+				// $theme - 0=file, 1=product_id, 2=file_id, 3=license_hash, 4=version
+				// Always fetch all theme data in one call, we loop to append the url
+				$theme[0] = str_replace( '/style.css', '', $theme[0] );
+				$theme[] = esc_url( home_url( '/' ) );
+				$themes_to_check_updates_for[] = $theme;
+			}
 		}
 
 		$helper_update_info = array( plugin_basename( $ignition_updater->file ), $ignition_updater->version, $ignition_updater->admin->licence_hash );
@@ -288,6 +290,7 @@ class Ignition_Updater_Update_Checker {
 	 * @return object $transient
 	 */
 	public function theme_update_check( $transient ) {
+return;
 		$response = $this->fetch_remote_update_data();
 
 		if ( FALSE == $response ) {
@@ -336,9 +339,12 @@ class Ignition_Updater_Update_Checker {
 		if ( isset( $this->errors ) && count( $this->errors ) ) {
 			$messages = array();
 			foreach ( $this->errors as $error ) {
+				if ( 1 == $error || true == $error ) 
+					continue;
 				$messages[] = '<p>' . $error . '</p>';
 			}
-			echo '<div id="message" class="error">' . implode( '', $messages ) . '</div>';
+			if ( !empty( $messages ) ) 
+				echo '<div id="message" class="error">' . implode( '', $messages ) . '</div>';
 			$this->errors = null;
 		}
 	} // End error_notices()

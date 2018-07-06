@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 2.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -13,12 +13,7 @@ function_exists('add_action') or die;
 ?>
 
 <h3 class="pweb-steps">
-    <?php printf(__('Step %d of %d', 'pwebcontact'), 1, 4); ?>
-    -
     <?php _e('Decide how and where your form should be displayed', 'pwebcontact'); ?>
-    <button class="button button-primary pweb-next-tab-button" type="button">
-        <?php _e( 'Next', 'pwebcontact' ); ?> <i class="glyphicon glyphicon-chevron-right"></i>
-    </button>
 </h3>
 
 <div class="pweb-width-40" id="pweb-location-steps">

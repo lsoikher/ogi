@@ -12,7 +12,11 @@ function title_shortcode( $atts, $content = null ){
     'target' => '',
     'margin_top' => '',
     'margin_bottom' => '',
+    'letter_case' => '',
+    'color' => '',
+    'width' => '',
     'icon' => '',
+    'tag'
   ), $atts ) );
 
   if(!$text && !$link_text) return;
@@ -33,9 +37,18 @@ function title_shortcode( $atts, $content = null ){
    array( 'attribute' => 'margin-bottom', 'value' => $margin_bottom),
   );
 
-  $css_args_title = array(
-   array( 'attribute' => 'font-size', 'value' => $size, 'unit' => '%'),
-  );
+  if($width) {
+    $css_args[] = array( 'attribute' => 'max-width', 'value' => $width);
+  }
+
+  $css_args_title = array();
+
+  if($size !== '100'){
+    $css_args_title[] = array( 'attribute' => 'font-size', 'value' => $size, 'unit' => '%');
+  }
+  if($color){
+    $css_args_title[] = array( 'attribute' => 'color', 'value' => $color);
+  }
 
   return '<div class="container section-title-container" '.get_shortcode_inline_css($css_args).'><h3 class="section-title section-title-'.$style.'"><b></b><span class="section-title-main" '.get_shortcode_inline_css($css_args_title).'>'.$icon.$atts['text'].$small_text.'</span><b></b>'.$link_output.'</h3></div><!-- .section-title -->';
 
@@ -63,7 +76,7 @@ if($width == 'full') $width = '100%';
 $css_args = array(
   array( 'attribute' => 'margin-top', 'value' => $margin),
   array( 'attribute' => 'margin-bottom', 'value' => $margin),
-  array( 'attribute' => 'width', 'value' => $width ),
+  array( 'attribute' => 'max-width', 'value' => $width ),
   array( 'attribute' => 'height', 'value' => $height ),
   array( 'attribute' => 'background-color', 'value' => $color ),
 );

@@ -5,7 +5,7 @@ function _wpsc_te2_register_styles() {
 
 	wpsc_te2_register_style( 'wpsc-common', "common{$suffix}.css" );
 	wpsc_te2_register_style( 'wpsc-responsive', "wpsc-responsive{$suffix}.css" );
-	wpsc_te2_register_style( 'wpsc-fluidbox', "wpsc-fluid-box{$suffix}.css" );
+	wpsc_te2_register_style( 'wpsc-cart-notifications', "cart-notifications{$suffix}.css" );
 
 	do_action( 'wpsc_register_styles' );
 }
@@ -14,7 +14,6 @@ function _wpsc_te2_enqueue_styles() {
 	_wpsc_te2_register_styles();
 
 	wp_enqueue_style( 'wpsc-common' );
-	wp_enqueue_style( 'wpsc-responsive' );
 	wp_enqueue_style( 'wpsc-responsive' );
 
 	if ( apply_filters( 'wpsc_add_inline_style', true ) ) {
@@ -43,7 +42,7 @@ function _wpsc_get_inline_style() {
 
 	ob_start();
 	?>
-	.wpsc-page-main-store .wpsc-product-summary,
+	.wpsc-main-store .wpsc-product-summary,
 	.archive .wpsc-product-summary {
 		width: -moz-calc(100% - <?php echo $archive_width + $thumbnail_padding; ?>px);
 		width: -webkit-calc(100% - <?php echo $archive_width + $thumbnail_padding; ?>px);
@@ -56,7 +55,11 @@ function _wpsc_get_inline_style() {
 		width: calc(100% - <?php echo $single_width + $thumbnail_padding; ?>px);
 	}
 
-	.wpsc-page-taxonomy .wpsc-product-summary {
+	.wpsc-page-single .wpsc-thumbnail-wrapper {
+		width: <?php echo $single_width; ?>px;
+	}
+
+	.wpsc-category .wpsc-product-summary {
 		width: -moz-calc(100% - <?php echo $tax_width + $thumbnail_padding; ?>px);
 		width: -webkit-calc(100% - <?php echo $tax_width + $thumbnail_padding; ?>px);
 		width: calc(100% - <?php echo $tax_width + $thumbnail_padding; ?>px);

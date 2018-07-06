@@ -56,6 +56,11 @@ class VTPRD_Parent_Definitions {
     $default_short_msg  =  __('Short checkout message required', 'vtprd');
     $default_full_msg   =  __('Get 10% off Laptops Today! (sample)', 'vtprd');
     $default_coupon_msg =  __('Optional - Discount applied *only* with Coupon Code', 'vtprd'); //v1.1.0.8
+
+    $default_by_varname_example =  "<span class=\"varname_ex_larger\"> \"large | red + extra large | blue\" </span>"; //v1.1.8.0
+    $default_by_varname_msg =  'Enter attribute names:  &nbsp; use &nbsp; " | "  &nbsp; to separate values ,  &nbsp; " + "  &nbsp; to combine values'; //v2.0.0 msg changed
+        //v1.1.7.1a warning used for edit comparison ONLY - NO HTML CHARACTERS
+    $default_by_varname_msg_warning =  __('combining values', 'vtprd'); //v1.1.7.1a - used for comparison during update process
     
     $vtprd_info = array(                                                                    
       	'parent_plugin' => 'woo',
@@ -111,7 +116,8 @@ class VTPRD_Parent_Definitions {
             'this_is_a_parent_product_with_variations' => $vtprd_cart->cart_items[0]->this_is_a_parent_product_with_variations,            
             'pricing_by_rule_array'        => $vtprd_cart->cart_items[0]->pricing_by_rule_array,
             'product_id'                   => $product_id,    //v1.0.9.0  
-            'product_has_addons'           => $product_has_addons    //v1.1.1                                      
+            'product_has_addons'           => $product_has_addons    //v1.1.1 
+                                                 
           ) ;
          */
          'ruleset_has_a_display_rule'     => $ruleset_has_a_display_rule,
@@ -172,7 +178,58 @@ class VTPRD_Parent_Definitions {
         'previous_auto_add_array' => '',  //v1.1.0.6  added - init to spaces so is_array test can be used
         'default_coupon_msg'  => $default_coupon_msg, //v1.1.0.8
         'coupon_codes_array' => array(),   //v1.1.0.9
-        'cart_has_catalog_discounts' => false   //v1.1.1  reset each time the cart is processed
+        'cart_has_catalog_discounts' => false,   //v1.1.1  reset each time the cart is processed
+        'default_by_varname_msg'  => $default_by_varname_msg, //v1.1.7.1a
+        'default_by_varname_msg_warning'  => $default_by_varname_msg_warning, //v1.1.7.1a
+        'default_by_varname_example'  => $default_by_varname_example, //v1.1.7.1a
+        //v2.0.0 begin
+        'data_update_options_done_array'  => array ( 
+            'required_updates'  => array (
+                '2.0.0 Rule conversions'      => true
+            ),
+            'optional_updates'  => array (
+                '2.0.0 Create Tables'         => true, //fixes a problem from v1.1.8.1
+                '2.0.0 Alter Column'          => true  //changes the column def pre v1.1.8.1 
+            )
+        ),
+
+        //BRANDS         
+        /* ********************************
+        Pricing Deals Pro has built-in support for the following list of BRANDS Plugins .
+        There's also the 'vtprd_brands_taxonomy_filter', which allows you to use ANY
+        nominated custom taxonomy at the BRANDS selector 
+        
+        Here's what we're prepared for: 
+          
+          Product Brands For WooCommerce
+          https://wordpress.org/plugins/product-brands-for-woocommerce/
+          taxonomy = 'product_brands'
+          
+          Perfect WooCommerce Brands
+          https://wordpress.org/plugins/perfect-woocommerce-brands/
+          taxonomy = 'pwb-brand'
+          
+          Brands for WooCommerce
+          https://wordpress.org/plugins/brands-for-woocommerce/
+          taxonomy = 'berocket_brand'
+    
+          YITH WooCommerce Brands Add-On
+          https://wordpress.org/plugins/yith-woocommerce-brands-add-on/
+          taxonomy = 'yith_product_brand';
+          
+          Ultimate WooCommerce Brands
+          https://wordpress.org/plugins/ultimate-woocommerce-brands/
+          taxonomy = "product_brand"
+          
+          Woocommerce Brand
+          https://wordpress.org/plugins/wc-brand/
+          taxonomy = 'product_brand'  
+          
+        */   
+        'brands_taxonomy_array'  => array("product_brand","pwb-brand","berocket_brand","product_brands","yith_product_brand"),
+        'yousave_cart_total_amt'  => 0    //v2.0.0 G solution , contains $vtprd_cart->yousave_cart_total_amt , used in COUPON discounting   
+          //v2.0.0 end             
+             
       ); //end vtprd_info      
       
     if ($vtprd_info['purchaser_ip_address'] <= ' ' ) {

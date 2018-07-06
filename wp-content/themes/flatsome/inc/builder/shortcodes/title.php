@@ -29,13 +29,31 @@ add_ux_builder_shortcode( 'title', array(
             'auto_focus' => true,
         ),
 
+        'color' => array(
+          'type' => 'colorpicker',
+          'heading' => __('Color'),
+          'alpha' => true,
+          'format' => 'rgb',
+          'position' => 'bottom right',
+        ),
+
         'icon' => array(
             'type' => 'select',
             'heading' => 'Icon',
             'options' => require( __DIR__ . '/values/icons.php' ),
         ),
-        
-        'margin_top' => array(
+
+        'width' => array(
+            'type' => 'scrubfield',
+            'heading' => __('Width'),
+            'default' => '',
+            'min' => 0,
+            'max' => 1200,
+            'step' => 5,
+        ),
+
+
+       'margin_top' => array(
           'type' => 'scrubfield',
           'heading' => __('Margin Top'),
           'default' => '',

@@ -5,11 +5,11 @@
 	<?php echo get_the_category_list( __( ', ', 'flatsome' ) ); ?>
 </h6>
 
-<?php 
+<?php
 	if(is_single()){
 		echo '<h1 class="entry-title">'.get_the_title().'</h1>';
 	} else{
-		echo '<h2 class="entry-title"><a href="'.get_the_permalink().'" itemprop="url" rel="bookmark" class="plain">'.get_the_title().'</a></h2>';
+		echo '<h2 class="entry-title"><a href="'.get_the_permalink().'" rel="bookmark" class="plain">'.get_the_title().'</a></h2>';
 	}
 ?>
 

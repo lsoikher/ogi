@@ -21,12 +21,23 @@
       // YouTube player after the API code downloads.
       var player;
       function onYouTubePlayerAPIReady() {
+        var videoLoop = <?php if($video_loop !== 'false') { echo '1'; } else { echo '0'; } ?>;
         player = new YT.Player('ytplayer', {
           height: '100%',
           width: '100%',
-          playerVars: {html5: 1, autoplay: 1, controls: 0, rel: 0, modestbranding: 1, playsinline: 1, showinfo: 0, fs :0,
-            loop: <?php if($video_loop !== 'false') {echo '1';} else{ echo '0';} ?>, el: 0, playlist: '<?php echo $youtube; ?>'},
-          videoId: '<?php echo $youtube; ?>',
+          playerVars: { 
+              html5: 1, 
+              autoplay: 1, 
+              controls: 0, 
+              rel: 0, 
+              modestbranding: 1, 
+              playsinline: 1, 
+              showinfo: 0, 
+              fs : 0,
+              loop: videoLoop, 
+              el: 0, 
+              playlist: videoLoop ? '<?php echo $youtube; ?>' : undefined },
+            videoId: '<?php echo $youtube; ?>',
             events: {
               'onReady': onPlayerReady
             }

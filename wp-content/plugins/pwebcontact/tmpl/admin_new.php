@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 1.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -12,7 +12,7 @@ function_exists('add_action') or die;
 
 ?>
 <div class="pweb-version pweb-clearfix">
-    <?php _e('Version'); ?> 
+    <?php _e('Version'); ?>
     <?php echo $this->_get_version(); ?>
 </div>
 

@@ -76,6 +76,18 @@ if(!function_exists('wc_custom_product_data_fields')){
     );
 
     $custom_product_data_fields[] = array(
+          'id'          => '_product_video_placement',
+          'type'        => 'select',
+          'label'       => __('Product Video Placement', 'flatsome-admin'),
+          'description' => __('Select where you want to display product video.', 'flatsome'),
+          'desc_tip'    => true,
+           'options'     => array(
+              ''  => 'Lightbox (Default)',
+              'tab'  => 'New Tab'
+          ),
+    );
+
+    $custom_product_data_fields[] = array(
           'id'          => '_top_content',
           'type'        => 'textarea',
           'label'       => __('Top Content', 'flatsome'),

@@ -29,7 +29,7 @@ Flatsome_Option::add_field( 'option', array(
 Flatsome_Option::add_field( 'option',  array(
     'type'        => 'checkbox',
     'settings'     => 'default_title',
-    'label'       => __( 'Show H1 Page title on default page template', 'flatsome-admin' ),
+    'label'       => __( 'Show H1 Page title on the default, left sidebar and right sidebar template.', 'flatsome-admin' ),
     'section'     => 'pages',
     'default'     => 0,
 ));

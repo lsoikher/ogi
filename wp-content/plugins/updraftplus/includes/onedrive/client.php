@@ -180,9 +180,10 @@ class Client {
 	 *         successful log in.
 	 * @param  (array) $options. Reserved for future use. Default: array(). TODO:
 	 *         support it.
+	 * @param  (string) $instance_id - the id of the instance that we are currently trying to authorise
 	 * @return (string) The login URL.
 	 */
-	public function getLogInUrl(array $scopes, $redirectUri, array $options = array()) {
+	public function getLogInUrl(array $scopes, $redirectUri, array $options = array(), $instance_id = '') {
 		if (null === $this->_clientId) {
 			throw new \Exception('The client ID must be set to call getLoginUrl()');
 		}
@@ -191,6 +192,8 @@ class Client {
 		$redirectUri = (string) $redirectUri;
 		$this->_state->redirect_uri = $redirectUri;
 
+		if ($instance_id) $instance_id = ':'.$instance_id;
+		
 		// When using this URL, the browser will eventually be redirected to the
 		// callback URL with a code passed in the URL query string (the name of the
 		// variable is "code"). This is suitable for PHP.
@@ -199,6 +202,7 @@ class Client {
 			. '&scope=' . urlencode($imploded)
 			. '&response_type=code'
 			. '&redirect_uri=' . urlencode($redirectUri)
+			. '&state=' . urlencode($instance_id)
 			. '&display=popup'
 			. '&locale=en';
 

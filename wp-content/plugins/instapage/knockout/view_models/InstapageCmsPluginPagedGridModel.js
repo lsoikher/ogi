@@ -3,6 +3,7 @@
 var InstapageCmsPluginPagedGridModel = function InstapageCmsPluginPagedGridModel(items) {
   var self = this;
   var GridViewModel = instapageKO.simpleGrid.viewModel;
+  self.deleteThrottle = instapageKO.observable(true);
   self.originalItems = items ? instapageKO.observableArray(items) : instapageKO.observableArray();
   self.query = instapageKO.observable('');
   self.items = instapageKO.computed(function filterItems() {
@@ -49,6 +50,11 @@ var InstapageCmsPluginPagedGridModel = function InstapageCmsPluginPagedGridModel
   };
 
   self.deletePage = function deletePage(item) {
+    if (self.deleteThrottle.isBusy()) {
+      return;
+    }
+
+    self.deleteThrottle.setBusy(true);
     var post = {action: 'deletePage', apiTokens: masterModel.apiTokens, data: {id: item.id}};
 
     iAjax.post(INSTAPAGE_AJAXURL, post, function loadEditPageCallback(responseJson) {
@@ -69,6 +75,8 @@ var InstapageCmsPluginPagedGridModel = function InstapageCmsPluginPagedGridModel
           masterModel.prohibitedSlugs.splice(removeIndex, 1);
         }
       }
+
+      self.deleteThrottle.setBusy(false);
     });
   };
 

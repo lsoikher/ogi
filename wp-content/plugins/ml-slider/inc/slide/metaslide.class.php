@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Slide class represting a single slide. This is extended by type specific
@@ -20,20 +18,23 @@ class MetaSlide {
      */
     public function __construct() {
 
-        add_action( 'wp_ajax_change_slide_image', array( $this, 'ajax_change_slide_image' ) );
+        add_action( 'wp_ajax_update_slide_image', array( $this, 'ajax_update_slide_image' ) );
 
     }
 
     /**
      * Set the slide
+     *
+     * @param int $id ID
      */
     public function set_slide( $id ) {
         $this->slide = get_post( $id );
     }
 
-
     /**
      * Set the slide (that this slide belongs to)
+     *
+     * @param int $id ID
      */
     public function set_slider( $id ) {
         $this->slider = get_post( $id );
@@ -44,6 +45,8 @@ class MetaSlide {
     /**
      * Return the HTML for the slide
      *
+     * @param  int $slide_id  Slide ID
+     * @param  int $slider_id Slider ID
      * @return array complete array of slides
      */
     public function get_slide( $slide_id, $slider_id ) {
@@ -52,75 +55,81 @@ class MetaSlide {
         return $this->get_slide_html();
     }
 
-
     /**
      * Save the slide
+     *
+     * @param  int    $slide_id  Slide ID
+     * @param  int    $slider_id Slider ID
+     * @param  string $fields    SLider fields
      */
-    public function save_slide( $slide_id, $slider_id, $fields ) {
-        $this->set_slider( $slider_id );
-        $this->set_slide( $slide_id );
-        $this->save( $fields );
+    public function save_slide($slide_id, $slider_id, $fields) {
+        $this->set_slider($slider_id);
+        $this->set_slide($slide_id);
+        $this->save($fields);
+        do_action('metaslider_save_slide', $slide_id, $slider_id, $fields);
     }
 
 
     /**
-     * Change the slide image.
+     * Updates the slide meta value to a new image.
      *
-     * This creates a copy of the selected (new) image and assigns the copy to our existing media file/slide.
+     * @param int $slide_id The id of the slide being updated
+     * @param int $image_id The id of the new image to use
+     *
+     * @return array|WP_error The status message and if success, the thumbnail link
      */
-    public function ajax_change_slide_image() {
-
-        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'metaslider_changeslide' ) ) {
-            wp_die( json_encode( array(
-                    'status' => 'fail',
-                    'msg' => __( "Security check failed. Refresh page and try again.", "ml-slider" )
-                )
-            ));
+    protected function update_slide_image($slide_id, $image_id) {
+        /*
+        * Verifies that the $image_id is an actual image
+        */        
+        if (!($image_url = wp_get_attachment_image_url($image_id))) {
+            return new WP_Error('update_failed', __('The requested image does not exist. Please try again.', 'ml-slider'), array('status' => 409));
         }
 
-        $slide_from = absint( $_POST['slide_from'] );
-        $slide_to = absint( $_POST['slide_to'] );
-
-        // find the paths for the image we want to change to
-
-        // Absolute path
-        $abs_path = get_attached_file( $slide_to );
-        $abs_path_parts = pathinfo( $abs_path );
-        $abs_file_directory = $abs_path_parts['dirname'];
-
-        // Relative path
-        $rel_path = get_post_meta( $slide_to, '_wp_attached_file', true );
-        $rel_path_parts = pathinfo( $rel_path );
-        $rel_file_directory = $rel_path_parts['dirname'];
-
-        // old file name
-        $file_name = $abs_path_parts['basename'];
-
-        // new file name
-        $dest_file_name = wp_unique_filename( $abs_file_directory, $file_name );
-
-        // generate absolute and relative paths for the new file name
-        $dest_abs_path = trailingslashit($abs_file_directory) . $dest_file_name;
-        $dest_rel_path = trailingslashit($rel_file_directory) . $dest_file_name;
-
-        // make a copy of the image
-        if ( @ copy( $abs_path, $dest_abs_path ) ) {
-            // update the path on our slide
-            update_post_meta( $slide_from, '_wp_attached_file', $dest_rel_path );
-            wp_update_attachment_metadata( $slide_from, wp_generate_attachment_metadata( $slide_from, $dest_abs_path ) );
-            update_attached_file( $slide_from, $dest_rel_path );
-
-            wp_die( json_encode( array(
-                    'status' => 'success'
-                )
-            ));
+        /*
+        * Verifies that the $slide_id is an actual slide (it currently has an image)
+        */
+        if (!($image_id_old = intval(get_post_meta($slide_id, '_thumbnail_id', true)))) {
+            return new WP_Error('update_failed', __('The requested slide does not exist or something is wrong with the current image. Please try again or remove this slide.', 'ml-slider'), array('status' => 409));
         }
+        
+        /*
+        * Updates and verifies that it worked. Checks that either the image is the same,
+        * or that the update was successful
+        */
+        if (($image_id === $image_id_old) || update_post_meta($slide_id, '_thumbnail_id', $image_id, $image_id_old)) {
+            return array(
+                'message' => __('The image was successfully updated.', 'ml-slider'),
+                'img_url' => $image_url
+            );
+        }
+        
+        return new WP_Error('update_failed', __('There was an error updating the image. Please try again', 'ml-slider'), array('status' => 409));
+    }
 
-        wp_die( json_encode( array(
-                'status' => 'fail',
-                'msg' => __( "File copy failed. Please check upload directory permissions.", "ml-slider" )
-            )
-        ));
+    /**
+     * Ajax wrapper to update the slide image.
+     *
+     * @return String The status message and if success, the thumbnail link (JSON)
+     */
+    public function ajax_update_slide_image() {
+
+        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'metaslider_update_slide_image')) {
+            return wp_send_json_error(array(
+                'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
+            ), 401);
+        }
+        
+        $result = $this->update_slide_image(
+            absint($_POST['slide_id']), absint($_POST['image_id'])
+        );
+        
+        if (is_wp_error($result)) {
+            return wp_send_json_error(array(
+                'message' => $result->get_error_message()
+            ), 409);
+        }
+        return wp_send_json_success($result, 200);
     }
 
 
@@ -150,9 +159,12 @@ class MetaSlide {
 
     }
 
-
     /**
      * Check if a slide already exists in a slideshow
+     *
+     * @param  string $slider_id Slider ID
+     * @param  string $slide_id  SLide ID
+     * @return string
      */
     public function slide_exists_in_slideshow( $slider_id, $slide_id ) {
 
@@ -160,9 +172,12 @@ class MetaSlide {
 
     }
 
-
     /**
      * Check if a slide has already been assigned to a slideshow
+     *
+     * @param  string $slider_id Slider ID
+     * @param  string $slide_id  SLide ID
+     * @return string
      */
     public function slide_is_unassigned_or_image_slide( $slider_id, $slide_id ) {
 
@@ -176,13 +191,18 @@ class MetaSlide {
     /**
      * Build image HTML
      *
-     * @param array   $attributes
+     * @param array $attributes Anchor attributes
      * @return string image HTML
      */
-    public function build_image_tag( $attributes ) {
-
+    public function build_image_tag($attributes) {
+        $attachment_id = $this->get_attachment_id();
+        
+        if ('disabled' == $this->settings['smartCrop'] || 'disabled_pad' == $this->settings['smartCrop']) {
+            // remove extra src attribute
+            if (isset($attributes['src'])) unset($attributes['src']);
+            return wp_get_attachment_image($attachment_id, apply_filters('metaslider_default_size', 'full', $this->slider), false, $attributes);
+        }
         $html = "<img";
-
         foreach ( $attributes as $att => $val ) {
             if ( strlen( $val ) ) {
                 $html .= " " . $att . '="' . esc_attr( $val ) . '"';
@@ -190,18 +210,16 @@ class MetaSlide {
                 $html .= " " . $att . '=""'; // always include alt tag for HTML5 validation
             }
         }
-
         $html .= " />";
-
         return $html;
-
     }
 
 
     /**
      * Build image HTML
      *
-     * @param array   $attributes
+     * @param array  $attributes Anchor attributes
+     * @param string $content    Anchor contents
      * @return string image HTML
      */
     public function build_anchor_tag( $attributes, $content ) {
@@ -225,29 +243,34 @@ class MetaSlide {
      * Create a new post for a slide. Tag a featured image to it.
      *
      * @since 3.4
-     * @param string $attachment_id - Media File ID to use for the slide
-     * @param string $type - the slide type identifier
-     * @param int $slider_id - the parent slideshow ID
-     * @return int $id - the ID of the newly created slide
+     * @param string $media_id  - Media File ID to use for the slide
+     * @param string $type      - the slide type identifier
+     * @param int    $slider_id - the parent slideshow ID
+     * @return int $slide_id - the ID of the newly created slide
      */
-    public function insert_slide($attachment_id, $type, $slider_id) {
-
-        $id = wp_insert_post( array(
-                'post_title' => __( "Slider {$slider_id} - {$type}", "ml-slider" ),
+     public function insert_slide($media_id, $type, $slider_id) {
+        
+        // Store the post in the database (without translation)
+        $slide_id = wp_insert_post(
+            array(
+                'post_title' => "Slider {$slider_id} - {$type}",
                 'post_status' => 'publish',
                 'post_type' => 'ml-slide'
             )
         );
 
-        if ( $attachment_id ) {
-            set_post_thumbnail( $id, $attachment_id );
+        // Send back a friendlier error message
+        if (is_wp_error($slide_id)) {
+            return new WP_Error('create_failed', __('There was an error while updating the database. Please try again.', 'ml-slider'), array('status' => 409));
         }
 
-        $this->add_or_update_or_delete_meta( $id, 'type', $type );
+        // Set the image to the slide
+        set_post_thumbnail($slide_id, $media_id);
 
-        return $id;
-
+        $this->add_or_update_or_delete_meta($slide_id, 'type', $type);
+        return $slide_id;
     }
+        
 
     /**
      * Tag the slide attachment to the slider tax category
@@ -284,7 +307,7 @@ class MetaSlide {
      */
     public function get_admin_slide_tab_titles_html() {
 
-        $tabs = $this->get_admin_tabs();
+        $tabs = apply_filters('metaslider_slide_tabs', $this->get_admin_tabs(), $this->slide, $this->slider, $this->settings);
 
         $return = "<ul class='tabs'>";
 
@@ -294,7 +317,7 @@ class MetaSlide {
 
             $selected = $pos == 0 ? "class='selected'" : "";
 
-            $return .= "<li {$selected} rel='tab-{$pos}'>{$tab['title']}</li>";
+            $return .= "<li {$selected} ><a tabindex='0' href='#' data-tab_id='tab-{$pos}'>{$tab['title']}</a></li>";
 
         }
 
@@ -306,23 +329,42 @@ class MetaSlide {
 
     /**
      * Generate the HTML for the delete button
+     *
+     * @return string
      */
     public function get_delete_button_html() {
-
-        $url = wp_nonce_url( admin_url( "admin-post.php?action=metaslider_delete_slide&slider_id={$this->slider->ID}&slide_id={$this->slide->ID}" ), "metaslider_delete_slide" );
-
-        return "<a title='" . __("Delete slide", "ml-slider") . "' class='tipsy-tooltip-top delete-slide dashicons dashicons-trash' href='{$url}'>" . __("Delete slide", "ml-slider") . "</a>";
-
+        return "<button class='delete-slide alignright' title='" . __("Delete Slide", "ml-slider") . "' data-slide-id='{$this->slide->ID}'><i><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-x'><line x1='18' y1='6' x2='6' y2='18'/><line x1='6' y1='6' x2='18' y2='18'/></svg></i></button>";
     }
 
     /**
-     * Generate the HTML for the change slide image button
+     * Generate the HTML for the undelete button
+     *
+     * @return string
      */
-    public function get_change_image_button_html() {
+    public function get_undelete_button_html() {
+        return "<a href='#' onclick='return false;' class='trash-view-restore' data-slide-id='{$this->slide->ID}'>" . __('Restore', 'default') . "</a>";
+    }
 
-        return apply_filters("metaslider_change_image_button_html", "", $this->slide);
+    /**
+     * Generate the HTML for the perminant button
+     *
+     * @return string
+     */
+    public function get_perminant_delete_button_html() {
 
-        //return "<a title='" . __("Change slide image", "ml-slider") . "' class='tipsy-tooltip-top change-image dashicons dashicons-edit' data-button-text='" . __("Change slide image", "ml-slider") . "' data-slide-id='{$this->slide->ID}'>" . __("Change slide image", "ml-slider") . "</a>";
+        // TODO allow for a perminant delete button
+        $url = wp_nonce_url(admin_url("post.php?ml-slide={$this->slide->ID}&action=delete"));
+        return "<a href='{$url}' class='trash-view-perminant-delete' data-slide-id='{$this->slide->ID}'>" . __('Delete Permanently', 'default') . "</a>";
+    }
+
+    /**
+     * Generates the HTML for the update slide image button
+     *
+     * @return string The html for the edit button on a slide image
+     */
+    public function get_update_image_button_html() {
+        $attachment_id = $this->get_attachment_id();
+        return "<button class='update-image alignright' data-button-text='" . __("Update slide image", "ml-slider") . "' title='" . __("Update slide image", "ml-slider") . "' data-slide-id='{$this->slide->ID}' data-attachment-id='{$attachment_id}'><i><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-2'><polygon points='16 3 21 8 8 21 3 21 3 16 16 3'/></svg></i></button>";
     }
 
     /**
@@ -330,7 +372,7 @@ class MetaSlide {
      */
     public function get_admin_slide_tab_contents_html() {
 
-        $tabs = $this->get_admin_tabs();
+        $tabs = apply_filters('metaslider_slide_tabs', $this->get_admin_tabs(), $this->slide, $this->slider, $this->settings);
 
         $return = "<div class='tabs-content'>";
 
@@ -405,6 +447,10 @@ class MetaSlide {
      * If the meta doesn't exist, add it
      * If the meta exists, but the value is empty, delete it
      * If the meta exists, update it
+     *
+     * @param int    $post_id Post ID
+     * @param string $name    SLider Name
+     * @param int    $value   Slaider Value
      */
     public function add_or_update_or_delete_meta( $post_id, $name, $value ) {
 
@@ -428,7 +474,8 @@ class MetaSlide {
     /**
      * Detect a [metaslider] or [ml-slider] shortcode in the slide caption, which has an ID that matches the current slideshow ID
      *
-     * @param $content string
+     * @param string $content Content for shortcode
+     * @return  boolean
      */
     protected function detect_self_metaslider_shortcode( $content ) {
         $pattern = get_shortcode_regex();
@@ -449,6 +496,18 @@ class MetaSlide {
         return false;
     }
 
+    /**
+     * Get the attachment ID
+     *
+     * @return Integer - the attachment ID
+     */
+    public function get_attachment_id() {
+        if ('attachment' == $this->slide->post_type) {
+            return $this->slide->ID;
+        } else {
+            return get_post_thumbnail_id($this->slide->ID);
+        }
+    }
 
     /**
      * Get the thumbnail for the slide

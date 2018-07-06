@@ -1,20 +1,19 @@
-( function( $ )
-{
+(function($) {
   $(document).ready(function() {
     // uikit menu
     var titles = $('main > .ui-section .ui-title');
-    var ui_menu = $('#ui-menu');
-    var ui_menu_content = '';
+    var uiMenu = $('#ui-menu');
+    var uiMenuContent = '';
     var title;
     var toggle_menu = $('#show-menu');
 
     titles.each(function(i, e){
-      ui_menu_content += '<li data-id="'+i+'">' + (i+1) + '. ' + $(e).text() + '</li>';
+      uiMenuContent += '<li data-id="'+i+'">' + (i+1) + '. ' + $(e).text() + '</li>';
     });
 
-    ui_menu.append(ui_menu_content);
+    uiMenu.append(uiMenuContent);
 
-    title = ui_menu.find('li');
+    title = uiMenu.find('li');
 
     title.on('click', function(){
       var thiz = $(this);
@@ -27,8 +26,8 @@
     });
 
     $('.ui-toggle-menu').on('click', function(){
-      ui_menu.toggleClass('is-active');
+      uiMenu.toggleClass('is-active');
       title.removeClass('is-active');
     });
   });
-} )( jQuery );
+})(jQuery);

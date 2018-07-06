@@ -47,8 +47,6 @@
 			?>
 		</div>
 
-		<meta itemprop="url" content="<?php the_permalink(); ?>" />
-
 	</div><!-- .row -->
 </div><!-- .product-main -->
 

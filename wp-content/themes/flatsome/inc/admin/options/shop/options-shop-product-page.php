@@ -114,22 +114,25 @@ Flatsome_Option::add_field( 'option', array(
 
 
 Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'select',
-	'settings'     => 'product_lightbox',
-	'label'       => __( 'Product Image Lightbox', 'flatsome-admin' ),
-	'section'     => 'product-page',
-	'default'     => 'default',
-	'choices'     => array(
-		'default' => __( 'Flatsome Lightbox (Magnific Popup)', 'flatsome-admin' ),
-		'woocommerce' => __( 'WooCommerce Lightbox (Pretty Photo)', 'flatsome-admin' ),
-		'disabled' => __( 'Disable Lightbox', 'flatsome-admin' ),
-	),
+  'type'        => 'select',
+  'settings'     => 'product_lightbox',
+  'label'       => __( 'Product Image Lightbox', 'flatsome-admin' ),
+  'description' => __( 'Show images in a lightbox when clicking on image in gallery. You might need to save and close Customizer for this to work properly.', 'flatsome-admin' ),
+  'section'     => 'product-page',
+  'default'     => 'default',
+  'choices'     => array(
+    'default' => __( 'New WooCommerce 3.0 Lightbox', 'flatsome-admin' ),
+    'flatsome' => __( 'Flatsome Lightbox', 'flatsome-admin' ),
+    'woocommerce' => __( 'Old WooCommerce Lightbox', 'flatsome-admin' ),
+    'disabled' => __( 'Disable Lightbox', 'flatsome-admin' ),
+  ),
 ));
 
 Flatsome_Option::add_field( 'option',  array(
 	'type'        => 'checkbox',
 	'settings'     => 'product_zoom',
-	'label'       => __( 'Product Image Zoom', 'flatsome-admin' ),
+	'label'       => __( 'Product Image Hover Zoom', 'flatsome-admin' ),
+  'description' => __( 'Show a zoomed version of image when hovering gallery', 'flatsome-admin' ),
 	'section'     => 'product-page',
 	'default'     => 0,
 ));
@@ -207,7 +210,7 @@ Flatsome_Option::add_field( 'option',  array(
 		'tabs_pills' => __( 'Pills', 'flatsome-admin' ),
 		'tabs_outline' => __( 'Outline', 'flatsome-admin' ),
 		'sections' => __( 'Sections', 'flatsome-admin' ),
-		'accordian' => __( 'Accordian', 'flatsome-admin' ),
+		'accordian' => __( 'Accordion', 'flatsome-admin' ),
 	),
 ));
 

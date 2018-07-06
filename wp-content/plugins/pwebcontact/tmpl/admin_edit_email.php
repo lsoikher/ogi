@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 2.3.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -15,9 +15,7 @@ function_exists('add_action') or die;
 ?>
 
 <h3 class="pweb-steps">
-    <?php printf(__('Step %d of %d', 'pwebcontact'), 4, 4); ?>
-    -
-    <?php _e('Choose your answer scheme', 'pwebcontact'); ?>
+    <?php _e('Choose an existing answer scheme', 'pwebcontact'); ?>
 
     <?php echo $this->_get_field_control(array(
         'type' => 'select',
@@ -44,10 +42,6 @@ function_exists('add_action') or die;
     )); ?>
 
     <?php _e('or define your own', 'pwebcontact'); ?>
-
-    <button class="button button-primary pweb-next-tab-button" type="button">
-        <?php _e( 'Next', 'pwebcontact' ); ?> <i class="glyphicon glyphicon-chevron-right"></i>
-    </button>
 </h3>
 
 <?php echo $this->_get_field(array(
@@ -108,7 +102,7 @@ function_exists('add_action') or die;
             ),
             array(
                 'value' => 1,
-                'name' => 'When field &bdquo;Send copy to yourself&rdquo; is checked'
+                'name' => 'When field &quot;Send copy to yourself&quot; is checked'
             )
         )
     )); ?>
@@ -302,6 +296,10 @@ function_exists('add_action') or die;
                         array(
                             'value' => 2,
                             'name' => 'Page title'
+                        ),
+                        array(
+                            'value' => 3,
+                            'name' => 'Name field'
                         )
                     )
                 )); ?>
@@ -368,7 +366,7 @@ function_exists('add_action') or die;
                     'type' => 'text',
                     'name' => 'email_from',
                     'label' => 'Sender email',
-                    'desc' => sprintf(__('Leave blank to use email: &bdquo;%s&rdquo; set in %s.', 'pwebcontact'), $this->_get_param('email_from', get_bloginfo('admin_email'), 'settings'),
+                    'desc' => sprintf(__('Leave blank to use email: &quot;%s&quot; set in %s.', 'pwebcontact'), $this->_get_param('email_from', get_bloginfo('admin_email'), 'settings'),
                             '<a href="'.admin_url('admin.php?page=pwebcontact&task=settings').'" target="_blank">'.__('Contact Form Settings', 'pwebcontact').'</a>')
                         . ($isLocalhsot ? '' : sprintf(__('Sender email should be in the same domain as your website, example: %s'), 'info@'.$domain)),
                     'class' => 'pweb-filter-email'
@@ -378,7 +376,7 @@ function_exists('add_action') or die;
                     'type' => 'text',
                     'name' => 'email_from_name',
                     'label' => 'Sender name',
-                    'desc' => sprintf(__('Leave blank to use name: &bdquo;%s&rdquo; set in %s.', 'pwebcontact'), $this->_get_param('email_from_name', get_bloginfo('name'), 'settings'),
+                    'desc' => sprintf(__('Leave blank to use name: &quot;%s&quot; set in %s.', 'pwebcontact'), $this->_get_param('email_from_name', get_bloginfo('name'), 'settings'),
                         '<a href="'.admin_url('admin.php?page=pwebcontact&task=settings').'" target="_blank">'.__('Contact Form Settings', 'pwebcontact').'</a>')
                 )); ?>
             </div>
@@ -597,10 +595,10 @@ function_exists('add_action') or die;
             </div>
         </div>
 
-		<hr>
+        <hr>
 
-		<div class="pweb-clearfix">
-			<h3><?php _e('Google Sheets integration', 'pwebcontact'); ?></h3>
+        <div class="pweb-clearfix">
+            <h3><?php _e('Google Sheets integration', 'pwebcontact'); ?></h3>
 
             <?php echo $this->_get_field(array(
                 'type'    => 'radio',
@@ -626,10 +624,10 @@ function_exists('add_action') or die;
                 'type'    => 'custom',
                 'name'    => 'googlesheets_instructions',
                 'parent'  => array('googlesheets_enable_1'),
-                'content'   => 
+                'content'   =>
                     '<p>'
                     . sprintf(__('Grant an access to your Google Spreadsheets in %s', 'pwebcontact')
-                            , '<a href="' . admin_url('admin.php?page=pwebcontact&task=settings#pweb_settings_googleapi_accesscode') . '" target="_blank">' . __('Contact Form Settings', 'pwebcontact') . '</a>')
+                        , '<a href="' . admin_url('admin.php?page=pwebcontact&task=settings#pweb_settings_googleapi_accesscode') . '" target="_blank">' . __('Contact Form Settings', 'pwebcontact') . '</a>')
                     . '</p>'
                     . '<p>'
                     . __('Create a new Google Spreadsheet with the same account which you have used for granting the access.', 'pwebcontact')
@@ -665,7 +663,7 @@ function_exists('add_action') or die;
                     . __('Get columns names', 'pwebcontact')
                     . '</button> <code class="googlesheets-columns" style="display:none"></code></p>'
             )); ?>
-		</div>
+        </div>
 
         <hr>
 
@@ -868,6 +866,7 @@ function_exists('add_action') or die;
         <li><code>{site_name}</code> - <?php esc_html_e('site name', 'pwebcontact'); ?></li>
         <li><code>{sent_on}</code> - <?php esc_html_e('date and time', 'pwebcontact'); ?></li>
         <li><code>{ip_address}</code> - <?php esc_html_e('User IP address', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{browser}</code> - <?php esc_html_e('User browser name', 'pwebcontact'); ?>.
             <?php _e('Requires 3rd-part plugin', 'pwebcontact'); ?>
@@ -883,18 +882,25 @@ function_exists('add_action') or die;
             <?php else : ?>
                 <strong class="pweb-text-success"><i class="glyphicon glyphicon-ok-sign"></i> <?php _e('Installed'); ?></strong>
             <?php endif; ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{os}</code> - <?php esc_html_e('User operating system name', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{screen_resolution}</code> - <?php esc_html_e('User screen resolution', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{mailto_name}</code> - <?php esc_html_e('name of recipient selected by User from "Mail to list" field', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{ticket}</code> - <?php esc_html_e('formatted ticket', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{subject}</code> - <?php esc_html_e('subject entered by User', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
         <li><code>{files}</code> - <?php esc_html_e('links to uploaded files if "Attachment type" set to: "Links to files"', 'pwebcontact'); ?>
+            <?php echo $this->_display_badge_pro(); ?>
         </li>
     </ul>
 </div>

@@ -51,8 +51,8 @@
 <h3 class="alt-font">A Nice top title</h3>
 <h2 class="uppercase" data-animate="fadeInLeft" data-animated="true"><strong>Change this</strong></h2>
 <h2 class="uppercase"><strong>to Anything</strong></h2>
-<p class="lead">This can easely be edited in the page builder.</p>
-[button text="Browse PRoducts"]
+<p class="lead">This can easily be edited in the page builder.</p>
+[button text="Browse Products"]
 
 [/text_box]
 
@@ -121,7 +121,7 @@
 
 [col span="4"]
 
-[featured_box img="8685" img_width="46" pos="center" title="Free Shipping on all ordres" icon_border="2" icon_color="rgb(182, 182, 182)" margin="0px 0px 0px 0px"]
+[featured_box img="8685" img_width="46" pos="center" title="Free Shipping on all orders" icon_border="2" icon_color="rgb(182, 182, 182)" margin="0px 0px 0px 0px"]
 
 Get Free Shipping on all orders over $75 and free returns to our UK returns centre! Items are dispatched from the US and will arrive in 5-8 days.
 

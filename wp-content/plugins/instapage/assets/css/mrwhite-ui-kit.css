@@ -20,7 +20,7 @@
   Used by buttons and pagination links
 */
 /*
-  Idea of this mixin is to output `border-radius` property for each corner seperately.
+  Idea of this mixin is to output `border-radius` property for each corner separately.
   If you want to target all corners it's better to use the standard CSS `border-radius` shorthand.
 
   Note
@@ -38,7 +38,7 @@
   Used by buttons and pagination links
 */
 /*
-  Hides element from beeing displayed, but lets screen readers read it
+  Hides element from being displayed, but lets screen readers read it
 */
 /*------------------------------------*  Reset
 \*------------------------------------*/
@@ -3482,7 +3482,7 @@ a {
     .c-form-text-item--x-small
     .c-form-text-item--no-info
     .c-form-text-item--no-label
-    
+
     .c-form-text-item__button.c-form-text-item__button--small
 
   Field modifiers:

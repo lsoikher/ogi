@@ -6,7 +6,7 @@
  * @return  tring
  */
 function ux_builder_mode() {
-  return $_GET['ux_builder'] === 'frontend' ? 'frontend' : 'backend';
+  return 'frontend';
 }
 
 /**
@@ -31,7 +31,7 @@ function ux_builder_is_active() {
  * @return  boolean
  */
 function ux_builder_is_editor() {
-  return array_key_exists( 'ux_builder', $_GET );
+  return array_key_exists( 'page', $_GET ) && $_GET['page'] == 'uxbuilder';
 }
 
 /**

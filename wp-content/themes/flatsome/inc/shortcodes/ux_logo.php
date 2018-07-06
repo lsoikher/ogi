@@ -16,7 +16,7 @@ function ux_logo( $atts, $content = null ){
 
     if(!$img){
       $org_img = get_template_directory_uri().'/assets/img/logo.png';
-      $width = ($height / 84) * 400 + ($padding*2).'px';
+      $width = ($height / 84) * 400 + (intval($padding)*2).'px';
     }
 
     if ($img && !is_numeric($img)) {

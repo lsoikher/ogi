@@ -1,8 +1,8 @@
 <?php
 /**
  * @version 2.0.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -11,42 +11,36 @@
 function_exists('add_action') or die;
 ?>
 
-<h3>
-    <?php _e('Check below if you can publish your form', 'pwebcontact'); ?>
-</h3>
 
-
-<div id="pweb-cog-check-success" class="pweb-alert pweb-alert-success" style="display:block">
-    <i class="glyphicon glyphicon-ok"></i>
-    <?php _e('Congratulations! All options you had to choose to get your form working properly are chosen.', 'pwebcontact'); ?>
+<div id="pweb-cog-check-success" class="pweb-alert pweb-alert-success" style="display:none">
+    <?php _e('Congratulations your form is ready!', 'pwebcontact'); ?>
 </div>
 
+<div id="pweb-cog-check-warning" class="pweb-alert pweb-alert-success" style="display:none">
+    <?php _e('Congratulations your form is ready! However, you have chosen some PRO options, so please buy Gator Forms Pro.', 'pwebcontact');
+        //TODO check email template for: ip_address, browser, os, screen_resolution, mailto_name, ticket
+    ?>
+</div>
 
 <div id="pweb-cog-check-error" class="pweb-alert pweb-alert-danger" style="display:none">
-    <i class="glyphicon glyphicon-warning-sign"></i>
-    <?php _e('There are still some options required to get your form working', 'pwebcontact'); ?>
+    <?php _e('There are still some options required to get your form working.', 'pwebcontact'); ?>
 </div>
 
-<button type="button" class="button button-primary" id="pweb-cog-check-save">
-    <i class="glyphicon glyphicon-floppy-disk"></i> <span><?php _e( 'Save' ); ?></span>
-</button>
-
 <div id="pweb-cog-check">
-    
+
     <div class="pweb-alert pweb-alert-danger" id="pweb-email-to-warning" style="display:none">
-        <i class="glyphicon glyphicon-warning-sign"></i>
-        <?php _e('Enter one or more emails to which message should be sent to in `Email` tab.', 'pwebcontact'); ?>
+        <?php _e('Please go to the Email tab and enter an email address to receive messages.', 'pwebcontact'); ?>
     </div>
 
     <?php if (($result = $this->_check_mailer()) !== true) : ?>
     <div class="pweb-alert pweb-alert-danger">
-        <i class="glyphicon glyphicon-warning-sign"></i> <?php echo $result; ?>
+        <?php echo $result; ?>
     </div>
     <?php endif; ?>
-    
-    
-    <?php 
-    //TODO check if copy to user field is allowed 
+
+
+    <?php
+    //TODO check if copy to user field is allowed
     //TODO warn about shortcode and widget position
     //TODO warn about browser detection if used in email template and 3-rd part plugin not installed
     ?>
@@ -54,19 +48,14 @@ function_exists('add_action') or die;
 
     <?php if (($result = $this->_check_cache_path()) !== true) : ?>
     <div class="pweb-alert pweb-alert-danger">
-        <i class="glyphicon glyphicon-warning-sign"></i> <?php echo $result; ?>
+        <?php echo $result; ?>
     </div>
     <?php endif; ?>
 
-    <?php if (($result = $this->_check_upload_path()) !== true) : ?>
-    <div class="pweb-alert pweb-alert-danger" id="pweb-upload-path-warning" style="display:none">
-        <i class="glyphicon glyphicon-warning-sign"></i> <?php echo $result; ?>
-    </div>
-    <?php endif; ?>
 
     <?php if (($result = $this->_check_image_text_creation()) !== true) : ?>
     <div class="pweb-alert pweb-alert-warning">
-        <i class="glyphicon glyphicon-warning-sign"></i> <?php echo $result; ?>
+        <?php echo $result; ?>
     </div>
     <?php endif; ?>
 

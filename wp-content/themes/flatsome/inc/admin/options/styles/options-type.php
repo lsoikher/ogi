@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 Flatsome_Option::add_section( 'type', array(
     'title' => __( 'Typography', 'flatsome-admin' ),
@@ -26,6 +26,7 @@ Flatsome_Option::add_field( '', array(
 Flatsome_Option::add_field( 'option', array(
     'type'        => 'typography',
     'settings'    => 'type_headings',
+    'description' => 'This is the font for all H1, H2, H3, H5, H6 titles.',
     'label'       => esc_attr__( 'Font', 'flatsome-admin' ),
     'transport' => 'auto',
     'section'  => 'type',
@@ -34,6 +35,9 @@ Flatsome_Option::add_field( 'option', array(
         'variant'        => '700',
     ),
 ) );
+
+
+
 
 Flatsome_Option::add_field( '', array(
     'type'        => 'custom',
@@ -115,10 +119,71 @@ Flatsome_Option::add_field( '', array(
 Flatsome_Option::add_field( 'option', array(
     'type'        => 'typography',
     'settings'    => 'type_alt',
+    'description' => 'Alt font can be selected in the Format dropdown in Text Editor.',
     'label'       => esc_attr__( 'Alt font (.alt-font)', 'flatsome-admin' ),
     'section'  => 'type',
     'transport' => $transport,
     'default'     => array(
         'font-family'    => 'Dancing Script',
+    ),
+) );
+
+Flatsome_Option::add_field( '', array(
+    'type'        => 'custom',
+    'settings' => 'custom_title_type_transform',
+    'label'       => __( '', 'flatsome-admin' ),
+    'section'  => 'type',
+    'default'     => '<div class="options-title-divider">Text Transforms</div>',
+) );
+
+Flatsome_Option::add_field( 'option', array(
+    'type'        => 'radio-buttonset',
+    'settings'    => 'text_transform_section_titles',
+    'label'       => esc_attr__( 'Section Titles', 'flatsome-admin' ),
+    'transport' => 'auto',
+    'section'  => 'type',
+    'default' => '',
+    'choices'     => array(
+        ''    => 'UPPERCASE',
+        'none' => 'Normal',
+    ),
+) );
+
+Flatsome_Option::add_field( 'option', array(
+    'type'        => 'radio-buttonset',
+    'settings'    => 'text_transform_widget_titles',
+    'label'       => esc_attr__( 'Widget Titles', 'flatsome-admin' ),
+    'transport' => 'auto',
+    'section'  => 'type',
+    'default' => '',
+    'choices'     => array(
+        ''    => 'UPPERCASE',
+        'none' => 'Normal',
+    ),
+) );
+
+Flatsome_Option::add_field( 'option', array(
+    'type'        => 'radio-buttonset',
+    'settings'    => 'text_transform_navigation',
+    'label'       => esc_attr__( 'Navigation / Tabs', 'flatsome-admin' ),
+    'transport' => 'auto',
+    'section'  => 'type',
+    'default' => '',
+    'choices'     => array(
+        ''    => 'UPPERCASE',
+        'none' => 'Normal',
+    ),
+) );
+
+Flatsome_Option::add_field( 'option', array(
+    'type'        => 'radio-buttonset',
+    'settings'    => 'text_transform_buttons',
+    'label'       => esc_attr__( 'Buttons', 'flatsome-admin' ),
+    'transport' => 'auto',
+    'section'  => 'type',
+    'default' => '',
+    'choices'     => array(
+        ''    => 'UPPERCASE',
+        'none' => 'Normal',
     ),
 ) );

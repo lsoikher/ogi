@@ -1,4 +1,10 @@
 <?php
+/**
+ * REST Controller
+ *
+ * @class WC_REST_Controller
+ * @package WooCommerce/Abstracts
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -7,8 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstract Rest Controller Class
  *
- * @author   WooThemes
- * @category API
  * @package  WooCommerce/Abstracts
  * @extends  WP_REST_Controller
  * @version  2.6.0
@@ -35,6 +39,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * The type of object is inferred from the passed schema.
 	 *
 	 * @param array $schema Schema array.
+	 *
+	 * @return array
 	 */
 	protected function add_additional_fields_schema( $schema ) {
 		if ( empty( $schema['title'] ) ) {
@@ -107,7 +113,11 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * @return array Of WP_Error or WP_REST_Response.
 	 */
 	public function batch_items( $request ) {
-		/** @var WP_REST_Server $wp_rest_server */
+		/**
+		 * REST Server
+		 *
+		 * @var WP_REST_Server $wp_rest_server
+		 */
 		global $wp_rest_server;
 
 		// Get the request params.
@@ -141,7 +151,11 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 				if ( is_wp_error( $_response ) ) {
 					$response['create'][] = array(
 						'id'    => 0,
-						'error' => array( 'code' => $_response->get_error_code(), 'message' => $_response->get_error_message(), 'data' => $_response->get_error_data() ),
+						'error' => array(
+							'code'    => $_response->get_error_code(),
+							'message' => $_response->get_error_message(),
+							'data'    => $_response->get_error_data(),
+						),
 					);
 				} else {
 					$response['create'][] = $wp_rest_server->response_to_data( $_response, '' );
@@ -158,7 +172,11 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 				if ( is_wp_error( $_response ) ) {
 					$response['update'][] = array(
 						'id'    => $item['id'],
-						'error' => array( 'code' => $_response->get_error_code(), 'message' => $_response->get_error_message(), 'data' => $_response->get_error_data() ),
+						'error' => array(
+							'code'    => $_response->get_error_code(),
+							'message' => $_response->get_error_message(),
+							'data'    => $_response->get_error_data(),
+						),
 					);
 				} else {
 					$response['update'][] = $wp_rest_server->response_to_data( $_response, '' );
@@ -175,13 +193,20 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 				}
 
 				$_item = new WP_REST_Request( 'DELETE' );
-				$_item->set_query_params( array( 'id' => $id, 'force' => true ) );
+				$_item->set_query_params( array(
+					'id'    => $id,
+					'force' => true,
+				) );
 				$_response = $this->delete_item( $_item );
 
 				if ( is_wp_error( $_response ) ) {
 					$response['delete'][] = array(
 						'id'    => $id,
-						'error' => array( 'code' => $_response->get_error_code(), 'message' => $_response->get_error_message(), 'data' => $_response->get_error_data() ),
+						'error' => array(
+							'code'    => $_response->get_error_code(),
+							'message' => $_response->get_error_message(),
+							'data'    => $_response->get_error_data(),
+						),
 					);
 				} else {
 					$response['delete'][] = $wp_rest_server->response_to_data( $_response, '' );
@@ -196,22 +221,21 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate a text value for a text based setting.
 	 *
 	 * @since 3.0.0
-	 * @param string $value
-	 * @param array  $setting
+	 * @param string $value Value.
+	 * @param array  $setting Setting.
 	 * @return string
 	 */
 	public function validate_setting_text_field( $value, $setting ) {
 		$value = is_null( $value ) ? '' : $value;
 		return wp_kses_post( trim( stripslashes( $value ) ) );
-		return $value;
 	}
 
 	/**
 	 * Validate select based settings.
 	 *
 	 * @since 3.0.0
-	 * @param string $value
-	 * @param array  $setting
+	 * @param string $value Value.
+	 * @param array  $setting Setting.
 	 * @return string|WP_Error
 	 */
 	public function validate_setting_select_field( $value, $setting ) {
@@ -226,9 +250,9 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate multiselect based settings.
 	 *
 	 * @since 3.0.0
-	 * @param array $values
-	 * @param array  $setting
-	 * @return string|WP_Error
+	 * @param array $values Values.
+	 * @param array $setting Setting.
+	 * @return array|WP_Error
 	 */
 	public function validate_setting_multiselect_field( $values, $setting ) {
 		if ( empty( $values ) ) {
@@ -253,8 +277,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate image_width based settings.
 	 *
 	 * @since 3.0.0
-	 * @param array $value
-	 * @param array $setting
+	 * @param array $values Values.
+	 * @param array $setting Setting.
 	 * @return string|WP_Error
 	 */
 	public function validate_setting_image_width_field( $values, $setting ) {
@@ -279,8 +303,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate radio based settings.
 	 *
 	 * @since 3.0.0
-	 * @param string $value
-	 * @param array  $setting
+	 * @param string $value Value.
+	 * @param array  $setting Setting.
 	 * @return string|WP_Error
 	 */
 	public function validate_setting_radio_field( $value, $setting ) {
@@ -291,8 +315,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate checkbox based settings.
 	 *
 	 * @since 3.0.0
-	 * @param string $value
-	 * @param array  $setting
+	 * @param string $value Value.
+	 * @param array  $setting Setting.
 	 * @return string|WP_Error
 	 */
 	public function validate_setting_checkbox_field( $value, $setting ) {
@@ -310,8 +334,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	 * Validate textarea based settings.
 	 *
 	 * @since 3.0.0
-	 * @param string $value
-	 * @param array  $setting
+	 * @param string $value Value.
+	 * @param array  $setting Setting.
 	 * @return string
 	 */
 	public function validate_setting_textarea_field( $value, $setting ) {
@@ -319,7 +343,12 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 		return wp_kses( trim( stripslashes( $value ) ),
 			array_merge(
 				array(
-					'iframe' => array( 'src' => true, 'style' => true, 'id' => true, 'class' => true ),
+					'iframe' => array(
+						'src'   => true,
+						'style' => true,
+						'id'    => true,
+						'class' => true,
+					),
 				),
 				wp_kses_allowed_html( 'post' )
 			)

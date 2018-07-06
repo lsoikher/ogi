@@ -78,14 +78,25 @@ add_ux_builder_shortcode( 'ux_countdown', array(
         ),
         'translations' => array(
             'type' => 'group',
-            'heading' => 'Translations',
+            'heading' => 'Texts',
             'options' => array(
-                't_plural' => array( "type" => "textfield", "heading" => "Plural ending", "default" => "s"),
+                't_week' => array( "type" => "textfield", "heading" => "Week", "default" => "week"),
+                't_day' => array( "type" => "textfield", "heading" => "Day", "default" => "day"),
                 't_hour' => array( "type" => "textfield", "heading" => "Hour", "default" => "hour"),
                 't_min' => array( "type" => "textfield", "heading" => "Min", "default" => "min"),
-                't_day' => array( "type" => "textfield", "heading" => "Day", "default" => "day"),
-                't_week' => array( "type" => "textfield", "heading" => "Week", "default" => "week"),
                 't_sec' => array( "type" => "textfield", "heading" => "Sec", "default" => "sec"),
+            )
+        ),
+        'translations_p' => array(
+            'type' => 'group',
+            'heading' => 'Texts Plural',
+            'options' => array(
+                't_plural' => array( "type" => "textfield", "heading" => "Plural default", "default" => ""),
+                't_week_p' => array( "type" => "textfield", "heading" => "Week Plural"),
+                't_day_p' => array( "type" => "textfield", "heading" => "Day Plural"),
+                't_hour_p' => array( "type" => "textfield", "heading" => "Hour Plural"),
+                't_min_p' => array( "type" => "textfield", "heading" => "Min Plural"),
+                't_sec_p' => array( "type" => "textfield", "heading" => "Sec Plural"),
             )
         )
      )

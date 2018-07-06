@@ -185,10 +185,14 @@
     
     
     /* //v1.1.0.5 new sample shortcode
+    
+        On the product page, you'd use the shortcode.
+        
+        On any other page, you'd use the following as an example in your theme files:
+        
+        $product_id = get_the_ID();
+        echo do_shortcode( '[pricing_deal_msgs_standard force_in_the_loop="yes" force_in_the_loop_product="'.$product_id.'"]');
 
-      $product_id = get_the_ID();
-      echo do_shortcode( '[pricing_deal_msgs_standard  force_in_the_loop="yes"  force_in_the_loop_product="'.$product_id.'"]');
-      
     */
     
     
@@ -240,6 +244,95 @@ if ($userRole_name = "Administrator") {
       $post->ID = $force_in_the_loop_product;
 //error_log( print_r(  '$post->ID = ' .$post->ID , true ) );      
     }
+    
+    //***********************
+    //v2.0.0 begin
+    //***********************
+    if ( ( (in_the_loop() ) || 
+         ($force_in_the_loop_product > '') ) 
+              &&
+         ($product_category <= ' ') &&
+         ($plugin_category  <= ' ') &&
+         ($wholestore_msgs_only != 'yes') &&
+         ($roles <= ' ') ) { 
+
+      
+      global $post, $wpdb, $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_setup_options, $vtprd_info;
+      
+      //new "class VTPRD_Rule_Messaging extends VTPRD_Apply_Rules" at bottom of apply-rules file
+      //------------------------------------------------------------
+      $vtprd_apply_rule_messaging = new VTPRD_Apply_Rule_Messaging;
+      
+      //load the fake cart with the current product
+      vtprd_rule_messaging_load_dummy_cart($post->ID);
+      $k = 0; //always only test 1the product passed in the loop
+      
+      $loop_msgs_array = array();
+      
+      if ($rules > ' ') {
+        $rules_array = explode(",", $rules);   //remove comma separator, make list an array
+      }
+             
+      $sizeof_rules_set = sizeof($vtprd_rules_set);
+      for($i=0; $i < $sizeof_rules_set; $i++) { 
+          
+          //is there a message to show?
+          if ($vtprd_rules_set[$i]->discount_product_full_msg <= ' ') {
+             continue;          
+          }
+                    
+          //are we on a correct rule type
+          $exit_stage_left = 'no';
+          switch( $type ) {
+            case 'cart':
+              if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+                $exit_stage_left = 'yes';
+                //error_log( print_r(  'shortcode skip 004 ', true ) );            
+              }
+              break;
+            case 'catalog':                                                                                   
+              if ($vtprd_rules_set[$i]->rule_execution_type == 'cart') {
+                $exit_stage_left = 'yes';
+                //error_log( print_r(  'shortcode skip 005 ', true ) );
+              }  
+              break;
+            default:
+              break; 
+          }     
+          if ($exit_stage_left == 'yes') {
+             continue;
+          }
+          
+          //if rules specified in the loop, and this is not one of them, skip
+          if ($rules > ' ') {
+            if (!in_array($vtprd_rules_set[$i]->post_id, $rules_array)) {
+              continue;
+            }
+          }
+          
+          
+          if ( ($vtprd_apply_rule_messaging->vtprd_is_product_in_inPop_group($i, $k)) ||
+               ($vtprd_apply_rule_messaging->vtprd_is_product_in_actionPop_group($i, $k)) ) {
+             $loop_msgs_array[] = $i;                
+          }               
+      }
+      
+      $sizeof_loop_msgs_array = sizeof($loop_msgs_array);
+      if ($sizeof_loop_msgs_array > 0) {
+        $output = '<div class="vtprd-rule-msg-area">';
+        for($p=0; $p < $sizeof_loop_msgs_array ; $p++) {
+          $rule_ind_val = $loop_msgs_array[$p]; 
+          $output .= vtprd_category_deal_msg($rule_ind_val);
+        } 
+        $output .= '</div>';
+        return $output; 
+      }
+      
+      return;     
+    } //end IF
+    //v2.0.0 end
+    
+    
     //Only do this once!!!
     if ( (in_the_loop() ) ||
         // ($force_in_the_loop == 'yes') ) { 
@@ -285,7 +378,16 @@ if ($userRole_name = "Administrator") {
     $sizeof_rules_set = sizeof($vtprd_rules_set);
     for($i=0; $i < $sizeof_rules_set; $i++) { 
 //error_log( print_r(  '$i= ' . $i . ' rule_id= ' .$vtprd_rules_set[$i]->post_id, true ) );
-      //BEGIN skip tests      
+      //BEGIN skip tests 
+      
+      //v2.0.0 begin    
+      //is there a message to show?
+      if ($vtprd_rules_set[$i]->discount_product_full_msg <= ' ') {
+         continue;          
+      }
+      //v2.0.0 end
+                 
+           
       if ( $vtprd_rules_set[$i]->rule_status != 'publish' ) {
 //error_log( print_r(  'shortcode skip 001 ', true ) );        
         continue;
@@ -400,8 +502,8 @@ if ($userRole_name = "Administrator") {
        //v1.1.0.5 end 
                
           if ($product_category > ' ') {
-            if ( ( ( array_intersect($vtprd_rules_set[$i]->prodcat_in_checked,  $product_category_array ) ) ||
-                   ( array_intersect($vtprd_rules_set[$i]->prodcat_out_checked, $product_category_array ) ) )  
+            if ( ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_prod_cat_incl_array'],  $product_category_array ) ) ||  //v2.0.0
+                   ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_prod_cat_incl_array'], $product_category_array ) ) )   //v2.0.0
                     && 
                    ( array_intersect($prod_cat_list,  $product_category_array ) ) ) {                     
                 $msg_counter++;
@@ -411,8 +513,8 @@ if ($userRole_name = "Administrator") {
             }
           } else {  //v1.1.0.5 begin
             //if RULE list intersects with PRODUCT participation list
-            if ( ( array_intersect($vtprd_rules_set[$i]->prodcat_in_checked,  $prod_cat_list ) ) ||
-                 ( array_intersect($vtprd_rules_set[$i]->prodcat_out_checked, $prod_cat_list ) ) ) {
+            if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_prod_cat_incl_array'],  $prod_cat_list ) ) || //v2.0.0
+                 ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_prod_cat_incl_array'], $prod_cat_list ) ) ) { //v2.0.0
                 $msg_counter++;
                 $loop_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 003a ', true ) ); 
@@ -422,8 +524,8 @@ if ($userRole_name = "Administrator") {
            //v1.1.0.5 end
           
           if ($plugin_category > ' ') {
-            if ( ( ( array_intersect($vtprd_rules_set[$i]->rulecat_in_checked,  $plugin_category_array ) ) ||
-                   ( array_intersect($vtprd_rules_set[$i]->rulecat_out_checked, $plugin_category_array ) ) ) 
+            if ( ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_plugin_cat_incl_array'],  $plugin_category_array ) ) || //v2.0.0
+                   ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_plugin_cat_incl_array'], $plugin_category_array ) ) )  //v2.0.0
                     &&
                    ( array_intersect($rule_cat_list,  $plugin_category_array ) ) ) {                      
                 $msg_counter++;
@@ -433,8 +535,8 @@ if ($userRole_name = "Administrator") {
             }
           } else {  //v1.1.0.5 begin
             //if RULE list intersects with PRODUCT participation list
-            if ( ( array_intersect($vtprd_rules_set[$i]->rulecat_in_checked,  $rule_cat_list ) ) ||
-                 ( array_intersect($vtprd_rules_set[$i]->rulecat_out_checked, $rule_cat_list ) ) ) {
+            if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_plugin_cat_incl_array'],  $rule_cat_list ) ) || //v2.0.0
+                 ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_plugin_cat_incl_array'], $rule_cat_list ) ) ) { //v2.0.0
                 $msg_counter++;
                 $loop_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 004a ', true ) );
@@ -447,12 +549,10 @@ if ($userRole_name = "Administrator") {
           
           //**  replicated the if below.  here, it's just the force
           if ( ( $products > ' ' ) && ($force_in_the_loop == 'yes') ) { 
-            if ( ( ($vtprd_rules_set[$i]->inPop_singleProdID     ==  $post->ID ) ||
-                   ($vtprd_rules_set[$i]->inPop_varProdID        ==  $post->ID ) ||
-                   ($vtprd_rules_set[$i]->actionPop_singleProdID ==  $post->ID ) ||
-                   ($vtprd_rules_set[$i]->actionPop_varProdID    ==  $post->ID ) )
-                    &&                                                                                            
-                   (in_array($post->ID, $products_array)) ) {
+            if ( (in_array($post->ID, $products_array))
+                    &&              
+                 ((in_array($post->ID, $vtprd_rules_set[$i]->buy_group_population_info['buy_group_product_incl_array'])) || //v2.0.0
+                  (in_array($post->ID, $vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array'])))  ) { //v2.0.0
               $msg_counter++;
               $products_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 005 ', true ) );              
@@ -462,14 +562,12 @@ if ($userRole_name = "Administrator") {
         
           
 //error_log( print_r(  'above test for single prod id =  $post->ID= ' .$post->ID, true ) );
-//error_log( print_r(  'inPop_singleProdID= ' .$vtprd_rules_set[$i]->inPop_singleProdID, true ) );
+
   
           //**  replicatd from above - if only in_the_loop, no other test other than agreement.
           if   ( (in_the_loop() ) &&
-                (($vtprd_rules_set[$i]->inPop_singleProdID     ==  $post->ID ) ||
-                 ($vtprd_rules_set[$i]->inPop_varProdID        ==  $post->ID ) ||
-                 ($vtprd_rules_set[$i]->actionPop_singleProdID ==  $post->ID ) ||
-                 ($vtprd_rules_set[$i]->actionPop_varProdID    ==  $post->ID )) ) {
+                 ((in_array($post->ID, $vtprd_rules_set[$i]->buy_group_population_info['buy_group_product_incl_array'])) || //v2.0.0
+                  (in_array($post->ID, $vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array'])))  ) { //v2.0.0
             $msg_counter++;
             $loop_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 005 ', true ) );              
@@ -492,8 +590,8 @@ if ($userRole_name = "Administrator") {
                 //************************************************
 //error_log( print_r(  'shortcode NOT IN THE LOOP ', true ) ); 
           if ($product_category > ' ') {
-            if ( ( array_intersect($vtprd_rules_set[$i]->prodcat_in_checked,  $product_category_array ) ) ||
-                 ( array_intersect($vtprd_rules_set[$i]->prodcat_out_checked, $product_category_array ) ) ) {  
+            if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_prod_cat_incl_array'],  $product_category_array ) ) || //v2.0.0
+                 ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_prod_cat_incl_array'], $product_category_array ) ) ) {   //v2.0.0
                $msg_counter++;
                $product_category_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 006 ', true ) );               
@@ -502,8 +600,8 @@ if ($userRole_name = "Administrator") {
           } 
     
           if ($plugin_category > ' ') {
-            if ( ( array_intersect($vtprd_rules_set[$i]->rulecat_in_checked,  $plugin_category_array ) ) ||
-                 ( array_intersect($vtprd_rules_set[$i]->rulecat_out_checked, $plugin_category_array ) ) ) {  
+            if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_plugin_cat_incl_array'],  $plugin_category_array ) ) || //v2.0.0
+                 ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_plugin_cat_incl_array'], $plugin_category_array ) ) ) {   //v2.0.0
                $msg_counter++;
                $plugin_category_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 007 ', true ) );               
@@ -512,10 +610,8 @@ if ($userRole_name = "Administrator") {
           }  
           
           if ( $products > ' ' ) { 
-            if   ( (in_array($vtprd_rules_set[$i]->inPop_singleProdID, $products_array)) ||
-                   (in_array($vtprd_rules_set[$i]->inPop_varProdID , $products_array)) ||
-                   (in_array($vtprd_rules_set[$i]->actionPop_singleProdID, $products_array)) ||
-                   (in_array($vtprd_rules_set[$i]->actionPop_varProdID, $products_array)) ) {
+            if   ( (in_array($vtprd_rules_set[$i]->buy_group_population_info['buy_group_product_incl_array'], $products_array)) || //v2.0.0
+                   (in_array($vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array'] , $products_array)) ) { //v2.0.0
               $msg_counter++;
               $products_msgs_array[] = $i;
 //error_log( print_r(  'shortcode PRINT Msg 008 ', true ) );              
@@ -589,8 +685,8 @@ if ($userRole_name = "Administrator") {
 //error_log( print_r(  '$cat= ' .$cat, true ) ); 
 //error_log( print_r(  '$rule_ind_val= ' .$rule_ind_val, true ) );                    
                     
-                    if ( ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->prodcat_in_checked) ) ||
-                         ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->prodcat_out_checked) ) ) {                          
+                    if ( ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->buy_group_population_info['buy_group_prod_cat_incl_array']) ) || //v2.0.0
+                         ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->action_group_population_info['action_group_prod_cat_incl_array']) ) ) {    //v2.0.0                       
                         $output .= vtprd_category_deal_msg($rule_ind_val);
                     }
                 }
@@ -605,8 +701,8 @@ if ($userRole_name = "Administrator") {
                 $cat = $plugin_category_array[$p];
                 for($a=0; $a < $sizeof_plugin_category_msgs_array; $a++) {
                     $rule_ind_val = $plugin_category_msgs_array[$a];
-                    if ( ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->rulecat_in_checked) ) ||
-                         ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->rulecat_out_checked) ) ) {                         
+                    if ( ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->buy_group_population_info['buy_group_plugin_cat_incl_array']) ) || //v2.0.0
+                         ( in_array($cat, $vtprd_rules_set[$rule_ind_val]->action_group_population_info['action_group_plugin_cat_incl_array']) ) ) {    //v2.0.0                      
                         $output .= vtprd_category_deal_msg($rule_ind_val);
                     }
                 }
@@ -621,10 +717,8 @@ if ($userRole_name = "Administrator") {
                 $prod = $products_array[$p];
                 for($a=0; $a < $sizeof_products_msgs_array; $a++) {
                     $rule_ind_val = $products_msgs_array[$a];
-                    if   ( ($vtprd_rules_set[$rule_ind_val]->inPop_singleProdID == $prod) ||
-                           ($vtprd_rules_set[$rule_ind_val]->inPop_varProdID == $prod) ||
-                           ($vtprd_rules_set[$rule_ind_val]->actionPop_singleProdID == $prod) ||
-                           ($vtprd_rules_set[$rule_ind_val]->actionPop_varProdID == $prod) ) {  
+                    if ( ((in_array($prod, $vtprd_rules_set[$i]->buy_group_population_info['buy_group_product_incl_array'])) || //v2.0.0
+                          (in_array($prod, $vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array'])))  ) {   //v2.0.0
                         $output .= vtprd_category_deal_msg($rule_ind_val);
                     }
                 }
@@ -734,6 +828,13 @@ if ($userRole_name = "Administrator") {
     $sizeof_rules_set = sizeof($vtprd_rules_set);
     for($i=0; $i < $sizeof_rules_set; $i++) { 
 
+      //v2.0.0 begin    
+      //is there a message to show?
+      if ($vtprd_rules_set[$i]->discount_product_full_msg <= ' ') {
+         continue;          
+      }
+      //v2.0.0 end
+
       if ( $vtprd_rules_set[$i]->rule_status != 'publish' ) {
         continue;
       }      
@@ -779,8 +880,8 @@ if ($userRole_name = "Administrator") {
 
       if ($product_category > ' ') {
         $product_category_array = explode(",", $product_category);   //remove comma separator, make list an array
-        if ( ( array_intersect($vtprd_rules_set[$i]->prodcat_in_checked,  $product_category_array ) ) ||
-             ( array_intersect($vtprd_rules_set[$i]->prodcat_out_checked, $product_category_array ) ) ) {  
+        if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_prod_cat_incl_array'],  $product_category_array ) ) || //v2.0.0
+             ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_prod_cat_incl_array'], $product_category_array ) ) ) {   //v2.0.0
            $msg_counter++;
            $output .= vtprd_category_deal_msg($i);
             continue; //only output the msg once 
@@ -789,8 +890,8 @@ if ($userRole_name = "Administrator") {
 
       if ($plugin_category > ' ') {
         $plugin_category_array = explode(",", $plugin_category);   //remove comma separator, make list an array
-        if ( ( array_intersect($vtprd_rules_set[$i]->rulecat_in_checked,  $plugin_category_array ) ) ||
-             ( array_intersect($vtprd_rules_set[$i]->rulecat_out_checked, $plugin_category_array ) ) ) {  
+        if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_plugin_cat_incl_array'],  $plugin_category_array ) ) || //v2.0.0
+             ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_plugin_cat_incl_array'], $plugin_category_array ) ) ) {   //v2.0.0
            $msg_counter++;
            $output .= vtprd_category_deal_msg($i);
             continue; //only output the msg once 
@@ -916,6 +1017,13 @@ if ($userRole_name = "Administrator") {
     $sizeof_rules_set = sizeof($vtprd_rules_set);
     for($i=0; $i < $sizeof_rules_set; $i++) { 
       
+      //v2.0.0 begin    
+      //is there a message to show?
+      if ($vtprd_rules_set[$i]->discount_product_full_msg <= ' ') {
+         continue;          
+      }
+      //v2.0.0 end
+            
       if ( $vtprd_rules_set[$i]->rule_status != 'publish' ) {
         continue;
       }      
@@ -1016,8 +1124,8 @@ if ($userRole_name = "Administrator") {
 
       if ($group3_product_category > ' ') {
         $group3_product_category_array = explode(",", $group3_product_category);   //remove comma separator, make list an array
-        if ( ( array_intersect($vtprd_rules_set[$i]->prodcat_in_checked,  $group3_product_category_array ) ) ||
-             ( array_intersect($vtprd_rules_set[$i]->prodcat_out_checked, $group3_product_category_array ) ) ) {  
+        if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_prod_cat_incl_array'],  $group3_product_category_array ) ) || //v2.0.0
+             ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_prod_cat_incl_array'], $group3_product_category_array ) ) ) {   //v2.0.0
            $status['group3_product_category'] = 'success'; 
         } else {
            $status['group3_product_category'] = 'failed'; 
@@ -1028,8 +1136,8 @@ if ($userRole_name = "Administrator") {
 
       if ($group3_plugin_category > ' ') {
         $group3_plugin_category_array = explode(",", $group3_plugin_category);   //remove comma separator, make list an array
-        if ( ( array_intersect($vtprd_rules_set[$i]->rulecat_in_checked,  $group3_plugin_category_array ) ) ||
-             ( array_intersect($vtprd_rules_set[$i]->rulecat_out_checked, $group3_plugin_category_array ) ) ) {  
+        if ( ( array_intersect($vtprd_rules_set[$i]->buy_group_population_info['buy_group_plugin_cat_incl_array'],  $group3_plugin_category_array ) ) || //v2.0.0
+             ( array_intersect($vtprd_rules_set[$i]->action_group_population_info['action_group_plugin_cat_incl_array'], $group3_plugin_category_array ) ) ) {   //v2.0.0
            $status['group3_plugin_category'] = 'success'; 
         } else {
            $status['group3_plugin_category'] = 'failed'; 
@@ -1210,31 +1318,7 @@ if ($userRole_name = "Administrator") {
 
 
 
-  
-  /**
-  ***************************** 
-  *** FOR WPEC VERSION 3.9+ ***
-  *****************************  
-  COPIED FROM WPSC-INCLUDES/PRODUCT-TEMPLATE.PHP  WPEC VERSION 3.8.10  
- * WPSC The Product Price Display
- *
- * @param  $args  (array)   Array of args.
- * @return        (string)  HTML formatted prices
- *
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_old_price_class' passing class and product ID
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_old_price_amount_class' passing class and product ID
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_price_class' passing class and product ID
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_price_amount_class' passing class and product ID
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_you_save_class' passing class and product ID
- * @uses   apply_filters()                      Calls 'wpsc_the_product_price_display_you_save_amount_class' passing class and product ID
- * @uses   wpsc_product_normal_price()          Get the normal price
- * @uses   wpsc_the_product_price()             Get the current price
- * @uses   wpsc_you_save()                      Get pricing saving
- * @uses   wpsc_product_on_special()            Is product on sale?
- * @uses   wpsc_product_has_variations()        Checks if product has variations
- * @uses   wpsc_product_variation_price_from()  Gets the lowest variation price
- * @uses   wpsc_currency_display()              Display price as currency
- */
+ 
 function vtprd_the_product_price_display( $args = array() ) {
    global $vtprd_info,  $vtprd_setup_options;
   if ( empty( $args['id'] ) )
@@ -1254,10 +1338,6 @@ function vtprd_the_product_price_display( $args = array() ) {
  //  if $id is a variation, refigure product_yousave_total_amt!!
 
 
-  //refigure yousave amts for WPEC 
-  if (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') { 
-    vtprd_WPEC_recompute_theme_amts();
-  }   
  
   
   //if we have no yousave amt, do the default routine and exit
@@ -1397,11 +1477,6 @@ function vtprd_the_product_price_display( $args = array() ) {
   function vtprd_show_product_list_price($product_id=null) {
     global $post, $vtprd_info, $vtprd_setup_options;    
       
-    //can only be executed when WPEC version less than 3.8.9
-    if( !(version_compare(strval('3.8.9'), strval(WPSC_VERSION), '>') == 1) ) {   //'==1' = 2nd value is lower
-       return;
-    } 
-    
     
     if ($post->ID > ' ' ) {
       $product_id = $post->ID;
@@ -1457,11 +1532,6 @@ function vtprd_the_product_price_display( $args = array() ) {
     if ( !$vtprd_info['product_session_info']['product_in_rule_allowing_display']  == 'yes') {
        return;
     }
-        
-    //refigure yousave amts for WPEC 
-    if (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') { 
-      vtprd_WPEC_recompute_theme_amts();
-    }   
 
     
     //list price
@@ -1478,12 +1548,7 @@ function vtprd_the_product_price_display( $args = array() ) {
   *************************************************** */
 	function vtprd_show_product_you_save($product_id=null){
     global $post, $vtprd_setup_options, $vtprd_info;
-    
-    //can only be executed when WPEC version less than 3.8.9
-    if( !(version_compare(strval('3.8.9'), strval(WPSC_VERSION), '>') == 1) ) {   //'==1' = 2nd value is lower
-       return;
-    }
-         
+      
     $pct = vtprd_get_single_product_you_save_pct($product_id); 
     $amt = $vtprd_info['product_session_info']['product_yousave_total_amt'];
     $amt = vtprd_format_money_element($amt);
@@ -1535,11 +1600,6 @@ function vtprd_the_product_price_display( $args = array() ) {
        return;
     }
 
-    //refigure yousave amts for WPEC 
-    if (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') { 
-      vtprd_WPEC_recompute_theme_amts();
-    }   
-
     
     if ( $vtprd_info['product_session_info']['product_yousave_total_pct']  > 0) {
        return $vtprd_info['product_session_info']['product_yousave_total_pct'];
@@ -1548,78 +1608,15 @@ function vtprd_the_product_price_display( $args = array() ) {
     return;
   } 
 
-
-
-  /* ************************************************
-  **   
-  *************************************************** */
-/*  Now loaded into wp-head directly in pricing-deals.php
-  function vtprd_enqueue_front_end_css() {
-    global $vtprd_setup_options;
-    if ( $vtprd_setup_options['use_plugin_front_end_css'] == 'yes' ){
-      wp_register_style( 'vtprd-front-end-style', VTPRD_URL.'/core/css/vtprd-front-end.css' );  
-      wp_enqueue_style('vtprd-front-end-style');
+    
+    function vtprd_rule_messaging_load_dummy_cart($product_id) {
+        global $post, $wpdb, $woocommerce, $vtprd_cart, $vtprd_cart_item, $vtprd_setup_options, $vtprd_info;
+        $vtprd_cart = new vtprd_Cart;
+        $vtprd_cart_item = new vtprd_Cart_Item;
+        $vtprd_cart_item->product_id           = $product_id;
+        $vtprd_cart_item->prod_cat_list = wp_get_object_terms( $product_id, $vtprd_info['parent_plugin_taxonomy'], $args = array('fields' => 'ids') );
+        $vtprd_cart_item->rule_cat_list = wp_get_object_terms( $product_id, $vtprd_info['rulecat_taxonomy'], $args = array('fields' => 'ids') );  
+        $vtprd_cart->cart_items[]  = $vtprd_cart_item;
+        $vtprd_cart->purchaser_ip_address = $vtprd_info['purchaser_ip_address'];  
+        return;          
     }
-  }
-*/
-
-     
-  /* ************************************************
-  **   WPSC needs Recompute Discount Info for theme display  
-
-    //refigure yousave amts for WPEC 
-    if (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') { 
-      vtprd_WPEC_recompute_theme_amts();
-    }    
-  *************************************************** */
-  function vtprd_WPEC_recompute_theme_amts(){
-      global $vtprd_info;  
-
-      if ( ($vtprd_info['product_session_info']['product_special_price'] > 0) &&
-          ($vtprd_info['product_session_info']['product_special_price'] < $vtprd_info['product_session_info']['product_list_price']) ) {
-         $orig_price = $vtprd_info['product_session_info']['product_special_price']; 
-      } else {
-         $orig_price = $vtprd_info['product_session_info']['product_list_price']; 
-      }
-
-      $vtprd_info['product_session_info']['product_yousave_total_amt'] = ( $orig_price - $vtprd_info['product_session_info']['product_discount_price'] );
-      
-      //compute yousave_pct
-      $computed_pct =  $vtprd_info['product_session_info']['product_discount_price'] /  $orig_price ;
-     // $computed_pct_2decimals = bcdiv($vtprd_info['product_session_info']['product_discount_price'] , $orig_price , 2); 
-      $computed_pct_2decimals = round( ($vtprd_info['product_session_info']['product_discount_price'] / $orig_price ) , 2); 
-      $remainder = $computed_pct - $computed_pct_2decimals;
-      if ($remainder > 0.005) {
-        $yousave_pct = ($computed_pct_2decimals + .01) * 100;
-      } else {
-        $yousave_pct = $computed_pct_2decimals * 100;
-      }
-      
-      $vtprd_info['product_session_info']['product_yousave_total_pct'] = $yousave_pct;
-       
-     return;
-  }
-/*
-$salesargs = array(
-'post_type' => 'product',
-'showposts' => '4',
-'orderby' => 'rand',
-'tax_query' => array(
-array(
-'taxonomy' => 'vtprd_rule_category',
-'field' => 'slug',
-'terms' => 'sale-25-percent'
-)
-)
-);
-
-query_posts($salesargs);
-
-if (have_posts()) : woocommerce_product_loop_start(); while (have_posts()) : the_post();
-
-$woocommerce_loop['columns'] = 4; //* Important! *
-
-wc_get_template_part( 'content', 'product' );
-
-endwhile; woocommerce_product_loop_end(); endif; wp_reset_query()
-*/

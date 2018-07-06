@@ -47,29 +47,13 @@ Flatsome_Option::add_field( 'option',  array(
 	'transport' => $transport,
 ));
 
-
-Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'select',
-	'settings'     => 'account_login_style',
-	'label'       => __( 'Login Style', 'flatsome-admin' ),
-	'section'     => 'header_account',
-	'transport' => $transport,
-	'default'     => 'lightbox',
-	'choices'     => array(
-		'link' => __( 'Link', 'flatsome-admin' ),
-		'lightbox' => __( 'Lightbox', 'flatsome-admin' ),
-	),
-));
-
-
-Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'checkbox',
-	'settings'     => 'wc_account_links',
-	'label'       => __( 'Enable default WooCommerce Account links in Dropdown and Account Sidebar. You can create a custom my account menu instead if you want.', 'flatsome-admin' ),
-	'section'     => 'header_account',
-	'default'     => 1,
-));
-
+Flatsome_Option::add_field( '', array(
+  'type'        => 'custom',
+  'settings' => 'custom_html_account_shortcut',
+  'label'       => __( '', 'flatsome-admin' ),
+  'section'     => 'header_account',
+  'default'     => '<button style="margin-top:30px; margin-bottom:15px" class="button button-primary" data-to-section="fl-my-account">Account Page Layout →</button>',
+) );
 
 
 function flatsome_refresh_header_account_partials( WP_Customize_Manager $wp_customize ) {
@@ -77,7 +61,7 @@ function flatsome_refresh_header_account_partials( WP_Customize_Manager $wp_cust
 	if ( ! isset( $wp_customize->selective_refresh ) ) {
 	      return;
 	 }
-	
+
 	// Account
 	$wp_customize->selective_refresh->add_partial( 'header-account', array(
 	    'selector' => '.header-nav .account-item',

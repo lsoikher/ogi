@@ -21,7 +21,7 @@ Flatsome_Option::add_field( 'option',  array(
 	'settings'     => 'footer_block',
 	'label'       => __( 'Custom Footer Block', 'flatsome-admin' ),
 	'section'     => 'footer',
-	'help'		  => __( 'You can replace the Footer with a Custom Block that you can edit in the Page Builder.', 'flatsome-admin' ),
+	'description'	=> __( 'You can replace the Footer with a Custom Block that you can edit in the Page Builder.', 'flatsome-admin' ),
 	'default'     => false,
 	'choices'     => $blocks
 ));

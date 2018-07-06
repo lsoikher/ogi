@@ -86,6 +86,13 @@ add_ux_builder_shortcode( 'button', array(
             ),
         ),
 
+      'class' => array(
+          'type' => 'textfield',
+          'heading' => 'Class',
+          'param_name' => 'class',
+          'default' => '',
+      ),
+
       'layout_options' => array(
         'type' => 'group',
         'heading' => 'Layout',

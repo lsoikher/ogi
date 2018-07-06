@@ -53,7 +53,7 @@ function flatsome_product_row_classes($cols = null){
 }
 
 function flatsome_products_footer_content(){
-    if(is_product_category()){
+    if(is_product_category() || is_product_tag()){
       $queried_object = get_queried_object();
       $content = get_term_meta($queried_object->term_id, 'cat_meta');
         if(!empty($content[0]['cat_footer'])){
@@ -87,6 +87,7 @@ if(is_admin()){
     <?php
     }
     add_action( 'product_cat_edit_form_fields', 'top_text_taxonomy_edit_meta_field', 10, 2 );
+    add_action( 'product_tag_edit_form_fields', 'top_text_taxonomy_edit_meta_field', 10, 2 );
 
     /* ADD CUSTOM META BOX TO CATEGORY PAGES */
     function bottom_text_taxonomy_edit_meta_field($term) {
@@ -108,10 +109,11 @@ if(is_admin()){
     <?php
     }
     add_action( 'product_cat_edit_form_fields', 'bottom_text_taxonomy_edit_meta_field', 10, 2 );
+    add_action( 'product_tag_edit_form_fields', 'bottom_text_taxonomy_edit_meta_field', 10, 2 );
 
 
     /* SAVE CUSTOM META*/
-    function save_taxonomy_custom_meta( $term_id ) {
+    function fl_save_taxonomy_custom_meta( $term_id ) {
         if ( isset( $_POST['term_meta'] ) ) {
             $t_id = $term_id;
             $cat_keys = array_keys( $_POST['term_meta'] );
@@ -124,6 +126,8 @@ if(is_admin()){
             update_term_meta($term_id, 'cat_meta', $term_meta);
         }
     }
-    add_action( 'edited_product_cat', 'save_taxonomy_custom_meta', 10, 2 );
+    add_action( 'edited_product_cat', 'fl_save_taxonomy_custom_meta', 10, 2 );
+    add_action( 'edited_product_tag', 'fl_save_taxonomy_custom_meta', 10, 2 );
+
     }
 } // is_admin

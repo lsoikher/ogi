@@ -6,26 +6,19 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     2.6.1
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-global $product, $woocommerce_loop;
-
-// Store loop count we're currently on
-if ( empty( $woocommerce_loop['loop'] ) )
-	$woocommerce_loop['loop'] = 0;
-
-// Store column count for displaying the grid
-if ( empty( $woocommerce_loop['columns'] ) )
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+global $product;
 
 // Ensure visibility
-if ( ! $product || ! $product->is_visible() )
-	return;
+if ( empty( $product ) || ! $product->is_visible() ) {
+  return;
+}
 
 // Check stock status
 $out_of_stock = get_post_meta($post->ID, '_stock_status',true) == 'outofstock';
@@ -41,7 +34,7 @@ if($out_of_stock) $classes[] = 'out-of-stock';
 ?>
 
 <div <?php post_class( $classes ); ?>>
-	<div class="col-inner">	
+	<div class="col-inner">
 	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 	<div class="product-small box <?php echo flatsome_product_box_class(); ?>">
 		<div class="box-image">

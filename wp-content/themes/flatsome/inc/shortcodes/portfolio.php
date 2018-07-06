@@ -60,7 +60,7 @@ function flatsome_portfolio_shortcode($atts, $content = null, $tag) {
         'image_hover_alt' => '',
         'image_overlay' => '',
 
-        // Depricated
+        // Deprecated
         'height' => '',
 ), $atts));
 
@@ -131,9 +131,9 @@ function flatsome_portfolio_shortcode($atts, $content = null, $tag) {
 
  ob_start();
 
- echo '<div class="portfolio-element-wrapper has-filtering">';
+ echo '<div id="' . $_id . '" class="portfolio-element-wrapper has-filtering">';
 
- // Add fitler
+ // Add filter
  if($filter && $filter != 'disabled' && empty($cat) && $type !== 'grid' && $type !== 'slider' && $type !== 'full-slider'){
   // TODO: Get categories for filtering.
   wp_enqueue_script('flatsome-isotope-js');
@@ -186,6 +186,7 @@ if ( isset( $atts['ids'] ) ) {
   $ids = explode( ',', $atts['ids'] );
   $ids = array_map( 'trim', $ids );
   $args['post__in'] = $ids;
+  $args['posts_per_page'] = -1;
   $args['orderby'] = 'post__in';
 } else {
   $args['offset'] = $offset;
@@ -213,7 +214,7 @@ if ( $wp_query->post_count < ($repeater['columns']+1) ) {
 }
 
 
-// Get repater structure
+// Get repeater structure
 echo get_flatsome_repeater_start($repeater);
 
  ?>
@@ -282,6 +283,19 @@ echo get_flatsome_repeater_start($repeater);
 
   echo get_flatsome_repeater_end($repeater);
   echo '</div>';
+
+  $args = array(
+   'image_width' => array(
+      'selector' => '.box-image',
+      'property' => 'width',
+      'unit' => '%',
+    ),
+   'text_padding' => array(
+      'selector' => '.box-text',
+      'property' => 'padding',
+    ),
+  );
+  echo ux_builder_element_style_tag($_id, $args, $atts);
 
   $content = ob_get_contents();
   ob_end_clean();

@@ -8,24 +8,8 @@ var InstapageCmsPluginToolbarModel = function InstapageCmsPluginToolbarModel() {
     masterModel.messagesModel.clear();
     element.innerHTML = self.getLoader();
 
-    iAjax.post(INSTAPAGE_AJAXURL, {action: 'loadListPages', apiTokens: masterModel.apiTokens}, function loadPageListCallback(responseJson) {
-      var response = masterModel.parseResponse(responseJson);
-
-      if (response.status === 'OK') {
-        instapageKO.cleanNode(element);
-        element.innerHTML = response.html;
-
-        if (Array.isArray(response.initialData)) {
-          response = masterModel.prepareInitialData(response);
-        }
-
-        masterModel.pagedGridModel = new InstapageCmsPluginPagedGridModel(response.initialData);
-        instapageKO.applyBindings(masterModel.pagedGridModel, element);
-        self.setActiveTab('listing-view');
-      } else {
-        masterModel.messagesModel.addMessage(response.message, response.status);
-      }
-    });
+    loadPageList();
+    self.setActiveTab('listing-view');
   };
 
   self.loadEditPage = function loadEditPage(item) {
@@ -51,6 +35,7 @@ var InstapageCmsPluginToolbarModel = function InstapageCmsPluginToolbarModel() {
         instapageKO.applyBindings(masterModel.editModel, element);
         self.setActiveTab('edit-view');
       } else {
+        element.innerHTML = ''; // remove loader on fail
         masterModel.messagesModel.addMessage(response.message, response.status);
       }
     });
@@ -102,5 +87,6 @@ var InstapageCmsPluginToolbarModel = function InstapageCmsPluginToolbarModel() {
 
     tabToChange.classList.add('is-active');
     document.whitekitTabsInit();
+    masterModel.getOptions(masterModel.addDiagnosticsWarning);
   };
 };

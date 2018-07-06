@@ -1,4 +1,4 @@
-<section id="{{:: shortcode.$id }}" class="section mask-{{ shortcode.options.mask }} {{ shortcode.options.visibility }} {{ shortcode.options.class }}" ng-class="{dark: shortcode.options.dark == 'true', 'has-mask': shortcode.options.mask,'has-parallax' : shortcode.options.parallax, 'uxb-sticky-section': shortcode.options.sticky == 'true'}">
+<section id="{{:: shortcode.$id }}" class="section mask-{{ shortcode.options.mask }} {{ shortcode.options.visibility }} {{ shortcode.options.class }} has-hover" ng-class="{dark: shortcode.options.dark == 'true', 'has-mask': shortcode.options.mask,'has-parallax' : shortcode.options.parallax, 'uxb-sticky-section': shortcode.options.sticky == 'true'}">
       <div class="bg section-bg bg-fill fill" data-parallax-container=".section"
         ng-attr-data-parallax="-{{ shortcode.options.parallax }}" data-parallax-background wp-attachment="shortcode.options.bg" wp-attachment-size="shortcode.options.bgSize">
 
@@ -17,6 +17,7 @@
             <div ng-if="shortcode.options.effect" class="effect-{{shortcode.options.effect}} bg-effect fill no-click"></div>
 
             <div ng-if="shortcode.options.border" class="is-border is-{{shortcode.options.borderStyle}}"
+            ng-class="{['hover-'+shortcode.options.borderHover ] : shortcode.options.borderHover}"
             ng-style="{
               'borderRadius': shortcode.options.borderRadius+'px',
               'borderWidth': shortcode.options.border,

@@ -44,7 +44,7 @@
 			    	} ?>
 			       </span>
 			  </a>
-			</li class="icon">
+			</li>
 			<?php } ?>
 		
 			<?php

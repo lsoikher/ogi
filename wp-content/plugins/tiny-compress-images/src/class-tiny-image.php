@@ -45,6 +45,12 @@ class Tiny_Image {
 		if ( ! is_array( $this->wp_metadata ) ) {
 			return;
 		}
+		if ( ! isset( $this->wp_metadata['file'] ) ) {
+			/* No file metadata found, this might be another plugin messing with
+			   metadata. Simply ignore this! */
+			return;
+		}
+
 		$path_info = pathinfo( $this->wp_metadata['file'] );
 		$this->name = $path_info['basename'];
 
@@ -68,6 +74,7 @@ class Tiny_Image {
 		$filenames = array();
 
 		if ( is_array( $this->wp_metadata )
+			&& isset( $this->wp_metadata['file'] )
 			&& isset( $this->wp_metadata['sizes'] )
 			&& is_array( $this->wp_metadata['sizes'] ) ) {
 
@@ -170,7 +177,7 @@ class Tiny_Image {
 					$response = $compressor->compress_file( $size->filename, $resize, $preserve );
 					$size->add_tiny_meta( $response );
 					$success++;
-				} catch (Tiny_Exception $e) {
+				} catch ( Tiny_Exception $e ) {
 					$size->add_tiny_meta_error( $e );
 					$failed++;
 				}
@@ -178,7 +185,10 @@ class Tiny_Image {
 				$this->update_tiny_post_meta();
 			}
 		}
-		return array( 'success' => $success, 'failed' => $failed );
+		return array(
+			'success' => $success,
+			'failed' => $failed,
+		);
 	}
 
 	public function compress_retina( $size_name, $path ) {
@@ -200,7 +210,7 @@ class Tiny_Image {
 			try {
 				$response = $compressor->compress_file( $path, false, $preserve );
 				$size->add_tiny_meta( $response );
-			} catch (Tiny_Exception $e) {
+			} catch ( Tiny_Exception $e ) {
 				$size->add_tiny_meta_error( $e );
 			}
 			$this->update_tiny_post_meta();
@@ -240,7 +250,9 @@ class Tiny_Image {
 
 	public function get_image_sizes() {
 		$original = isset( $this->sizes[ self::ORIGINAL ] )
-			? array( self::ORIGINAL => $this->sizes[ self::ORIGINAL ] )
+			? array(
+				self::ORIGINAL => $this->sizes[ self::ORIGINAL ],
+			)
 			: array();
 		$compressed = array();
 		$uncompressed = array();

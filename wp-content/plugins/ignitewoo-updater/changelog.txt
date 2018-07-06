@@ -1,3 +1,11 @@
+Version 2.1.11 - May 17, 2017
+
+	Surpress error messages where the text is 1 or the value is only "true" 
+
+Version 2.1.10 - January 18, 2017
+
+	Removed the Wordpress "posts" JS script enqueing since it's not needed
+
 Version 2.1.9 - November 29, 2016
 
 	Remove debug code added in v2.1.8

@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Override parent 'MetaSlider' class with CoinSlider specific markup,
@@ -17,7 +15,8 @@ class MetaCoinSlider extends MetaSlider {
     /**
      * Enable the parameters that are accepted by the slider
      *
-     * @return array enabled parameters
+     * @param  array $param Parameters
+     * @return boolean
      */
     protected function get_param( $param ) {
         $params = array(

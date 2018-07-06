@@ -8,6 +8,7 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
   self.randomSufixLength = 10;
   self.id = data && data.page ? instapageKO.observable(data.page.id) : instapageKO.observable(0);
   self.instapageId = data && data.page ? data.page.instapage_id : null;
+  self.publishThrottle = instapageKO.observable(true);
 
   if (data && data.subAccounts && data.subAccounts.length) {
     self.subAccounts = instapageKO.observableArray(data.subAccounts);
@@ -37,6 +38,11 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
   });
 
   self.publishPage = function publishPage() {
+    if (self.publishThrottle.isBusy()) {
+      return;
+    }
+
+    self.publishThrottle.setBusy(true);
     masterModel.messagesModel.clear();
 
     if (!self.validateSlug() || !self.validateLandingPageType()) {
@@ -58,12 +64,12 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
         if (typeof response.updatedId !== 'undefined') {
           self.id(response.updatedId);
         }
-        self.refreshProhibitedSlugs();
         masterModel.pagedGridModel.originalItems.push({type: self.choosenLandingPageType()});
         masterModel.toolbarModel.loadListPages();
       }
 
       masterModel.messagesModel.addMessage(response.message, response.status);
+      self.publishThrottle.setBusy(false);
     });
 
     return true;
@@ -74,13 +80,11 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
     var result = {};
 
     self.isSlugValid(true);
-    self.slug(self.slug().trim().replace(/( *?\/)*?$/, ''));
-
-    if (!Array.isArray(masterModel.prohibitedSlugs)) {
-      self.isSlugValid(false);
-      return false;
-    }
-
+    // removing dots, spaces, slashes from begining and the end of slug
+    self.slug(self.slug().trim().replace(/ |^(\/)+|(\/)+$|\./g, ''));
+    // replacing duplicated slashes in slug
+    self.slug(self.slug().replace(/\/{2,}/g, '/'));
+    self.isProhibitedSlug(self.slug());
     if (self.choosenLandingPageType() === 'page') {
       if (self.slug() === '') {
         masterModel.messagesModel.addMessage(iLang.get('SLUG_CANNOT_BE_EMPTY'), 'ERROR');
@@ -88,7 +92,7 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
         return false;
       }
 
-      if (masterModel.prohibitedSlugs.some(self.isSlugProhibited, result)) {
+      if ((masterModel.prohibitedSlugs !== null) && (masterModel.prohibitedSlugs.some(self.isSlugProhibited, result))) {
         if (result.conflictElement) {
           message = '';
 
@@ -177,23 +181,16 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
     });
   };
 
-  self.getProhibitedSlugs = function getProhibitedSlugs() {
-    if (!Array.isArray(masterModel.prohibitedSlugs)) {
-      var post = {action: 'getProhibitedSlugs'};
+  self.isProhibitedSlug = function isProhibitedSlug(slug) {
+    var post = {action: 'isProhibitedSlug', data: slug};
 
-      iAjax.post(INSTAPAGE_AJAXURL, post, function getProhibitedSlugsCallback(responseJson) {
-        var response = masterModel.parseResponse(responseJson);
+    iAjax.post(INSTAPAGE_AJAXURL, post, function isProhibitedSlugCallback(responseJson) {
+      var response = masterModel.parseResponse(responseJson);
 
-        if (response.status === 'OK') {
-          masterModel.prohibitedSlugs = response.data;
-        }
-      });
-    }
-  };
-
-  self.refreshProhibitedSlugs = function refreshProhibitedSlugs() {
-    masterModel.prohibitedSlugs = null;
-    self.getProhibitedSlugs();
+      if (response.status === 'OK') {
+        masterModel.prohibitedSlugs = (response.data === false) ? null : response.data;
+      }
+    }, false);
   };
 
   self.getSubAccountToken = function getSubAccountToken() {
@@ -209,7 +206,6 @@ var InstapageCmsPluginEditModel = function InstapageCmsPluginEditModel(data) {
   };
 
   self.loadLandingPages();
-  self.getProhibitedSlugs();
 };
 
 

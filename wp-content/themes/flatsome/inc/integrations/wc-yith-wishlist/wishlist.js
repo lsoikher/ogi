@@ -32,7 +32,7 @@ jQuery( document ).ready(function($) {
             success   : function (data) {
 				$('i.wishlist-icon').addClass('added');
 				if(data == 0){
-					$('i.wishlist-icon').removeAttr('iconLabel');
+					$('i.wishlist-icon').removeAttr('data-icon-label');
 				} else if(data == 1){
 					$('i.wishlist-icon').attr('data-icon-label','1');
 				} else {

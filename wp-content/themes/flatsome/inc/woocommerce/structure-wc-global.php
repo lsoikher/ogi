@@ -1,19 +1,18 @@
 <?php
 
+function flatsome_woocommerce_setup() {
+  if(get_theme_mod('product_lightbox','default') == 'default') {
+    add_theme_support( 'wc-product-gallery-lightbox');
+  }
+}
+add_action( 'after_setup_theme', 'flatsome_woocommerce_setup', 90);
+
 
 /* Add notices to header */
 function flatsome_woocommerce_add_notice() {
     wc_print_notices();
 }
 add_action('flatsome_after_header','flatsome_woocommerce_add_notice', 100);
-
-
-/* Fix refresh urls for my account after install
-function flatsome_endpoint_bug(){
-    if(!current_user_can('manage_options') && !wp_get_post_parent_id(get_option( 'woocommerce_myaccount_page_id' ))) return;
-    flush_rewrite_rules();
-}
-add_action('flatsome_before_404','flatsome_endpoint_bug'); */
 
 function flatsome_my_account_menu_classes($classes){
 
@@ -46,9 +45,9 @@ function flatsome_woocommerce_scripts_styles() {
 
   // Remove default WooCommerce Lightbox
   if(get_theme_mod('product_lightbox','default') !== 'woocommerce' || !is_product()){
-      wp_deregister_style( 'woocommerce_prettyPhoto_css' );
-      wp_dequeue_script( 'prettyPhoto' );
-      wp_dequeue_script( 'prettyPhoto-init' );
+    wp_deregister_style( 'woocommerce_prettyPhoto_css' );
+    wp_dequeue_script( 'prettyPhoto' );
+    wp_dequeue_script( 'prettyPhoto-init' );
   }
 
   if ( ! is_admin() ) {
@@ -59,7 +58,6 @@ function flatsome_woocommerce_scripts_styles() {
 
 }
 add_action( 'wp_enqueue_scripts', 'flatsome_woocommerce_scripts_styles',98);
-
 
 
 // Set Layzy load Image height for Product Images
@@ -81,8 +79,8 @@ function flatsome_shop_widgets_init() {
     'id'            => 'shop-sidebar',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget'  => '</aside>',
-    'before_title'  => '<h3 class="widget-title shop-sidebar">',
-    'after_title'   => '</h3><div class="is-divider small"></div>',
+    'before_title'  => '<span class="widget-title shop-sidebar">',
+    'after_title'   => '</span><div class="is-divider small"></div>',
   ) );
 
   register_sidebar( array(
@@ -90,8 +88,8 @@ function flatsome_shop_widgets_init() {
     'id'            => 'product-sidebar',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget'  => '</aside>',
-    'before_title'  => '<h3 class="widget-title shop-sidebar">',
-    'after_title'   => '</h3><div class="is-divider small"></div>',
+    'before_title'  => '<span class="widget-title shop-sidebar">',
+    'after_title'   => '</span><div class="is-divider small"></div>',
   ) );
 
 
@@ -104,10 +102,10 @@ add_action( 'widgets_init', 'flatsome_shop_widgets_init' );
 function flatsome_woocommerce_breadcrumbs() {
 
     $home = (get_theme_mod('breadcrumb_home',1)) ? _x( 'Home', 'breadcrumb', 'woocommerce' ) : false;
-    $snippet =  is_product() ? '' : 'itemprop="breadcrumb"';
+
     return array(
         'delimiter'   => '&#47;',
-        'wrap_before' => '<nav class="woocommerce-breadcrumb breadcrumbs" '.$snippet.'>',
+        'wrap_before' => '<nav class="woocommerce-breadcrumb breadcrumbs">',
         'wrap_after'  => '</nav>',
         'before'      => '',
         'after'       => '',
@@ -129,7 +127,7 @@ function flatsome_header_add_to_cart_fragment( $fragments ) {
   return $fragments;
 
 }
-add_filter('add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment');
+add_filter('woocommerce_add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment');
 
 /* Update cart number */
 function flatsome_header_add_to_cart_fragment_count( $fragments ) {
@@ -143,7 +141,7 @@ function flatsome_header_add_to_cart_fragment_count( $fragments ) {
   return $fragments;
 
 }
-add_filter('add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment_count');
+add_filter('woocommerce_add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment_count');
 
 
 /* Update cart label */
@@ -157,7 +155,7 @@ if(get_theme_mod('cart_icon_style')){
     $fragments['i.icon-shopping-'.$icon] = ob_get_clean();
     return $fragments;
   }
-  add_filter('add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment_count_label');
+  add_filter('woocommerce_add_to_cart_fragments', 'flatsome_header_add_to_cart_fragment_count_label');
 }
 
 // Add Pages and blog posts to top of search results if set.
@@ -170,24 +168,37 @@ function flatsome_pages_in_search_results(){
       /**
        * Include pages and posts in search
        */
-      query_posts( array( 'post_type' => array( 'post', 'page' ), 's' => get_search_query() ) );
+      query_posts( array( 'post_type' => array( 'post'), 's' => get_search_query() ) );
+
       $posts = array();
+      while ( have_posts() ) : the_post();
+        array_push($posts, $post->ID);
+      endwhile;
+
+      wp_reset_query();
+
+      // Get pages
+      query_posts( array( 'post_type' => array( 'page'), 's' => get_search_query() ) );
+      $pages = array();
       while ( have_posts() ) : the_post();
         $wc_page = false;
         if($post->post_type == 'page'){
           foreach (array('shop', 'cart', 'checkout', 'view_order', 'terms') as $wc_page_type) {
-            if( $post->ID == woocommerce_get_page_id($wc_page_type) ) $wc_page = true;
+            if( $post->ID == wc_get_page_id($wc_page_type) ) $wc_page = true;
           }
         }
-        if( !$wc_page ) array_push($posts, $post->ID);
+        if( !$wc_page ) array_push($pages, $post->ID);
       endwhile;
 
-      if(!empty($posts)){
+      wp_reset_query();
+
+      if(!empty($posts) || !empty($pages)){
         echo '<hr/>';
         echo '<h4 class="uppercase">'.__('Pages and posts found','flatsome').'</h4>';
-        echo do_shortcode('[blog_posts columns="3" image_height="16-9" ids="'.implode(',',$posts).'"]');
+        if(!empty($posts)) echo do_shortcode('[blog_posts columns="3" image_height="16-9" ids="'.implode(',',$posts).'"]');
+        if(!empty($pages)) echo do_shortcode('[ux_pages columns="3" image_height="16-9" ids="'.implode(',',$pages).'"]');
       }
-      wp_reset_query();
+
     ?>
     <?php endif; ?>
 
@@ -200,19 +211,21 @@ add_action('woocommerce_after_main_content','flatsome_pages_in_search_results', 
 // Get presentage bubble
 function flatsome_presentage_bubble($product, $before = '-', $after = '%'){
   $price = '';
-  if($product->product_type == 'simple' || $product->product_type == 'external'){
-      $price = $before.round( ( ( $product->regular_price - $product->sale_price ) / $product->regular_price ) * 100 ).$after;
-  } else if($product->product_type == 'variable'){
+  $regular_price = $product->get_regular_price();
+  $sale_price = $product->get_sale_price();
+  if($product->is_type( 'simple' ) ||$product->is_type( 'external' )){
+      $price = $before.round( ( ( floatval($regular_price) - floatval($sale_price) ) / floatval($regular_price) ) * 100 ).$after;
+  } else if($product->is_type( 'variable' )){
     $price = '';
     $available_variations = $product->get_available_variations();
     $maximumper = 0;
     for ($i = 0; $i < count($available_variations); ++$i) {
       $variation_id=$available_variations[$i]['variation_id'];
       $variable_product1= new WC_Product_Variation( $variation_id );
-      $regular_price = $variable_product1 ->regular_price;
-      $sales_price = $variable_product1 ->sale_price;
-      $percentage= round((( ( $regular_price - $sales_price ) / $regular_price ) * 100),0) ;
-        if ($percentage > $maximumper) {
+      $regular_price = $variable_product1 -> get_regular_price();
+      $sale_price = $variable_product1 -> get_sale_price();
+      $percentage= round( ( ( floatval($regular_price) - floatval($sale_price) ) / floatval($regular_price) ) * 100 );
+        if ($percentage != 100 && $percentage > $maximumper) {
           $maximumper = $percentage;
         }
     }
@@ -230,10 +243,13 @@ function flatsome_account_login_lightbox(){
   if ( !is_user_logged_in() && get_theme_mod('account_login_style','lightbox') == 'lightbox') {
     $is_facebook_login = in_array( 'nextend-facebook-connect/nextend-facebook-connect.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
     $is_google_login = in_array( 'nextend-google-connect/nextend-google-connect.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+    wp_enqueue_script( 'wc-password-strength-meter' );
+
     ?>
     <div id="login-form-popup" class="lightbox-content mfp-hide">
+      <?php if(get_theme_mod('social_login_pos','top') == 'top' && ($is_facebook_login || $is_google_login)) echo wc_get_template('myaccount/header.php'); ?>
       <?php echo wc_get_template_part('myaccount/form-login'); ?>
-      <?php if($is_facebook_login || $is_google_login) echo woocommerce_get_template('myaccount/header.php'); ?>
+      <?php if(get_theme_mod('social_login_pos','top') == 'bottom' && ($is_facebook_login || $is_google_login)) echo wc_get_template('myaccount/header.php'); ?>
     </div>
   <?php }
 }

@@ -4,13 +4,15 @@ Tags: google, register, login, social connect, social, google connect
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 4.7.0
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 One click registration & login plugin for Google? Easy installation? Is it totally free and comes with support? Yeah!
 
 == Description ==
+
+>Nextend Google Connect is discontinued and [Nextend Social Login](https://wordpress.org/plugins/nextend-facebook-connect/) handles Google login in the future. Feel free to install and enjoy [Nextend Social Login](https://wordpress.org/plugins/nextend-facebook-connect/).
 
 Check the [DEMO](http://secure.nextendweb.com/) on our site.
 

@@ -37,6 +37,7 @@ function ux_section($atts, $content = null) {
     'scroll_for_more' => '',
     // Border Control
     'border' => '',
+    'border_hover' => '',
     'border_color' => '',
     'border_margin' => '',
     'border_radius' => '',
@@ -90,6 +91,8 @@ function ux_section($atts, $content = null) {
     /* Lazy load */
     $classes_bg[] = get_theme_mod('lazy_load_backgrounds', 1) ? '' : 'bg-loaded';
     $classes_bg[] = $bg ? '' : 'bg-loaded';
+
+    if($border_hover) $classes[] = 'has-hover';
 
     $classes =  implode(" ", $classes);
     $classes_bg =  implode(" ", $classes_bg);

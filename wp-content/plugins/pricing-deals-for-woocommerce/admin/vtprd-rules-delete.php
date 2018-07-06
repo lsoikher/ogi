@@ -61,6 +61,36 @@ class VTPRD_Rule_delete {
     } else {
       update_option( 'vtprd_rules_set', $vtprd_rules_set );
     }    
+
+
+    //v2.0.0 begin M solution
+    //**************
+    //keep a running track of ruleset_has_a_display_rule   ==> used in apply-rules processing
+    //*************    
+    // added in test for rule_status == 'publish'
+    $ruleset_has_a_display_rule = 'no';
+    $ruleset_contains_auto_add_free_product = 'no';
+    $ruleset_contains_auto_add_free_coupon_initiated_deal = 'no';
+    $sizeof_rules_set = sizeof($vtprd_rules_set);
+    for($i=0; $i < $sizeof_rules_set; $i++) { 
+       if ( ($vtprd_rules_set[$i]->rule_status == 'publish') &&
+            ($vtprd_rules_set[$i]->rule_on_off_sw_select != 'off') ) {
+         if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+            $ruleset_has_a_display_rule = 'yes'; 
+         } 
+         if ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') { 
+            $ruleset_contains_auto_add_free_product = 'yes';         
+         }
+         if ( ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') &&
+              ($vtprd_rules_set[$i]->only_for_this_coupon_name > ' ') ) { 
+            $ruleset_contains_auto_add_free_coupon_initiated_deal = 'yes';         
+         } 
+      }
+    }
+    update_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );    
+    update_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
+    update_option( 'vtprd_ruleset_contains_auto_add_free_coupon_initiated_deal',$ruleset_contains_auto_add_free_coupon_initiated_deal );
+    //v2.0.0 end M solution
     
  }  
 
@@ -71,7 +101,8 @@ class VTPRD_Rule_delete {
     global $post, $vtprd_info, $vtprd_rules_set, $vtprd_rule;
     $post_id = $post->ID;     
     $vtprd_rules_set = get_option( 'vtprd_rules_set' ) ;
-    for($i=0; $i < sizeof($vtprd_rules_set); $i++) { 
+    $sizeof_rules_set = sizeof($vtprd_rules_set);  //v2.0.0
+    for($i=0; $i < $sizeof_rules_set; $i++) { //v2.0.0
        if ($vtprd_rules_set[$i]->post_id == $post_id) {
           if  ( sizeof($vtprd_rules_set[$i]->rule_error_message) > 0 ) {   //if there are error message, the status remains at pending
             //$vtprd_rules_set[$i]->rule_status =  'pending';   status already pending
@@ -81,9 +112,39 @@ class VTPRD_Rule_delete {
             $vtprd_rules_set[$i]->rule_status =  'publish';
             update_option( 'vtprd_rules_set', $vtprd_rules_set );  
           }
-          $i =  sizeof($vtprd_rules_set);   //set to done
+          continue;   //set to done
        }
     }
+
+    //v2.0.0 begin M solution
+    //**************
+    //keep a running track of ruleset_has_a_display_rule   ==> used in apply-rules processing
+    //*************    
+    // added in test for rule_status == 'publish'
+    $ruleset_has_a_display_rule = 'no';
+    $ruleset_contains_auto_add_free_product = 'no';
+    $ruleset_contains_auto_add_free_coupon_initiated_deal = 'no';
+    $sizeof_rules_set = sizeof($vtprd_rules_set);
+    for($i=0; $i < $sizeof_rules_set; $i++) { 
+       if ( ($vtprd_rules_set[$i]->rule_status == 'publish') &&
+            ($vtprd_rules_set[$i]->rule_on_off_sw_select != 'off') ) {
+         if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+            $ruleset_has_a_display_rule = 'yes'; 
+         } 
+         if ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') { 
+            $ruleset_contains_auto_add_free_product = 'yes';         
+         }
+         if ( ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') &&
+              ($vtprd_rules_set[$i]->only_for_this_coupon_name > ' ') ) { 
+            $ruleset_contains_auto_add_free_coupon_initiated_deal = 'yes';         
+         } 
+      }
+    }
+    update_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );    
+    update_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
+    update_option( 'vtprd_ruleset_contains_auto_add_free_coupon_initiated_deal',$ruleset_contains_auto_add_free_coupon_initiated_deal );
+    //v2.0.0 end M solution   
+    
  }  
  
      
@@ -101,6 +162,11 @@ class VTPRD_Rule_delete {
     
    //DELETE matching option array
    delete_option( 'vtprd_rules_set' );
+  
+   update_option( 'vtprd_ruleset_has_a_display_rule','no' );    //v2.0.0 K solution
+   update_option( 'vtprd_ruleset_contains_auto_add_free_product','no'); //v2.0.0 end M solution
+   update_option( 'ruleset_contains_auto_add_free_coupon_initiated_deal','no');
+    
  }  
      
   public  function vtprd_nuke_all_rule_cats() {
@@ -136,6 +202,38 @@ class VTPRD_Rule_delete {
     } else {
       update_option( 'vtprd_rules_set', $vtprd_rules_set );
     }
+    
+
+
+    //v2.0.0 begin M solution
+    //**************
+    //keep a running track of ruleset_has_a_display_rule   ==> used in apply-rules processing
+    //*************    
+    // added in test for rule_status == 'publish'
+    $ruleset_has_a_display_rule = 'no';
+    $ruleset_contains_auto_add_free_product = 'no';
+    $ruleset_contains_auto_add_free_coupon_initiated_deal = 'no';
+    $sizeof_rules_set = sizeof($vtprd_rules_set);
+    for($i=0; $i < $sizeof_rules_set; $i++) { 
+       if ( ($vtprd_rules_set[$i]->rule_status == 'publish') &&
+            ($vtprd_rules_set[$i]->rule_on_off_sw_select != 'off') ) {
+         if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+            $ruleset_has_a_display_rule = 'yes'; 
+         } 
+         if ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') { 
+            $ruleset_contains_auto_add_free_product = 'yes';         
+         }
+         if ( ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') &&
+              ($vtprd_rules_set[$i]->only_for_this_coupon_name > ' ') ) { 
+            $ruleset_contains_auto_add_free_coupon_initiated_deal = 'yes';         
+         } 
+      }
+    }
+    update_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );    
+    update_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
+    update_option( 'vtprd_ruleset_contains_auto_add_free_coupon_initiated_deal',$ruleset_contains_auto_add_free_coupon_initiated_deal );
+    //v2.0.0 end M solution
+    
  }
      
   public  function vtprd_nuke_lifetime_purchase_history() {

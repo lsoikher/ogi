@@ -2,79 +2,45 @@
 /**
  * Single Product Thumbnails
  *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.6.4
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/product-thumbnails.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see       https://docs.woocommerce.com/document/template-structure/
+ * @author    WooThemes
+ * @package   WooCommerce/Templates
+ * @version     3.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+  exit;
 }
 
-global $post, $product, $woocommerce;
+global $post, $product;
 
-$attachment_ids = $product->get_gallery_attachment_ids();
-$thumb_count = count($attachment_ids)+1;
+$attachment_ids = $product->get_gallery_image_ids();
 
-// Disable thumbnails if there is only one extra image.
-if($thumb_count == 1) return;
+if ( $attachment_ids && has_post_thumbnail() ) {
+  foreach ( $attachment_ids as $attachment_id ) {
+    $full_size_image = wp_get_attachment_image_src( $attachment_id, 'full' );
+    $thumbnail       = wp_get_attachment_image_src( $attachment_id, 'shop_thumbnail' );
+    $attributes      = array(
+      'title'                   => get_post_field( 'post_title', $attachment_id ),
+      'data-caption'            => get_post_field( 'post_excerpt', $attachment_id ),
+      'data-src'                => $full_size_image[0],
+      'data-large_image'        => $full_size_image[0],
+      'data-large_image_width'  => $full_size_image[1],
+      'data-large_image_height' => $full_size_image[2],
+    );
 
-$rtl = 'false';
+    $html  = '<div data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image slide"><a href="' . esc_url( $full_size_image[0] ) . '">';
+    $html .= wp_get_attachment_image( $attachment_id, 'shop_single', false, $attributes );
+    $html .= '</a></div>';
 
-if(is_rtl()) $rtl = 'true';
-
-$thumb_cell_align = "left";
-
-if ( $attachment_ids ) {
-	$loop 		= 0;
-	$columns 	= apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
-
-	$gallery_class = array('product-thumbnails','thumbnails');
-
-	if($thumb_count <= 5){
-		$gallery_class[] = 'slider-no-arrows';
-	}
-
-	$gallery_class[] = 'slider row row-small row-slider slider-nav-small small-columns-4';
-	?>
-
-	<div class="<?php echo implode(' ', $gallery_class); ?>"
-		data-flickity-options='{
-	            "cellAlign": "<?php echo $thumb_cell_align;?>",
-	            "wrapAround": false,
-	            "autoPlay": false,
-	            "prevNextButtons":true,
-	            "asNavFor": ".product-gallery-slider",
-	            "percentPosition": true,
-	            "imagesLoaded": true,
-	            "pageDots": false,
-	            "rightToLeft": <?php echo $rtl; ?>,
-	            "contain": true
-	        }'
-		><?php
-
-
-		if ( has_post_thumbnail() ) : ?>
-			<div class="col is-nav-selected first"><a><?php echo get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_small_thumbnail_size', 'shop_thumbnail' ) ) ?></a></div>
-		<?php endif;
-
-		foreach ( $attachment_ids as $attachment_id ) {
-
-			$classes = array( '' );
-			$image_title 	= esc_attr( get_the_title( $attachment_id ) );
-			$image_caption 	= esc_attr( get_post_field( 'post_excerpt', $attachment_id ) );
-			$image_class = esc_attr( implode( ' ', $classes ) );
-
-			$image       = wp_get_attachment_image( $attachment_id, apply_filters( 'single_product_small_thumbnail_size', 'shop_thumbnail' ), 0, $attr = array(
-				'title'	=> $image_title,
-				'alt'	=> $image_title
-				) );
-
-			echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', sprintf( '<div class="col"><a class="%s" title="%s" >%s</a></div>', $image_class, $image_caption, $image ), $attachment_id, $post->ID, $image_class );
-
-			$loop++;
-		}
-	?>
-	</div><!-- .product-thumbnails -->
-	<?php
-} ?>
+    echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $attachment_id );
+  }
+}

@@ -3,7 +3,7 @@
 		<p class="status"><?php
 		if ( $status->ok ) {
 			if ( isset( $status->message ) ) {
-				echo esc_html__( $status->message, 'tiny-compress-images' );
+				echo esc_html( $status->message, 'tiny-compress-images' );
 			} else {
 				echo esc_html__( 'Your account is connected', 'tiny-compress-images' );
 			}
@@ -16,7 +16,7 @@
 			$compressions = self::get_compression_count();
 			/* It is not possible to check if a subscription is free or flexible. */
 			if ( Tiny_Config::MONTHLY_FREE_COMPRESSIONS == $compressions ) {
-				$link = '<a href="https://tinypng.com/developers" target="_blank">' . esc_html__( 'TinyPNG API account', 'tiny-compress-images' ) . '</a>';
+				$link = '<a href="https://tinypng.com/dashboard/developers" target="_blank">' . esc_html__( 'TinyPNG API account', 'tiny-compress-images' ) . '</a>';
 				printf( esc_html__(
 					'You have reached your limit of %s compressions this month.',
 					'tiny-compress-images'
@@ -35,7 +35,7 @@
 		} else {
 			if ( isset( $status->message ) ) {
 				echo esc_html__( 'Error', 'tiny-compress-images' ) . ': ';
-				echo esc_html__( $status->message, 'tiny-compress-images' );
+				echo esc_html( $status->message, 'tiny-compress-images' );
 			} else {
 				esc_html__(
 					'API status could not be checked, enable cURL for more information',
@@ -61,11 +61,11 @@
 	<div class="update" style="display: none">
 		<h4><?php echo esc_html__( 'Change your API key', 'tiny-compress-images' ); ?></h4>
 		<p class="introduction"><?php
-			$link = sprintf( '<a href="https://tinypng.com/developers" target="_blank">%s</a>',
-				esc_html__( 'TinyPNG developer section', 'tiny-compress-images' )
+			$link = sprintf( '<a href="https://tinypng.com/dashboard/developers" target="_blank">%s</a>',
+				esc_html__( 'API dashboard', 'tiny-compress-images' )
 			);
 			printf( esc_html__(
-				'Enter your API key. If you have lost your key, go to the %s to retrieve it.',
+				'Enter your API key. If you have lost your key, go to your %s to retrieve it.',
 				'tiny-compress-images'
 			), $link );
 		?></p>

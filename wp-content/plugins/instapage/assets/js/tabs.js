@@ -1,5 +1,4 @@
-( function( $ )
-{
+(function($) {
   // activate tabs
   function initTabs(tabs) {
     $.each(tabs, function (index, item) {
@@ -42,4 +41,4 @@
   $(document).ready(function () {
     whitekitTabsInit();
   });
-} )( jQuery );
+})(jQuery);

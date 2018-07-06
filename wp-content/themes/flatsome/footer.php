@@ -10,7 +10,7 @@ global $flatsome_opt;
 
 </main><!-- #main -->
 
-<footer id="footer" class="footer-wrapper">	
+<footer id="footer" class="footer-wrapper">
 
 	<?php do_action('flatsome_footer'); ?>
 

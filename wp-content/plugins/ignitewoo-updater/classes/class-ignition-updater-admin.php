@@ -381,7 +381,7 @@ if ( jQuery( 'form[name="upgrade-themes"]' ).length ) {
 	public function enqueue_scripts () {
 
 		$screen = get_current_screen();
-		wp_enqueue_script( 'post' );
+		//wp_enqueue_script( 'post' );
 		wp_register_script( 'ignition-updater-admin', $this->assets_url . 'js/admin.js', array( 'jquery' ) );
 		wp_enqueue_script( 'ignition-jquery-blockui', $this->assets_url . 'js/jquery.blockUI.min.js?version=1.6.0', array( 'jquery' ) );
 		wp_register_script( 'ignition-updater-admin-notice-hider', $this->assets_url . 'js/admin-notice-hider.js?version=1.6.0', array( 'jquery' ) );
@@ -679,13 +679,15 @@ if ( jQuery( 'form[name="upgrade-themes"]' ).length ) {
 		// $themes = wp_get_themes();
 		$themes = array();
 		
+		/*
 		if ( 0 < count( $themes ) ) {
 			foreach ( $themes as $k => $v ) {
 				$filepath = basename( $v->__get( 'stylesheet_dir' ) ) . '/style.css';
 				$products[$filepath] = array( 'Name' => $v->__get( 'name' ), 'Version' => $v->__get( 'version' ) );
 			}
 		}
-
+		*/
+		
 		if ( is_array( $products ) && ( 0 < count( $products ) ) ) {
 			$reference_list = $this->get_product_reference_list();
 			$activated_products = $this->get_activated_products();

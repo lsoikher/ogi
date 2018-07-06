@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<h1 itemprop="name" class="product-title entry-title">
+<h1 class="product-title entry-title">
 	<?php the_title(); ?>
 </h1>
 

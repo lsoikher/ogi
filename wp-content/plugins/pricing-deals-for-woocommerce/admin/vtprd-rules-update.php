@@ -1,27 +1,50 @@
 <?php
-   
+ 
 class VTPRD_Rule_update {
 	
-           
+
 	public function __construct(){  
+  
+    //error_log( print_r(  ' ', true ) );
+    //error_log( print_r(  'VTPRD_Rule_update begin', true ) ); 
+    
+    //********     
+    //v2.0.0 begin - moved here to clean up the set FIRST, before anything
+    //********
+    global $post;
+    $save_this_post = $post;
+    
+    vtprd_maybe_resync_rules_set(); //v1.1.0.6  if multiple updates done rapidly in list screen, these can get out of sync.
+    
+    //the resync gets other posts, this brings back the correct one.
+    $post = $save_this_post;
+    
+    //v2.0.0 end
+    //********
     
     $this->vtprd_edit_rule();
-     
+
     //apply rule scehduling
     $this->vtprd_validate_rule_scheduling();
-     
+
     //clear out irrelevant/conflicting data (if no errors)
     $this->vtprd_maybe_clear_extraneous_data();
        
     //translate rule into text...
-    //$this->vtprd_build_ruleInWords();      No longer used
-/*
-    global $vtprd_rule;
-      echo '$vtprd_rule <pre>'.print_r($vtprd_rule, true).'</pre>' ;  
- wp_die( __('<strong>Looks like you\'re running an older version of WordPress, you need to be running at least WordPress 3.3 to use the Varktech Minimum Purchase plugin.</strong>', 'vtmin'), __('VT Minimum Purchase not compatible - WP', 'vtmin'), array('back_link' => true));
- */     
+    //$this->vtprd_build_ruleInWords();      No Longer Used
+        
     //update rule...
     $this->vtprd_update_rules_info();
+
+    //v1.1.8.0 begin
+    global $vtprd_setup_options, $vtprd_rules_set;
+    if ( $vtprd_setup_options['debugging_mode_on'] == 'yes' ){ 
+      error_log( print_r(  ' ', true ) );
+      error_log( print_r(  '$vtprd_rules_set at UPDATE-RULES END', true ) );
+      error_log( var_export($vtprd_rules_set, true ) );
+    }
+    //v1.1.8.0 end
+
       
   }
   
@@ -30,7 +53,7 @@ class VTPRD_Rule_update {
   ****************************************************************************************/ 
             
   public  function vtprd_edit_rule() {
-      global $post, $wpdb, $vtprd_rule, $vtprd_info, $vtprd_rules_set, $vtprd_rule_template_framework, $vtprd_deal_edits_framework, $vtprd_deal_structure_framework; 
+      global $post, $wpdb, $vtprd_rule, $vtprd_info, $vtprd_rule_template_framework, $vtprd_deal_edits_framework, $vtprd_deal_structure_framework; //v2.0.0 M solution - removed global $vtprd_rules_set
                                                                                                                                                          
       $vtprd_rule_new = new VTPRD_Rule();   //  always  start with fresh copy
       $selected = 's';
@@ -77,6 +100,9 @@ action amt count must be > 1
 action amt must be = to discount amount count 
 
 **CHEAPEST/MOST EXPENSIVE**
+*
+*NEW "Apply Discount to Equal or Lesser Value Item" 
+*
 *=> in buy group
 buy condition must be an amt
 buy amt count must be > 1
@@ -91,47 +117,31 @@ action amt condition can be an amt or $$
       $vtprd_rule->cart_or_catalog_select   = $_REQUEST['cart-or-catalog-select'];  
       $vtprd_rule->pricing_type_select      = $_REQUEST['pricing-type-select'];  
       $vtprd_rule->minimum_purchase_select  = $_REQUEST['minimum-purchase-select'];  
-      $vtprd_rule->buy_group_filter_select  = $_REQUEST['buy-group-filter-select'];  
-      $vtprd_rule->get_group_filter_select  = $_REQUEST['get-group-filter-select'];  
+ 
       $vtprd_rule->rule_on_off_sw_select    = $_REQUEST['rule-on-off-sw-select'];
       $vtprd_rule->rule_type_select         = $_REQUEST['rule-type-select'];
-      $vtprd_rule->wizard_on_off_sw_select  = $_REQUEST['wizard-on-off-sw-select']; 
+      //$vtprd_rule->wizard_on_off_sw_select  = $_REQUEST['wizard-on-off-sw-select']; //v2.0.0 removed!!
       
       $vtprd_rule->apply_deal_to_cheapest_select  = $_REQUEST['apply-deal-to-cheapest-select']; //v.1.6.7
-        
+              
       $upperSelectsDoneSw                   = $_REQUEST['upperSelectsDoneSw']; 
       
       if ($upperSelectsDoneSw != 'yes') {       
           $vtprd_rule->rule_error_message[] = array( 
                 'insert_error_before_selector' => '.top-box',  
                 'error_msg'  => __('Blueprint choices not yet completed', 'vtprd') );   //mwn20140414       
-          $vtprd_rule->rule_error_red_fields[] = '#blue-area-title' ;    //mwn20140414   
+          $vtprd_rule->rule_error_red_fields[] = '#blue-area-title' ;    //mwn20140414             
       } 
       
-      //mwn20140414    begin   ==> added these IDs to rules_ui.php ...
-      
-      if (($vtprd_rule->cart_or_catalog_select == 'choose') || ($vtprd_rule->cart_or_catalog_select <= ' ')) {
-          $vtprd_rule->rule_error_message[] = array( 
-                'insert_error_before_selector' => '.top-box',  
-                'error_msg'  => __('Cart or Catalog choice not yet made', 'vtprd') );        
-          $vtprd_rule->rule_error_red_fields[] = '#cart-or-catalog-select-label' ; 
-      }
-      
+
       if (($vtprd_rule->pricing_type_select == 'choose') || ($vtprd_rule->pricing_type_select <= ' ')) {
           $vtprd_rule->rule_error_message[] = array( 
                 'insert_error_before_selector' => '.top-box',  
-                'error_msg'  => __('Deal Type choice not yet made', 'vtprd') );        
+                'error_msg'  => __('Deal Type choice not yet made', 'vtprd') );   //mwn20140414       
           $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label' ; 
       } 
-      
-      if (($vtprd_rule->minimum_purchase_select == 'choose') || ($vtprd_rule->minimum_purchase_select <= ' ')) {
-          $vtprd_rule->rule_error_message[] = array( 
-                'insert_error_before_selector' => '.top-box',  
-                'error_msg'  => __('Deal Action choice not yet made', 'vtprd') );          
-          $vtprd_rule->rule_error_red_fields[] = '#minimum-purchase-select-label' ; 
-      }           
-      //mwn20140414    end 
-      
+   
+
       //#RULEtEMPLATE IS NOW A HIDDEN FIELD which carries the rule template SET WITHIN THE JS
       //   in response to the inital dropdowns being selected. 
      $vtprd_rule->rule_template = $_REQUEST['rule_template_framework']; 
@@ -176,11 +186,15 @@ action amt condition can be an amt or $$
      $active_field_count = 0;     
 
      for($k=0; $deal_iterations_done == 'no'; $k++) {      
+       
        if ( (isset( $_REQUEST['buy_repeat_condition_' . $k] )) && (!empty( $_REQUEST['buy_repeat_condition_' . $k] )) ) {    //is a deal line there? always 1 at least...
          foreach( $vtprd_deal_structure_framework as $key => $value ) {   //spin through all of the screen fields=>  $key = field name, so has multiple uses...  
             //load up the deal structure with incoming fields
-            $vtprd_deal_structure_framework[$key] = $_REQUEST[$key . '_' .$k];
-         }   
+            //v1.1.8.1 new isset
+            if (isset($_REQUEST[$key . '_' .$k])) {
+              $vtprd_deal_structure_framework[$key] = $_REQUEST[$key . '_' .$k];
+            }             
+         } 
           
             //Edit deal line
          $this->vtprd_edit_deal_info_line($active_field_count, $active_line_count, $k);
@@ -191,20 +205,100 @@ action amt condition can be an amt or $$
        }
      }
 
+
+ 
+     //v2.0.0 move these 2 here    
+     //inPop        
+     $vtprd_rule->inPop = $_REQUEST['popChoiceIn'];
+     /* v2.0.0
+        popChoiceIn:
+          wholeStore
+          groups     
+     */
+
+     //actionPop        
+
+     $vtprd_rule->actionPop = $_REQUEST['popChoiceOut'];
+     /* v2.0.0
+      popChoiceOut: 
+        sameAsInPop
+        wholeStore
+        groups     
+     */
+     
+     //**********************************************
+     $groups_found_count_array = $this->vtprd_get_and_store_selection_arrays(); //v2.0.0
+      //$groups_found_count_array = ('buy_groups_found' => $buy_groups_found,'action_groups_found' => $action_groups_found);
+     //**********************************************
+     
+     //****************
+     //v1.1.8.0 begin - BULK deal edits
+     //****************
+     if ($vtprd_rule->pricing_type_select == 'bulk') {
+     
+        //  load up defaults which don't come across because they're hidden... 
+        // most get ++OVERRIDDEN++ during rule execution.    
+        $vtprd_rule->rule_deal_info[0]['buy_repeat_condition']    = 'none';
+        $vtprd_rule->rule_deal_info[0]['buy_amt_type']            = 'quantity';
+        $vtprd_rule->rule_deal_info[0]['buy_amt_count']           = '1';
+        $vtprd_rule->rule_deal_info[0]['buy_amt_applies_to']      = 'all';
+        $vtprd_rule->rule_deal_info[0]['buy_amt_mod']             = 'none';
+        $vtprd_rule->rule_deal_info[0]['action_repeat_condition'] = 'none';
+        $vtprd_rule->rule_deal_info[0]['action_amt_type']         = 'one';
+        $vtprd_rule->rule_deal_info[0]['action_amt_applies_to']   = 'all';
+        $vtprd_rule->rule_deal_info[0]['action_amt_mod']          = 'none';
+        $vtprd_rule->rule_deal_info[0]['discount_amt_type']       = 'percent';
+        $vtprd_rule->rule_deal_info[0]['discount_amt_count']      = '10'; 
+        //**************    
+     
+        $vtprd_rule->bulk_deal_method = $_REQUEST['bulkMethodIn'];
+        $vtprd_rule->bulk_deal_qty_count_by = $_REQUEST['bulkCountByIn'];
+        
+        //set buy_amt_applies_to so that the EXPLODER in the apply can check it! (discount same as buy set later for bulk...)
+        $vtprd_rule->rule_deal_info[0]['buy_amt_applies_to'] = $vtprd_rule->bulk_deal_qty_count_by;
+        
+        if(!empty($_REQUEST['minVal'])) { 
+          $minVal = $_REQUEST['minVal'];
+          $maxVal = $_REQUEST['maxVal'];
+          $discountType = $_REQUEST['discountType'];
+          $discountVal = $_REQUEST['discountVal'];
+          $vtprd_rule->bulk_deal_array = array();
+          $row_count = sizeof($minVal);
+          $final_row_count = 0;
+          if ($row_count > 0) {
+            for($b=0; $b < $row_count; $b++) {
+                //don't copy empty rows
+                if ( ($b > 0) &&
+                     ($minVal[$b] <= ' ')  &&
+                     ($maxVal[$b] <= ' ')  &&
+                     ($discountVal[$b] <= ' ')  ) {
+                  continue;
+                }
+                $vtprd_rule->bulk_deal_array[] = array (
+                  'min_value'      =>  $minVal[$b], 
+                  'max_value'      =>  $maxVal[$b],
+                  'discount_type'  =>  $discountType[$b],
+                  'discount_value' =>  $discountVal[$b]
+                );
+                $final_row_count++;
+            }
+            $this->vtprd_edit_pricing_table($final_row_count);
+          } else {
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#pricing-table-headings-line',            
+                  'error_msg'  => __('When Bulk Purchasing Deal Type is selected, a Pricing Table row must be filled in', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label' ;
+            $vtprd_rule->rule_error_red_fields[] = '#pricing_table_group_title_active' ;
+            $vtprd_rule->rule_error_box_fields[] = '#minVal_row_1';           
+          }
+        }        
+     }
+     //v1.1.8.0 end
+     
+     
     //if max_amt_type is active, may have a max_amt_msg
     $vtprd_rule->discount_rule_max_amt_msg = $_REQUEST['discount_rule_max_amt_msg'];
-  
-    //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-    // + ADDED => pro-only option chosen                                                                             
-    if ($vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_type'] != 'none') { 
-         $vtprd_rule->rule_error_message[] = array(                                                                              
-                'insert_error_before_selector' => '.top-box',  
-                'error_msg'  => __('The "Maximum Rule Discount for the Cart" option chosen is only available in the Pro Version. ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>');
-          $vtprd_rule->rule_error_red_fields[] = '#discount_rule_max_amt_type_label_0' ; 
-          $vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_type'] = 'none'; //overwrite ERROR choice with DEFAULT  
-    } 
-    //EDITED end   * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-    
+
     //if max_lifetime_amt_type is active, may have a max_amt_msg
     $vtprd_rule->discount_lifetime_max_amt_msg = $_REQUEST['discount_lifetime_max_amt_msg'];
 
@@ -220,23 +314,17 @@ action amt condition can be an amt or $$
               'error_msg'  => __('Checkout Short Message is required.', 'vtprd') );
         $vtprd_rule->rule_error_red_fields[] = '#discount_product_short_msg_label' ;
         $vtprd_rule->rule_error_box_fields[] = '#discount_product_short_msg';       
-    }    
+    } else {
+        $vtprd_rule->discount_product_short_msg = stripslashes($vtprd_rule->discount_product_short_msg); //v1.0.9.0
+    }   
 
     $vtprd_rule->discount_product_full_msg = $_REQUEST['discount_product_full_msg']; 
     //if default msg, get rid of it!!!!!!!!!!!!!!  //v1.1.0.8 reworked the IF
     $vtprd_rule->discount_product_full_msg = stripslashes($vtprd_rule->discount_product_full_msg); //v1.0.9.0
     if ( $vtprd_rule->discount_product_full_msg == $vtprd_info['default_full_msg'] ) {
        $vtprd_rule->discount_product_full_msg = ' ';
-    }         
-    /* full msg now OPTIONAL
-    if ( ($vtprd_rule->discount_product_full_msg <= ' ') || 
-         ($vtprd_rule->discount_product_full_msg == $_REQUEST['fullMsg'] )){
-        $vtprd_rule->rule_error_message[] = array( 
-              'insert_error_before_selector' => '#messages-box',  
-              'error_msg'  => __('Theme Full Message is required.', 'vtprd') );
-        $vtprd_rule->rule_error_red_fields[] = '#discount_product_full_msg_label' ;       
-    }    
-*/
+    }        
+
               
     $vtprd_rule->cumulativeRulePricing = $_REQUEST['cumulativeRulePricing']; 
     if ($vtprd_rule->cumulativeRulePricing == 'yes') {
@@ -245,12 +333,6 @@ action amt condition can be an amt or $$
          $vtprd_rule->ruleApplicationPriority_num = preg_replace('/[^0-9.]+/', '', $vtprd_rule->ruleApplicationPriority_num); //remove leading/trailing spaces, percent sign, dollar sign
          if ( is_numeric($vtprd_rule->ruleApplicationPriority_num) === false ) { 
             $vtprd_rule->ruleApplicationPriority_num = '10'; //init variable 
-            /*
-            $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '#cumulativePricing_box',  
-                  'error_msg'  => __('"Apply this Rule Discount in Addition to Other Rule Discounts" = Yes.  Rule Priority Sort Number is required, and must be numeric. "10" inserted if blank.', 'vtprd') );
-            $vtprd_rule->rule_error_red_fields[] = '#ruleApplicationPriority_num_label' ;        
-            */
          }
        } else {
             $vtprd_rule->rule_error_message[] = array( 
@@ -261,14 +343,14 @@ action amt condition can be an amt or $$
             $vtprd_rule->ruleApplicationPriority_num = '10'; //init variable     
        }
     } else {
-    //v1.0.7.4 begin
+    //v1.0.5.3 begin
     //  $vtprd_rule->ruleApplicationPriority_num = '10'; //init variable  
          $vtprd_rule->ruleApplicationPriority_num = $_REQUEST['ruleApplicationPriority_num'];
          $vtprd_rule->ruleApplicationPriority_num = preg_replace('/[^0-9.]+/', '', $vtprd_rule->ruleApplicationPriority_num); //remove leading/trailing spaces, percent sign, dollar sign
          if ( is_numeric($vtprd_rule->ruleApplicationPriority_num) === false ) { 
             $vtprd_rule->ruleApplicationPriority_num = '10'; //init variable 
          }
-     //v1.0.7.4 end  
+     //v1.0.5.3 end        
     }
                  
     $vtprd_rule->cumulativeSalePricing   = $_REQUEST['cumulativeSalePricing'];
@@ -289,86 +371,14 @@ action amt condition can be an amt or $$
       $vtprd_rule->rule_error_box_fields[] = '#cumulativePricing'; 
     } 
  
- 
-         
-     //inPop        
-     $vtprd_rule->role_and_or_in = 'or'; //initialize so it's always there.  overwritten by logic as needed.
-     $vtprd_rule->inPop = $_REQUEST['popChoiceIn'];
-     switch( $vtprd_rule->inPop ) {
-        case 'wholeStore':
-          break;
-        
-        //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-        default: // +ADDED => pro-only option chosen                                                                             
-            $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '.top-box',  
-                  'error_msg'  => __('The "Buy Group Selection" option chosen is only available in the Pro Version. ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>');
-            $vtprd_rule->rule_error_red_fields[] = '#buy_group_label' ; 
-             $vtprd_rule->inPop = 'wholeStore'; //overwrite ERROR choice with DEFAULT 
-             $vtprd_rule->buy_group_filter_select = 'wholeStore'; //overwrite ERROR choice with DEFAULT     
-          break; 
-        //Edited end  * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-        
-      }
 
-      //********************************************************************************************************************
-      //The WPSC Realtime Catalog repricing action does not pass variation-level info, so these options are disallowed
-      //********************************************************************************************************************
-      if (($vtprd_rule->rule_execution_type == 'display') && 
-          (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') ) {
-          
-            if ($vtprd_rule->inPop == 'vargroup')  { 
-               $vtprd_rule->rule_error_message[] = array( 
-                              'insert_error_before_selector' => '#inPop-varProdID-cntl', 
-                              'error_msg'  => __('"Buy" Group Selection - Single with Variations may not be chosen when "Apply Price Reduction to Products in the Catalog" Pricing Deal Type is chosen.', 'vtprd') );
-               $vtprd_rule->rule_error_red_fields[] = '#inPopChoiceIn_label';
-            }
-    
-            if ($vtprd_rule->cumulativeSalePricingAllowed == 'no' )  { 
-               $vtprd_rule->rule_error_message[] = array( 
-                              'insert_error_before_selector' => '#cumulativePricing_box',  
-                              'error_msg'  => __('"Apply this Rule Discount in addition to Product Sale Pricing" must not be "No" when "Apply Price Reduction to Products in the Catalog" Pricing Deal Type is chosen.', 'vtprd') );
-               $vtprd_rule->rule_error_red_fields[] = '#cumulativeSalePricing_label';
-               $vtprd_rule->rule_error_box_fields[] = '#cumulativeSalePricing';
-            }        
-      }                                                                                     
-
-      //********************************************************************************************************************  
-      //  ruleApplicationPriority_num must ALWAYS be numeric, to allow for sorting
-      //********************************************************************************************************************
- /*     $vtprd_rule->ruleApplicationPriority_num = preg_replace('/[^0-9.]+/', '', $vtprd_rule->ruleApplicationPriority_num); //remove leading/trailing spaces, percent sign, dollar sign
-      if ( is_numeric($vtprd_rule->ruleApplicationPriority_num) === false ) { 
-        $vtprd_rule->ruleApplicationPriority_num = '10';
-      }  */
-      /* not necessary any more!
-      if ($vtprd_rule->rule_execution_type == 'display') {
-        //display rules must ALWAYS sort first, so we reset it here
-        $vtprd_rule->ruleApplicationPriority_num = '0';  
-      }
-      */      
-     //actionPop        
-     $vtprd_rule->role_and_or_out = 'or'; //initialize so it's always there.  overwritten by logic as needed.
-     $vtprd_rule->actionPop = $_REQUEST['popChoiceOut'];
-     switch( $vtprd_rule->actionPop ) {
-        case 'sameAsInPop':
-		    case 'wholeStore':
-            //  $vtprd_rule->actionPop[0]['user_input'] = $selected;
-            //  $this->vtprd_set_default_or_values_out();
-          break;
-        
-        //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-        default: //  +ADDED => pro-only option chosen                                                                             
-            $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '.top-box',  
-                  'error_msg'  => __('The "Get Group Selection" option chosen is only available in the Pro Version. ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>');
-            $vtprd_rule->rule_error_red_fields[] = '#action_group_label' ;
-            $vtprd_rule->actionPop = 'sameAsInPop'; //overwrite ERROR choice with DEFAULT 
-            $vtprd_rule->get_group_filter_select = 'sameAsInPop'; //overwrite ERROR choice with DEFAULT    
-          break; 
-        //EDIT end   * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
       
-      }
-
+     //v1.1.8.0 begin
+     if ($vtprd_rule->pricing_type_select == 'bulk') { 
+        //set 'discount same as buy'
+        $vtprd_rule->actionPop = 'sameAsInPop';    
+     }
+     //v1.1.8.0 end
 
       //********************************************************************************************************************
       //Specialty Complex edits... 
@@ -526,9 +536,7 @@ action amt condition can be an amt or $$
               break;           
          } //end switch        
        } //end if discountAppliesTo
-
-
-                                                    
+                                            
        //v1.1.0.8 begin
        //only_for_this_coupon_name
        $vtprd_rule->only_for_this_coupon_name   = $_REQUEST['only_for_this_coupon_name'];
@@ -538,7 +546,7 @@ action amt condition can be an amt or $$
        }
        if ($vtprd_rule->only_for_this_coupon_name > ' ') {
           vtprd_woo_ensure_coupons_are_allowed();
-		  if ($vtprd_rule->cart_or_catalog_select == 'catalog') {
+          if ($vtprd_rule->cart_or_catalog_select == 'catalog') {
             $vtprd_rule->rule_error_message[] = array( 
                   'insert_error_before_selector' => '#only_for_this_coupon_box_0',  
                   'error_msg'  => __('Discount Coupon Code option not valid for Catalog rule type - please remove coupon code.', 'vtprd') );
@@ -551,173 +559,400 @@ action amt condition can be an amt or $$
             if (!$post_id) {
               $vtprd_rule->rule_error_message[] = array( 
                     'insert_error_before_selector' => '#only_for_this_coupon_box_0',  
-                    'error_msg'  => __('Discount Coupon Code not found - must be a valid coupon code or blank.', 'vtprd') );
+                    'error_msg'  => __('Discount Coupon Code not found - must be a valid WOO coupon code or blank.', 'vtprd') ); //v1.1.8.1
               $vtprd_rule->rule_error_red_fields[] = '#only_for_this_coupon_anchor';
-            }                     
-          }               
+            }
+          } 
+          
+          /*v2.0.0 edit removed, now VALID
+          //v1.1.0.9 begin - disallow activation by coupon, when auto-add free in use ==>> because of the recursive aspect of re-checking the cart to pick up the coupon add/remove  
+          if ($vtprd_rule->rule_deal_info[0]['discount_auto_add_free_product'] == 'yes') {
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#only_for_this_coupon_box_0',  
+                  'error_msg'  => __('Discount Coupon Code not allowed when Auto Add for Free function selected', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#only_for_this_coupon_anchor';
+            $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
+          } 
+          //v1.1.0.9 end 
+          */                        
        }
        //v1.1.0.8 end
 
+
+    //error_log( print_r(  'buy_group_population_info after load 003 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) );      
+      
+               
+
                                                     
        //v1.1.6.7 begin
+       //v2.0.0 reworked to include 'equal-or-less'
        //CHEAPEST selector EDITS
-       if  ( ( $vtprd_rule->apply_deal_to_cheapest_select == 'cheapest' ) ||
-             ( $vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive' ) ) {
+       
+       if  ( ($vtprd_rule->apply_deal_to_cheapest_select == 'cheapest') ||
+             ($vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive') ||
+             ($vtprd_rule->apply_deal_to_cheapest_select == 'equal-or-less') ) {
+ 
+          switch( $vtprd_rule->apply_deal_to_cheapest_select ) {
+            case 'cheapest':  
+                  $apply_to_msg = 'Apply Discount to Cheapest';
+                break;
+            case 'most-expensive':  
+                  $apply_to_msg = 'Apply Discount to Most Expensive';
+                break;          
+            case 'equal-or-less':  
+                  $apply_to_msg = 'Apply Discount to Equal or Lesser Value Item';
+                break;
+          }
+                
+                          
+          //cheapest rule should always used advanced mode!
+          $vtprd_rule->rule_type_select = 'advanced';
+          
+          //v2.0.0 edit changed
+          if  ( (($vtprd_rule->apply_deal_to_cheapest_select == 'cheapest') ||
+                 ($vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive')) 
+                      &&
+                 ($vtprd_rule->pricing_type_select == 'cheapest') ) {
+                   $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '.top-box',  
+                        'error_msg'  => __('Deal Type  &nbsp; "Discount Cheapest / Most Expensive"  &nbsp; is the older version of  &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area. <br><br>They may not be selected together. ', 'vtprd') );         
+                   $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label';
+                   $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';
+                   $vtprd_rule->rule_error_box_fields[] = '#pricing-type-select';
+                   $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';                      
+          }
+          
+          //BOGO AND NEXT Blueprint edits are applied solo first.  If PASSED, then the other edits happen.
           if ($vtprd_rule->pricing_type_select != 'bogo') {
                    $vtprd_rule->rule_error_message[] = array( 
-                        'insert_error_before_selector' => '.top-box',  
-                        'error_msg'  => __('Deal Type must be "BOGO" when "Apply to cheapest item first" selected in Blueprint Area ', 'vtprd') );   //mwn20140414       
-                   $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label' ;
-                   $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';                      
-          }
-          if ($vtprd_rule->minimum_purchase_select != 'next') {
-                   $vtprd_rule->rule_error_message[] = array( 
-                        'insert_error_before_selector' => '.top-box',  
-                        'error_msg'  => __('Deal Action must be "NEXT" when "Apply to cheapest item first" selected in Blueprint Area ', 'vtprd') );   //mwn20140414       
-                   $vtprd_rule->rule_error_red_fields[] = '#minimum-purchase-select-label' ;
-                   $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';                      
-          }                  
-          if ( $vtprd_rule->actionPop == 'sameAsInPop' ) {
-                   $vtprd_rule->rule_error_message[] = array( 
-                    'insert_error_before_selector' => '#action_group_box_0',  
-                    'error_msg'  => __('In "Get Group Product Filter", "Discount Group Same as Buy Group" was selected.  This is NOT ALLOWED when "Apply to cheapest item first" selected in Blueprint Area.', 'vtprd') );
-                   $vtprd_rule->rule_error_red_fields[] = '#action_group_title_anchor';
-                   $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';  
-          }
-          if ( ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'quantity') ||
-               ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'currency') ) {
-                  $carry_on = true;
+                        'insert_error_before_selector' => '#pricing_type_select_box',  
+                        'error_msg'  => __('Deal Type must be &nbsp; "BOGO" &nbsp; when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') );        
+                   $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label';
+                   $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';
+                   $vtprd_rule->rule_error_box_fields[] = '#pricing-type-select';
+                   $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';                      
           } else {
-                  $vtprd_rule->rule_error_message[] = array( 
-                        'insert_error_before_selector' => '#buy_amt_box_0',  
-                        'error_msg'  => __('"Buy Unit Quantity" or "Buy $$ Value" required when "Apply to cheapest item first" selected in Blueprint Area', 'vtprd') );
-                  $vtprd_rule->rule_error_red_fields[] = '#buy_amt_type_label_0';
-                  $vtprd_rule->rule_error_red_fields[] = '#discount_amt_type_label_0'; 
-                  $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';                                         
-          }
-          if ( ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'quantity') &&
-               ($vtprd_rule->rule_deal_info[0]['buy_amt_count'] == '1') )  {
-                  $vtprd_rule->rule_error_message[] = array( 
-                        'insert_error_before_selector' => '#buy_amt_box_0',  
-                        'error_msg'  => __('"Buy Unit Quantity" must be > 1 when "Apply to cheapest item first" selected in Blueprint Area', 'vtprd') );
-                  $vtprd_rule->rule_error_red_fields[] = '#discount_amt_type_label_0';
-                  $vtprd_rule->rule_error_box_fields[] = '#buy_amt_count_0';     
-                  $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';                                         
-          } 
-          //v1.1.6.8 begin
-          if ( ($vtprd_rule->rule_deal_info[0]['discount_applies_to'] == 'cheapest') || 
-               ($vtprd_rule->rule_deal_info[0]['discount_applies_to'] == 'most_expensive') ){ 
-                  $vtprd_rule->rule_error_message[] = array( 
-                        'insert_error_before_selector' => '#discount_applies_to_label_0',  
-                        'error_msg'  => __('"Cannot use discount type of cheapest/most expensive, when "Apply to cheapest item first" selected in Blueprint Area ', 'vtprd') );
-                  $vtprd_rule->rule_error_red_fields[] = '#discount_applies_to_label_0';
-                  $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label';                 
-          } 
-          //v1.1.6.8 end       
-          
-        }
-       //v1.1.6.7 end
-                                                    
-       //v1.1.6.8 begin
-       if ($vtprd_rule->pricing_type_select == 'cheapest') {
-             $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '.top-box',  
-                  'error_msg'  => __('Deal Type "Discount Cheapest / Most Expensive" now Outmoded. Please Use "Apply to cheapest item first" select in bottom right of Blueprint Area instead.
-                                      <br>If you have used a Pricing Deals Filter for a cheapest deal, *Please Remove it* from your system.', 'vtprd') );      
-             $vtprd_rule->rule_error_red_fields[] = '#pricing-type-select-label' ;
-             $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
-       }
-       //v1.1.6.8 end
-    
-    
-      //********************************************************************************************************************
-      //The WPSC Realtime Catalog repricing action does not pass variation-level info, so these options are disallowed
-      //********************************************************************************************************************
-      if (($vtprd_rule->rule_execution_type == 'display') && 
-          (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') ) {
-          
-            if ($vtprd_rule->actionPop == 'vargroup')  { 
-               $vtprd_rule->rule_error_message[] = array( 
-                              'insert_error_before_selector' => '#actionPop-varProdID-cntl',  
-                              'error_msg'  => __('"Action" Group Selection - Single with Variations may not be chosen when "Apply Price Reduction to Products in the Catalog" Pricing Deal Type is chosen, due to a WPEC limitation.', 'vtprd') );
-               $vtprd_rule->rule_error_red_fields[] = '#actionPopChoiceOut_label';
+            if ($vtprd_rule->minimum_purchase_select != 'next') {
+                     $vtprd_rule->rule_error_message[] = array( 
+                          'insert_error_before_selector' => '.top-box',  
+                          'error_msg'  => __('Deal Action must be &nbsp; "NEXT" &nbsp; when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') );         
+                     $vtprd_rule->rule_error_red_fields[] = '#minimum-purchase-select-label';
+                     $vtprd_rule->rule_error_red_fields[] = '#minimum-purchase-Next-label';                   
+                     $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                     $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';                      
             }
-    
-            if ($vtprd_rule->cumulativeSalePricingAllowed == 'no' )  { 
-               $vtprd_rule->rule_error_message[] = array( 
-                              'insert_error_before_selector' => '#cumulativeSalePricing_areaID',  
-                              'error_msg'  => __('"Apply this Rule Discount in addition to Product Sale Pricing" must not be "No" when "Apply Price Reduction to Products in the Catalog" Pricing Deal Type is chosen, due to a WPEC limitation.', 'vtprd') );
-               $vtprd_rule->rule_error_red_fields[] = '#cumulativeSalePricing_label';
-            }        
-      }                                                                                     
+            if ( ($vtprd_rule->pricing_type_select == 'bogo') && 
+                 ($vtprd_rule->minimum_purchase_select == 'next') &&
+                 ($vtprd_rule->actionPop == 'sameAsInPop') ) {
+                     $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#action_group_box_0',  
+                      'error_msg'  => __('In  &nbsp; "Get Group Product Filter" &nbsp; ,  &nbsp; "Discount Group Same as Buy Group" &nbsp;  was selected. <br><br>This is NOT ALLOWED when &nbsp; "', 'vtprd') 
+                              .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') .
+                              __('"<br><br>If you want the Get Group "Select Group By" to be the same as the Buy Group "Select Group By",', 'vtprd') . 
+                              __('"<br><br><strong>just make the same actual selections in the Buy Group "Select Group By"</strong>,', 'vtprd')          
+                              );
+                     $vtprd_rule->rule_error_red_fields[] = '#action_group_title_anchor';
+                     $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                     $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';
+                     $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';   
+            }
+            //v2.0.0 edit changed
+            if ( (($vtprd_rule->apply_deal_to_cheapest_select == 'cheapest') ||
+                  ($vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive')) && 
+                  ($vtprd_rule->pricing_type_select == 'bogo') && 
+                  ($vtprd_rule->minimum_purchase_select == 'next') &&
+                  ($groups_found_count_array['action_groups_found'] == 1) &&
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_product_incl_array']) == 1) ) {
+                     //test single product to see if it's a parent.  If so, allow.
+                     if (vtprd_test_for_variations($vtprd_rule->action_group_population_info['action_group_product_incl_array'][0])) {
+                       $this_is_a_group_item = true; 
+                     } else {
+                       $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#action_group_box_0',  
+                        'error_msg'  => __('In  &nbsp; "Get Group Product Filter" &nbsp; , a single product was chosen.  <br><br>This is NOT ALLOWED when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area. ', 'vtprd') );
+                       $vtprd_rule->rule_error_red_fields[] = '#action_group_title_anchor';
+                       $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                       $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';
+                       $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select'; 
+                     }  
+            }
+            //v2.0.0 edit changed
+            if ( (($vtprd_rule->apply_deal_to_cheapest_select == 'cheapest') ||
+                  ($vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive')) && 
+                  ($vtprd_rule->pricing_type_select == 'bogo') && 
+                  ($vtprd_rule->minimum_purchase_select == 'next') ) { 
+                                 
+                if ( ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'quantity') ||
+                     ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'currency') ) {
+                        $carry_on = true;
+                } else {
+                        $vtprd_rule->rule_error_message[] = array( 
+                              'insert_error_before_selector' => '#buy_amt_box_0',  
+                              'error_msg'  => __('"Buy Unit Quantity" &nbsp;  or &nbsp;  "Buy $$ Value" &nbsp;  <strong> is required</strong> when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') );
+                        $vtprd_rule->rule_error_red_fields[] = '#buy_amt_title_anchor_0';
+                        $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                        $vtprd_rule->rule_error_box_fields[] = '#buy_amt_type_0';
+                        $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';                                          
+                }
+            }
+            //v2.0.0 edit changed          
+            if ( (($vtprd_rule->apply_deal_to_cheapest_select == 'cheapest') ||
+                  ($vtprd_rule->apply_deal_to_cheapest_select == 'most-expensive')) && 
+                  ($vtprd_rule->pricing_type_select == 'bogo') && 
+                  ($vtprd_rule->minimum_purchase_select == 'next') ) {
+                              
+                if ( ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'quantity') &&
+                     ($vtprd_rule->rule_deal_info[0]['buy_amt_count'] == '1') )  {
+                        $vtprd_rule->rule_error_message[] = array( 
+                              'insert_error_before_selector' => '#buy_repeat_box_0',  
+                              'error_msg'  => __(' &nbsp; "Buy Unit Quantity"  &nbsp; must be > 1 when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') );
+                        $vtprd_rule->rule_error_red_fields[] = '#buy_amt_title_anchor_0';
+                        $vtprd_rule->rule_error_box_fields[] = '#buy_amt_count_0';     
+                        $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                        $vtprd_rule->rule_error_box_fields[] = '#buy_amt_count_0';
+                        $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';                                         
+                } 
+            }
+            
+            //v2.0.0 new edit
+            if  ( ($vtprd_rule->pricing_type_select == 'bogo') && 
+                  ($vtprd_rule->minimum_purchase_select == 'next') &&
+                  ($vtprd_rule->apply_deal_to_cheapest_select == 'equal-or-less') &&
+                  ($vtprd_rule->rule_deal_info[0]['buy_repeat_condition'] != 'none') ) {
+                $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#buy_repeat_box_0',  
+                      'error_msg'  => __('Buy  &nbsp; "Rule Usage Count" &nbsp;  * must * be  &nbsp; "Apply Rule Once per Cart" &nbsp;  when &nbsp; "', 'vtprd') .$apply_to_msg. __('" &nbsp; selected in Blueprint Area ', 'vtprd') );
+                $vtprd_rule->rule_error_red_fields[] = '#buy_repeat_title_anchor_0';
+                $vtprd_rule->rule_error_box_fields[] = '#buy_repeat_condition_0';     
+                $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';  
+            }  
+            //v2.0.0 new edit
+            if ($vtprd_rule->apply_deal_to_cheapest_select == 'equal-or-less') { 
+               $php_version = phpversion();
+               if ( version_compare( $php_version, '5.5', '<' ) ) {	 //new SORT syntax in apply-rules.php requires PHP 5.5+           	 
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#vtprd-deal-selection',  
+                        'error_msg'  => __('Your PHP version must be  &nbsp; 5.5 &nbsp; or greater, to use the function &nbsp; "', 'vtprd') .$apply_to_msg. __('"  &nbsp; selected in Blueprint Area ', 'vtprd')
+                                    .'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . 'Your PHP version is currently &nbsp;' .  $php_version  .'&nbsp;&nbsp;&nbsp;&nbsp;' . '- Contact your host to upgrade!!!.  '                            
+                        );    
+                  $vtprd_rule->rule_error_red_fields[] = '#apply-to-cheapest-label'; 
+                  $vtprd_rule->rule_error_box_fields[] = '#apply-deal-to-cheapest-select';  
+                  
+               }
+            }
+            
+          } 
+                       
+        }
+       //v2.0.0 recode end
 
       //********************************************************************************************************************      
       //********************************************************************************************************************
-       
-      //EDITED BEGIN * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-        // +ADDED =>    BEGIN
-        // pro-only option chosen                                                                             
-      if ($vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_type'] != 'none') { 
-           $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '.top-box',  
-                  'error_msg'  => __('The "Maximum Discounts per Customer (for Lifetime of the rule)" option chosen is only available in the Pro Version ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>');
-            $vtprd_rule->rule_error_red_fields[] = '#discount_lifetime_max_amt_type_label_0' ; 
-            $vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_type'] = 'none'; //overwrite ERROR choice with DEFAULT   
-      }    
-      if ($vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_type'] != 'none') { 
-           $vtprd_rule->rule_error_message[] = array( 
-                  'insert_error_before_selector' => '.top-box',  
-                  'error_msg'  => __('The "Cart Maximum for all Discounts Per Product" option chosen is only available in the Pro Version. ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>');
-            $vtprd_rule->rule_error_red_fields[] = '#discount_rule_cum_max_amt_type_label_0' ; 
-            $vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_type'] = 'none'; //overwrite ERROR choice with DEFAULT  
-      }      
-      // +ADDED   End
-      //EDITED END  * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +   
- 
-
+//to here
       //*************************
       //AUTO ADD switching (+ sort field switching as well)
       //*************************
       $vtprd_rule->rule_contains_auto_add_free_product = 'no';
-      $vtprd_rule->rule_contains_free_product = 'no'; //used for sort in apply-rules.php
+      //if ($vtprd_rule->rule_deal_info[$d]['discount_amt_type'] == 'free') {
+      if ($vtprd_rule->rule_deal_info[0]['discount_amt_type'] == 'free') {
+        $vtprd_rule->rule_contains_free_product = 'yes'; 
+      } else {
+        $vtprd_rule->rule_contains_free_product = 'no'; //used for sort in apply-rules.php      
+      }     
+
       $vtprd_rule->var_out_product_variations_parameter = array(); 
       $sizeof_rule_deal_info = sizeof($vtprd_rule->rule_deal_info);
       for($d=0; $d < $sizeof_rule_deal_info; $d++) {                  
-         if ($vtprd_rule->rule_deal_info[$d]['discount_auto_add_free_product'] == 'yes') {
-                                 
-             //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-            // + ADDED => pro-only option chosen                                                                             
-
-                 $vtprd_rule->rule_error_message[] = array(                                                                              
-                        'insert_error_before_selector' => '#discount_amt_box_' .$d ,  
-                        'error_msg'  => __('The " Automatically Add Free Product to Cart" option chosen is only available in the Pro Version. ', 'vtprd') .'<em><strong>'. __(' * Option restored to default value, * Please Update to Confirm!', 'vtprd') .'</strong></em>'
-                        );
-                  $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_' .$d ;
-                  
-                  $vtprd_rule->rule_deal_info[$d]['discount_auto_add_free_product'] = ''; 
-
-            //EDITED end  * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
+         
+         //auto-add editing!!
+         if ($vtprd_rule->rule_deal_info[$d]['discount_auto_add_free_product'] == 'yes') {                           
+           //verify auto add selected single
+           $auto_add_error = false;        
            
-         }
-         if ($vtprd_rule->rule_deal_info[$d]['discount_amt_type'] == 'free') {
-            $vtprd_rule->rule_contains_free_product = 'yes'; 
-         }                   
+           //v2.0.0 begin
+           
+           //if $vtprd_rule->actionPop  == 'sameAsInPop', edit the BUY group, otherwise edit the ACTION group
+           if ($vtprd_rule->actionPop  == 'sameAsInPop' ) {
+
+             //must be groups
+             if ($vtprd_rule->inPop != 'groups') {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#buy_group_box_0', 
+                        'error_msg'  => __('"Buy Select Group" must be "by Category / Product..." and a *Single Product* selected, When "Automatically Add Free Product to Cart" is Selected and the GET Group Product Filter is "Discount same as Buy Group".', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceIn'; 
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';   
+                 return;          
+             }
+             
+             
+             $sizeof_product_array = sizeof($vtprd_rule->buy_group_population_info['buy_group_product_incl_array']);
+             
+             //must be a single product
+             if ($sizeof_product_array != 1) {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#buy_group_box_0', 
+                        'error_msg'  => __('"Get (Discount) Select Group" must be a single product selection, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceIn';
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
+                 return;           
+             }
+             
+             //no other selections other than a single product allowed
+             if ( (sizeof($vtprd_rule->buy_group_population_info['buy_group_prod_cat_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->buy_group_population_info['buy_group_prod_cat_excl_array']) > 0) or
+                  (sizeof($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_excl_array']) > 0) or 
+                  ($vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array']  > ' ') or
+                  ($vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array']  > ' ') or                           
+                  (sizeof($vtprd_rule->buy_group_population_info['buy_group_brands_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->buy_group_population_info['buy_group_brands_excl_array']) > 0) ) {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#buy_group_box_0', 
+                        'error_msg'  => __('"BUY Select Group" must be a single product selection, When "Automatically Add Free Product to Cart" is Selected and Get group product filter is "Discount Same as Buy Group".', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceIn';
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
+                 $vtprd_rule->rule_error_red_fields[] = '#action_group_title_anchor'; 
+                 return;                 
+              } 
+              
+              //test single product to see if it's a parent.  If so, disallow.
+              if (vtprd_test_for_variations($vtprd_rule->buy_group_population_info['buy_group_product_incl_array'][0])) {
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '.buy-group-product-incl-excl-group', 
+                        'error_msg'  => __('Product item is a Variation *Parent* Product - which can allow multiple variations to be found.', 'vtprd') .'<br><br>'. __('Product item must be a single, unique product selection, When "Automatically Add Free Product to Cart" is Selected and Get group product filter is "Discount Same as Buy Group".', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_red_fields[] = '.buy-product-incl-label';                  
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
+                 $vtprd_rule->rule_error_box_fields[] = '.buy-product-incl-select .select2-container--default .select2-selection--multiple'; 
+                 $vtprd_rule->rule_error_red_fields[] = '#action_group_title_anchor';                 
+                 return;               
+              }
+                        
+           } else {
+     
+             //must be groups
+             if ($vtprd_rule->actionPop != 'groups') {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#action_group_box_0', 
+                        'error_msg'  => __('"Get (Discount) Select Group" must be "by Category / Product..." and a *Single Product* selected, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut'; 
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';   
+                 return;          
+             }
+             
+             
+             $sizeof_product_array = sizeof($vtprd_rule->action_group_population_info['action_group_product_incl_array']);
+             
+             //must be a single product
+             if ($sizeof_product_array != 1) {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#action_group_box_0', 
+                        'error_msg'  => __('"Get (Discount) Select Group" must be a single product selection, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
+                 return;           
+             }
+             
+             //no other selections other than a single product allowed
+             if ( (sizeof($vtprd_rule->action_group_population_info['action_group_prod_cat_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_prod_cat_excl_array']) > 0) or
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_plugin_cat_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_plugin_cat_excl_array']) > 0) or 
+                  ($vtprd_rule->action_group_population_info['action_group_var_name_incl_array']  > ' ') or
+                  ($vtprd_rule->action_group_population_info['action_group_var_name_excl_array']  > ' ') or                           
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_brands_incl_array']) > 0) or
+                  (sizeof($vtprd_rule->action_group_population_info['action_group_brands_excl_array']) > 0) ) {
+                 $auto_add_error = true; 
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#action_group_box_0', 
+                        'error_msg'  => __('"Get (Discount) Select Group" must be a single product selection, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
+                 return;                 
+              }
+              
+              //test single product to see if it's a parent.  If so, disallow.
+              if (vtprd_test_for_variations($vtprd_rule->action_group_population_info['action_group_product_incl_array'][0])) {
+                 $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '.action-group-product-incl-excl-group', 
+                        'error_msg'  => __('Product item is a Variation *Parent* Product - which can allow multiple variations to be found.', 'vtprd') .'<br><br>'. __('Product item must be a single, unique product selection, When "Automatically Add Free Product to Cart" is Selected', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                        );                                                       
+                 $vtprd_rule->rule_error_red_fields[] = '.action-product-incl-label';                  
+                 $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
+                 $vtprd_rule->rule_error_box_fields[] = '.action-product-incl-select .select2-container--default .select2-selection--multiple';                 
+                 return;                  
+                              
+              }              
+              
+                            
+            }
+
+            //carry on with auto add setup
+            if (!$auto_add_error) {      
+                $vtprd_rule->rule_contains_auto_add_free_product = 'yes';
+                $vtprd_rule->rule_contains_free_product = 'yes';                             
+                if ($vtprd_rule->actionPop  == 'sameAsInPop' ) {               
+                   $vtprd_rule->auto_add_free_trigger_rule_type = 'same_product';                     
+                   $vtprd_rule->var_out_product_variations_parameter  = $this->vtprd_get_variations_parameter('inPop');
+                   $test_post = get_post($vtprd_rule->buy_group_population_info['buy_group_product_incl_array'][0]); //v2.0.0 
+                   $vtprd_rule->inPop_singleProdID_name = sanitize_title($test_post->post_title); //v2.0.0   . ' (Variations)'                             
+                } else {
+                   $vtprd_rule->auto_add_free_trigger_rule_type = 'external';
+                   $vtprd_rule->var_out_product_variations_parameter  = $this->vtprd_get_variations_parameter('actionPop');
+                   $test_post = get_post($vtprd_rule->action_group_population_info['action_group_product_incl_array'][0]); //v2.0.0 
+                   $vtprd_rule->actionPop_singleProdID_name = sanitize_title($test_post->post_title); //v2.0.0     . ' (Variations)'               
+                }
+                if ( ($groups_found_count_array['buy_groups_found'] == 1) &&
+                     ($vtprd_rule->buy_group_population_info['buy_group_product_incl_array'] ==
+                      $vtprd_rule->action_group_population_info['action_group_product_incl_array']) ) {
+                  $vtprd_rule->auto_add_free_trigger_rule_type = 'same_product';                      
+                }              
+             }
+
+          } //end for loop                  
       }
 
+    //error_log( print_r(  'buy_group_population_info after load 004 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) );      
+      
+      
       //*************************
       //Pop Filter Agreement Check (switch used in apply...)
       //*************************
       $this->vtprd_maybe_pop_filter_agreement();
 
-            
+      
+
+    //error_log( print_r(  'buy_group_population_info after load 005 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) ); 
+                 
       //*************************
       //check against all other rules acting on the free product
       //*************************
       if ($vtprd_rule->rule_contains_auto_add_free_product == 'yes') {
 
-        $vtprd_rules_set = get_option( 'vtprd_rules_set' );
+        $vtprd_rules_set = get_option('vtprd_rules_set');
 
-        $sizeof_rules_set = sizeof($vtprd_rules_set);
+        //v2.0.0  fix sizeof error if array is NULL
+        if (!$vtprd_rules_set) {
+          $sizeof_rules_set = 0;
+        } else {
+          $sizeof_rules_set = sizeof($vtprd_rules_set);
+        }
+        
        
         for($i=0; $i < $sizeof_rules_set; $i++) { 
                      
@@ -733,160 +968,324 @@ action amt condition can be an amt or $$
                         
           //if another rule has the exact same FREE product, that's an ERROR
           if ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product == 'yes') {  
+
+              /* v2.0.0 removed - now valid
+              //v1.1.1.2 begin ADDED ==>> can't do auto adds when activated by coupon
+              //v1.1.0.9 begin - 
+              // If CURRENT rule activated by coupon, ***no AUTO ADD rules may exist*** ==>> the switches which handle add/remove for coupons go nuts. 
+              if ($vtprd_rule->only_for_this_coupon_name > ' ') {
+                $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
+                $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#only_for_this_coupon_box_0',  
+                      'error_msg'  => __('Discount Coupon Code not allowed when *any rule* has Auto Add for Free function selected. CONFLICTING RULE NAME is: ', 'vtprd') .$conflictPost->post_title 
+                            );                
+                $vtprd_rule->rule_error_red_fields[] = '#only_for_this_coupon_anchor';
+              } 
+              */
+
+              //current rule vs other rule actionPop vs actionPop
+              if ( (sizeof($vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array']) > 0) &&
+                   (in_array($vtprd_rule->action_group_population_info['action_group_product_incl_array'][0],   
+                             $vtprd_rules_set[$i]->action_group_population_info['action_group_product_incl_array'])) ) {
+                $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
+                $vtprd_rule->rule_error_message[] = array( 
+                    'insert_error_before_selector' => '#discount_amt_box_0',  
+                    'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') .$conflictPost->post_title 
+                    );
+                $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
+                return; 
+              }   
               
-               //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-               //   Leave the following here...
-               //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-              switch( true ) {    
-                
-                // compare to vtprd_rule  actionpop vargroup
-                case  ($vtprd_rule->actionPop == 'vargroup' ) :
-                     
-                      //current rule vs other rule actionPop vs actionPop
-                      if (($vtprd_rules_set[$i]->actionPop           == 'vargroup') &&
-                         ($vtprd_rules_set[$i]->actionPop_varProdID  == $vtprd_rule->actionPop_varProdID) &&
-                         ($vtprd_rules_set[$i]->var_out_checked[0]   == $vtprd_rule->var_out_checked[0] )) {
-                        $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                        $vtprd_rule->rule_error_message[] = array( 
-                            'insert_error_before_selector' => '#discount_amt_box_0',  
-                            'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') .$conflictPost->post_title 
-                            );
-                        $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0'; 
-                        break 2; 
-                      }   
-                      
-                      //current rule actionPop vs other rule inPop
-                      if ($vtprd_rules_set[$i]->actionPop  == 'sameAsInPop' ) { 
-                          if (($vtprd_rules_set[$i]->inPop              == 'vargroup') &&
-                              ($vtprd_rules_set[$i]->inPop_varProdID    == $vtprd_rule->actionPop_varProdID) &&
-                              ($vtprd_rules_set[$i]->var_in_checked[0]  == $vtprd_rule->var_out_checked[0] )) {
-                            $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                            $vtprd_rule->rule_error_message[] = array( 
-                                'insert_error_before_selector' => '#discount_amt_box_0',  
-                                'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') .$conflictPost->post_title 
-                                );
-                            $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                            break 2; 
-                          }                      
-                      }             
+              //current rule actionPop vs other rule inPop
+              if ($vtprd_rules_set[$i]->actionPop  == 'sameAsInPop' ) { 
+                  if ( (sizeof($vtprd_rules_set[$i]->get_group_population_info['get_group_product_incl_array']) > 0) &&
+                       (in_array($vtprd_rule->action_group_population_info['action_group_product_incl_array'][0],   
+                                 $vtprd_rules_set[$i]->get_group_population_info['get_group_product_incl_array'])) ) {
+                    $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
+                    $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#discount_amt_box_0',  
+                        'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') .$conflictPost->post_title 
+                        );
+                    $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
+                    return; 
+                  }                      
+              }             
 
-                   break;
-
-                // compare to vtprd_rule  actionpop single
-                case  ($vtprd_rule->actionPop == 'single' ) : 
-                            
-                      if (($vtprd_rules_set[$i]->actionPop              == 'single') &&
-                          ($vtprd_rules_set[$i]->actionPop_singleProdID == $vtprd_rule->actionPop_singleProdID) ) { 
-                        $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                        $vtprd_rule->rule_error_message[] = array( 
-                            'insert_error_before_selector' => '#discount_amt_box_0',  
-                            'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                            );
-                        $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                        break 2;              
-                      }                   
-
-                      
-                      //current rule actionPop vs other rule inPop
-                      if ($vtprd_rules_set[$i]->actionPop  == 'sameAsInPop' ) { 
-                          if (($vtprd_rules_set[$i]->inPop                == 'single') &&
-                              ($vtprd_rules_set[$i]->inPop_singleProdID   == $vtprd_rule->actionPop_singleProdID) ) { 
-                            $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                            $vtprd_rule->rule_error_message[] = array( 
-                                'insert_error_before_selector' => '#discount_amt_box_0',  
-                                'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                                );
-                            $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                            break 2;              
-                          }                 
-                      }
-
-                   break;
-
-                // compare to vtprd_rule  inpop vargroup
-                case  ( ($vtprd_rule->actionPop == 'sameAsInPop' ) &&
-                        ($vtprd_rule->inPop     == 'vargroup' ) ) : 
-                      
-                      //current rule vs other rule actionPop vs actionPop
-                      if (($vtprd_rules_set[$i]->actionPop            == 'vargroup') &&
-                          ($vtprd_rules_set[$i]->actionPop_varProdID  == $vtprd_rule->inPop_varProdID) &&
-                          ($vtprd_rules_set[$i]->var_out_checked[0]   == $vtprd_rule->var_in_checked[0] ) ) {
-                        $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                        $vtprd_rule->rule_error_message[] = array( 
-                            'insert_error_before_selector' => '#discount_amt_box_0',  
-                            'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                            );
-                        $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                        break 2; 
-                      }   
-                      
-                      //current rule actionPop vs other rule inPop
-                      if ($vtprd_rules_set[$i]->actionPop  == 'sameAsInPop' ) { 
-                          if (($vtprd_rules_set[$i]->inPop             == 'vargroup') &&
-                              ($vtprd_rules_set[$i]->inPop_varProdID   == $vtprd_rule->inPop_varProdID) &&
-                              ($vtprd_rules_set[$i]->var_in_checked[0] == $vtprd_rule->var_in_checked[0] )) {
-                            $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                            $vtprd_rule->rule_error_message[] = array( 
-                                'insert_error_before_selector' => '#discount_amt_box_0',  
-                                'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                                );
-                            $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                            break 2; 
-                          }                      
-                      }             
-
-                   break;
-
-                // compare to vtprd_rule  inpop single
-                case  ( ($vtprd_rule->actionPop == 'sameAsInPop' ) &&
-                        ($vtprd_rule->inPop     == 'single' ) ) : 
-                                                              
-                      if ( ($vtprd_rules_set[$i]->actionPop               == 'single') && 
-                           ($vtprd_rules_set[$i]->actionPop_singleProdID  == $vtprd_rule->inPop_singleProdID) ) { 
-                        $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                        $vtprd_rule->rule_error_message[] = array( 
-                            'insert_error_before_selector' => '#discount_amt_box_0',  
-                            'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                            );
-                        $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                        break 2;              
-                      }                   
-
-                      
-                      //current rule actionPop vs other rule inPop
-                      if ($vtprd_rules_set[$i]->actionPop  == 'sameAsInPop' ) { 
-                          if ( ($vtprd_rules_set[$i]->inPop               == 'single') && 
-                               ($vtprd_rules_set[$i]->inPop_singleProdID  == $vtprd_rule->inPop_singleProdID) ) { 
-                            $conflictPost = get_post($vtprd_rules_set[$i]->post_id);
-                            $vtprd_rule->rule_error_message[] = array( 
-                                'insert_error_before_selector' => '#discount_amt_box_0',  
-                                'error_msg'  => __('When "Automatically Add Free Product to Cart" is Selected, no other Auto Add Rule may have the same product as the Discount Group.  CONFLICTING RULE NAME is: ', 'vtprd') . $conflictPost->post_title 
-                                );
-                            $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';
-                            break 2;              
-                          }                 
-                      }
-
-                   break;                   
-                   
-            }  //end switch
           } //end if
           
         } //end 'for' loop
       } //end if auto product 
       //*************************
+      
 
+    //error_log( print_r(  'buy_group_population_info after load 006 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) );      
+      
+            
+      //v1.0.7.9a  begin
+      //additional lifetime custom edit
+      global $vtprd_setup_options;
+      if ( ( ($vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_type'] == 'quantity') ||
+             ($vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_type'] == 'currency') ) 
+              &&
+             ($vtprd_setup_options['use_lifetime_max_limits'] != 'yes') ) {
+           $vtprd_rule->rule_error_message[] = array( 
+                'insert_error_before_selector' => '#discount_lifetime_max_dropdown',  
+                'error_msg'  => __('In order to use a Customer Rule Limit, please <b>FIRST</b> go to the <b>Pricing Deals Settings Page</b> and turn on the "Use Customer Rule Limits" switch', 'vtprd') 
+                ); 
+           $vtprd_rule->rule_error_red_fields[] = '#discount_lifetime_max_title_anchor';                  
+      } 
+      //v1.0.7.9a  end
+      
 
 
   } //end vtprd_edit_rule
   
   
-  public function vtprd_update_rules_info() { 
-    global $post, $vtprd_rule, $vtprd_rules_set, $vtprd_setup_options; 
+  //****************************
+  //v1.1.8.0  New Function
+  //****************************
+     /*
+     bulk row edit rules:
+     must have all 4 values per row  [max may be blank only on last row]
+     min must be less than max for each row. [max may be blank only on last row]
+     min must be greater than previous row max
+     units may not be decimalized     
+     */  
+  public function vtprd_edit_pricing_table($row_count) {
+    global $post, $vtprd_rule, $vtprd_setup_options; //v2.0.0 M solution - removed global $vtprd_rules_set
+        $current_row = 0;
+
+				$thousand_separator = get_option( 'woocommerce_price_thousand_sep' );
+				$decimal_separator  = get_option( 'woocommerce_price_decimal_sep' );
+
+        for($b=0; $b < $row_count; $b++) {
+          
+          $current_row ++;                      
+
+          //**********************
+          //currency pre-process - decimals required for CURRENCY!!
+          //**********************
+          /*
+            remove thousands separator on all
+            remove ' ' used in french format as thousands separatory...
+            carry all rows as true decimal
+            accept whatever decimal separater is current, change internally to true decimal
+            on DISPLAY, change back to selected decimal separator
+          */  
+          if ($vtprd_rule->bulk_deal_method == 'currency') { //currency pre-process            
+            //remove thousands separator
+            $vtprd_rule->bulk_deal_array[$b]['min_value'] = str_replace($thousand_separator, '', $vtprd_rule->bulk_deal_array[$b]['min_value']);
+            $vtprd_rule->bulk_deal_array[$b]['max_value'] = str_replace($thousand_separator, '', $vtprd_rule->bulk_deal_array[$b]['max_value']);
+            $vtprd_rule->bulk_deal_array[$b]['discount_value'] = str_replace($thousand_separator, '', $vtprd_rule->bulk_deal_array[$b]['discount_value']);
+            
+            //change decimal separator to '.'
+            if ($decimal_separator == ',') {
+              $vtprd_rule->bulk_deal_array[$b]['min_value'] = str_replace($decimal_separator, '.', $vtprd_rule->bulk_deal_array[$b]['min_value']);
+              $vtprd_rule->bulk_deal_array[$b]['max_value'] = str_replace($decimal_separator, '.', $vtprd_rule->bulk_deal_array[$b]['max_value']);
+              $vtprd_rule->bulk_deal_array[$b]['discount_value'] = str_replace($decimal_separator, '.', $vtprd_rule->bulk_deal_array[$b]['discount_value']);            
+            }
+
+            if ( ($vtprd_rule->bulk_deal_array[$b]['min_value'] > ' ') && //min_value blank replaced by 0.00 later
+                 (is_numeric($vtprd_rule->bulk_deal_array[$b]['min_value'] )) ) {
+               
+               //error_log( print_r(  '$current_row= ' .$current_row , true ) );
+               //error_log( print_r(  'min_value= ' .$vtprd_rule->bulk_deal_array[$b]['min_value'] , true ) );
+               
+               if ( ($current_row == 1) &&
+                    ($vtprd_rule->bulk_deal_array[$b]['min_value'] == 0) ) {
+                  $vtprd_rule->bulk_deal_array[$b]['min_value'] = '0.00';
+                  
+                //DOES NOT WORK!!!!!!!!  
+                  
+                //error_log( print_r(  'min value row 1 now 0.00, $b= ' .$b. ' min value= '.$vtprd_rule->bulk_deal_array[$b]['min_value'] , true ) );  
+               }  
+               $num_decimals = strlen(preg_replace("/.*\./", "", $vtprd_rule->bulk_deal_array[$b]['min_value']));
+               if ( ($num_decimals !== 2) ||
+                    (strpos( $vtprd_rule->bulk_deal_array[$b]['min_value'], "." ) === false ) ) {
+                  //error_log( print_r(  'error msg begin qty not 2 decimals $b= ' .$b. ' min value= '.$vtprd_rule->bulk_deal_array[$b]['min_value'], true ) );
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#pricing-table-headings-line',            
+                        'error_msg'  => __('Begin Quantity on row ', 'vtprd')
+                        .$current_row
+                        . __(' must have 2 decimal places, when counting by "Currency" ', 'vtprd') );
+                  $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row;                     
+               }
+            }
+            
+            if ( ($vtprd_rule->bulk_deal_array[$b]['max_value'] > ' ') && //may be blank, tested if appropriate later...
+                 (is_numeric($vtprd_rule->bulk_deal_array[$b]['max_value'] )) ) {
+               $num_decimals = strlen(preg_replace("/.*\./", "", $vtprd_rule->bulk_deal_array[$b]['max_value']));
+               if ( ($num_decimals !== 2) ||
+                    (strpos( $vtprd_rule->bulk_deal_array[$b]['max_value'], "." ) === false ) ) {
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#pricing-table-headings-line',            
+                        'error_msg'  => __('End Quantity on row ', 'vtprd')
+                        .$current_row
+                        . __(' must have 2 decimal places, when counting by "Currency" ', 'vtprd') );
+                  $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;                     
+               } 
+            }
+                           
+          } //end currency pre-process
+
+
+          if ($current_row == 1) {
+            if ( is_numeric($vtprd_rule->bulk_deal_array[$b]['min_value'] ) ) {
+                if ($vtprd_rule->bulk_deal_array[$b]['min_value'] < 0) {
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#pricing-table-headings-line',            
+                        'error_msg'  => __('Begin Quantity on First Row must be zero or greater', 'vtprd') );
+                  $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row;            
+                } 
+                //row 1
+                if ($vtprd_rule->bulk_deal_method == 'units') {
+                    if ( (strpos( $vtprd_rule->bulk_deal_array[$b]['min_value'], "." ) !== false ) ||
+                         (strpos( $vtprd_rule->bulk_deal_array[$b]['min_value'], "," ) !== false ) ) {
+                      $vtprd_rule->rule_error_message[] = array( 
+                            'insert_error_before_selector' => '#pricing-table-headings-line',            
+                            'error_msg'  => __('Begin Quantity on row 1 must be a whole number - may not be a decimal, when counting by "Units" ', 'vtprd') );
+                      $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row ;
+                    }
+                    if ( (strpos( $vtprd_rule->bulk_deal_array[$b]['max_value'], "." ) !== false ) ||
+                         (strpos( $vtprd_rule->bulk_deal_array[$b]['max_value'], "," ) !== false ) ) {
+                      $vtprd_rule->rule_error_message[] = array( 
+                            'insert_error_before_selector' => '#pricing-table-headings-line',            
+                            'error_msg'  => __('End Quantity on row 1 must be a whole number - may not be a decimal, when counting by "Units" ', 'vtprd') );
+                      $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;
+                    }                
+               }    
+                                               
+            } else {
+                if ($vtprd_rule->bulk_deal_method == 'units') {
+                  $vtprd_rule->bulk_deal_array[$b]['min_value'] = '0';
+                } else {
+                  $vtprd_rule->bulk_deal_array[$b]['min_value'] = '0.00';
+                }
+            }           
+          } else { //rows 2 => N 
+              if  ( ( !is_numeric($vtprd_rule->bulk_deal_array[$b]['min_value'] ) ) || 
+                    ($vtprd_rule->bulk_deal_array[$b]['min_value'] <= 0) ) {
+                $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#pricing-table-headings-line',            
+                      'error_msg'  => __('Begin Quantity  on row ', 'vtprd') 
+                                     .$current_row
+                                     .__(' must be a number greater than zero', 'vtprd') );
+                $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row;            
+              } else {
+                                           
+                if ($vtprd_rule->bulk_deal_array[$b]['min_value'] <= $vtprd_rule->bulk_deal_array[$b-1]['max_value']) {
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#pricing-table-headings-line',            
+                        'error_msg'  => __('Begin Quantity on row ', 'vtprd')
+                        .$current_row
+                        . __(' must be greater than the End Quantity on the previous row ', 'vtprd') 
+                        .($current_row-1) );
+                  $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row;
+                  $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .($current_row-1);            
+                } 
+                //rows 2 => N
+                if ( ($vtprd_rule->bulk_deal_method == 'units') &&
+                     (strpos( $vtprd_rule->bulk_deal_array[$b]['min_value'], "." ) !== false ) ||
+                     (strpos( $vtprd_rule->bulk_deal_array[$b]['min_value'], "," ) !== false ) ) {
+                  $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => '#pricing-table-headings-line',            
+                        'error_msg'  => __('Begin Quantity on row ', 'vtprd')
+                        .$current_row
+                        . __(' must be a whole number - may not be a decimal, when counting by "Units" ', 'vtprd') );
+                  $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row;                
+                }
+                             
+              }    
+          }
+          
+          if (is_numeric($vtprd_rule->bulk_deal_array[$b]['max_value'] ) ) { 
+             if ($vtprd_rule->bulk_deal_array[$b]['max_value'] <= 0) {
+              $vtprd_rule->rule_error_message[] = array( 
+                    'insert_error_before_selector' => '#pricing-table-headings-line',            
+                    'error_msg'  => __('End Quantity must be greater than zero on row ', 'vtprd') 
+                                    .$current_row );
+              $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;            
+            } else {
+              if ( $vtprd_rule->bulk_deal_array[$b]['min_value'] > $vtprd_rule->bulk_deal_array[$b]['max_value'] ) {
+                $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#pricing-table-headings-line',            
+                      'error_msg'  => __('The End Quantity on row ', 'vtprd')
+                                      .$current_row  
+                                      . __(' must be greater than or equal to Begin Quantity', 'vtprd') );
+                $vtprd_rule->rule_error_box_fields[] = '#minVal_row_' .$current_row; 
+                $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;           
+              }
+              if ( ($vtprd_rule->bulk_deal_method == 'units') &&
+                   (strpos( $vtprd_rule->bulk_deal_array[$b]['max_value'], "." ) !== false ) ||
+                   (strpos( $vtprd_rule->bulk_deal_array[$b]['max_value'], "," ) !== false ) ) {
+                $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => '#pricing-table-headings-line',            
+                      'error_msg'  => __('End Quantity on row ', 'vtprd')
+                      .$current_row
+                      . __(' must be a whole number - may not be a decimal, when counting by "Units" ', 'vtprd') );
+                $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;                
+              }                            
+            }                   
+          } else { //end set to 'no limit', row is not last row
+            if ($current_row < $row_count) { //if we are not on last row...
+              $vtprd_rule->rule_error_message[] = array( 
+                    'insert_error_before_selector' => '#pricing-table-headings-line',            
+                    'error_msg'  => __('The End Quantity on Row ', 'vtprd')
+                                    .$current_row  
+                                    . __(' is set to "No Limit".', 'vtprd') 
+                                    . __(' Only The End Quantity on the last row in the table may be set to "No Limit"', 'vtprd') );
+              $vtprd_rule->rule_error_box_fields[] = '#maxVal_row_' .$current_row;            
+            } else {
+              //place a max val for processing.  remove, however, in the UI display!!!
+              $vtprd_rule->bulk_deal_array[$b]['max_value'] = 999999999999;
+            }                 
+          }
+                    
+          if ( is_numeric($vtprd_rule->bulk_deal_array[$b]['discount_value'] ) ) {
+            if ($vtprd_rule->bulk_deal_array[$b]['discount_value'] <= 0) {
+              $vtprd_rule->rule_error_message[] = array( 
+                    'insert_error_before_selector' => '#pricing-table-headings-line', 
+                    'error_msg'  => __('The Discount Value on row ', 'vtprd')
+                                    .$current_row 
+                                    .__(' must be greater than zero', 'vtprd') );
+              $vtprd_rule->rule_error_box_fields[] = '#discountVal_row_' .$current_row;            
+            }          
+          } else {
+            //no discount supplied - discount must always be there.
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#pricing-table-headings-line',            
+                  'error_msg'  => __('The Discount Value on row ', 'vtprd')
+                                    .$current_row 
+                                    .__(' must be a number greater than zero', 'vtprd') );
+            $vtprd_rule->rule_error_box_fields[] = '#discountVal_row_' .$current_row;
+          } 
+
+          if ( ($vtprd_rule->bulk_deal_array[$b]['discount_type'] == 'fixedPrice') &&
+               ($vtprd_rule->rule_deal_info[0]['discount_applies_to'] == 'all') ) {
+              $vtprd_rule->rule_error_message[] = array( 
+                    'insert_error_before_selector' => '#pricing-table-headings-line', 
+                    'error_msg'  => __('For Bulk row Discount Type of Fixed Price (on row ', 'vtprd')
+                                    .$current_row 
+                                    .__('), Discount Applies To must be "Each Product"', 'vtprd') );               
+             $vtprd_rule->rule_error_box_fields[] = '#discount_amt_type_row_' .$current_row;
+             $vtprd_rule->rule_error_box_fields[] = '#discount_applies_to_0';
+             $vtprd_rule->rule_error_red_fields[] = '#discount_applies_to_title_anchor_0';
+             $vtprd_rule->rule_type_select = 'advanced'; //in case they've set to basic - in that case, discount applies to wouldn't be visible!
+          }
+          
+        } //end for loop
+        
+        return;
+  } //end vtprd_edit_pricing_table
+  
+
+  public function vtprd_update_rules_info() {
+    global $post, $vtprd_rule, $vtprd_rules_set, $vtprd_setup_options; //v2.0.0 M solution - KEEP global $vtprd_rules_set
 
     //v1.0.4
     if ( $vtprd_setup_options['debugging_mode_on'] == 'yes' ){   
-      error_log( print_r(  '$vtprd_rule', true ) );
+      error_log( print_r(  '$vtprd_rule at update time, vtprd-rules-update.php', true ) );
       error_log( var_export($vtprd_rule, true ) );   
     }
 /*      
@@ -905,16 +1304,21 @@ action amt condition can be an amt or $$
     //*****************************************
     //  If errors were found, the error message array will be displayed by the UI on next screen send.
     //*****************************************
+
     if  ( sizeof($vtprd_rule->rule_error_message) > 0 ) {
-      $vtprd_rule->rule_status = 'pending';
+      $vtprd_rule->rule_status = 'pending';    
     } else {
-      $vtprd_rule->rule_status = 'publish';
+      $vtprd_rule->rule_status = 'publish';      
     }
+           
+    
+    $vtprd_rule->rule_updated_with_free_version_number =  VTPRD_VERSION; //v2.0.0
+    
     
     //v1.1.0.8 begin
     if ( (sizeof($vtprd_rule->rule_error_message) > 0 ) &&
          ($vtprd_rule->rule_type_select == 'basic') ) {        
-      if ( (in_array('#discount_applies_to_box_0',  $vtprd_rule->rule_error_red_fields)) ||
+      if ( (in_array('#discount_applies_to_box_0',   $vtprd_rule->rule_error_red_fields)) ||
            (in_array('#only_for_this_coupon_anchor', $vtprd_rule->rule_error_red_fields)) ) {
           //can't see the Discount error fields in basic!
           $vtprd_rule->rule_type_select = 'advanced';
@@ -946,45 +1350,89 @@ action amt condition can be an amt or $$
       $vtprd_rules_set[] = $vtprd_rule;
     }
 
+    //v2.0.0 begin
+    /*
     if ($rules_set_found) {
       update_option( 'vtprd_rules_set',$vtprd_rules_set );
     } else {
       add_option( 'vtprd_rules_set',$vtprd_rules_set );
     }
-                                                 
+    */
+    update_option( 'vtprd_rules_set',$vtprd_rules_set ); //v2.0.0 will do an add if not found
+    //v2.0.0 end
+    
+    //v1.1.7.1a begin
+    if ( $vtprd_setup_options['debugging_mode_on'] == 'yes' ){  
+      error_log( print_r(  '$vtprd_rules_set at END OF RULE UPDATE', true ) );
+      error_log( var_export($vtprd_rules_set, true ) );
+    }
+    //v1.1.7.1a end
+
+
+    //error_log( print_r(  'buy_group_population_info  at END OF RULE UPDATE = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) ); 
+
+
+    //v2.0.0 begin M solution
     //**************
-    //keep a running track of $vtprd_display_type_in_rules_set   ==> used in apply-rules processing
-    //*************
-    if ($vtprd_rule->rule_execution_type  == 'display') {
-      $ruleset_has_a_display_rule = 'yes';
+    //keep a running track of ruleset_has_a_display_rule   ==> used in apply-rules processing
+    //*************    
+    // added in test for rule_status == 'publish'
+    $ruleset_has_a_display_rule = 'no';
+    $ruleset_contains_auto_add_free_product = 'no';
+    $ruleset_contains_auto_add_free_coupon_initiated_deal = 'no';
+    $sizeof_rules_set = sizeof($vtprd_rules_set);
+    for($i=0; $i < $sizeof_rules_set; $i++) { 
+       if ( ($vtprd_rules_set[$i]->rule_status == 'publish') &&
+            ($vtprd_rules_set[$i]->rule_on_off_sw_select != 'off') ) {
+         if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+            $ruleset_has_a_display_rule = 'yes'; 
+         } 
+         if ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') { 
+            $ruleset_contains_auto_add_free_product = 'yes';         
+         }
+         if ( ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') &&
+              ($vtprd_rules_set[$i]->only_for_this_coupon_name > ' ') ) { 
+            $ruleset_contains_auto_add_free_coupon_initiated_deal = 'yes';         
+         } 
+      }
+    }
+    update_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );    
+    update_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
+    update_option( 'vtprd_ruleset_contains_auto_add_free_coupon_initiated_deal',$ruleset_contains_auto_add_free_coupon_initiated_deal );
+
+    $current_time = time(); 
+    update_option( 'vtprd_ruleset_timestamp',$current_time );  
+    //v2.0.0 end M solution
+
+/*   //v2.0.0 M solution  replaced with the above code 
+    //********************
+    //v1.1.0.9 begin keep track of auto adds as well   
+    if ($vtprd_rule->rule_contains_auto_add_free_product == 'yes') {
+      $ruleset_contains_auto_add_free_product = 'yes';
     } else { 
-      $ruleset_has_a_display_rule = 'no';
+      $ruleset_contains_auto_add_free_product = 'no';
       $sizeof_rules_set = sizeof($vtprd_rules_set);
       for($i=0; $i < $sizeof_rules_set; $i++) { 
-         if ($vtprd_rules_set[$i]->rule_execution_type == 'display') {
+         if ( ($vtprd_rules_set[$i]->rule_status == 'publish') && 
+              ($vtprd_rules_set[$i]->rule_contains_auto_add_free_product  == 'yes') ) {
             $i =  $sizeof_rules_set;
-            $ruleset_has_a_display_rule = 'yes'; 
+            $ruleset_contains_auto_add_free_product = 'yes'; 
          }
       }
     } 
-
-   
-    if (get_option('vtprd_ruleset_has_a_display_rule') == true) {
-      update_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );
+    $option = (get_option('vtprd_ruleset_contains_auto_add_free_product'));
+    if ($option > '') {  
+      update_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
     } else {
-      add_option( 'vtprd_ruleset_has_a_display_rule',$ruleset_has_a_display_rule );
+      add_option( 'vtprd_ruleset_contains_auto_add_free_product',$ruleset_contains_auto_add_free_product );
     }
-    //**************        
-    
-    //v1.0.8.4 timestamp begin
-    $current_time = time();
-    if (get_option('vtprd_ruleset_has_a_display_rule') == true) {
-      update_option( 'vtprd_ruleset_timestamp',$current_time );
-    } else {
-      add_option( 'vtprd_ruleset_timestamp',$current_time );
-    }
-    //v1.0.8.4 timestamp  end
-        
+    //v1.1.0.9 end 
+    //****************  
+*/
+          
+    //nuke the browser session variables in this case - allows clean retest ...
+    // mwn20140414 begin => added inline session_start().  allow potential dup session start, as it's only a Notice, not a warning....
     if (session_id() == "") {
       session_start();    
     } 
@@ -992,8 +1440,8 @@ action amt condition can be an amt or $$
     $_SESSION['session_started'] = 'Yes!';  // need to initialize the session prior to destroy 
     session_destroy();   
     session_write_close();
-    // mwn20140414 end
-    
+    // mwn20140414 end        
+
     return;
   } 
   
@@ -1040,7 +1488,7 @@ action amt condition can be an amt or $$
       if ($vtprd_rule->periodicByDateRange[$t]['rangeBeginDate'] >  $vtprd_rule->periodicByDateRange[$t]['rangeEndDate']) {
           $vtprd_rule->rule_error_message[] = array( 
             'insert_error_before_selector' => '#date-line-0',  
-            'error_msg'  => __('End Date must be Greater than or equal to Begin Date.', 'vtprd') );
+            'error_msg'  => __('End Date must be Greater than or equal to Begin Date', 'vtprd') );
           $vtprd_rule->rule_error_red_fields[] = '#end-date-label-' .$t;
           $date_valid = false;
       }    
@@ -1053,495 +1501,11 @@ action amt condition can be an amt or $$
     if (!$date_valid) {
       $vtprd_rule->rule_error_message[] = array( 
             'insert_error_before_selector' => '#vtprd-rule-scheduling',  
-            'error_msg'  => __('Please repair date error.', 'vtprd') );                   
+            'error_msg'  => __('Please repair date error', 'vtprd') );                   
     }
     
   } 
 
-  public function vtprd_build_ruleInWords() {
-    global $vtprd_rule;
-    
-    //Don't process if errors present
-  /*  if  ( sizeof($vtprd_rule->rule_error_message) > 0 ) {
-      $vtprd_rule->ruleInWords = '';
-      return;
-    }    */
-    
-    $vtprd_rule->ruleInWords = ''; 
-    
-    switch( $vtprd_rule->rule_template   ) {
-      //display templates
-      case 'D-storeWideSale':  //Store-Wide Sale with a Percentage or $$ Value Off, at Catalog Display Time - Realtime
-      case 'C-storeWideSale':  //Store-Wide Sale with a Percentage or $$ Value Off all Products in the Cart          vtprd_buy_info(
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_buy_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_action_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_discount_amt();
-        break;
-      case 'D-simpleDiscount':  //Membership Discount in the Buy Pool Group, at Catalog Display Time - Realtime
-      case 'C-simpleDiscount':  //Sale Price by any Buy Pool Group Criteria [Product / Category / Custom Taxonomy Category / Membership / Wholesale] - Cart
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_buy_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_action_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_discount_amt();          
-        //  $vtprd_rule->ruleInWords .= $this->vtprd_show_pop();
-        break;
-      default:    
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_buy_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_action_info();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_discount_amt();          
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_repeats();
-        //  $vtprd_rule->ruleInWords .= $this->vtprd_show_pop();
-          $vtprd_rule->ruleInWords .= $this->vtprd_show_limits();   
-        break;
-    }
-    
-    //replace $ with the currency symbol set up on the Parent Plugin!!
-    $currency_symbol = vtprd_get_currency_symbol();
-    $vtprd_rule->ruleInWords = str_replace('$', $currency_symbol, $vtprd_rule->ruleInWords);
-    
-  } 
-  
-  public function vtprd_show_buy_info() {
-    global $vtprd_rule;  
-    $output;    
-    switch( $vtprd_rule->rule_template   ) {
-      case 'D-storeWideSale':
-          $output .= '<span class="words-line"><span class="words-line-buy">' . __('* For</span><!-- 001 --> any item,', 'vtprd') . '</span><!-- 001a --><!-- /words-line-->';
-          return $output;
-        break;      
-      case 'D-simpleDiscount': 
-          $output .= '<span class="words-line"><span class="words-line-buy">' . __('* For</span><!-- 002 --> any item within the defined Buy group,', 'vtprd') . '</span><!-- 002a --><!-- /words-line-->';
-          return $output;
-        break;
-      case 'C-storeWideSale':
-          $output .= '<span class="words-line"><span class="words-line-buy">' . __('* Buy</span><!-- 003 --> any item,', 'vtprd') . '</span><!-- 003a --><!-- /words-line-->';
-          return $output;
-        break;      
-      case 'C-simpleDiscount': 
-          $output .= '<span class="words-line"><span class="words-line-buy">' . __('* Buy</span><!-- 005 --> any item within the Buy defined group,', 'vtprd') . '</span><!-- 005a --><!-- /words-line-->';
-          return $output;
-        break;
-      default:
-          $output .= '<span class="words-line"><span class="words-line-buy">' . __('* Buy</span><!-- 007 --> ', 'vtprd') ;
-        break;
-    }
-     
-    switch( $vtprd_rule->rule_deal_info[0]['buy_amt_type']  ) {    
-      case 'none':
-          $output .= __('any item within the defined Buy group,', 'vtprd') . '</span><!-- 008 -->';
-          return $output;
-        break;
-      case 'one':
-          $output .= __('one item within the defined Buy group,', 'vtprd') . '</span><!-- 009 -->';
-          return $output;
-        break; 
-      case 'quantity':
-          $output .= $vtprd_rule->rule_deal_info[0]['buy_amt_count'];
-          $output .= __(' units', 'vtprd'); 
-        break; 
-      case 'currency':
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['buy_amt_count'];                    
-        break;
-      case 'nthQuantity':
-          $output .= __('every', 'vtprd'); 
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['buy_amt_count'];
-          $output .= __('th unit ', 'vtprd');                    
-        break;
-    }    
- 
- 
-    switch( $vtprd_rule->rule_deal_info[0]['buy_amt_mod']  ) {
-      case 'none':
-        break;
-      case 'minCurrency':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' for a mininimum of ', 'vtprd');
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['buy_amt_mod_count'];
-        break; 
-      case 'maxCurrency':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' for a maxinimum of ', 'vtprd');
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['buy_amt_mod_count'];
-        break;               
-    }   
-    
-    switch( $vtprd_rule->rule_deal_info[0]['buy_amt_applies_to']  ) {
-      case 'all':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' within the Buy group', 'vtprd');
-        break;
-      case 'each':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' of each product quantity of the defined Buy group', 'vtprd');
-        break;        
-    }
-    $output .=  '</span><!-- 010 -->';
-   
-    return $output;   
-  } 
-
-
-    
-  public function vtprd_show_action_info() {
-    global $vtprd_rule;  
-    $output;    
-    switch( $vtprd_rule->rule_template   ) {                      
-      case 'D-storeWideSale':    
-      case 'D-simpleDiscount': 
-          $output .= '<span class="words-line"><span class="words-line-get">' .  __('* Get ', 'vtprd') . '</span><!-- 012 -->';
-        break;
-      case 'C-storeWideSale':    
-      case 'C-simpleDiscount':
-      case 'C-discount-inCart':
-      case 'C-cheapest-inCart': 
-          $output .= '<span class="words-line"><span class="words-line-get">' .  __('* Get ', 'vtprd') . '</span><!-- 014 -->';
-        break;
-      case 'C-forThePriceOf-inCart':    //Buy 5, get them for the price of 4/$400
-          $output .= '<span class="words-line"><span class="words-line-get">' .  __('* Get ', 'vtprd') . '</span><!-- 014 -->' .  __('the Buy Group ', 'vtprd') . '</span>';
-          return $output;
-        break;  
-      case 'C-discount-Next':
-      case 'C-forThePriceOf-Next':     // Buy 5/$500, get next 3 for the price of 2/$200 - Cart
-      case 'C-cheapest-Next':
-      case 'C-nth-Next':
-          $output .= '<span class="words-line"><span class="words-line-get">' .  __('* Get ', 'vtprd') . '</span><!-- 014 -->' .  __('the Next - ', 'vtprd');
-        break;               
-      default:
-          $output .= '<span class="words-line"><span class="words-line-get">' .  __('* Get ', 'vtprd') . '</span><!-- 015 -->';
-        break;
-    }
-     
-    switch( $vtprd_rule->rule_deal_info[0]['action_amt_type']  ) {    
-      case 'none':
-          $output .= __('any item', 'vtprd');
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -';  
-          $output .= __('within the defined Get group,', 'vtprd'); 
-          return $output;
-        break;
-      case 'one':
-          $output .= __('one item', 'vtprd');
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -';  
-          $output .= __('within the defined Get group,', 'vtprd');
-          return $output;
-        break; 
-      case 'quantity':
-          $output .= $vtprd_rule->rule_deal_info[0]['action_amt_count'];
-          $output .= __(' units', 'vtprd'); 
-        break; 
-      case 'currency':
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['action_amt_count'];                    
-        break;
-      case 'nthQuantity':
-          $output .= __('every', 'vtprd'); 
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['action_amt_count'];
-          $output .= __('th unit ', 'vtprd');                    
-        break;
-    }    
- 
-    switch( $vtprd_rule->rule_deal_info[0]['action_amt_mod']  ) {
-      case 'none':
-        break;
-      case 'minCurrency':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' for a mininimum of ', 'vtprd');
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['action_amt_mod_count'];
-        break; 
-      case 'maxCurrency':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' for a maxinimum of ', 'vtprd');
-          $output .= '$' . $vtprd_rule->rule_deal_info[0]['action_amt_mod_count'];
-        break;               
-    }   
-    
-    switch( $vtprd_rule->rule_deal_info[0]['action_amt_applies_to']  ) {
-      case 'all':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' within the Get group', 'vtprd');
-        break;
-      case 'each':
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .= __(' of each product quantity of the defined Get group', 'vtprd');
-        break;        
-    }
-    $output .=  '</span><!-- 018 --><!-- /words-line-->';
-    
-    return $output;   
-  }   
- 
-     
-  public function vtprd_show_discount_amt() {
-    global $vtprd_rule;  
-    $output;    
-    
-    switch( $vtprd_rule->rule_deal_info[0]['discount_applies_to'] ) {
-      case 'each':
-          $output .= '<span class="words-line"> &nbsp;&nbsp;&nbsp; -';
-          $output .=  __('each product ', 'vtprd');
-        break;
-      case 'all': 
-          if ( $vtprd_rule->rule_template != 'C-forThePriceOf-inCart' ) { //Don't show for  "Buy 5, get them for the price of 4/$400"
-            $output .= '<span class="words-line"> &nbsp;&nbsp;&nbsp; -';
-            $output .=  __('all products', 'vtprd');
-          }
-        break;      
-      case 'cheapest':
-          $output .= '<span class="words-line"> &nbsp;&nbsp;&nbsp; -';
-          $output .=  __('cheapest product in the group ', 'vtprd');
-        break;       
-      case 'most_expensive':
-          $output .= '<span class="words-line"> &nbsp;&nbsp;&nbsp; -';
-          $output .=  __('most expensive product in the group ', 'vtprd');
-        break;
-      default:
-        break; 
-    /*  default:
-          $output .=  __(' discount_applies_to= ', 'vtprd');
-          $output .=  $vtprd_rule->rule_deal_info[0]['discount_applies_to'];
-          $output .=  __('end ', 'vtprd');
-        break;   */
-    }
-    
-    $output .= '</span><!-- 018b --><span class="words-line"><span class="words-line-get">';
-    $output .= __('* For ', 'vtprd') . '</span><!-- 018c -->';  
-    
-    switch( $vtprd_rule->rule_deal_info[0]['discount_amt_type'] ) {
-      case 'percent':
-          $output .=  $vtprd_rule->rule_deal_info[0]['discount_amt_count'] . __('% off', 'vtprd');
-        break;
-      case 'currency': 
-          $amt = vtprd_format_money_element( $vtprd_rule->rule_deal_info[0]['discount_amt_count'] );
-          $output .= $amt . __(' off', 'vtprd');
-        break;      
-      case 'fixedPrice':
-          $amt = vtprd_format_money_element( $vtprd_rule->rule_deal_info[0]['discount_amt_count'] );
-          $output .= $amt;
-        break;       
-      case 'free':
-          $output .=  __('Free', 'vtprd');
-        break;
-      case 'forThePriceOf_Units': 
-      case 'forThePriceOf_Currency':
-         $output .=  __('the Group Price of $', 'vtprd');
-         $output .=  $vtprd_rule->rule_deal_info[0]['discount_amt_count']; 
-        break;      
-    }  
-        
-    switch( $vtprd_rule->rule_template   ) {
-      case 'D-storeWideSale':
-      case 'D-simpleDiscount': 
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .=  __(' when catalog displays.', 'vtprd')  . '</span><!-- 019 -->'; //'</span><!-- 019 --> </span><!-- 019a -->';
-        break;
-      default:
-          $output .= '<br> &nbsp;&nbsp;&nbsp; -'; 
-          $output .=  __(' when added to cart.', 'vtprd') . '</span><!-- 020 -->'; //'</span><!-- 020 --> </span><!-- 020a -->';
-        break;
-    }       
-    
-    return $output;
-  }
- 
-  
-  public function vtprd_show_pop() {  
-    global $vtprd_rule;  
-   
-    $output = '<span class="words-line extra-top-margin">';  
-    
-    $output .= '&nbsp;&nbsp;&nbsp; -';
-    switch( $vtprd_rule->inPop ) {
-      case 'wholeStore':                                                                                      
-          if ( ($vtprd_rule->actionPop == 'sameAsInPop') ||              //in these cases, inpop/actionpop treated as 'sameAsInPop'
-               ($vtprd_rule->actionPop == 'wholeStore') ||
-               ($vtprd_rule->actionPop == 'cart') ) {
-            $output .=  __(' Acts on the Whole Store ', 'vtprd'); 
-          }  else {
-            $output .=  __(' The Buy Group is the Whole Store ', 'vtprd');
-          }         
-        break;
-      case 'cart':                                                                                      
-          if ( ($vtprd_rule->actionPop == 'sameAsInPop') ||              //in these cases, inpop/actionpop treated as 'sameAsInPop'
-               ($vtprd_rule->actionPop == 'wholeStore') ||
-               ($vtprd_rule->actionPop == 'cart') ) {
-            $output .=  __(' Acts on the any Product in the Cart ', 'vtprd'); 
-          }  else {
-            $output .=  __(' Buy Group is any Product in the Cart ', 'vtprd');
-          }                              
-        break;
-  
-      //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * + 
-             
-    }
-
-   switch( $vtprd_rule->actionPop ) { 
-      case 'sameAsInPop':
-      case 'wholeStore':;           
-      case 'cart':
-        //all done, all processing completed while handling inpop above                                                                                     
-        break;
-  
-    //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-    
-    }      
-/*   
-     //**********************************************************
-     If inpop = ('wholeStore' or 'cart') and actionpop = ('sameAsInPop' or 'wholeStore' or 'cart')
-        inpop and actionpop are treated as a single group ('sameAsInPop'), and the 'ball' bounces between them.
-     //**********************************************************
-        //logic from apply-rules.php:
-        switch( $vtprd_rules_set[$i]->inPop ) {
-          case 'wholeStore':
-          case 'cart':        //in these cases, inpop/actionpop treated as 'sameAsInPop'                                                                               
-              if ( ($vtprd_rules_set[$i]->actionPop == 'sameAsInPop') ||              
-                   ($vtprd_rules_set[$i]->actionPop == 'wholeStore') ||
-                   ($vtprd_rules_set[$i]->actionPop == 'cart') ) {
-                $vtprd_rules_set[$i]->actionPop = 'sameAsInPop';
-                $vtprd_rules_set[$i]->discountAppliesWhere =  'nextInInPop' ;
-              }   
-            break; 
-        }  
-
-*/   
-
-     $output .= '</span><!-- 021 -->';
-     
-    return $output; 
-  } 
-  
- 
-  public function vtprd_show_repeats() {
-    global $vtprd_rule;  
-    $output;
-     
-    
-    switch( $vtprd_rule->rule_deal_info[0]['action_repeat_condition'] ) {
-      case 'none':
-        break;
-      case 'unlimited': 
-          $output .= '<span class="words-line extra-top-margin"><em>'; //here due to 'none'
-          $output .=  __('Once the Buy group threshhold has been reached, the action group repeats an unlimited number of times. ', 'vtprd');
-          $output .=  '</em></span><!-- 023 -->';
-        break;      
-      case 'count':
-          $output .= '<span class="words-line extra-top-margin"><em>';
-          $output .=  __('Once the Buy group threshhold has been reached, the action group repeats ', 'vtprd'); 
-          $output .=  $vtprd_rule->rule_deal_info[0]['action_repeat_count'];
-          $output .=  __(' times. ', 'vtprd');
-          $output .=  '</em></span><!-- 024 -->';
-        break;       
-    }
-    
-        
-    switch( $vtprd_rule->rule_deal_info[0]['buy_repeat_condition'] ) {
-      case 'none':
-        break;
-      case 'unlimited': 
-          $output .= '<span class="words-line extra-top-margin"><em>';
-          $output .=  __('The entire rule repeats an unlimited number of times. ', 'vtprd');
-          $output .=  '</em></span><!-- 024 -->';
-        break;      
-      case 'count':
-          $output .= '<span class="words-line extra-top-margin"><em>';
-          $output .=  __('The entire rule repeats ', 'vtprd');  
-          $output .=  $vtprd_rule->rule_deal_info[0]['buy_repeat_count'];
-          $output .=  __(' times. ', 'vtprd');
-          $output .=  '</em></span><!-- 024 -->';
-        break;       
-    }
-    
-    return $output;
-  }  
-  
- 
-  public function vtprd_show_limits() {
-    global $vtprd_rule;  
-    $output;
-        
-    switch( $vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_type']) {
-      case 'none':
-        break;
-      case 'percent':
-          $output .=  __(' Discount Cart Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_count'];
-          $output .=  __('% ', 'vtprd');
-        break;
-      case 'quantity':
-          $output .=  __(' Discount Cart Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_count'];
-          $output .=  __(' times it can be applied. ', 'vtprd');
-        break;
-      case 'currency':
-          $output .=  __(' Discount Cart Maximum set at $$', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_max_amt_count'];      
-        break; 
-    }
-        
-    switch( $vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_type']) {
-      case 'none':
-        break;
-      case 'percent':
-          $output .=  __(' Discount Lifetime Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_count'];
-          $output .=  __('% ', 'vtprd');
-        break;
-      case 'quantity':
-          $output .=  __(' Discount Lifetime Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_count'];
-          $output .=  __(' times it can be applied. ', 'vtprd');
-        break;
-      case 'currency':
-          $output .=  __(' Discount Lifetime Maximum set at $$', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_lifetime_max_amt_count'];      
-        break; 
-    }    
-        
-    switch( $vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_type']) {
-      case 'none':
-        break;
-      case 'percent':
-          $output .=  __(' Discount Cumulative Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_count'];
-          $output .=  __('% ', 'vtprd');
-        break;
-      case 'quantity':
-          $output .=  __(' Discount Cumulative_cum Maximum set at ', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_count'];
-          $output .=  __(' times it can be applied. ', 'vtprd');
-        break;
-      case 'currency':
-          $output .=  __(' Discount Cumulative Maximum set at $$', 'vtprd');
-          $output .= $vtprd_rule->rule_deal_info[0]['discount_rule_cum_max_amt_count'];      
-        break; 
-    }   
-      
-             
-    return $output;
-  }    
-  
-/*  
- //default to 'OR', as the default value goes away and may be needed if the user switches back to 'groups'...
-  public function vtprd_set_default_or_values_in() {
-    global $vtprd_rule;  
-   // $vtprd_rule->role_and_or_in[1]['user_input'] = 's'; //'s' = 'selected'
-    $vtprd_rule->role_and_or_in = 'or';
-  } */
- /*
- //default to 'OR', as the default value goes away and may be needed if the user switches back to 'groups'...
-  public function vtprd_set_default_or_values_out() {
-    global $vtprd_rule;  
-   // $vtprd_rule->role_and_or_out[1]['user_input'] = 's'; //'s' = 'selected'
-    $vtprd_rule->role_and_or_out = 'or';
-  }   */
-
-  public function vtprd_initialize_deal_structure_framework() {
-    global $vtprd_deal_structure_framework;
-    foreach( $vtprd_deal_structure_framework as $key => $value ) { 
-    //for($i=0; $i < sizeof($vtprd_deal_field_name_array); $i++) {
-       $vtprd_deal_structure_framework[$value] = '';
-       //FIX THIS -> BUG where the foreach goes beyond the end of the $vtprd_deal_structure_framework - emergency eXIT
-       if ($key == 'discount_rule_cum_max_amt_count') {
-         break; //emergency end of the foreach...
-       }            
-    }     
-  }
   
   //**********************
   // DEAL Line Edits
@@ -1556,15 +1520,15 @@ action amt condition can be an amt or $$
       if ( !isset( $_REQUEST['dealInfoLine_' . ($k + 1) ] ) ) {  //if we're on the last line onscreen
          if ($k == 0) { //if the 1st line is the only line 
             $vtprd_rule->rule_error_message[] = array( 'insert_error_before_selector' => '#rule_deal_info_line.0',  //errmsg goes before the 1st line onscreen
-                                                        'error_msg'  => __('Deal Info Line must be filled in, for the rule to be valid.', 'vtprd')  );
+                                                        'error_msg'  => __('Deal Info Line must be filled in, for the rule to be valid', 'vtprd')  );
           }  else {
-            $vtprd_rule->rule_error_message[] = array( 'insert_error_before_selector' => '#rule_deal_info_line.' .$k,  //errmsg goes before current onscreen line
-                                                        'error_msg'  => __('At least one Deal Info Line must be filled in, for the rule to be valid.', 'vtprd')  );        
+            $vtprd_rule->rule_error_message[] = array( 'insert_error_before_selector' => '#rule_deal_info_line' .$k,  //errmsg goes before current onscreen line
+                                                        'error_msg'  => __('At least one Deal Info Line must be filled in, for the rule to be valid', 'vtprd')  );        
           }
         
       } else {    //this empty line is not the last...
-            $vtprd_rule->rule_error_message[] = array( 'insert_error_before_selector' => '#rule_deal_info_line.' .$k,  //errmsg goes before current onscreen line
-                                                       'error_msg'  => __('Deal Info Line is not filled in.  Please delete the line.', 'vtprd')  );      
+            $vtprd_rule->rule_error_message[] = array( 'insert_error_before_selector' => '#rule_deal_info_line' .$k,  //errmsg goes before current onscreen line
+                                                       'error_msg'  => __('Deal Info Line is not filled in.  Please delete the line', 'vtprd')  );      
       }
       return;
     }    */
@@ -1581,7 +1545,7 @@ action amt condition can be an amt or $$
        if ( ($fieldName == 'discount_rule_max_amt_type' )     || ($fieldName == 'discount_rule_max_amt_count' ) ||
             ($fieldName == 'discount_rule_cum_max_amt_type' ) || ($fieldName == 'discount_rule_cum_max_amt_count' ) ||
             ($fieldName == 'discount_lifetime_max_amt_type' ) || ($fieldName == 'discount_lifetime_max_amt_count' ) ) {
-          //only process these combos on the 1st iteration only!!
+          //only process these combos on the 1st iteration only!!           
           if ($k > 0) {
              break;
           }
@@ -1598,7 +1562,7 @@ action amt condition can be an amt or $$
                     if ( $fieldAttributes['required_or_optional'] == 'required' ) {                          
                       $vtprd_rule->rule_error_message[] = array( 
                         'insert_error_before_selector' => $fieldAttributes['insert_error_before_selector']. '_' . $k,  //errmsg goes before current onscreen line
-                        'error_msg'  => $fieldAttributes['field_label'] . __(' is required. Please select an option.', 'vtprd') );
+                        'error_msg'  => $fieldAttributes['field_label'] . __(' is required. Please select an option', 'vtprd') );
                       $vtprd_rule->rule_error_red_fields[] = '#' . $fieldName . '_label_' .$k ; 
                       $vtprd_rule->rule_error_box_fields[] = '#' . $fieldName . '_' .$k ;        
                       $dropdown_status = 'error';
@@ -1637,7 +1601,7 @@ action amt condition can be an amt or $$
                     if  ($vtprd_deal_structure_framework[$fieldName] <= ' ') {  //if blank, use 'required' msg
                         if ( $fieldAttributes['required_or_optional'] == 'required' ) {
                            $error_msg = $fieldAttributes['field_label'] . 
-                                        __(' is required. Please enter a value.', 'vtprd'); 
+                                        __(' is required. Please enter a value', 'vtprd'); 
                         } else {
                            $error_msg = $fieldAttributes['field_label'] . 
                                         __(' must have a value when a count option chosen in ', 'vtprd') .
@@ -1647,7 +1611,7 @@ action amt condition can be an amt or $$
                      } else { //something entered but not numeric...
                         if ( $fieldAttributes['required_or_optional'] == 'required' ) {
                            $error_msg = $fieldAttributes['field_label'] . 
-                                        __(' is required and not numeric. Please enter a numeric value <em>only</em>.', 'vtprd');
+                                        __(' is required and not numeric. Please enter a numeric value <em>only</em>', 'vtprd');
                         } else {
                            $error_msg = $fieldAttributes['field_label'] . 
                                         __(' is not numeric, and must have a value value when a count option chosen in ', 'vtprd') .
@@ -1775,7 +1739,7 @@ action amt condition can be an amt or $$
               if ( ($vtprd_deal_structure_framework[$fieldName] <= ' ') && ( $fieldAttributes['required_or_optional'] == 'required' ) ) {  //error possible only if blank                        
                         $vtprd_rule->rule_error_message[] = array( 
                           'insert_error_before_selector' => $fieldAttributes['insert_error_before_selector'] . '_' . $k,  //errmsg goes before current onscreen line
-                          'error_msg'  => $fieldAttributes['field_label'] . __(' is required. Please enter a description.', 'vtprd') );
+                          'error_msg'  => $fieldAttributes['field_label'] . __(' is required. Please enter a description', 'vtprd') );
                         $vtprd_rule->rule_error_red_fields[] = '#' . $fieldName . '_label_' .$k ;
                         $vtprd_rule->rule_error_box_fields[] = '#' . $fieldName . '_' .$k ;  
                         $field_has_an_error = 'yes';
@@ -1798,6 +1762,7 @@ action amt condition can be an amt or $$
               break;
             case '':       //no values are allowed
                 if ( ($vtprd_deal_structure_framework[$fieldName] > ' ') && ($fieldAttributes['template_profile_error_msg'] > ' ' ) ) {
+       //error_log( print_r(  'Error comes from 001 = ' .$fieldAttributes['template_profile_error_msg'] , true ) );              
                   $field_has_an_error = 'yes';
                   $display_this_msg = $fieldAttributes['template_profile_error_msg'];
                   $insertBefore = $fieldAttributes['insert_error_before_selector'];
@@ -1806,7 +1771,8 @@ action amt condition can be an amt or $$
               break;              
             default:  //$fieldAttributes['allowed_values'] is an array!
                 //check for valid values
-                if ( !in_array($vtprd_deal_structure_framework[$fieldName], $fieldAttributes['allowed_values']) ) {  
+                if ( !in_array($vtprd_deal_structure_framework[$fieldName], $fieldAttributes['allowed_values']) ) { 
+       //error_log( print_r(  'Error comes from 002 = ' .$fieldAttributes['template_profile_error_msg'], true ) );                 
                   $field_has_an_error = 'yes';
                   $display_this_msg = $fieldAttributes['template_profile_error_msg'];
                   $insertBefore = $fieldAttributes['insert_error_before_selector'];
@@ -1815,6 +1781,9 @@ action amt condition can be an amt or $$
               break;
         }
 
+     //error_log( print_r(  '$vtprd_deal_structure_framework= ' , true ) );
+     //error_log( var_export($vtprd_deal_structure_framework, true ) );  
+
         //Cross-field edits
         $sizeof_cross_field_edits = sizeof($fieldAttributes['cross_field_edits']);
         if ( ($field_has_an_error == 'no') && ($sizeof_cross_field_edits > 0) ) {
@@ -1822,7 +1791,15 @@ action amt condition can be an amt or $$
               //if current field values fall within value array that the cross-edit applies to
               if ( in_array($vtprd_deal_structure_framework[$fieldName], $fieldAttributes['cross_field_edits'][$c]['applies_to_this_field_values']) ) {               
                  $cross_field_name = $fieldAttributes['cross_field_edits'][$c]['cross_field_name'];
-                 if ( !in_array($vtprd_deal_structure_framework[$cross_field_name], $fieldAttributes['cross_field_edits'][$c]['cross_allowed_values']) ) {  
+      /*
+      error_log( print_r(  '$cross_field_name= ' .$cross_field_name, true ) );
+      error_log( print_r(  '$vtprd_deal_structure_framework value= ' .$vtprd_deal_structure_framework[$cross_field_name], true ) );
+      error_log( print_r(  'cross_allowed_values= ' , true ) );
+      error_log( var_export($fieldAttributes['cross_field_edits'][$c]['cross_allowed_values'], true ) ); 
+       */              
+                 //v2.0.0 added isset
+                 if ( (isset($vtprd_deal_structure_framework[$cross_field_name])) && 
+                      (!in_array($vtprd_deal_structure_framework[$cross_field_name], $fieldAttributes['cross_field_edits'][$c]['cross_allowed_values'])) ) {  
                     //special handling for these 2, as they're not in the standard edit framwork, and we don't have the values yet
                     if ( ($fieldName = 'discount_auto_add_free_product') &&
                         (($cross_field_name == 'popChoiceOut') ||
@@ -1838,26 +1815,17 @@ action amt condition can be an amt or $$
                           $field_has_an_error = 'yes';
                           $display_this_msg = $fieldAttributes['cross_field_edits'][$c]['cross_error_msg'];
                           $insertBefore = $fieldAttributes['cross_field_edits'][$c]['cross_field_insertBefore'];
+       //error_log( print_r(  'Error comes from 003 = ' .$fieldAttributes['cross_field_edits'][$c]['cross_field_insertBefore'], true ) ); 
                           $vtprd_rule->rule_error_red_fields[] = '#' . $cross_field_name . '_label_' .$k ;
                           //custom error name
                           //this cross-edit name wasn't being picked up correctly...                    
                           $this->vtprd_add_cross_field_error_message($insertBefore, $k, $display_this_msg, $fieldName);	 
-                        } else {
-                          
-                          if ($cross_field_name == 'popChoiceOut') {
-                          
-                                
-                                //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +             
-                                                                                
-                          
-                          }
-                          
-                        }
-                        
+                        } 
                     } else {
                       //Normal error processing
                       $field_has_an_error = 'yes';
                       $display_this_msg = $fieldAttributes['cross_field_edits'][$c]['cross_error_msg'];
+       //error_log( print_r(  'Error comes from 004 = ' .$fieldAttributes['cross_field_edits'][$c]['cross_error_msg'], true ) ); 
                       $insertBefore = $fieldAttributes['cross_field_edits'][$c]['cross_field_insertBefore'];
                       $vtprd_rule->rule_error_red_fields[] = '#' . $cross_field_name . '_label_' .$k ;
                       //custom error name
@@ -1866,7 +1834,7 @@ action amt condition can be an amt or $$
                       
                     }
 
-              }
+              } 
             }
           } //end for cross-edit loop       
         } //END Template-Level and Cross-field edits
@@ -1876,6 +1844,7 @@ action amt condition can be an amt or $$
        
     }  //end foreach
 
+    
     return;
   }
 
@@ -1899,7 +1868,10 @@ action amt condition can be an amt or $$
          //INITIALIZE was introducing an iteration error!!!!!!!!          
          //$this->vtprd_initialize_deal_structure_framework();       
          foreach( $vtprd_deal_structure_framework as $key => $value ) {   //spin through all of the screen fields  
-            $vtprd_deal_structure_framework[$key] = $_REQUEST[$key . '_' .$k];        
+            //v1.1.8.1 new isset
+            if (isset($_REQUEST[$key . '_' .$k])) {            
+              $vtprd_deal_structure_framework[$key] = $_REQUEST[$key . '_' .$k];  
+            }      
          }                 
          $vtprd_rule->rule_deal_info[] = $vtprd_deal_structure_framework;   //add each line to rule, regardless if empty              
        } else {     
@@ -1915,7 +1887,7 @@ action amt condition can be an amt or $$
     if ($vtprd_rule->rule_template <= '0') {
         return; 
     }
-    
+        
     // previously determined template key
     $templateKey = $vtprd_rule->rule_template; 
     $additional_template_rule_switches = array ( 'discountAppliesWhere' ,  'inPopAllowed' , 'actionPopAllowed'  , 'cumulativeRulePricingAllowed', 'cumulativeSalePricingAllowed', 'replaceSalePricingAllowed', 'cumulativeCouponPricingAllowed') ;
@@ -1969,7 +1941,7 @@ action amt condition can be an amt or $$
         $vtprd_deal_edits_framework[$key]['template_profile_error_msg']  =  $value['template_profile_error_msg'];
         
         //cross_field_edits is an array which ***will only exist where required ****
-        if ($value['cross_field_edits']) {
+        if (isset($value['cross_field_edits'])) {  //v1.1.8.0 changed to isset
            $vtprd_deal_edits_framework[$key]['cross_field_edits']  =  $value['cross_field_edits'];
         }
       }            
@@ -1985,7 +1957,7 @@ action amt condition can be an amt or $$
         where conditions were changed
       *************************************** */
   public function vtprd_maybe_clear_extraneous_data() { 
-    global $post, $vtprd_rule, $vtprd_rule_template_framework, $vtprd_deal_edits_framework, $vtprd_deal_structure_framework;     
+    global $post, $vtprd_rule, $vtprd_rule_template_framework, $vtprd_deal_edits_framework, $vtprd_deal_structure_framework, $vtprd_edit_arrays_framework;   //v2.0.0  
     
     //IF there are edit errors, leave everything as is, exit stage left...
     if ( sizeof($vtprd_rule->rule_error_message ) > 0 ) {  
@@ -2004,27 +1976,24 @@ action amt condition can be an amt or $$
        $vtprd_rule->rule_deal_info[0]['buy_amt_mod_count'] = null; 
     }  
   
+    /* //v2.0.0 begin
     switch( $vtprd_rule->inPop ) {
       case 'wholeStore':
-          //clear vargroup
-          $vtprd_rule->inPop_varProdID = null;
-          $vtprd_rule->inPop_varProdID_name = null; 
-          $vtprd_rule->var_in_checked = array(); 
-          $vtprd_rule->inPop_varProdID_parentLit = null; 
-          //clear single
-          $vtprd_rule->inPop_singleProdID = null; 
-          $vtprd_rule->inPop_singleProdID_name = null;
-          //clear groups
-          $vtprd_rule->prodcat_in_checked = array();
-          $vtprd_rule->rulecat_in_checked = array();
-          $vtprd_rule->role_in_checked = array();
-          $vtprd_rule->role_and_or_in = null;          
+ 
+          $vtprd_rule->buy_group_population_info    = $vtprd_edit_arrays_framework['buy_group_framework']; //v2.0.0 
+          $vtprd_rule->action_group_population_info = $vtprd_edit_arrays_framework['action_group_framework']; //v2.0.0                 
         break;
-      
-       //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-      
-    }  
-    
+      case 'groups':
+  
+        break;
+    } 
+    */
+    if( $vtprd_rule->inPop == 'wholeStore' ) {
+      $vtprd_rule->buy_group_population_info    = $vtprd_edit_arrays_framework['buy_group_framework']; 
+    }
+    //v2.0.0 end
+
+        
     if ($vtprd_rule->rule_deal_info[0]['buy_repeat_condition'] == 'none') {
        $vtprd_rule->rule_deal_info[0]['buy_repeat_count'] = null; 
     }      
@@ -2043,28 +2012,14 @@ action amt condition can be an amt or $$
        $vtprd_rule->rule_deal_info[0]['action_amt_mod_count'] = null; 
     }  
   
+    //v2.0.0 begin
     switch( $vtprd_rule->actionPop ) {
       case 'sameAsInPop':
       case 'wholeStore':
-          //clear vargroup
-          $vtprd_rule->actionPop_varProdID = null;
-          $vtprd_rule->actionPop_varProdID_name = null; 
-          $vtprd_rule->var_out_checked = array(); 
-          $vtprd_rule->actionPop_varProdID_parentLit = null;
-         // $vtprd_rule->var_out_product_variations_parameter = array(); 
-          //clear single
-          $vtprd_rule->actionPop_singleProdID = null; 
-          $vtprd_rule->actionPop_singleProdID_name = null;
-          //clear groups
-          $vtprd_rule->prodcat_out_checked = array();
-          $vtprd_rule->rulecat_out_checked = array();
-          $vtprd_rule->role_out_checked = array();
-          $vtprd_rule->role_and_or_out = null;          
+          $vtprd_rule->action_group_population_info = $vtprd_edit_arrays_framework['action_group_framework']; //v2.0.0        
         break;
-      
-       //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-       
-    }  
+    }
+    //v2.0.0 end 
     
     if ($vtprd_rule->rule_deal_info[0]['action_repeat_condition'] == 'none') {
        $vtprd_rule->rule_deal_info[0]['action_repeat_count'] = null; 
@@ -2135,10 +2090,35 @@ action amt condition can be an amt or $$
       return;
     }
 
-
-    //EDITED * + * +  * + * +  * + * +  * + * + * + * +  * + * +  * + * +  * + * +
-     
-      
+    //v2.0.0 GROUPS is all that's left            
+    if ( ($vtprd_rule->buy_group_population_info['buy_group_prod_cat_incl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_prod_cat_incl_array']) &&
+         ($vtprd_rule->buy_group_population_info['buy_group_prod_cat_excl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_prod_cat_excl_array']) &&         
+ 
+         ($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_incl_array'] ==
+          $vtprd_rule->action_group_population_info['action_group_plugin_cat_incl_array']) &&
+         ($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_excl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_plugin_cat_excl_array']) && 
+          
+         ($vtprd_rule->buy_group_population_info['buy_group_product_incl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_product_incl_array']) &&
+         ($vtprd_rule->buy_group_population_info['buy_group_product_excl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_product_excl_array']) &&                   
+          
+         ($vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_var_name_incl_array']) &&
+         ($vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_var_name_excl_array']) &&           
+          
+         ($vtprd_rule->buy_group_population_info['buy_group_brands_incl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_brands_incl_array']) &&
+         ($vtprd_rule->buy_group_population_info['buy_group_brands_excl_array'] == 
+          $vtprd_rule->action_group_population_info['action_group_brands_excl_array']) ) {
+      $vtprd_rule->set_actionPop_same_as_inPop = 'yes';
+      return;          
+    }         
+    
     $vtprd_rule->set_actionPop_same_as_inPop = 'no';
     return;
   }
@@ -2147,30 +2127,82 @@ action amt condition can be an amt or $$
 
   /* ************************************************
   **   Get single variation data to support discount_auto_add_free_product, Pro Only
+  *
+  *++++++++++++++++++++++++++++++++
+  *       v2.0.0 Recoded 
+  *++++++++++++++++++++++++++++++++  
+  * (if we do a straight return, the expected returned value is never accessed so not relevant)          
   *************************************************** */
   public function vtprd_get_variations_parameter($which_vargroup) {
-
+    //error_log( print_r(  'function vtprd_get_variations_parameter BEGIN ' , true ) );
     global $wpdb, $post, $vtprd_rule, $woocommerce;
 
     if ($which_vargroup == 'inPop') {
-       $product_id    =  $vtprd_rule->inPop_varProdID;
-       $variation_id  =  $vtprd_rule->var_in_checked[0];    
+       $product_ID    =  $vtprd_rule->buy_group_population_info['buy_group_product_incl_array'][0];    
     } else {
-       $product_id    =  $vtprd_rule->actionPop_varProdID;
-       $variation_id  =  $vtprd_rule->var_out_checked[0];     
+       $product_ID    =  $vtprd_rule->action_group_population_info['action_group_product_incl_array'][0];    
     }
- 
+ /*   
+error_log( print_r(  ' action_group_product_incl_array occurrence 0= ' .$vtprd_rule->action_group_population_info['action_group_product_incl_array'][0] , true ) );        
+error_log( print_r(  '$which_vargroup= ' .$which_vargroup. ' $product_ID= ' .$product_ID , true ) ); 
+error_log( print_r(  'action_group_population_info ARRAY= ' , true ) ); 
+error_log( var_export($vtprd_rule->action_group_population_info['action_group_product_incl_array'], true ) );
+*/
+/* v2.0.0 no longer necessary - variation parents are removed from offered product selections.
+    //test if selected product is a variation parent - if so, ERROR
+    $product_has_variations = vtprd_test_for_variations($product_id);
+    if ($product_has_variations) { //v2.0.0 changed from a 'yes' test
+      if ($which_vargroup == 'inPop') {  
+         $vtprd_rule->rule_error_message[] = array( 
+                'insert_error_before_selector' => '#buy_group_box', 
+                'error_msg'  => __('When "Discount Same as Buy Group" is selected, "Buy Select Group" must be either a single product, or a single product variation - it may NOT be a single product which has many variations, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                );                                                       
+         $vtprd_rule->rule_error_box_fields[] = '#popChoiceIn';
+         $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';       
+      } else {
+         $vtprd_rule->rule_error_message[] = array( 
+                'insert_error_before_selector' => '#action_group_box_0', 
+                'error_msg'  => __('"Get (Discount) Select Group" must be either a single product, or a single product variation - it may NOT be a single product which has many variations, When "Automatically Add Free Product to Cart" is Selected.', 'vtprd') .'<br><br>'. __('Otherwise the Auto add does not know which product to add. ', 'vtprd')
+                );                                                      
+         $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';
+         $vtprd_rule->rule_error_red_fields[] = '#discount_auto_add_free_product_label_0';        
+      }  
+      return;
+    }
+*/    
+    //test if product is a VARIATION   
+    //sql from woocommerce/classes/class-wc-product.php
+    $variation_product = get_posts( array(
+			'post_parent' 	=> $product_ID,
+			'post_type' 	  => 'product_variation',
+			'post_status'	  => 'publish',
+      'order'         => 'ASC'
+	  ));
+    
+    //if not a variation, no further processing
+    if (!$variation_product) {
+      return;
+    }
+/*
+error_log( print_r(  '$which_vargroup= ' .$which_vargroup. ' $product_ID= ' .$product_ID. ' Should not be a variation product... return= ' , true ) ); 
+error_log( var_export($variation_product, true ) );        
+error_log( print_r(  '$vtprd_rule= ' , true ) ); 
+error_log( var_export($vtprd_rule, true ) );
+*/           
+    $variation_id  =  $product_ID;
+    $product_id    =  wp_get_post_parent_id($variation_id);
+    
     //************************
     //FROM woocommerce/woocommerce-functions.php  function woocommerce_add_to_cart_action
     //************************
     
-	  $adding_to_cart      = wc_get_product( $product_id );  //v1.1.7 replace get_product with wc_get_product
+	  $adding_to_cart      = wc_get_product( $product_id ); //v1.1.7 replace get_product with wc_get_product
 
   	$all_variations_set = true;
   	$variations         = array();
 
 		$attributes = $adding_to_cart->get_attributes();
-		$variation  = wc_get_product( $variation_id ); //v1.1.7 replace get_product with wc_get_product
+		$variation  = wc_get_product( $variation_id );  //v1.1.7 replace get_product with wc_get_product
 
 		// Verify all attributes
 		foreach ( $attributes as $attribute ) {
@@ -2207,17 +2239,1126 @@ action amt condition can be an amt or $$
 
     }
 
-
-    $product_variations_array = array(
-       'parent_product_id'    => $product_id,
-       'variation_product_id' => $variation_id,
-       'variations_array'     => $variations
-      );   
+    if (sizeof($variations) > 0) {
+      $product_variations_array = array(
+         'parent_product_id'    => $product_id,
+         'variation_product_id' => $variation_id,
+         'variations_array'     => $variations
+        ); 
+     } 
     
 
     return ($product_variations_array);
   } 
+
+
+ 
+
+  /* ************************************************
+  **   v2.0.0 NEW FUNCTION
+  *************************************************** */
+  public function vtprd_get_and_store_selection_arrays() {
+    global $post, $wpdb, $vtprd_rule, $vtprd_info, $vtprd_rule_template_framework, $vtprd_deal_edits_framework, $vtprd_deal_structure_framework, $vtprd_edit_arrays_framework;     //v2.0.0 M solution - removed global $vtprd_rules_set
+    //error_log( print_r(  'function vtprd_get_and_store_selection_arrays begin in rules-update', true ) );
+       //-----------------------------
+       //LOAD DATA FROM screen to rule  ****************
+       //-----------------------------
+
+      //INPOP
+      
+      $buy_groups_found = 0;
+      $buy_groups_product_selectors_found = 0;
+      $and_switch_count = 0;
+      $and_switch_first_key = null;
+      
+      $buy_groups_include_test_found = false; //used for setting the 'exclude only' later
+      
+      if ($vtprd_rule->inPop == 'groups') {        
+        $buy_arrays_framework = $vtprd_edit_arrays_framework['buy_group_framework'];
+        foreach( $buy_arrays_framework as $key => $value ) {  
+           if (isset($_REQUEST[$key])) {
+             $vtprd_edit_arrays_framework['buy_group_framework'][$key] = $_REQUEST[$key];
+ 
+             //test search arrays (only)) for search data
+             switch ($key) {           
+               case  'buy_group_prod_cat_incl_array': 
+               case  'buy_group_prod_cat_excl_array':   
+               case  'buy_group_plugin_cat_incl_array':
+               case  'buy_group_plugin_cat_excl_array':
+               case  'buy_group_product_incl_array':
+               case  'buy_group_product_excl_array':
+               case  'buy_group_var_name_incl_array':
+               case  'buy_group_var_name_excl_array':
+               case  'buy_group_brands_incl_array':
+               case  'buy_group_brands_excl_array':
+               case  'buy_group_subscriptions_incl_array': 
+               case  'buy_group_subscriptions_excl_array': 
+               case  'buy_group_role_incl_array':
+               case  'buy_group_role_excl_array': 
+               case  'buy_group_email_incl_array': 
+               case  'buy_group_email_excl_array':
+               case  'buy_group_groups_incl_array':
+               case  'buy_group_groups_excl_array':
+               case  'buy_group_memberships_incl_array':
+               case  'buy_group_memberships_excl_array':         
+                 if ( ((is_array($vtprd_edit_arrays_framework['buy_group_framework'][$key])) &&
+                       (sizeof($vtprd_edit_arrays_framework['buy_group_framework'][$key]) > 0)) 
+                              ||
+                      ((!is_array($vtprd_edit_arrays_framework['buy_group_framework'][$key])) &&
+                       ($vtprd_edit_arrays_framework['buy_group_framework'][$key] > ' ')) ) { //  > ' ' test catches the vargroup list when empty 
+                    $buy_groups_found ++;
+                    if (strpos($key,'incl') !== false) {
+                      $buy_groups_include_test_found = true; //used for setting the 'exclude only' later
+                    }
+                 }
+                 break;
+             }
+
+             //test product search arrays (only)) for search data
+             switch ($key) {           
+               case  'buy_group_prod_cat_incl_array': 
+               case  'buy_group_prod_cat_excl_array':   
+               case  'buy_group_plugin_cat_incl_array':
+               case  'buy_group_plugin_cat_excl_array':
+               case  'buy_group_product_incl_array':
+               case  'buy_group_product_excl_array':
+               case  'buy_group_var_name_incl_array':
+               case  'buy_group_var_name_excl_array':
+               case  'buy_group_brands_incl_array':
+               case  'buy_group_brands_excl_array':
+               case  'buy_group_subscriptions_incl_array': 
+               case  'buy_group_subscriptions_excl_array':                    
+                 if ( ((is_array($vtprd_edit_arrays_framework['buy_group_framework'][$key])) &&
+                       (sizeof($vtprd_edit_arrays_framework['buy_group_framework'][$key]) > 0)) 
+                          ||
+                      ((!is_array($vtprd_edit_arrays_framework['buy_group_framework'][$key])) &&   
+                       ($vtprd_edit_arrays_framework['buy_group_framework'][$key] > ' ')) ) { //  > ' ' test catches the vargroup list when empty 
+                    $buy_groups_product_selectors_found ++;
+             //error_log( print_r(  'Buy Group Selector Found, $key= ' .$key, true ) );
+                 }
+                 break;
+             }
+             //test and/or switches, see if they should be turned off or counted
+             switch ($key) {           
+               case  'buy_group_show_and_or_switches':  //if not advanced, can't show the and/or switches!
+                   if ($vtprd_rule->rule_type_select == 'basic') {
+                      $vtprd_edit_arrays_framework['buy_group_framework']['buy_group_show_and_or_switches'] = 'no';                               
+                   }
+                 break;
+               case  'buy_group_prod_cat_and_or':
+               case  'buy_group_plugin_cat_and_or':
+               case  'buy_group_product_and_or':
+               case  'buy_group_var_name_and_or':
+               case  'buy_group_brands_and_or':
+               case  'buy_group_subscriptions_and_or':             
+                   if ($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_show_and_or_switches'] == 'no') {
+                      $vtprd_edit_arrays_framework['buy_group_framework'][$key] = 'or';
+                   } else {          
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') ||
+                           ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'each') )  { //'each' is also 'and'!!
+                        $and_switch_count++;
+                        $and_switch_first_key = $key;
+                      }                                
+                   }
+                 break;
+             }
+
+             //test if and/or selected, but data is BLANK
+             $and_or_selected_but_no_data = false;
+             $each_selected_but_insufficient_data = false;
+             $and_or_selector_in_error_box2 = false;
+             switch ($key) {           
+               case  'buy_group_prod_cat_and_or':          
+                    if (defined('VTPRD_PRO_VERSION')) { // 'and' / 'each' only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_prod_cat_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_prod_cat_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Category';
+                          $and_or_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-prod-category-incl-label'; 
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-prod-cat';
+                          $and_or_selector_in_error_field2        = '#buy_group_prod_cat_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_prod_cat_incl';                                                                          
+                      }
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'each') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_prod_cat_incl_array']) < 2) )  {
+                          $each_selected_but_insufficient_data = true;
+                          $and_or_selector_in_error = 'Category';
+                          $and_or_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-prod-category-incl-label';
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-prod-cat';
+                          $and_or_selector_in_error_field2        = '#buy_group_prod_cat_each-EachSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_prod_cat_incl';                                                 
+                      } 
+                    }                                                    
+                 break;               
+               case  'buy_group_plugin_cat_and_or':
+                    if (defined('VTPRD_PRO_VERSION')) { // 'and' / 'each' only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_plugin_cat_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_plugin_cat_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Pricing Deals Category';
+                          $and_or_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-plugin-category-incl-label';
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-plugin-cat';
+                          $and_or_selector_in_error_field2        = '#buy_group_plugin_cat_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_plugin_cat_incl';                                                         
+                      } 
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'each') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_plugin_cat_incl_array']) < 2) )  {
+                          $each_selected_but_insufficient_data = true;
+                          $and_or_selector_in_error = 'Pricing Deals Category';
+                          $and_or_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-plugin-category-incl-label'; 
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-plugin-cat';
+                          $and_or_selector_in_error_field2        = '#buy_group_plugin_cat_each-EachSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_plugin_cat_incl';                                                  
+                      }
+                    }                                                     
+                 break;               
+               case  'buy_group_product_and_or':
+                    if (defined('VTPRD_PRO_VERSION')) { // 'and' / 'each' only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_product_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_product_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Product';
+                          $and_or_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-product-incl-label';
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-product';
+                          $and_or_selector_in_error_field2        = '#buy_group_product_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_product_incl';                                                         
+                      } 
+                      if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'each') &&
+                           (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_product_incl_array']) < 2) )  {
+                          $each_selected_but_insufficient_data = true;
+                          $and_or_selector_in_error = 'Product';
+                          $and_or_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.buy-product-incl-label';
+                          $and_or_selector_in_error_box           = '#buy-and-or-selector-product';
+                          $and_or_selector_in_error_field2        = '#buy_group_product_each-EachSelect-label';
+                          $and_or_selector_in_error_box2          = '.buy_group_product_incl';                                                      
+                      } 
+                    }                                                   
+                 break;               
+               case  'buy_group_var_name_and_or':
+                    if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                         ($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_var_name_incl_array'] <= ' ') &&
+                         ($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_var_name_excl_array'] <= ' ') ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Variation Name';
+                        $and_or_selector_in_error_insert_before = '.buy-group-var-name-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.buy-var-name-incl-label';
+                        $and_or_selector_in_error_box           = '#buy-and-or-selector-var-name';
+                        $and_or_selector_in_error_field2        = '#buy_group_var_name_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.buy_group_var_name_incl';                                                      
+                    }                                
+                 break;               
+               case  'buy_group_brands_and_or':
+                    if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                         (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_brands_incl_array']) == 0) &&
+                         (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_brands_excl_array']) == 0) ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Brands';
+                        $and_or_selector_in_error_insert_before = '.buy-group-brands-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.buy-brands-incl-label';
+                        $and_or_selector_in_error_box           = '#buy-and-or-selector-brands';
+                        $and_or_selector_in_error_field2        = '#buy_group_brands_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.buy_group_brands_incl';
+                                                      
+                    }                                
+                 break;                 
+               case  'buy_group_subscriptions_and_or':             
+                    if ( ($vtprd_edit_arrays_framework['buy_group_framework'][$key] == 'and') &&
+                         (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_subscriptions_incl_array']) == 0) &&
+                         (sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_subscriptions_excl_array']) == 0) ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Subscriptions';
+                        $and_or_selector_in_error_insert_before = '.buy-group-subscriptions-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.buy-subscriptions-incl-label';
+                        $and_or_selector_in_error_box           = '#buy-and-or-selector-subscriptions'; 
+                        $and_or_selector_in_error_field2        = '#buy_group_subscriptions_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.buy_group_subscriptions_incl';                                                     
+                    }                                
+                 break;                   
+             } //end switch
+             
+             if ($and_or_selected_but_no_data) {
+                $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                  'error_msg'  => 'The "' .$and_or_selector_in_error. '" &nbsp; "AND/OR" &nbsp; selection is set to "AND". &nbsp;&nbsp;&nbsp; <br><br> When "AND" is selected, the matching "' .$and_or_selector_in_error. '" selector list <br><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **must** &nbsp;&nbsp; have  at least &nbsp; * 1 * &nbsp;  item selected. <br><br>( default &nbsp; "and/or" &nbsp; selection is  "Or" )'
+                  ); 
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field;
+                $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-product-area';
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box2. ' .select2-container--default .select2-selection--multiple';                                  
+             } 
+             if ( ($each_selected_but_insufficient_data) &&
+                  ($vtprd_rule->cart_or_catalog_select == 'cart') ) {
+                $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                  'error_msg'  => 'The "' .$and_or_selector_in_error. '" &nbsp; "AND/OR/EACH" &nbsp; selection is set to "EACH". &nbsp;&nbsp;&nbsp; <br><br> When "EACH" is selected, the matching "' .$and_or_selector_in_error. '" selector list <br><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **must** &nbsp;&nbsp; have  at least &nbsp; * 2 * &nbsp;  items selected.  <br><br>  Example - &nbsp;&nbsp; Category: &nbsp; [x Hats] &nbsp; [x Shoes] &nbsp; <br><br>( default &nbsp; "and/or/each" &nbsp; selection is  "Or" )'
+                  ); 
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field;
+                $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-product-area';
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box2. ' .select2-container--default .select2-selection--multiple';                
+             }                           
+              
+             //IF FREE VERSION, These are in error by definition!!                 
+             if (!defined('VTPRD_PRO_VERSION')) {
+                $free_selector_in_error = FALSE;
+                $free_and_each_selected_in_error = FALSE;
+                switch ($key) {
+                   case  'buy_group_prod_cat_incl_array'   :
+                        $free_selector_in_error = 'Category';
+                        $free_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-prod-category-incl-label';
+                        $free_selector_in_error_box           = '.buy_group_prod_cat_incl';                                                
+                      break;
+                   case  'buy_group_prod_cat_excl_array'   : 
+                        $free_selector_in_error = 'Exclude Category';
+                        $free_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-prod-category-excl-label';
+                        $free_selector_in_error_box           = '.buy_group_prod_cat_excl';                        
+                      break;                   
+                   case  'buy_group_plugin_cat_incl_array' :
+                        $free_selector_in_error = 'Pricing Deal Category';
+                        $free_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-plugin-category-incl-label';
+                        $free_selector_in_error_box           = '.buy_group_plugin_cat_incl';                        
+                      break;                   
+                   case  'buy_group_plugin_cat_excl_array' :
+                        $free_selector_in_error = 'Exclude Pricing Deal Category';
+                        $free_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-plugin-category-excl-label';
+                        $free_selector_in_error_box           = '.buy_group_plugin_cat_excl';                        
+                      break; 
+                   case  'buy_group_product_incl_array'    :
+                        $free_selector_in_error = 'Product';
+                        $free_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-product-incl-label';
+                        $free_selector_in_error_box           = '.buy_group_product_incl';                       
+                      break;                   
+                   case  'buy_group_product_excl_array'    :
+                        $free_selector_in_error = 'Exclude Product';
+                        $free_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-product-excl-label';
+                        $free_selector_in_error_box           = '.buy_group_product_excl';                         
+                      break;
+                   case  'buy_group_role_incl_array'       :
+                        $free_selector_in_error = 'Role';
+                        $free_selector_in_error_insert_before = '.buy-group-role-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-role-incl-label';
+                        $free_selector_in_error_box           = '.buy_group_role_incl'; 
+                      break;                                           
+                   case  'buy_group_role_excl_array'       :
+                        $free_selector_in_error = 'Exclude Role';
+                        $free_selector_in_error_insert_before = '.buy-group-role-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-role-excl-label';
+                        $free_selector_in_error_box           = '.buy_group_role_excl';                        
+                      break;                        
+                   case  'buy_group_email_incl_array'      :
+                        $free_selector_in_error = 'Email';
+                        $free_selector_in_error_insert_before = '.buy-group-email-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-email-incl-label';
+                        $free_selector_in_error_box           = '.buy_group_email_incl';                        
+                      break;                    
+                   case  'buy_group_email_excl_array'      :
+                        $free_selector_in_error = 'Exclude Email';
+                        $free_selector_in_error_insert_before = '.buy-group-email-incl-excl-group';
+                        $free_selector_in_error_field         = '.buy-email-excl-label';
+                        $free_selector_in_error_box           = '.buy_group_email_excl';                        
+                      break;
+                   case  'buy_group_prod_cat_and_or'      :
+                        if ($vtprd_edit_arrays_framework['buy_group_framework'][$key] != 'or') {
+                          $free_selector_in_error = 'Category And/Or/Each';
+                          $free_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                          $free_selector_in_error_field         = '#buy_group_prod_cat_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#buy_group_prod_cat_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;                          
+                        }                        
+                      break;  
+                   case  'buy_group_plugin_cat_and_or'      :
+                        if ($vtprd_edit_arrays_framework['buy_group_framework'][$key] != 'or') {
+                          $free_selector_in_error = 'Pricing Deal Category And/Or/Each';
+                          $free_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';                                                          
+                          $free_selector_in_error_field         = '#buy_group_plugin_cat_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#buy_group_plugin_cat_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;  
+                        }                       
+                      break; 
+                   case  'buy_group_product_and_or'      :
+                        if ($vtprd_edit_arrays_framework['buy_group_framework'][$key] != 'or') {
+                          $free_selector_in_error = 'Product And/Or/Each';
+                          $free_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                          $free_selector_in_error_field         = '#buy_group_product_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#buy_group_product_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;                           
+                        }                        
+                      break;                                                                
+                }
+                if ($free_selector_in_error) {
+                  if ($free_and_each_selected_in_error) {
+                    $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => $free_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                      'error_msg'  => '"' .$free_selector_in_error. '" may only be "Or" in the FREE version'
+                      ); 
+                  } else {
+                    $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => $free_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                      'error_msg'  => 'The "' .$free_selector_in_error. '" selector is only available in the PRO version'
+                      );                 
+                  }
+                  $vtprd_rule->rule_error_red_fields[] = $free_selector_in_error_field;
+                  $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-product-area';                  
+                  if ($free_selector_in_error_box) {
+                    if ($free_and_each_selected_in_error) {
+                      $vtprd_rule->rule_error_box_fields[] = $free_selector_in_error_box;
+                    } else {
+                      $vtprd_rule->rule_error_box_fields[] = $free_selector_in_error_box.' .select2-container--default .select2-selection--multiple';
+                    }
+                  }                                      
+                }                 
+             } //end if pro  
+                  
+    //error_log( print_r(  '$key= ' .$key, true ) );
+    //error_log( var_export($vtprd_edit_arrays_framework['buy_group_framework'][$key], true ) );
+                         
+          }  //end if isset  
   
-       
+        } //end foreach
+
+        if ($buy_groups_found == 0) {
+            $vtprd_rule->rule_error_message[] = array( 
+              'insert_error_before_selector' =>  '.buy-group-select-product-area',  //errmsg goes before current onscreen line
+              'error_msg'  => '"By Category / Role / Product" chosen above, <br><br>but <strong>no selections made in the boxes below</strong>.&nbsp;&nbsp;&nbsp; <br><br>Please make a selection in either the "Select Products" box or "Select Customers" box below. &nbsp;&nbsp;&nbsp;'
+              ); 
+            $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-product-area';
+            $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-customer-area';
+            $vtprd_rule->rule_error_box_fields[] = '#popChoiceIn';                 
+        }
+
+    //error_log( print_r(  '$buy_groups_product_selectors_found= ' .$buy_groups_product_selectors_found, true ) );
+    //error_log( print_r(  '$and_switch_count= ' .$and_switch_count, true ) );
+    
+        /*  
+        //AND is disallowed if only 1 product selector found
+        if ( (($buy_groups_product_selectors_found == 1) && ($and_switch_count == 1)) ||
+              ($and_switch_count == 1) ) {
+             $and_or_selector_in_error = false;
+             switch ($and_switch_first_key) {           
+               case  'buy_group_prod_cat_and_or':          
+                        $and_or_selector_in_error = 'Category';
+                        $and_or_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-prod-cat';                                                                              
+                 break;               
+               case  'buy_group_plugin_cat_and_or':
+                        $and_or_selector_in_error = 'Pricing Deals Category';
+                        $and_or_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-plugin-cat';                                                             
+                 break;               
+               case  'buy_group_product_and_or':
+                        $and_or_selector_in_error = 'Product';
+                        $and_or_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-product';                                                           
+                 break;               
+               case  'buy_group_var_name_and_or':
+                        $and_or_selector_in_error = 'Variation Name';
+                        $and_or_selector_in_error_insert_before = '.buy-group-var-name-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-var-name';                                                            
+                 break;               
+               case  'buy_group_brands_and_or':
+                        $and_or_selector_in_error = 'Brands';
+                        $and_or_selector_in_error_insert_before = '.buy-group-brands-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-brands';                                                           
+                 break;                 
+               case  'buy_group_subscriptions_and_or':             
+                        $and_or_selector_in_error = 'Subscriptions';
+                        $and_or_selector_in_error_insert_before = '.buy-group-subscriptions-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#buy-and-or-selector-subscriptions';                                                             
+                 break;                   
+             } //end switch
+             if ($and_or_selector_in_error) {
+                 if ($buy_groups_product_selectors_found == 1)  {
+                      $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                        'error_msg'  => 'The AND/OR is set to "AND" <br><br>but it should be "OR", <br><br>when the **only** search criteria is "' .$and_or_selector_in_error. '" .'
+                        ); 
+                 } else { //path for selectors >1, but only one AND
+                      $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                        'error_msg'  => 'Within the Select Products area, there is Only 1 AND/OR is set to "AND". <br><br> When "AND" is selected, there must be a minimum of 2 AND/OR set to "AND".'
+                        );                  
+                 }
+                 $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field;
+                 $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-product-area'; 
+             }               
+        } //end disallowed 'and' test  
+        */     
+        
+      } //end groups
+      
+      $vtprd_edit_arrays_framework['buy_group_framework']['buy_group_and_switch_count'] = $and_switch_count;
+      
+      if (!$buy_groups_include_test_found) {
+        $vtprd_edit_arrays_framework['buy_group_framework']['buy_group_set_to_exclude_only'] = true;
+      }
   
+      //Either moves the collected data, or if no data, then this re-initalizes the arrays.
+      $vtprd_rule->buy_group_population_info = $vtprd_edit_arrays_framework['buy_group_framework'];
+
+      //********************
+      //EACH EDITS Round 2
+      //********************
+      if ( (defined('VTPRD_PRO_VERSION')) //each not allowed in free version...
+                &&
+         (($vtprd_rule->buy_group_population_info['buy_group_prod_cat_and_or']    == 'each') ||
+          ($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_and_or']  == 'each') ||
+          ($vtprd_rule->buy_group_population_info['buy_group_product_and_or']     == 'each')) ) {
+          
+         $each_total_selector_count = 0;
+         if ($vtprd_rule->buy_group_population_info['buy_group_prod_cat_and_or']    == 'each') {
+            $and_or_error_msg = '"Each" selected in Category And/Or/EACH (above)';
+            $and_or_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-prod-category-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_prod_cat_each-EachSelect-label';
+            $and_or_selector_include_count = sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_prod_cat_incl_array']);
+            $each_total_selector_count += $and_or_selector_include_count;                   
+         } 
+         if ($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_and_or']  == 'each') {
+            $and_or_error_msg = '"Each" selected in Pricing Deal Category And/Or/EACH (above)';
+            $and_or_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-plugin-category-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_plugin_cat_each-EachSelect-label';
+            $and_or_selector_include_count = sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_plugin_cat_incl_array']);
+            $each_total_selector_count += $and_or_selector_include_count;                                    
+         }                 
+         if ($vtprd_rule->buy_group_population_info['buy_group_product_and_or']     == 'each') {
+            $and_or_error_msg = '"Each" selected in Product And/Or/EACH (above)';
+            $and_or_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-product-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_product_each-EachSelect-label';
+            $and_or_selector_include_count = sizeof($vtprd_edit_arrays_framework['buy_group_framework']['buy_group_product_incl_array']);                                   
+            $each_total_selector_count += $and_or_selector_include_count;                                    
+         }
+         
+         //When Each, MUST be 'advanced' and 'applies to ALL'
+         if ($vtprd_rule->rule_deal_info[0]['buy_amt_applies_to'] != 'all') {
+            $vtprd_rule->rule_type_select = 'advanced'; //make sure the errored field is visible
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#buy_amt_box_appliesto_0',  
+                  'error_msg'  => __('Buy  &nbsp; "Group Amount Applies to" &nbsp;  * must * be  &nbsp; "All Products" &nbsp;  when &nbsp; "', 'vtprd') .$and_or_error_msg. __('" &nbsp; selected', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#buy_amt_appliesto_anchor_0';
+            $vtprd_rule->rule_error_box_fields[] = '#buy_amt_applies_to_0';
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+            $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;             
+         }
+         
+         if ($vtprd_rule->rule_deal_info[0]['buy_repeat_condition'] != 'none') {
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#buy_repeat_box_0',  
+                  'error_msg'  => __('Buy  &nbsp; "Rule Usage Count" &nbsp;  * must * be  &nbsp; "Apply Rule Once per Cart" &nbsp;  when &nbsp; "', 'vtprd') .$and_or_error_msg. __('" &nbsp; selected', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#buy_repeat_title_anchor_0';
+            $vtprd_rule->rule_error_box_fields[] = '#buy_repeat_condition_0';              
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+            $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;                 
+         }
+         if ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] != 'quantity') {
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#buy_amt_box_0',  
+                  'error_msg'  => __('When "', 'vtprd') .$and_or_error_msg
+                    .'<br><br>'. __('you are essentially saying "Buy 1 of EACH of the listed items".', 'vtprd') 
+                    .'<br><br>'. __('** SO ** at "Group Amount" you must select "Buy Unit Quantity".', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#buy_amt_title_anchor_0';
+            $vtprd_rule->rule_error_box_fields[] = '#buy_amt_type_0';
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+            $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;            
+         } 
+          
+         if ( ($vtprd_rule->rule_deal_info[0]['buy_amt_type'] == 'quantity') &&          
+               ($vtprd_rule->rule_deal_info[0]['buy_amt_count'] < $each_total_selector_count ) ) {
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '#buy_amt_box_0',  
+                  'error_msg'  => __('When "', 'vtprd') .$and_or_error_msg . __('you are essentially saying "Buy 1 of EACH of the listed items".', 'vtprd')  
+                    .'<br><br>'. __('SO at "Group Amount" you must select "Buy Unit Quantity".', 'vtprd')
+                    .'<br>'. __('And the quantity amount must greater than or equal to the TOTAL number of items selected for EACH selectors together.', 'vtprd')                      
+                    .'<br><br>'. __('For Example:', 'vtprd')
+                    .'<br>&nbsp;&nbsp;&nbsp;'. __('"Buy 1 of Category A and 1 of Category B, then get a discount".', 'vtprd')
+                    .'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('THEN', 'vtprd')
+                    .'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('the "Buy Unit Quantity" be 2, AND ', 'vtprd')                      
+                    .'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. __('the Categories select must be ONLY Categories A and B.', 'vtprd') );
+            $vtprd_rule->rule_error_red_fields[] = '#buy_amt_title_anchor_0';
+            $vtprd_rule->rule_error_box_fields[] = '#buy_amt_type_0';
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+            $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;                           
+         } 
+      } //end EACH EDITS Round 2
+      
+      //EACH EDITS Round 3
+      //CATALOG rule type may not have EACH selected!
+      if ( ($vtprd_rule->cart_or_catalog_select == 'catalog') &&
+           (defined('VTPRD_PRO_VERSION')) ) { //other error msg applies in FREE version
+         if ($vtprd_rule->buy_group_population_info['buy_group_prod_cat_and_or']    == 'each') {
+            $and_or_error_msg = '"Each" selected in Category And/Or/EACH';
+            $and_or_selector_in_error_insert_before = '.buy-group-prod-cat-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-prod-category-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_prod_cat_each-EachSelect-label';
+            
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  
+                  'error_msg'  => $and_or_error_msg. ', <br><br>but may only be "And" / "Or" for a CATALOG Deal');
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;                             
+         } 
+         if ($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_and_or']  == 'each') {
+            $and_or_error_msg = '"Each" selected in Pricing Deal Category And/Or/EACH';
+            $and_or_selector_in_error_insert_before = '.buy-group-plugin-cat-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-plugin-category-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_plugin_cat_each-EachSelect-label';  
+            
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  
+                  'error_msg'  => $and_or_error_msg. ', <br><br>but may only be "And" / "Or" for a CATALOG Deal');
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;                                              
+         }                 
+         if ($vtprd_rule->buy_group_population_info['buy_group_product_and_or']     == 'each') {
+            $and_or_error_msg = '"Each" selected in Product And/Or/EACH';
+            $and_or_selector_in_error_insert_before = '.buy-group-product-incl-excl-group';
+            $and_or_selector_in_error_field1         = '.buy-product-incl-label'; 
+            $and_or_selector_in_error_field2         = '#buy_group_product_each-EachSelect-label';
+            
+            $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  
+                  'error_msg'  => $and_or_error_msg. ', <br><br>but may only be "And" / "Or" for a CATALOG Deal');
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field1;
+            $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+         }                  
+      } //end EACH EDITS Round 3
+                
+
+
+    //error_log( print_r(  'buy_group_population_info after load 001 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) );      
+
+      if ($vtprd_rule->inPop == 'groups') {     
+        //EDIT FOR DUPLICATES amongst the include/exclude lists                                       
+        foreach ($vtprd_edit_arrays_framework['buy_group_array_duplicate_edits'] as $dup_edit_row) {   
+          $compareA = $dup_edit_row['compareA'];
+          $compareB = $dup_edit_row['compareB'];
+  
+          $result = array_intersect($vtprd_edit_arrays_framework['buy_group_framework'][$compareA],$vtprd_edit_arrays_framework['buy_group_framework'][$compareB]);   
+  
+          if ( sizeof($result) > 0 ) {
+            $vtprd_rule->rule_error_message[] = array( 
+              'insert_error_before_selector' =>  $dup_edit_row['insert_error_before_selector'],  //errmsg goes before current onscreen line
+              'error_msg'  => $dup_edit_row['error_msg']
+              );
+            foreach ($dup_edit_row['error_fields'] as $error_field) {
+              $vtprd_rule->rule_error_red_fields[] = $error_field;
+            }  
+          }                            
+        }
+      } //end if 
+      
+      if ($vtprd_rule->buy_group_population_info['buy_group_customer_and_or'] == 'and') {
+         if ( ( sizeof($vtprd_rule->buy_group_population_info['buy_group_role_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_role_excl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_email_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_email_excl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_groups_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_groups_excl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_memberships_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_memberships_excl_array']) == 0 ) ) {
+           $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '.buy-group-and-or', 
+                  'error_msg'  => __('If "AND" selected, <br><br>&nbsp;&nbsp;&nbsp;You must fill in a  "Role (Wholesale) / Email / Customer Name / Group / Membership"&nbsp; selection &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>(or select "OR")', 'vtprd') 
+                  );                                                      
+           $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-customer-area';
+           $vtprd_rule->rule_error_red_fields[] = '#and-select-field';
+           $vtprd_rule->rule_error_red_fields[] = '#and-message-field';               
+         }     
+      }
+      
+      if ($vtprd_rule->buy_group_population_info['buy_group_customer_and_or'] == 'and') {
+         if ( (( sizeof($vtprd_rule->buy_group_population_info['buy_group_role_incl_array']) == 0 ) &&
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_email_incl_array']) == 0 ) &&
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_groups_incl_array']) == 0 ) &&
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_memberships_incl_array']) == 0 ))
+                      &&
+              (( sizeof($vtprd_rule->buy_group_population_info['buy_group_role_excl_array']) > 0 ) ||
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_email_excl_array']) > 0 ) ||
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_groups_excl_array']) > 0 ) ||
+               ( sizeof($vtprd_rule->buy_group_population_info['buy_group_memberships_excl_array']) > 0 )) ) {
+           $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '.buy-group-and-or', 
+                  'error_msg'  => __('If "AND" selected and only EXclude selectors filled in <br><br>&nbsp;&nbsp;&nbsp;you must select "OR"', 'vtprd') 
+                  );                                                      
+           $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-customer-area';
+           $vtprd_rule->rule_error_red_fields[] = '#and-select-field';
+           $vtprd_rule->rule_error_red_fields[] = '#and-message-field';               
+         }     
+      }
+
+      if ($vtprd_rule->buy_group_population_info['buy_group_customer_and_or'] == 'and') {
+         if ( ( sizeof($vtprd_rule->buy_group_population_info['buy_group_prod_cat_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_plugin_cat_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_product_incl_array']) == 0 ) &&
+              ( $vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'] <= ' ' ) &&   //will be spaces if no contents!!
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_brands_incl_array']) == 0 ) &&
+              ( sizeof($vtprd_rule->buy_group_population_info['buy_group_subscriptions_incl_array']) == 0 ) ) {
+           $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => '.buy-group-and-or', 
+                  'error_msg'  => __('If "AND" selected, <br><br>&nbsp;&nbsp;&nbsp;You must fill in a <br><br> "Select Products:   by Category / Product / Variation Name across Products / Brands" <br><br> ** inclusion **  selection in the box above &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>(or select "OR")', 'vtprd') 
+                  );                                                      
+           $vtprd_rule->rule_error_box_fields[] = '.buy-group-select-customer-area';
+           $vtprd_rule->rule_error_red_fields[] = '#and-select-field';
+           $vtprd_rule->rule_error_red_fields[] = '#and-message-field';               
+         }     
+      }
+      
+
+      //ACTIONPOP
+      $action_groups_found = 0;
+      $and_switch_count = 0; 
+      
+      $action_groups_include_test_found = false; //used for setting the 'exclude only' later
+            
+      if ($vtprd_rule->actionPop == 'groups') {     
+        $action_arrays_framework = $vtprd_edit_arrays_framework['action_group_framework'];
+        foreach( $action_arrays_framework as $key => $value ) {  
+           
+           if (isset($_REQUEST[$key])) {
+              $vtprd_edit_arrays_framework['action_group_framework'][$key] = $_REQUEST[$key];
+              
+              //test product search arrays (only)) for search data
+             switch ($key) {           
+               case  'action_group_prod_cat_incl_array': 
+               case  'action_group_prod_cat_excl_array':   
+               case  'action_group_plugin_cat_incl_array':
+               case  'action_group_plugin_cat_excl_array':
+               case  'action_group_product_incl_array':
+               case  'action_group_product_excl_array':
+               case  'action_group_var_name_incl_array':
+               case  'action_group_var_name_excl_array':
+               case  'action_group_brands_incl_array':
+               case  'action_group_brands_excl_array':
+               case  'action_group_subscriptions_incl_array': 
+               case  'action_group_subscriptions_excl_array':         
+                 if ( ((is_array($vtprd_edit_arrays_framework['action_group_framework'][$key])) &&
+                       (sizeof($vtprd_edit_arrays_framework['action_group_framework'][$key]) > 0))    
+                          ||
+                      ((!is_array($vtprd_edit_arrays_framework['action_group_framework'][$key])) &&   
+                       ($vtprd_edit_arrays_framework['action_group_framework'][$key] > ' ')) ) { //  > ' ' test catches the vargroup list when empty 
+                    $action_groups_found ++;
+                    if (strpos($key,'incl') !== false) {
+                      $action_groups_include_test_found = true; //used for setting the 'exclude only' later
+                    }                    
+                 }
+                 break;
+             }   
+
+              //test and/or switches, see if they should be turned off or counted
+              switch ($key) {
+                 case  'action_group_show_and_or_switches':  //if not advanced, can't show the and/or switches!
+                       if ($vtprd_rule->rule_type_select == 'basic') {
+                          $vtprd_edit_arrays_framework['action_group_framework']['action_group_show_and_or_switches'] = 'no';                               
+                       }
+                     break;                         
+                 case  'action_group_prod_cat_and_or':
+                 case  'action_group_plugin_cat_and_or':
+                 case  'action_group_product_and_or':
+                 case  'action_group_var_name_and_or':
+                 case  'action_group_brands_and_or':
+                 case  'action_group_subscriptions_and_or':             
+                     if ($vtprd_edit_arrays_framework['action_group_framework']['action_group_show_and_or_switches'] == 'no') {
+                        $vtprd_edit_arrays_framework['action_group_framework'][$key] = 'or';
+                     } else {          
+                        if ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') {
+                          $and_switch_count++;
+                          $and_switch_first_key = $key;
+                        }                                
+                     }
+                   break;
+              }
+
+
+              //test if and/or selected, but data is BLANK
+              $and_or_selected_but_no_data = false;
+              switch ($key) {           
+               case  'action_group_prod_cat_and_or':          
+                    if (defined('VTPRD_PRO_VERSION')) { //and only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_prod_cat_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_prod_cat_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Category';
+                          $and_or_selector_in_error_insert_before = '.action-group-prod-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.action-prod-category-incl-label';
+                          $and_or_selector_in_error_box           = '#action-and-or-selector-prod-cat';
+                          $and_or_selector_in_error_field2        = '#action_group_prod_cat_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.action_group_prod_cat_incl';                                                        
+                      }
+                     }                                
+                 break;               
+               case  'action_group_plugin_cat_and_or':
+                    if (defined('VTPRD_PRO_VERSION')) { //and  only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_plugin_cat_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_plugin_cat_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Pricing Deals Category';
+                          $and_or_selector_in_error_insert_before = '.action-group-plugin-cat-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.action-plugin-category-incl-label';
+                          $and_or_selector_in_error_box           = '#action-and-or-selector-plugin-cat';
+                          $and_or_selector_in_error_field2        = '#action_group_plugin_cat_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.action_group_plugin_cat_incl';                                                          
+                      } 
+                    }                               
+                 break;               
+               case  'action_group_product_and_or':
+                    if (defined('VTPRD_PRO_VERSION')) { //and or each only allowed in PRO version
+                      if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_product_incl_array']) == 0) &&
+                           (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_product_excl_array']) == 0) ) {
+                          $and_or_selected_but_no_data = true;
+                          $and_or_selector_in_error = 'Product';
+                          $and_or_selector_in_error_insert_before = '.action-group-product-incl-excl-group';
+                          $and_or_selector_in_error_field         = '.action-product-incl-label';
+                          $and_or_selector_in_error_box           = '#action-and-or-selector-product';
+                          $and_or_selector_in_error_field2        = '#action_group_product_and_or-AndSelect-label';
+                          $and_or_selector_in_error_box2          = '.action_group_product_incl';                                                        
+                      } 
+                    }                               
+                 break;               
+               case  'action_group_var_name_and_or':
+                    if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                         ($vtprd_edit_arrays_framework['action_group_framework']['action_group_var_name_incl_array'] <= ' ') &&
+                         ($vtprd_edit_arrays_framework['action_group_framework']['action_group_var_name_excl_array'] <= ' ') ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Variation Name';
+                        $and_or_selector_in_error_insert_before = '.action-group-var-name-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.action-var-name-incl-label';
+                        $and_or_selector_in_error_box           = '#action-and-or-selector-var-name';
+                        $and_or_selector_in_error_field2        = '#action_group_var_name_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.action_group_var_name_incl';                                                      
+                    }                                
+                 break;               
+               case  'action_group_brands_and_or':
+                    if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                         (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_brands_incl_array']) == 0) &&
+                         (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_brands_excl_array']) == 0) ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Brands';
+                        $and_or_selector_in_error_insert_before = '.action-group-brands-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.action-brands-incl-label';
+                        $and_or_selector_in_error_box           = '#action-and-or-selector-brands';
+                        $and_or_selector_in_error_field2        = '#action_group_brands_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.action_group_brands_incl';                                                       
+                    }                                
+                 break;                 
+               case  'action_group_subscriptions_and_or':             
+                    if ( ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') &&
+                         (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_subscriptions_incl_array']) == 0) &&
+                         (sizeof($vtprd_edit_arrays_framework['action_group_framework']['action_group_subscriptions_excl_array']) == 0) ) {
+                        $and_or_selected_but_no_data = true;
+                        $and_or_selector_in_error = 'Subscriptions';
+                        $and_or_selector_in_error_insert_before = '.action-group-subscriptions-incl-excl-group';
+                        $and_or_selector_in_error_field         = '.action-subscriptions-incl-label';
+                        $and_or_selector_in_error_box           = '#action-and-or-selector-subscriptions';
+                        $and_or_selector_in_error_field2        = '#action_group_subscriptions_and_or-AndSelect-label';
+                        $and_or_selector_in_error_box2          = '.action_group_subscriptions_incl';                                                      
+                    }                                
+                 break;                   
+              } //end switch
+             if ($and_or_selected_but_no_data) {
+                $vtprd_rule->rule_error_message[] = array( 
+                  'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                  'error_msg'  => 'The "' .$and_or_selector_in_error. '" &nbsp; "AND/OR" &nbsp; selection is set to "AND". &nbsp;&nbsp;&nbsp; <br><br> When "AND" is selected, the matching "' .$and_or_selector_in_error. '" selector list<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **must** &nbsp;&nbsp; have  at least &nbsp; * 1 * &nbsp;  item selected. <br><br>( default &nbsp; "and/or" &nbsp; selection is  "Or" )'
+                  ); 
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field;
+                $vtprd_rule->rule_error_box_fields[] = '.action-group-select-product-area';
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box;
+                $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field2;
+                $vtprd_rule->rule_error_box_fields[] = $and_or_selector_in_error_box2. ' .select2-container--default .select2-selection--multiple';                                  
+             }               
+             
+                          
+             if (!defined('VTPRD_PRO_VERSION')) {
+                $free_selector_in_error = FALSE;
+                $free_and_each_selected_in_error = FALSE;
+                switch ($key) {
+                   case  'action_group_prod_cat_incl_array'   :
+                        $free_selector_in_error = 'Category';
+                        $free_selector_in_error_insert_before = '.action-group-prod-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-prod-category-incl-label';
+                        $free_selector_in_error_box           = '.action_group_prod_cat_incl';                        
+                      break;
+                   case  'action_group_prod_cat_excl_array'   : 
+                        $free_selector_in_error = 'Exclude Category';
+                        $free_selector_in_error_insert_before = '.action-group-prod-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-prod-category-excl-label'; 
+                        $free_selector_in_error_box           = '.action_group_prod_cat_excl';                       
+                      break;                   
+                   case  'action_group_plugin_cat_incl_array' :
+                        $free_selector_in_error = 'Pricing Deal Category';
+                        $free_selector_in_error_insert_before = '.action-group-plugin-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-plugin-category-incl-label';
+                        $free_selector_in_error_box           = '.action_group_plugin_cat_incl';                        
+                      break;                   
+                   case  'action_group_plugin_cat_excl_array' :
+                        $free_selector_in_error = 'Exclude Pricing Deal Category';
+                        $free_selector_in_error_insert_before = '.action-group-plugin-cat-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-plugin-category-excl-label'; 
+                        $free_selector_in_error_box           = '.action_group_plugin_cat_excl';                       
+                      break; 
+                   case  'action_group_product_incl_array'    :
+                        $free_selector_in_error = 'Product';
+                        $free_selector_in_error_insert_before = '.action-group-product-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-product-incl-label';
+                        $free_selector_in_error_box           = '.action_group_product_cat_incl';                       
+                      break;                   
+                   case  'action_group_product_excl_array'    :
+                        $free_selector_in_error = 'Exclude Product';
+                        $free_selector_in_error_insert_before = '.action-group-product-incl-excl-group';
+                        $free_selector_in_error_field         = '.action-product-excl-label';
+                        $free_selector_in_error_box           = '.action_group_product_cat_excl';                         
+                      break;
+                   case  'action_group_prod_cat_and_or'      :
+                        if ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') {
+                          $free_selector_in_error = 'Category And/Or';
+                          $free_selector_in_error_insert_before = '.action-group-prod-cat-incl-excl-group';
+                          $free_selector_in_error_field         = '#action_group_prod_cat_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#action_group_prod_cat_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;  
+                        }                       
+                      break;  
+                   case  'action_group_plugin_cat_and_or'      :
+                        if ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') {
+                          $free_selector_in_error = 'Pricing Deal Category And/Or';
+                          $free_selector_in_error_insert_before = '.action-group-plugin-cat-incl-excl-group';
+                          $free_selector_in_error_field         = '#action_group_plugin_cat_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#action_group_plugin_cat_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;                           
+                        }                        
+                      break; 
+                   case  'action_group_product_and_or'      :
+                        if ($vtprd_edit_arrays_framework['action_group_framework'][$key] == 'and') {
+                          $free_selector_in_error = 'Product And/Or';
+                          $free_selector_in_error_insert_before = '.action-group-product-incl-excl-group';
+                          $free_selector_in_error_field         = '#action_group_product_and_or-OrSelect-label';
+                          $free_selector_in_error_box           = '#action_group_product_and_or-OrSelect-label';
+                          $free_and_each_selected_in_error      = TRUE;                           
+                        }                        
+                      break;                         
+                }
+                
+                if ($free_selector_in_error) {
+                 if ($free_and_each_selected_in_error) {
+                    $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => $free_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                      'error_msg'  => '"' .$free_selector_in_error. '" may only be "Or" in the FREE version'
+                      ); 
+                  } else {
+                    $vtprd_rule->rule_error_message[] = array( 
+                      'insert_error_before_selector' => $free_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                      'error_msg'  => 'The "' .$free_selector_in_error. '" selector is only available in the PRO version'
+                      );                 
+                  } 
+                  $vtprd_rule->rule_error_red_fields[] = $free_selector_in_error_field;
+                  $vtprd_rule->rule_error_box_fields[] = '.action-group-select-product-area';
+                  if ($free_selector_in_error_box) {
+                    if ($free_and_each_selected_in_error) {
+                      $vtprd_rule->rule_error_box_fields[] = $free_selector_in_error_box;
+                    } else {
+                      $vtprd_rule->rule_error_box_fields[] = $free_selector_in_error_box.' .select2-container--default .select2-selection--multiple';
+                    }
+                  }                                                      
+                }
+                                 
+              }  //end if pro            
+            } //end if isset                              
+        } //end foreach
+               
+
+        if ($action_groups_found == 0) {
+            $vtprd_rule->rule_error_message[] = array( 
+              'insert_error_before_selector' =>  '.action-group-select-product-area',  //errmsg goes before current onscreen line
+              'error_msg'  => '"By Category / Product / Variation / Variation Name" chosen above, <br><br>but <strong>no selections made in the box below</strong>.&nbsp;&nbsp;&nbsp;  <br><br>Please make a selection.'
+              );
+            $vtprd_rule->rule_error_box_fields[] = '.action-group-select-product-area';
+            $vtprd_rule->rule_error_box_fields[] = '#popChoiceOut';   
+        }
+    
+        /*
+        //AND is disallowed if only 1 product selector found
+        if (($action_groups_found == 1) && ($and_switch_count == 1)){
+             $and_or_selector_in_error = false;
+             switch ($and_switch_first_key) {           
+               case  'action_group_prod_cat_and_or':          
+                        $and_or_selector_in_error = 'Category';
+                        $and_or_selector_in_error_insert_before = '.action-group-prod-cat-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-prod-cat';                                                                              
+                 break;               
+               case  'action_group_plugin_cat_and_or':
+                        $and_or_selector_in_error = 'Pricing Deals Category';
+                        $and_or_selector_in_error_insert_before = '.action-group-plugin-cat-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-plugin-cat';                                                             
+                 break;               
+               case  'action_group_product_and_or':
+                        $and_or_selector_in_error = 'Product';
+                        $and_or_selector_in_error_insert_before = '.action-group-product-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-product';                                                           
+                 break;               
+               case  'action_group_var_name_and_or':
+                        $and_or_selector_in_error = 'Variation Name';
+                        $and_or_selector_in_error_insert_before = '.action-group-var-name-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-var-name';                                                            
+                 break;               
+               case  'action_group_brands_and_or':
+                        $and_or_selector_in_error = 'Brands';
+                        $and_or_selector_in_error_insert_before = '.action-group-brands-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-brands';                                                           
+                 break;                 
+               case  'action_group_subscriptions_and_or':             
+                        $and_or_selector_in_error = 'Subscriptions';
+                        $and_or_selector_in_error_insert_before = '.action-group-subscriptions-incl-excl-group';
+                        $and_or_selector_in_error_field         = '#action-and-or-selector-subscriptions';                                                             
+                 break;                   
+             } //end switch
+             if ($and_or_selector_in_error) {
+                 if ($action_groups_found== 1)  {
+                      $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                        'error_msg'  => 'The AND/OR is set to "AND" <br><br>but it should be "OR", <br><br>when the **only** search criteria is "' .$and_or_selector_in_error. '" .'
+                        ); 
+                 } else { //path for selectors >1, but only one AND
+                      $vtprd_rule->rule_error_message[] = array( 
+                        'insert_error_before_selector' => $and_or_selector_in_error_insert_before,  //errmsg goes before current onscreen line
+                        'error_msg'  => 'Within the Select Products area, there is Only 1 AND/OR is set to "AND". <br><br> When "AND" is selected, there must be a minimum of 2 AND/OR set to "AND".'
+                        );                  
+                 }
+                 $vtprd_rule->rule_error_red_fields[] = $and_or_selector_in_error_field;
+                 $vtprd_rule->rule_error_box_fields[] = '.action-group-select-product-area'; 
+             }               
+         } //end disallowed 'and' test
+         */       
+                            
+      } //end groups
+  
+  
+      $vtprd_edit_arrays_framework['action_group_framework']['action_group_and_switch_count'] = $and_switch_count;
+      
+      if (!$action_groups_include_test_found) {
+        $vtprd_edit_arrays_framework['action_group_framework']['action_group_set_to_exclude_only'] = true;
+      }
+             
+      //Either moves the collected data, or if no data, then this re-initalizes the arrays.
+      $vtprd_rule->action_group_population_info = $vtprd_edit_arrays_framework['action_group_framework'];
+ 
+    //error_log( print_r(  'action_group_population_info after load 002 = ', true ) );
+    //error_log( var_export($vtprd_rule->action_group_population_info, true ) );      
+
+      if ($vtprd_rule->actionPop == 'groups') {
+        //EDIT FOR DUPLICATES                                         
+        foreach ($vtprd_edit_arrays_framework['action_group_array_duplicate_edits'] as $dup_edit_row) {   
+          $compareA = $dup_edit_row['compareA'];
+          $compareB = $dup_edit_row['compareB'];
+  
+          $result = array_intersect($vtprd_edit_arrays_framework['action_group_framework'][$compareA],$vtprd_edit_arrays_framework['action_group_framework'][$compareB]);   
+  
+          if ( sizeof($result) > 0 ) {
+            
+            $vtprd_rule->rule_error_message[] = array( 
+              'insert_error_before_selector' =>  $dup_edit_row['insert_error_before_selector'],  //errmsg goes before current onscreen line
+              'error_msg'  => $dup_edit_row['error_msg']
+              );
+            foreach ($dup_edit_row['error_fields'] as $error_field) {
+              $vtprd_rule->rule_error_red_fields[] = $error_field;
+            }  
+          }                            
+        }
+      } //end if     
+   
+      //*********************************************
+      //translate varName strings into arrays.
+      //*********************************************
+
+      if ($vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array']) {
+         if (strpos($vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'],$vtprd_info['default_by_varname_msg_warning']) !== false) {
+           $vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'] = ' ';     
+         } else {
+            $varName_string = $vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'];
+            $vtprd_rule->buy_group_population_info['buy_group_var_name_incl_array'] = $this->vtprd_build_varName_array($varName_string);             
+         }
+      }
+      if ($vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array']) {
+         if (strpos($vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array'],$vtprd_info['default_by_varname_msg_warning']) !== false) {
+           $vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array'] = ' ';     
+         } else {
+            $varName_string = $vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array'];
+            $vtprd_rule->buy_group_population_info['buy_group_var_name_excl_array'] = $this->vtprd_build_varName_array($varName_string);             
+         }
+      }
+      if ($vtprd_rule->action_group_population_info['action_group_var_name_incl_array']) {
+         if (strpos($vtprd_rule->action_group_population_info['action_group_var_name_incl_array'],$vtprd_info['default_by_varname_msg_warning']) !== false) {
+           $vtprd_rule->action_group_population_info['action_group_var_name_incl_array'] = ' ';     
+         } else {
+            $varName_string = $vtprd_rule->action_group_population_info['action_group_var_name_incl_array'];
+            $vtprd_rule->action_group_population_info['action_group_var_name_incl_array'] = $this->vtprd_build_varName_array($varName_string);             
+         }
+      }
+      if ($vtprd_rule->action_group_population_info['action_group_var_name_excl_array']) {
+         if (strpos($vtprd_rule->action_group_population_info['action_group_var_name_excl_array'],$vtprd_info['default_by_varname_msg_warning']) !== false) {
+           $vtprd_rule->action_group_population_info['action_group_var_name_excl_array'] = ' ';     
+         } else {
+            $varName_string = $vtprd_rule->action_group_population_info['action_group_var_name_excl_array'];
+            $vtprd_rule->action_group_population_info['action_group_var_name_excl_array'] = $this->vtprd_build_varName_array($varName_string);             
+         }
+      }      
+      //-----------------------------  
+  
+
+    //error_log( print_r(  'buy_group_population_info after load 002 = ', true ) );
+    //error_log( var_export($vtprd_rule->buy_group_population_info, true ) );      
+      
+               
+  //error_log( print_r(  '$vtprd_rule at ARRAY LOAD TIME', true ) );
+  //error_log( var_export($vtprd_rule, true ) );
+      
+  //TEST TEST TEST   
+  //return count for later use in editing
+  return array('buy_groups_found' => $buy_groups_found,'action_groups_found' => $action_groups_found);
+  
+  }
+
+  /* ************************************************
+  **   v2.0.0 NEW FUNCTION
+  *************************************************** */
+  //change formatted varName string into a varName array
+  public function vtprd_build_varName_array($varName_string) {
+    $varName_exploded = explode( '|', $varName_string );
+    $varName_array = array();
+    //remove PLUS separator, create a sub-array for rule array field
+    foreach ($varName_exploded as $varName) {
+      $varName_exploded_combo = explode( '+', $varName );
+      $varName_array_combo = array();
+      foreach ($varName_exploded_combo as $varName_combo) {
+        $varName_array_combo[] = strtolower(trim($varName_combo));  //remove leading or trailing spaces, make lower case...
+      }              
+      $varName_array[] = $varName_array_combo;
+    }             
+    return($varName_array);
+  }
+
+   
 } //end class

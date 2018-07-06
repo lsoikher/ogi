@@ -1,7 +1,6 @@
 <?php
 /**
- * @var $this Opt_In_Admin
- * @var $optin Opt_In_Model
+ * 
  */
 ?>
 <div id="wpoi-complete-message" style="display: none;">
@@ -24,7 +23,7 @@
 
                     <div class="wpoi-message">
 
-                        <p><?php _e('Nice one, you’ve just created your first opt-in. Visitors will see it and start sending emails your way right after you activate it. You can check out your current opt-in and change its status from the Opt-Ins menu. When you’re in Test Mode, only you will be able to see your opt-ins.', Opt_In::TEXT_DOMAIN); ?></p>
+                        <p><?php _e('Nice one, you’ve just created your first opt-in. Visitors will see it and start sending emails your way right after you activate it. You can check out your current opt-in and change its status from the Opt-ins menu. When you’re in Test Mode, only you will be able to see your opt-ins.', Opt_In::TEXT_DOMAIN); ?></p>
 
                     </div>
 
@@ -38,7 +37,7 @@
 
                             <th>
                                 <?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?>
-                                <span class="wpoi-tooltip"  tooltip="<?php _e('Allows logged-in admins to test Opt-In before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
+                                <span class="wpoi-tooltip"  tooltip="<?php _e('Allows logged-in admins to test Opt-in before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
                                     <span class="dashicons dashicons-editor-help  wpoi-icon-info"></span>
                                 </span>
                             </th>

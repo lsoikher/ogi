@@ -21,6 +21,7 @@ function button_shortcode( $atts, $content = null ){
     'depth' => '',
     'depth_hover' =>'',
     'class' => '',
+    'id' => '',
     'block' => '',
   ), $atts ) );
 
@@ -66,6 +67,10 @@ function button_shortcode( $atts, $content = null ){
 
   if( $animate ) {
     $attributes['data-animate'] = $animate;
+  }
+
+  if( $target == '_blank' ) {
+    $attributes['rel'] = 'noopener noreferrer';
   }
 
 

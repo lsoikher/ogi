@@ -4,7 +4,7 @@ function ux_hotspot( $atts, $content = null ){
   extract( shortcode_atts( array(
     'type' => 'text',
     'text' => 'Enter text here',
-    'link' => '',
+    'link' => '#hotspot',
     'bg_color' => '',
     'position_x' => '50',
     'position_x__sm' => '',

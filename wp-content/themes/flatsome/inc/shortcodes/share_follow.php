@@ -22,7 +22,7 @@ function flatsome_share($atts, $content = null) {
 	$featured_image =  wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large');
 	$featured_image_2 = $featured_image['0'];
 	$post_title = rawurlencode(get_the_title($post->ID));
-	$whatsapp_text = rawurlencode($post_title.' - '.$permalink);
+	$whatsapp_text = $post_title.' - '.$permalink;
 
 	if($title) $title = '<span class="share-icons-title">'.$title.'</span>';
 
@@ -30,7 +30,7 @@ function flatsome_share($atts, $content = null) {
 
 	// Get Custom Theme Style
 	if(!$style) $style = get_theme_mod('social_icons_style','outline');
-	
+
 	$classes = get_flatsome_icon_class($style);
 	$classes = $classes.' tooltip';
 
@@ -41,7 +41,7 @@ function flatsome_share($atts, $content = null) {
 
 	// Align
 	if($align) $align = 'full-width text-'.$align;
-	
+
 	// Fix old depricated
 	if(!isset($share[0])){
 		$fix_share = array();
@@ -76,12 +76,13 @@ function flatsome_share($atts, $content = null) {
           <a href="//tumblr.com/widgets/share/tool?canonicalUrl=<?php echo $permalink; ?>" target="_blank" class="<?php echo $classes;?> tumblr" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px');  return false;"  rel="nofollow" title="<?php _e('Share on Tumblr','flatsome'); ?>"><?php echo get_flatsome_icon('icon-tumblr'); ?></a>
           <?php } ?>
     </div>
-    
+
     <?php
 	$content = ob_get_contents();
 	ob_end_clean();
+	$content = flatsome_sanitize_whitespace_chars( $content);
 	return $content;
-} 
+}
 add_shortcode('share','flatsome_share');
 
 
@@ -118,8 +119,8 @@ function flatsome_follow($atts, $content = null) {
 
 	// Get Defaults
 	if($defaults){
-		$twitter = get_theme_mod('follow_twitter'); 
-		$facebook = get_theme_mod('follow_facebook'); 
+		$twitter = get_theme_mod('follow_twitter');
+		$facebook = get_theme_mod('follow_facebook');
 		$instagram = get_theme_mod('follow_instagram');
 		$snapchat = get_theme_mod('follow_snapchat');
 		$youtube = get_theme_mod('follow_youtube');
@@ -207,6 +208,7 @@ function flatsome_follow($atts, $content = null) {
 	<?php
 	$content = ob_get_contents();
 	ob_end_clean();
+	$content = flatsome_sanitize_whitespace_chars( $content);
 	return $content;
 }
 add_shortcode("follow", "flatsome_follow");

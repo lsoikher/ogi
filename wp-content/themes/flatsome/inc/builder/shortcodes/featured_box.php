@@ -72,6 +72,11 @@ add_ux_builder_shortcode( 'featured_box', array(
         'heading' => 'Tooltip',
         'value' => '',
       ),
+      'link' => array(
+        'type' => 'textfield',
+        'heading' => 'Link',
+        'value' => '',
+      ),
       'font_size' => array(
         'type' => 'radio-buttons',
         'heading' => __( 'Text Size' ),
@@ -113,6 +118,10 @@ add_ux_builder_shortcode( 'featured_box', array(
         'min' => -100,
         'max' => 100,
         'step' => 1,
+        'on_change' => array(
+          'selector' => '.icon-box',
+          'style' => 'margin: {{ value }}'
+        ),
       ),
     )
 ) );

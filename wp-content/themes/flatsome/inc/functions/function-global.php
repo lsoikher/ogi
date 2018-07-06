@@ -1,6 +1,12 @@
 <?php
 
-// Get Flatsome Options
+/**
+ * Get Flatsome option
+ *
+ * @deprecated in favor of get_theme_mod()
+ *
+ * @return string
+ */
 function flatsome_option($option) {
 	// Get options
 	return get_theme_mod( $option, flatsome_defaults($option) );
@@ -26,14 +32,12 @@ if ( ! function_exists( 'is_portfolio_activated' ) ) {
 }
 
 /* Check WooCommerce Version */
-if( ! function_exists('woocommerce_version_check') ){
-	function woocommerce_version_check( $version = '2.6' ) {
-	  if ( function_exists( 'is_woocommerce_active' ) && is_woocommerce_active() ) {
-	    global $woocommerce;
-	    if( version_compare( $woocommerce->version, $version, ">=" ) ) {
-	      return true;
-	    }
-	  }
+if( ! function_exists('fl_woocommerce_version_check') ){
+	function fl_woocommerce_version_check( $version = '2.6' ) {
+    global $woocommerce;
+    if( version_compare( $woocommerce->version, $version, ">=" ) ) {
+      return true;
+    }
 	  return false;
 	}
 }
@@ -96,4 +100,15 @@ function flatsome_get_post_type_items($post_type, $args_extended=array()) {
   $post = $old_post;
 
   return $return;
+}
+
+function flatsome_is_request( $type ) {
+  switch ( $type ) {
+    case 'admin' :
+      return is_admin();
+    case 'ajax' :
+      return defined( 'DOING_AJAX' );
+    case 'frontend' :
+      return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+  }
 }

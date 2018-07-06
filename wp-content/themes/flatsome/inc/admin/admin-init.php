@@ -25,6 +25,9 @@ if ( is_admin_bar_showing() ) {
   require get_template_directory() . '/inc/admin/admin-bar.php';
 }
 
+// Add Notices
+require get_template_directory() . '/inc/admin/admin-notice.php';
+
 // Add Options
 if(is_customize_preview()){
 

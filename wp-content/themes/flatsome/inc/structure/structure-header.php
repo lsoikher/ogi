@@ -138,11 +138,6 @@ class FlatsomeNavDropdown extends Walker_Nav_Menu
       $classes[0] = 'has-icon-left';
     }
 
-    // Add font awesome Icons
-    if(strpos($classes[0],'fa-') !== false){
-      $menu_icon = get_flatsome_icon($classes[0]);
-      $classes[0] = 'has-icon-left';
-    }
 
     $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
     $class_names = ' class="' . esc_attr( $class_names ) . '"';
@@ -176,16 +171,22 @@ class FlatsomeNavDropdown extends Walker_Nav_Menu
     // Category Image
     else if(strpos($class_names,'category-column') !== false){
       $item_output = '<div class="category-images-preview">Loading</div>';
+
     } else {
-    // Normal Items
+
+      // Normal Items
       $item_output = $args->before;
       $item_output .= '<a'. $attributes .'>';
+
       // Add menu
       if($menu_icon) $item_output .= $menu_icon;
       $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+
       // Add down arrow
-      if($item->hasChildren && $depth == 0) $item_output .= get_flatsome_icon('icon-angle-down');
-      $item_output .= '</a>';
+      $icon = '';
+      if($item->hasChildren && $depth == 0) $icon = get_flatsome_icon('icon-angle-down');
+
+      $item_output .= $icon.'</a>';
       $item_output .= $args->after;
     }
 
@@ -464,6 +465,7 @@ function flatsome_body_classes( $classes ) {
     if(get_theme_mod('body_bg_type') == 'bg-full-size') $classes[] = 'bg-fill';
     if(get_theme_mod('box_shadow')) $classes[] = 'box-shadow';
     if(get_theme_mod('flatsome_lightbox', 1)) $classes[] = 'lightbox';
+    if(get_theme_mod('lazy_load_icons', 0) ) $classes[] = 'lazy-icons';
     if(get_theme_mod('dropdown_arrow', 1)) $classes[] = 'nav-dropdown-has-arrow';
 
 	return $classes;

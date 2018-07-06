@@ -3,7 +3,7 @@ function shortcode_ux_slider($atts, $content=null) {
 
     extract( shortcode_atts( array(
         '_id' => 'slider-'.rand(),
-        'timer' => '12000',
+        'timer' => '6000',
         'bullets' => 'true',
         'visibility' => '',
         'bullet_style' => '',
@@ -28,8 +28,8 @@ function shortcode_ux_slider($atts, $content=null) {
         'height' => '',
         'rtl' => 'false',
         'draggable' => 'true',
-        'friction' => '1.5',
-        'selectedattraction' => '0.015',
+        'friction' => '0.6',
+        'selectedattraction' => '0.1',
         'threshold' => '5',
 
         // Derpicated

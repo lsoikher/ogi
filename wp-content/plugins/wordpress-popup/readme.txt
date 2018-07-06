@@ -1,22 +1,33 @@
 === Hustle - Pop-Ups, Slide-ins and Email Opt-ins ===
 Contributors: WPMUDEV
-Tags: marketing, pop-up, slide-in, opt-in, email, advertise, signup, mailing list, popover, promotion
-Requires at least: 3.1
-Tested up to: 4.7
+Tags: marketing, floating social, pop-up, slide-in, opt-in, email, advertise, signup, mailing list
+Requires at least: 4.6
+Tested up to: 4.9
 Stable tag: trunk
 
-The complete marketing plugin for email opt-ins, pop-up advertising and building your user base.
+The complete marketing plugin for email opt-ins, pop-up advertising, social sharing, and building your user base.
 
 == Description ==
 
-<strong>Hustle is the ultimate marketing plugin for building a mailing list, targeted marketing, lead generation, improving conversions and growing your business.</strong>
+<strong>Hustle is the ultimate marketing plugin for building a mailing list, targeted marketing, lead generation, building a social following, improving conversions, and growing your business.</strong>
 
-Hustle let’s you easily grow your mailing list or display targeted ads across your site with pop-ups, slide-ins, widgets and shortcodes.
+Hustle let’s you easily grow your mailing list or display targeted ads across your site with pop-ups, slide-ins, widgets, and shortcodes.
 
-[youtube  https://www.youtube.com/watch?v=StV8h3M4-90]
+[youtube  https://www.youtube.com/watch?v=jyxkhFA5J8w]
 
-= Hustle Makes Styling Your Pop-Ups Easy =
-Hustle let’s you quickly style your marketing to really pop. Choose colors, animations, layouts, drop shadows and display conditions from the easy-to-use design settings.
+= Get Busy With Social Sharing =
+Plus, Hustle now includes top social icons for easily building your following on your favorite social networks. Quickly enable the most popular social networks and use floating social, widgets, and shortcodes to add followers. 
+
+* Facebook
+* Twitter
+* Google+
+* Pinterest
+* Reddit
+* LinkedIn
+* VKontakte
+
+= Hustle Makes Styling Easy =
+Hustle let’s you quickly style your marketing to really pop. Choose colors, animations, layouts, drop shadows, and display conditions from the easy-to-use design settings for pop-ups, slide-ins, email opt-ins, and social share bars.
 
 = Highly Targeted Display Settings =
 Hustle has all the behaviors and conditions you’ll need to target visitors with email opt-ins or ads. Use time, on-click, scroll, location, position, page, post, login, category, tag, referral link, and device type to reach more users.
@@ -25,14 +36,21 @@ Hustle has all the behaviors and conditions you’ll need to target visitors wit
 Hustle integrates with all the popular email services. Just connect your account and start collecting new subscribers.
 
 * AWeber
+* ActiveCampaign
 * Campaign Monitor
-* Mailchimp
-* Mailchimp groups
+* e-Newsletter
+* Mailchimp & Mailchimp groups
 * Constant Contact
+* ConvertKit
 * GetResponse
+* Hubspot
 * Sendy
-* Infusionsoft
 * Mad Mimi
+* Mautic
+* Infusionsoft
+* SendinBlue
+* MailerLite
+* iContact
 
 = Smart Exit-Intent =
 Hustle has exit-intent, a favorite of professional marketers, that detects when visitors are about to leave your site and – BOOM! A pop-up or slide-in to grab their attention.
@@ -46,12 +64,13 @@ Hustle includes three handy metrics to help you make better marketing decisions 
 <strong>Features available in Hustle include:</strong>
 
 * Pop-ups, slide-ins, widgets, embeds and after post opt-ins
-* 1 free email opt-in (<a href="https://premium.wpmudev.org/project/hustle/">upgrade to Super Hustle for unlimited</a>)
-* 1 free custom content ad (<a href="https://premium.wpmudev.org/project/hustle/">upgrade to Super Hustle for unlimited</a>)
+* 1 free email opt-in (<a href="https://premium.wpmudev.org/project/hustle/">upgrade to Hustle Pro for unlimited</a>)
+* 1 free custom content ad (<a href="https://premium.wpmudev.org/project/hustle/">upgrade to Hustle Pro for unlimited</a>)
+* 1 free social share bar (<a href="https://premium.wpmudev.org/project/hustle/">upgrade to Hustle Pro for unlimited</a>)
 * Built-in designs editor for simple customization
 * Color match your brand, like magic
 * Smooth display animations
-* Aweber, Mailchimp, Mailchimp groups, Constant Contact, Sendy, Infusionsoft, Mad Mimi, GetResponse & Campaign Monitor Ready
+* Aweber, Mailchimp, Mailchimp groups, Constant Contact, Sendy, Infusionsoft, Mad Mimi, Mauntic. GetResponse & Campaign Monitor Ready
 * Super powerful conditions for targeting your audience
 * Track how many times pop-ups, slide-ins and opt-ins are displayed
 * See submissions straight through WordPress
@@ -76,16 +95,142 @@ WordPress Installation Instructions:
 = What is Hustle and where did WordPress PopUp go? =
 WordPress PopUp went through a massive makeover and is now a complete pop-up, slide-in and email opt-in marketing suite, so we gave it a new name. With Hustle you get even more options for growing your business. Enjoy all the new features!
 
-= Will I lose my pop-ups when I upgrade to Hustle? =
+= Will I lose my pop-ups when I upgrade from WP PopUp to Hustle? =
 Nope! All your pop-ups will seamlessly be added to the custom content module in Hustle.
+
+= Are there any feature limitations with Hustle? =
+No! Hustle gives you all the same settings and options as Hustle Pro. The only difference is Hustle Pro offers unlimited Opt-ins, Custom Content, and Social Sharing.
 
 == Screenshots ==
 
-1. Build beautiful pop-ups with any of the 4 included layouts. 
+1. Easily create pop-ups with amazing animations and preview them as you build. 
 2. All the display conditions you need for targeted marketing.
-3. Preview edits easily from the dashboard.
+3. Quickly create and display a floating social sharing icon bar.
+4. Build beautiful pop-ups with any of the 4 included layouts.
 
 == Changelog ==
+
+= 6.0.3 =
+* Add GDPR frontend checkbox option to modules.
+
+= 6.0.2 =
+* Add MailerLite and iContact Integration.
+* Update E-Newsletter integration to be consistent with other integrations.
+* Fix various styling issues on frontend and backend.
+* Fix minor backend UX issues.
+* Fix an issue with ConstantContact only saving to the first email list.
+* Fix homepage not obeying module display conditions when showing recent posts.
+* Fix an issue with ConstantContact where redirecting after signing in brought the user to the editing popups even when editing embeds or slide ins.
+* Fix adblocker trigger from triggering even when no adblocker is present.
+* Update 404 display condition behavior to showing on the 404 page or not rather than only displaying on 404 page and no other.
+* Adjusted verbiage for After Slide-in is Closed description to avoid confusion.
+* Disable save button on continue press to avoid accidental multiple saves.
+* Fix slide in and popup shortcode trigger not working since 3.0.
+* Fix some PHP warnings.
+* Improve Hustle frontend accessibility for social sharing.
+* Fix Mad Mimi and Campaign Monitor email integrations.
+* Only show SSL requirement notice for constant contact when necessary.
+
+= 6.0.1 =
+* Add legacy support for widgets and shortcodes.
+* Fix issues with local email lists, tracking, and custom CSS not getting migrated properly.
+* Fix various style issues.
+* Fix issue with ActiveCampaign incorrectly showing duplicate error upon sign up to a separate list.
+* Fix inability to close out of the welcome message on dashboard.
+* Fix Embeds local email list not downloading.
+* Fix Object Caching issue with some hosts where settings appeared to not save.
+
+= 6.0 =
+* New UI Flow and Design
+* New structure for Hustle modules (introducing Pop-ups, Slide-ins, Embeds, and Social Sharing)
+* Automatic migration from Hustle 2.x to Hustle 3.0
+
+= 5.1.5.1 =
+* Improved ConstantContact Integration.
+
+= 5.1.5 =
+* Improved HubSpot integration.
+* Improved Mautic integration.
+* Fixed Custom Content js errors on frontend.
+
+= 5.1.4 =
+* New HubSpot integration (static list).
+* Improved ConstantContact integration.
+* Improved InfusionSoft integration.
+* Improved AWeber integration.
+* Improved Mautic integration.
+* Improved SendInBlue integration.
+* Improved Opt-in when provider not set but uses "Save Emails to local list".
+* Fixed Opt-in signup button not showing on some layouts.
+* Fixed Custom Content front-end JavaScript errors.
+
+= 5.1.3.2 =
+* Improved compatibility with PHP 5.2 and 5.3.
+* Improved the display for MailChimp Groups on frontend.
+
+= 5.1.3.1 =
+* Improved API Connection Security for Integrations.
+
+= 5.1.3 =
+* New SendInBlue integration.
+* Added "Load More" button for MailChimp lists.
+* Fixed MailChimp integration issues.
+* Fixed custom colors issues on social sharing admin wizard.
+* Fixed media queries break custom css.
+
+= 5.1.2 =
+* Fixed Custom Content conflict with Page Builder by SiteOrigin.
+* Fixed MailChimp integration issues.
+* Fixed ActiveCampaign integration issues.
+
+= 5.1.1 =
+* Updated MailChimp integration and used their 3.0 API.
+* Updated "show less than" display condition and now works even "tracking" is off.
+* Updated listing page on each module to show shortcode on shortcode type.
+* Fixed activating Hustle on Multisite re-directs to an error.
+* Fixed IE styles on admin wizards.
+* Fixed IE issues on admin wizards.
+* Fixed conflict with Caldera Forms.
+* Fixed Pop-up "on click" trigger does not do preventDefault.
+* Fixed activating any plugin will redirect a Hustle user to Hustle.
+* Fixed Social Sharing wizard style issues.
+* Fixed Custom Content images not responsive.
+* Fixed Opt-in able to create duplicate additional fields.
+* Fixed IE issues when previewing Opt-in on admin.
+* Fixed Social Sharing issue: disabling "click counter" still shows counter numbers.
+* Fixed close button does not act as 'Never see this message again'.
+* Fixed Pop-up scroll issue.
+
+= 5.1 =
+* New social sharing module.
+* New mautic integration.
+* New module dashboard for empty modules.
+* New settings dashboard for empty modules.
+* New toggle option for tracking views and conversion for each module.
+* New error log list for opt-in module.
+* New option to add new fields for opt-in module.
+* New validation for opt-in submission.
+* New option to edit opt-in submit button.
+* New "after_content" preview type for custom content module.
+* New settings link in plugin list.
+* Fixed "Hide all slide in messages for user" option is not working.
+* Fixed custom content widget/shortcode layout doesn't have styles.
+* Fixed clicking on any field in slide-in opt-in closes it, can't enter information.
+* Fixed using form submit setting "Refresh or Close" causes custom content slide-in to refresh endlessly.
+* Fixed custom content module "custom css" not rendering on preview.
+* Fixed popup show less than (display condition) not working.
+* Fixed "NextGen Gallery" compatibility.
+* Fixed "Beaver Builder" conflict.
+* Fixed email service fields are not enabled/disabled correctly on opt-in module.
+* Fixed IE issues.
+* Fixed custom css issue with @media.
+* Fixed custom content module not appearing on appearance/widget.
+* Fixed "Embed Any Document" compatibility.
+* Fixed "Contact Form 7" compatibility.
+* Fixed html content is getting stripped on custom content module.
+* Fixed Hustle not filtering by tag.
+* Fixed custom content module "custom css" doesn't recognize html tags.
+* Fixed "Caldera Forms" compatibility.
 
 = 5.0.1.2 =
 * Updated dashboard copy.

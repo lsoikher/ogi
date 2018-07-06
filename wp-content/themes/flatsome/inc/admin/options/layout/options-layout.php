@@ -38,6 +38,7 @@ Flatsome_Option::add_field( 'option',  array(
 	'type'        => 'text',
 	'settings'     => 'site_width',
 	'label'       => __( 'Site Content Width (px)', 'flatsome-admin' ),
+  'description' => __( 'Set the default width of content containers. (Header, Rows etc.)', 'flatsome-admin' ),
 	'section'     => 'layout',
 	'transport' => 'postMessage',
 ));

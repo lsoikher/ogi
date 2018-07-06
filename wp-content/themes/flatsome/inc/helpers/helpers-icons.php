@@ -25,7 +25,7 @@ function flatsome_lazy_add_icons_css() {
 // Normal loading
 if ( ! get_theme_mod('lazy_load_icons', 0) ) {
   function flatsome_lazy_icons_css() {
-    wp_enqueue_style( 'flatsome-icons', get_template_directory_uri() .'/assets/css/fl-icons.css', array(), '3.0', 'all' );
+    wp_enqueue_style( 'flatsome-icons', get_template_directory_uri() .'/assets/css/fl-icons.css', array(), '3.3', 'all' );
   }
   add_action( 'wp_enqueue_scripts', 'flatsome_lazy_icons_css' );
 }

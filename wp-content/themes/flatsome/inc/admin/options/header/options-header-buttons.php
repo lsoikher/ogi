@@ -215,7 +215,7 @@ function flatsome_refresh_header_buttons_partials( WP_Customize_Manager $wp_cust
 	    'container_inclusive' => true,
 	    'settings' => array('header_button_2','header_button_2_radius','header_button_2_link','header_button_2_style','header_button_2_color','header_button_2_size','header_button_2_depth','header_button_2_depth_hover'),
 	    'render_callback' => function() {
-	         return get_template_part('template-parts/header/partials/element','button-2');
+	     return get_template_part('template-parts/header/partials/element','button-2');
 	    },
 	) );
 

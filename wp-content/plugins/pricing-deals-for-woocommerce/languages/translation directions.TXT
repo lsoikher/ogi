@@ -24,7 +24,9 @@ vtprd-fr_FR.mo
 
 ++  The translated ** PO file ** should go to  /wp-content/plugins/pricing-deals-for-woocommerce/languages
 
-++  BE SURE to ALSO update the wp_config.php file. Sample: (‘WPLANG’, ‘fr_FR’);
+++  BE SURE to ALSO:
+- update the wp_config.php file. Sample: (‘WPLANG’, ‘fr_FR’);
+- in wp-admin/settings/general, select you language under "Site Language"
 
 ************************
 ************************************************

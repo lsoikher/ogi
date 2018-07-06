@@ -147,9 +147,11 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		// Initialize select list with ajax source.
@@ -200,9 +202,11 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		if ( 'function' === typeof jQuery.fn.each2 ) {

@@ -21,7 +21,7 @@ function ux_builder_asset( $path ) {
 }
 
 /**
- * Renders a url for editing a post the UX Builder.
+ * Renders a url for editing a post with the UX Builder.
  *
  * @param  number $post_id
  * @param  number $edit_post_id
@@ -30,7 +30,7 @@ function ux_builder_asset( $path ) {
  */
 function ux_builder_edit_url( $post_id, $edit_post_id = null, $mode = 'frontend' ) {
   $edit_post_id = $edit_post_id ? "&edit_post_id=${edit_post_id}" : '';
-  return admin_url( "post.php?ux_builder=${mode}&post_id=${post_id}" . $edit_post_id );
+  return admin_url( "edit.php?page=uxbuilder&post_id=${post_id}" . $edit_post_id );
 }
 
 /**

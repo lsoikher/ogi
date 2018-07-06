@@ -1,15 +1,15 @@
 === YITH WooCommerce Wishlist === 
 
 Contributors: yithemes
-Tags: wishlist, woocommerce, products, themes, yit, e-commerce, shop, ecommerce wishlist, yith, woocommerce wishlist, woocommerce 2.3 ready, shop wishlist
+Tags: wishlist, woocommerce, products, yit, e-commerce, shop, ecommerce wishlist, yith, woocommerce wishlist, shop wishlist
 Requires at least: 4.0
-Tested up to: 4.7.3
-Stable tag: 2.1.1
+Tested up to: 4.9.6
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 YITH WooCommerce Wishlist add all Wishlist features to your website. Needs WooCommerce to work.
-WooCommerce 3.0.x compatible.
+WooCommerce 3.4.x compatible.
 
 
 == Description ==
@@ -36,6 +36,7 @@ This plugin is 100% compatible with [WPML](http://wpml.org/?aid=24889&affiliate_
 * Chinese - TAIWAN
 * Croatian - CROATIA
 * Danish - DENMARK
+* Dutch - NETHERLANDS
 * English - UNITED KINGDOM (Default)
 * French - FRANCE
 * German - GERMANY
@@ -107,6 +108,42 @@ you should ask theme developers to update custom templates and replace the old t
 4. The Wishlist settings page
 
 == Changelog ==
+
+= 2.2.2 - Released: May, 28 - 2018 =
+
+* New: WooCommerce 3.4 compatibility
+* New: WordPress 4.9.6 compatibility
+* New: updated plugin framework
+* New: GDPR compliance
+* Tweak: replaced create_function with a proper class method, to improve compatibility with PHP 7.2 and avoid warnings
+* Fix: js error when switching from Premium version to Free
+* Fix: preventing add_rewrite_rule when WPML is active, to avoid possible Internal Server Error (thanks to Adri & Bruno)
+* Fix: icon replacement not working on variable Add to Cart
+* Fix: preventing warning "Illegal string offset" when get_availability() returns empty string instead of array
+
+= 2.2.1 - Released: Jan, 31 - 2018 =
+
+* New: tested with WooCommerce 3.3.0
+* Fix: issue with Add to Wishlist shortcode when global $product not defined
+
+= 2.2.0 - Released: Jan, 11 - 2018 =
+
+* New: WooCommerce 3.2.6 compatibility
+* New: plugin-fw 3.0
+* New: added js compatibility to Infinite Scrolling
+* Tweak: improved wishlist-view template checks and params
+* Tweak: wishlist now registers (and shows) "date added" param for unauthenticated users too
+* Tweak: added check over product object, to avoid Fatal when printing Add to Wishlist shortcode
+* Fix: fixed security vulnerability, causing possible SQL Injections (huge thanks to John C. and Sucuri Vulnerability Research team)
+* Dev: added yith_wcwl_removing_from_wishlist / yith_wcwl_removed_from_wishlist hooks
+* Dev: added params to main triggers in wishlist js code
+
+= 2.1.2 - Released: May, 11 - 2017 =
+
+* Tweak: updated FontAwesome to 4.7.0
+* Fix: possible warning when empty rewrite rules
+* Fix: problem with custom CSS inclusion, when not located in child theme
+* Fix: using current_product instead of global product when retrieving product type (prevents a Fatal error when placing Add to Wishlist outside the loop)
 
 = 2.1.1 - Released: Apr, 21 - 2017 =
 
@@ -427,27 +464,14 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woo
 
 == Upgrade notice ==
 
-= 2.1.0 - Released: Apr, 03 - 2017 =
+= 2.2.2 - Released: May, 28 - 2018 =
 
-* New: WooCommerce 3.0-RC2 compatibility
-* New: WordPress 4.7.3 compatibility
-* New: Korean translation (thanks to kocne)
-* New: Croatian translation (thanks to Barbara V.)
-* New: flush rewrite rules when installing plugin
-* Tweak: added urlencode to mail content in mailto share link
-* Tweak: count query of count_all_products
-* Tweak: improved WPML list content handling (thanks to Adri)
-* Tweak: double check over wc_add_to_cart_params exists and not null
-* Tweak: added wishlist meta inside wishlist table data attr also for not logged in users (used for shared wishlist)
-* Tweak: remove prettyPhoto-init library
-* Tweak: implemented custom code to enable prettyPhoto on Wishlist elements
-* Tweak: fixed typo in wishlist-view template
-* Tweak: added urlencode to all sharing links
-* Tweak: minimized endpoint usage when not required
-* Tweak: removed unused check for WC_Product_Bundle
-* Fix: get_template_directory for custom wishlist js
-* Fix: stock_status not existing when stock column isn't shown
-* Dev: action as second param for yith_wcwl_wishlist_page_url filter
-* Dev: applied filter yith_wcwl_no_product_to_remove_message also for message on wishlist-view template
-* Dev: added filter yith_wcwl_add_wishlist_user_id
-* Dev: added filter yith_wcwl_add_wishlist_slug
+* New: WooCommerce 3.4 compatibility
+* New: WordPress 4.9.6 compatibility
+* New: updated plugin framework
+* New: GDPR compliance
+* Tweak: replaced create_function with a proper class method, to improve compatibility with PHP 7.2 and avoid warnings
+* Fix: js error when switching from Premium version to Free
+* Fix: preventing add_rewrite_rule when WPML is active, to avoid possible Internal Server Error (thanks to Adri & Bruno)
+* Fix: icon replacement not working on variable Add to Cart
+* Fix: preventing warning "Illegal string offset" when get_availability() returns empty string instead of array

@@ -19,4 +19,10 @@
             
             /*at checkout, block the 'remove' URL from appearing next to a pricing deal Deal!!*/
             tr.coupon-deals a {display:none;}
+            
+            /*v1.1.7.2  remove padding as needed... */
+            .vtprd_shop_table td,
+            .vtprd_shop_table td {padding: 0px;}
+            table.vtprd_shop_table td, table.vtprd_shop_table th {padding:.2em !important;}
+            .vtprd-widget-title {padding:0px !important;margin: 0px !important;}
       

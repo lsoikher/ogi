@@ -3,13 +3,13 @@
 Plugin Name: WC Autoship Product Page Options
 Plugin URI: http://wooautoship.com
 Description: Customize the autoship options on the product page.
-Version: 1.1.0
+Version: 1.1.2
 Author: Patterns in the Cloud
 Author URI: http://patternsinthecloud.com
 License: Single-site
 */
 
-define( 'WC_Autoship_Product_Page_Options_Version', '1.1.0' );
+define( 'WC_Autoship_Product_Page_Options_Version', '1.1.2' );
 
 function wc_autoship_product_page_install() {
 	// Add default settings
@@ -37,7 +37,12 @@ function wc_autoship_product_page_admin_scripts() {
 	wp_enqueue_style( 'wc-autoship-product-page-admin', plugin_dir_url( __FILE__ ) . 'css/admin.css', array(), WC_Autoship_Product_Page_Options_Version );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-autocomplete' );
-	wp_enqueue_script( 'wc-autoship-product-page-admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array('jquery'), WC_Autoship_Product_Page_Options_Version, true );
+	wp_register_script( 'wc-autoship-product-page-admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array('jquery'), WC_Autoship_Product_Page_Options_Version, true );
+	wp_localize_script('wc-autoship-product-page-admin', 'WC_AUTOSHIP_PRODUCT_PAGE_OPTIONS', array(
+		'WC_AUTOSHIP_MIN_FREQUENCY' => defined( 'WC_AUTOSHIP_MIN_FREQUENCY' ) ? WC_AUTOSHIP_MIN_FREQUENCY : 7,
+		'WC_AUTOSHIP_MAX_FREQUENCY' => defined( 'WC_AUTOSHIP_MAX_FREQUENCY' ) ? WC_AUTOSHIP_MAX_FREQUENCY : 365
+	));
+	wp_enqueue_script( 'wc-autoship-product-page-admin' );
 }
 add_action( 'admin_enqueue_scripts', 'wc_autoship_product_page_admin_scripts' );
 

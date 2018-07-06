@@ -6,7 +6,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-
-<div  itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+<div id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 <?php
 	/**
 	 * woocommerce_before_single_product hook
@@ -29,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 	echo get_the_password_form();
 	 	return;
 	 }
-	 
+
 	 // Get product page layout
 	 wc_get_template_part( 'single-product/layouts/product', flatsome_option('product_layout'));
 

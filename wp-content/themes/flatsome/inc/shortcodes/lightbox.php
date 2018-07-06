@@ -25,16 +25,16 @@ jQuery(document).ready(function($) {
 
     // auto open lightbox
      <?php if($auto_show == 'always') { ?>
-      $.removeCookie("lightbox_<?php echo $id; ?>");<?php } ?>
+      Cookies.remove("lightbox_<?php echo $id; ?>");<?php } ?>
     // run lightbox if no cookie is set
-     if($.cookie("lightbox_<?php echo $id; ?>") !== 'opened'){
+     if(Cookies.get("lightbox_<?php echo $id; ?>") !== 'opened'){
           // Open lightbox
-          setTimeout(function(){ 
+          setTimeout(function(){
               $.magnificPopup.open({midClick: true, removalDelay: 300, items: { src: '#<?php echo $id; ?>', type: 'inline'}});
           }, <?php echo $auto_timer; ?>);
 
           // set cookie
-          $.cookie("lightbox_<?php echo $id; ?>", "opened");
+          Cookies.set("lightbox_<?php echo $id; ?>", "opened");
       }
 });
 </script>

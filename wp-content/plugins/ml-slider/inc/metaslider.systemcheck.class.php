@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Check for common issues with the server environment and WordPress install.
@@ -26,7 +24,7 @@ class MetaSliderSystemCheck {
         $this->checkWordPressVersion();
         $this->checkImageLibrary();
         $this->checkRoleScoper();
-        //$this->checkWpFooter();
+        // $this->checkWpFooter();
         $this->updateSystemCheck();
     }
 
@@ -61,7 +59,7 @@ class MetaSliderSystemCheck {
         }
 
         if ( !function_exists( 'wp_enqueue_media' ) ) {
-            $error = "Meta Slider requires WordPress 3.5 or above. Please upgrade your WordPress installation.";
+            $error = "MetaSlider requires WordPress 3.5 or above. Please upgrade your WordPress installation.";
             $this->printMessage( $error, 'wordPressVersion' );
         } else {
             $this->options['wordPressVersion'] = false;
@@ -77,7 +75,7 @@ class MetaSliderSystemCheck {
         }
 
         if ( ( !extension_loaded( 'gd' ) || !function_exists( 'gd_info' ) ) && ( !extension_loaded( 'imagick' ) || !class_exists( 'Imagick' ) || !class_exists( 'ImagickPixel' ) ) ) {
-            $error = "Meta Slider requires the GD or ImageMagick PHP extension. Please contact your hosting provider";
+            $error = "MetaSlider requires the GD or ImageMagick PHP extension. Please contact your hosting provider";
             $this->printMessage( $error, 'imageLibrary' );
         } else {
             $this->options['imageLibrary'] = false;
@@ -148,6 +146,9 @@ class MetaSliderSystemCheck {
 
     /**
      * Print a warning message to the screen
+     *
+     * @param string $message Warning message to be shown
+     * @param string $key     Message Key
      */
     private function printMessage( $message, $key ) {
         $nonce = wp_create_nonce( "metaslider-dismiss-{$key}" );

@@ -23,7 +23,7 @@ function ux_tabgroup( $params, $content = null, $tag ) {
 	$content = flatsome_contentfix($content);
 
 	$classes[] = 'nav';
-	
+
 	if($style) $classes[] = 'nav-'.$style;
 	if($type == 'vertical') $classes[] = 'nav-vertical';
 	if($nav_style) $classes[] = 'nav-'.$nav_style;
@@ -33,12 +33,12 @@ function ux_tabgroup( $params, $content = null, $tag ) {
 	$classes = implode(' ', $classes);
 
 	if( is_array( $GLOBALS['tabs'] )){
-		
+
 		foreach( $GLOBALS['tabs'] as $key => $tab ){
 			if($tab['title']) $id = flatsome_to_dashed($tab['title']);
 			$active = $key == 0 ? ' active' : ''; // Set first tab active by default.
 			$tabs[] = '<li class="tab'.$active.' has-icon"><a href="#tab_'.$id.'"><span>'.$tab['title'].'</span></a></li>';
-			$panes[] = '<div class="panel'.$active.'" id="tab_'.$id.'">'.flatsome_contentfix($tab['content']).'</div>';
+			$panes[] = '<div class="panel'.$active.' entry-content" id="tab_'.$id.'">'.flatsome_contentfix($tab['content']).'</div>';
 			$i++;
 		}
 			if($title) $title = '<h4 class="uppercase text-'.$align.'">'.$title.'</h4>';
@@ -57,7 +57,7 @@ function ux_tab( $params, $content = null) {
 			'title' => '',
 			'title_small' => ''
 	), $params));
-	
+
 	$x = $GLOBALS['tab_count'];
 	$GLOBALS['tabs'][$x] = array( 'title' => sprintf( $title, $GLOBALS['tab_count'] ), 'content' =>  $content );
 	$GLOBALS['tab_count']++;

@@ -1,56 +1,89 @@
-(function(doc, $){
-    "use strict";
-    Optin.Mixins.add_services_mixin("infusionsoft", function( service_tab_view ){
+(function($){
+	'use strict';
 
-         var validate = function(){
-            var _errors = [],
-                $field = $("[name='optin_account_name']"),
-                $icon = $('<span></span>');
+	Optin.Mixins.add_services_mixin( 'infusionsoft', function( content_view ) {
+		return new Optin.Provider({
+			id: 'infusionsoft',
+			provider_args: { enabled: 0 },
+			default_data: {
+				enabled: false,
+				api_key: '',
+				account_name : ''
+			},
+			show_selected: function() {
+				
+				// if not the service being edited do not proceed
+				if ( content_view.editing_service !== this.id ) {
+					return;
+				}
 
-            if( $("#optin_account_name").val().trim() === "" ){
-                _errors.push({name: 'account_name', message: optin_vars.messages.infusionsoft.enter_account_name });
-                $icon.attr("title", _errors[0].message);
-                $field.addClass( "wpoi-error" );
-                $field.after( $icon );
-                _.defer( function(){
-                    $icon.addClass( "dashicons dashicons-warning dashicons-warning-account_name" );
-                });
-            }
+				var email_services = content_view.model.get('email_services'),
+					$selected_list = $('#optin-provider-account-selected-list'),
+					$label = $selected_list.find('.wpmudev-label--notice span');
+				if ( 'infusionsoft' in email_services ) {
+					var list_name = ( 'list_name' in email_services.infusionsoft )
+						? email_services.infusionsoft.list_name
+						: '';
+					
+					if ( $label.length ) {
+						$label.html( $label.text().replace( 'campaign', '<strong>' + list_name + '</strong>' ) )
+					}
+					
+					if ( typeof email_services.infusionsoft.api_key !== 'undefined' ) {
+						setTimeout(function(){
+							$('input[name="optin_api_key"]').attr( 'value', email_services.infusionsoft.api_key ) ;
+						}, 500);
+					}
 
+					if ( typeof email_services.infusionsoft.account_name !== 'undefined' ) {
+						setTimeout(function(){
+							$('input[name="optin_account_name"]').attr( 'value', email_services.infusionsoft.account_name ) ;
+						}, 500);
+					}
+				}
+				
+			},
+			update_args: function(view) {
+				
+				// if not the service being edited do not proceed
+				if ( view.editing_service !== this.id ) {
+					return;
+				}
+				
+				// if not updated do not save
+				if ( !view.is_service_modal_updated ) {
+					view.service_modal.close_modal();
+					return;
+				}
 
-            return _( _errors );
-        };
+				var api_key = $('input[name="optin_api_key"]').val(),
+					account_name = $('input[name="optin_account_name"]').val(),
+					enabled = view.model.get('email_services').infusionsoft ? view.model.get('email_services').infusionsoft.enabled : false,
+					$list = $('select[name="optin_email_list"]'),
+					list_id = $list.val(),
+					list_name = $list.find('option:selected').text();
+					
+				var current_args = {
+						api_key: api_key,
+						account_name : account_name,
+						enabled: enabled,
+						list_id: list_id,
+						list_name: list_name,
+						desc: api_key
+					},
+					args = _.extend( view.infusionsoft.provider_args, current_args );
 
-        /**
-         * Register client_secret to the provider_args model
-         *
-         * @on services:validate:after
-         */
-        var add_client_secret_to_args = function(){
-            if( "infusionsoft" !== Optin.step.services.model.get("optin_provider") ) return;
-
-            Optin.step.services.provider_args.set( "account_name",  $.trim( $("#optin_account_name").val() ) );
-        };
-
-        /**
-         * Clear provider_args if previous provider was Infusionsoft but then user changes to another provider
-         * @on design:preview:render:start
-         */
-        var clear_provider_args = function(){
-            if( Optin.step.services.model.previousAttributes().optin_provider === "infusionsoft" && Optin.step.services.model.get("optin_provider") !== "infusionsoft" )
-                Optin.step.services.provider_args.clear( {silent: true} );
-        };
-
-        /**
-         * Bind to events
-         */
-        Optin.Events.on("services:validate:after", add_client_secret_to_args );
-        Optin.Events.on("design:preview:render:start", clear_provider_args );
-
-        return {
-            render_in_previewr: new Function(),
-            validate: validate
-        };
-    });
-
-}(document, jQuery));
+				
+				view.infusionsoft.provider_args = args;
+				Hustle.Events.trigger("optin.service.saved", view);
+			},
+			init: function() {
+				var me = this,
+					view = content_view;
+				
+				Hustle.Events.on( 'optin.service.prepare', $.proxy( this.update_args, this ) );
+				Hustle.Events.on( 'optin.service.show.selected', $.proxy( this.show_selected, this ) );
+			}
+		});
+	});
+}(jQuery,document));

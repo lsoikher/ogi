@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Responsive Slider specific markup, javascript, css and settings.
@@ -17,6 +15,7 @@ class MetaResponsiveSlider extends MetaSlider {
      * Detect whether thie slide supports the requested setting,
      * and if so, the name to use for the setting in the Javascript parameters
      *
+     * @param  array $param Parameters
      * @return false (parameter not supported) or parameter name (parameter supported)
      */
     protected function get_param( $param ) {

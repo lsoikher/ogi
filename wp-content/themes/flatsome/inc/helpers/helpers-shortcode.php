@@ -149,10 +149,10 @@ function get_flatsome_repeater_start( $atts ) {
   <div class="row <?php echo $row_classes; ?>"  data-flickity-options='<?php echo $slider_options; ?>'>
 
   <?php } else if($atts['type'] == 'slider-full') { // Full slider ?>
-  <div id="<?php $atts['id']; ?>" class="<?php echo $row_classes_full; ?>" data-flickity-options='<?php echo $slider_options; ?>'>
+  <div id="<?php echo $atts['id']; ?>" class="<?php echo $row_classes_full; ?>" data-flickity-options='<?php echo $slider_options; ?>'>
 
   <?php } else if($atts['type'] == 'masonry') { // Masonry grid ?>
-  <div id="<?php $atts['id']; ?>" class="row <?php echo $row_classes; ?>" data-packery-options='{"itemSelector": ".col", "gutter": 0, "presentageWidth" : true}'>
+  <div id="<?php echo $atts['id']; ?>" class="row <?php echo $row_classes; ?>" data-packery-options='{"itemSelector": ".col", "gutter": 0, "presentageWidth" : true}'>
 
   <?php } else if($atts['type'] == 'grid') { ?>
   <div id="<?php echo $atts['id']; ?>" class="row <?php echo $row_classes; ?>" data-packery-options='{"itemSelector": ".col", "gutter": 0, "presentageWidth" : true}'>
@@ -196,6 +196,18 @@ add_filter('widget_text', 'flatsome_contentfix');
 /* Add shortcode to excerpt */
 add_filter('the_excerpt', 'flatsome_contentfix');
 
+/**
+ * Remove whitespace characters \r\n\t\f\v from HTML between > and <
+ * (Prevents wpautop from adding <p> or <br>)
+ *
+ * @param $html
+ *
+ * @return mixed
+ */
+function flatsome_sanitize_whitespace_chars( $html ) {
+	$html = preg_replace( '/(?<=>)\s+(?=<)/', '', $html );
+	return trim( $html );
+}
 
 // Get Shortcode Inline CSS
 function get_shortcode_inline_css($args){
@@ -209,8 +221,8 @@ function get_shortcode_inline_css($args){
 
 
 // Get Parallax Options
-function get_parallax_option($strenght){
-    return 'data-velocity="0.'.$strenght.'"';
+function get_parallax_option($strength){
+    return 'data-velocity="0.'.$strength.'"';
 }
 
 function flatsome_get_image_url($id, $size = 'large'){
@@ -343,7 +355,7 @@ function flatsome_fix_span($span){
 
 function flatsome_smart_links($link){
     if($link == 'shop' && is_woocommerce_activated()){
-      $link = get_permalink( woocommerce_get_page_id( 'shop' ) );
+      $link = get_permalink( wc_get_page_id( 'shop' ) );
     }
     else if($link == 'cart' && is_woocommerce_activated()) {
       global $woocommerce;

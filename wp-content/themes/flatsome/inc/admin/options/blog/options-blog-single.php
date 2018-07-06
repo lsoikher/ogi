@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 Flatsome_Option::add_section( 'blog-single', array(
 	'title'       => __( 'Blog Single Post', 'flatsome-admin' ),
@@ -12,7 +12,6 @@ Flatsome_Option::add_field( 'option',  array(
 	'settings'     => 'blog_post_layout',
 	'label'       => __( 'Blog Post Single Layout', 'flatsome-admin' ),
 	'section'     => 'blog-single',
-	'transport'	  => $transport,
 	'default'     => 'right-sidebar',
 	'choices'     => array(
 		'right-sidebar' => $image_url . 'layout-right.svg',
@@ -49,7 +48,6 @@ Flatsome_Option::add_field( 'option',  array(
 	'settings'     => 'blog_author_box',
 	'label'       => __( 'Enable Blog Author Box', 'flatsome-admin' ),
 	'section'     => 'blog-single',
-	'transport'	  => $transport,
 	'default'     => 1,
 ));
 
@@ -58,7 +56,6 @@ Flatsome_Option::add_field( 'option',  array(
 	'settings'     => 'blog_share',
 	'label'       => __( 'Enable Share Icons', 'flatsome-admin' ),
 	'section'     => 'blog-single',
-	'transport'	  => $transport,
 	'default'     => 1,
 ));
 

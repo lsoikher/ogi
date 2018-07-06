@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 /*
 UpdraftPlus Addon: moredatabase:Multiple database backup options
 Description: Provides the ability to encrypt database backups, and to back up external databases
@@ -6,6 +7,7 @@ Version: 1.5
 Shop: /shop/moredatabase/
 Latest Change: 1.12.35
 */
+// @codingStandardsIgnoreEnd
 
 if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed');
 
@@ -47,7 +49,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 	
 	public function restore_form_db() {
 
-		echo '<div class="updraft_restore_crypteddb" style="display:none;">'.__('Database decryption phrase','updraftplus').': ';
+		echo '<div class="updraft_restore_crypteddb" style="display:none;">'.__('Database decryption phrase', 'updraftplus').': ';
 
 		$updraft_encryptionphrase = UpdraftPlus_Options::get_updraft_option('updraft_encryptionphrase');
 
@@ -68,15 +70,20 @@ class UpdraftPlus_Addon_MoreDatabase {
 		die;
 	}
 
-	// This is also used as a WP filter
-	// Returns an array
+	/**
+	 * This is also used as a WP filter
+	 *
+	 * @param  string $results_initial_value_ignored
+	 * @param  string $posted_data
+	 * @return array
+	 */
 	public function extradb_testconnection_go($results_initial_value_ignored, $posted_data) {
 	
-		if (empty($posted_data['user'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.",'updraftplus').'</p>',__('user','updraftplus'))));
+		if (empty($posted_data['user'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.", 'updraftplus').'</p>', __('user', 'updraftplus'))));
 
-		if (empty($posted_data['host'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.",'updraftplus').'</p>',__('host','updraftplus'))));
+		if (empty($posted_data['host'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.", 'updraftplus').'</p>', __('host', 'updraftplus'))));
 
-		if (empty($posted_data['name'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.",'updraftplus').'</p>',__('database name','updraftplus'))));
+		if (empty($posted_data['name'])) return(array('r' => $posted_data['row'], 'm' => '<p>'.sprintf(__("Failure: No %s was given.", 'updraftplus').'</p>', __('database name', 'updraftplus'))));
 
 		global $updraftplus_admin;
 		$updraftplus_admin->logged = array();
@@ -112,7 +119,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 		$ret_info = '';
 		if (!$failed) {
 			$all_tables = $wpdb_obj->get_results("SHOW TABLES", ARRAY_N);
-			$all_tables = array_map(create_function('$a', 'return $a[0];'), $all_tables);
+			$all_tables = array_map(array($this, 'cb_get_first_item'), $all_tables);
 			if (empty($posted_data['prefix'])) {
 				$ret_info .= sprintf(__('%s table(s) found.', 'updraftplus'), count($all_tables));
 			} else {
@@ -301,7 +308,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 		$ret .= '<input type="'.apply_filters('updraftplus_admin_secret_field_type', 'text').'" name="updraft_encryptionphrase" id="updraft_encryptionphrase" value="'.esc_attr($updraft_encryptionphrase).'">';
 
-		$ret .= '<p>'.__('If you enter text here, it is used to encrypt database backups (Rijndael). <strong>Do make a separate record of it and do not lose it, or all your backups <em>will</em> be useless.</strong> This is also the key used to decrypt backups from this admin interface (so if you change it, then automatic decryption will not work until you change it back).','updraftplus').'</p>';
+		$ret .= '<p>'.__('If you enter text here, it is used to encrypt database backups (Rijndael). <strong>Do make a separate record of it and do not lose it, or all your backups <em>will</em> be useless.</strong> This is also the key used to decrypt backups from this admin interface (so if you change it, then automatic decryption will not work until you change it back).', 'updraftplus').'</p>';
 
 		return $ret;
 
@@ -326,7 +333,8 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 	/**
 	 * This function encrypts the database when specified. Used in backup.php.
-	 * @param  array $result          
+	 *
+	 * @param  array  $result
 	 * @param  string $file           this is the file name of the db zip to be encrypted
 	 * @param  string $encryption     This is the encryption word (salting) to be used when encrypting the data
 	 * @param  string $whichdb        This specifies the correct DB
@@ -358,11 +366,11 @@ class UpdraftPlus_Addon_MoreDatabase {
 			foreach ($checksums as $checksum) {
 				$cksum = hash_file($checksum, $updraft_dir.'/'.$file.'.crypt');
 				$updraftplus->jobdata_set($checksum.'-db'.(('wp' == $whichdb) ? '0' : $whichdb.'0').'.crypt', $cksum);
-				$updraftplus->log("$file: encryption successful: ".round($file_size,1)."KB in ".round($time_taken,2)."s (".round($file_size/$time_taken, 1)."KB/s) ($checksum checksum: $cksum)");
+				$updraftplus->log("$file: encryption successful: ".round($file_size, 1)."KB in ".round($time_taken, 2)."s (".round($file_size/$time_taken, 1)."KB/s) ($checksum checksum: $cksum)");
 				
 			}
 
-			# Delete unencrypted file
+			// Delete unencrypted file
 			@unlink($updraft_dir.'/'.$file);
 
 			$updraftplus->jobdata_set('jobstatus', 'dbencrypted'.$whichdb_suffix);
@@ -370,13 +378,14 @@ class UpdraftPlus_Addon_MoreDatabase {
 			return basename($file.'.crypt');
 		} else {
 			$updraftplus->log("Encryption error occurred when encrypting database. Encryption aborted.");
-			$updraftplus->log(__("Encryption error occurred when encrypting database. Encryption aborted.",'updraftplus'), 'error');
+			$updraftplus->log(__("Encryption error occurred when encrypting database. Encryption aborted.", 'updraftplus'), 'error');
 			return basename($file);
 		}
 	}
 	
 	/**
 	 * This is the encryption process when encrypting a file
+	 *
 	 * @param  string $fullpath THis is the full path to the DB file that needs ecrypting
 	 * @param  string $key      This is the key (salting) to be used when encrypting
 	 * @return string           Return the full path of the encrypted file
@@ -388,16 +397,16 @@ class UpdraftPlus_Addon_MoreDatabase {
 			$updraftplus->log(sprintf(__('Your web-server does not have the %s module installed.', 'updraftplus'), 'PHP/mcrypt / PHP/OpenSSL').' '.__('Without it, encryption will be a lot slower.', 'updraftplus'), 'warning', 'nomcrypt');
 		}
 
-		//include Rijndael library from phpseclib
+		// include Rijndael library from phpseclib
 		$updraftplus->ensure_phpseclib('Crypt_Rijndael', 'Crypt/Rijndael');
 
-		//open file to read
-		if (false === ($file_handle = fopen($fullpath,'rb'))) {
+		// open file to read
+		if (false === ($file_handle = fopen($fullpath, 'rb'))) {
 			$updraftplus->log("Failed to open file for read access: $fullpath");
 			return false;
 		}
 
-		//encrypted path name. The trailing .tmp ensures that it will be cleaned up by the temporary file reaper eventually, if needs be.
+		// encrypted path name. The trailing .tmp ensures that it will be cleaned up by the temporary file reaper eventually, if needs be.
 		$encrypted_path = dirname($fullpath).'/encrypt_'.basename($fullpath).'.tmp';
 
 		$data_encrypted = 0;
@@ -410,7 +419,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 		// Set initial value to false so we can check it later and decide what to do
 		$resumption = false;
 
-		//setup encryption
+		// setup encryption
 		$rijndael = new Crypt_Rijndael();
 		$rijndael->setKey($key);
 		$rijndael->disablePadding();
@@ -441,7 +450,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 				}
 				
 				// First check if our buffer size needs padding if it does increase buffer size to length that doesn't need padding
-				if ($buffer_size % 16 != 0) {
+				if (0 != $buffer_size % 16) {
 					$pad = 16 - ($buffer_size % 16);
 					$true_buffer_size = $buffer_size + $pad;
 				} else {
@@ -451,7 +460,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 				// Now check if using modulo on data encrypted and buffer size returns 0 if it doesn't then the last block was a partial write and we need to discard that and get the last useable IV by adding this value to the block length
 				$partial_data_size = $data_encrypted % $true_buffer_size;
 
-				// We need to reconstruct the IV from the previous run in order for encryption to resume 
+				// We need to reconstruct the IV from the previous run in order for encryption to resume
 				if (-1 === (fseek($encrypted_handle, $data_encrypted - ($block_length + $partial_data_size)))) {
 					$updraftplus->log("Failed to move file pointer to correct position to get IV: $encrypted_path");
 					$resumption = false;
@@ -482,7 +491,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 				@unlink($encrypted_path);
 				// reset the data encrypted so that the loop can be entered
 				$data_encrypted = 0;
-				//setup encryption to reset the IV 
+				// setup encryption to reset the IV
 				$rijndael = new Crypt_Rijndael();
 				$rijndael->setKey($key);
 				$rijndael->disablePadding();
@@ -496,25 +505,25 @@ class UpdraftPlus_Addon_MoreDatabase {
 		}
 
 		if (!$resumption) {
-			//open new file from new path
-			if (false === ($encrypted_handle = fopen($encrypted_path,'wb+'))) {
+			// open new file from new path
+			if (false === ($encrypted_handle = fopen($encrypted_path, 'wb+'))) {
 				$updraftplus->log("Failed to open file for write access: $encrypted_path");
 				return false;
 			}
 		}
 		
-		//loop around the file
+		// loop around the file
 		while ($data_encrypted < $file_size) {
 
-			//read buffer-sized amount from file
+			// read buffer-sized amount from file
 			if (false === ($file_part = fread($file_handle, $buffer_size))) {
 				$updraftplus->log("Failed to read from file: $fullpath");
 				return false;
 			}
 			
-			//check to ensure padding is needed before encryption
+			// check to ensure padding is needed before encryption
 			$length = strlen($file_part);
-			if ($length % 16 != 0) {
+			if (0 != $length % 16) {
 				$pad = 16 - ($length % 16);
 				$file_part = str_pad($file_part, $length + $pad, chr($pad));
 			}
@@ -536,14 +545,14 @@ class UpdraftPlus_Addon_MoreDatabase {
 			
 		}
 
-		//close the main file handle
+		// close the main file handle
 		fclose($encrypted_handle);
 		fclose($file_handle);
 
-		//encrypted path
+		// encrypted path
 		$result_path = $fullpath.'.crypt';
 
-		//need to replace original file with tmp file
+		// need to replace original file with tmp file
 		if (false === rename($encrypted_path, $result_path)) {
 			$updraftplus->log("File rename failed: $encrypted_path -> $result_path");
 			return false;
@@ -554,9 +563,10 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 	/**
 	 * A method that gets a list of tables from the users databases and generates html using these values so that the user can select what tables they want to backup instead of a full database backup.
-	 * @param  [type] $ret this contains the upgrade to premium link and gets cleared here and replaced with table content
-	 * @param  [type] $prefix currently unused here because these parameters are passed to the filter
-	 * @return [String] A string that contains HTML to be appended to the backup now modal
+	 *
+	 * @param  String $ret    this contains the upgrade to premium link and gets cleared here and replaced with table content
+	 * @param  String $prefix currently unused here because these parameters are passed to the filter
+	 * @return String A string that contains HTML to be appended to the backup now modal
 	 */
 	public function backupnow_database_showmoreoptions($ret, $prefix) {
 
@@ -572,7 +582,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 		foreach ($database_table_list as $key => $database) {
 			$database_name = $key;
 			$show_as = ('wp' == $key) ? __('WordPress database', 'updraftplus') : $key;
-			$ret .= '<br><em>'. $show_as . ' ' . __('tables','updraftplus') . '</em><br>';
+			$ret .= '<br><em>'. $show_as . ' ' . __('tables', 'updraftplus') . '</em><br>';
 
 			foreach ($database as $key => $value) {
 				/*
@@ -587,6 +597,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 	/**
 	 * This method checks to see if all tables are selected to backup if they are not then it creates an array of tables to be backed up ready for the backup to use later to exclude them
+	 *
 	 * @param  [array] $options an array of options that is being passed to the backup method
 	 * @param  [array] $request an array of ajax request and extra parameters including the tables that are selected for backup
 	 */
@@ -613,11 +624,12 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 	/**
 	 * This method is called during a backup to check if the table is included in this classes database_tables array if it is then return true so it can be backed up otherwise return false so that it is skipped
-	 * @param  [boolean] $bool a boolean value
-	 * @param  [string] $table a string containing the table 
-	 * @param  [string] $table_prefix a string containing the table prefix
-	 * @param  [string|int] $whichdb a string or int indicating what database this table is from
-	 * @param  [array] $dbinfo an array of information about the current database
+	 *
+	 * @param  [boolean]    $bool         a boolean value
+	 * @param  [string]     $table        a string containing the table
+	 * @param  [string]     $table_prefix a string containing the table prefix
+	 * @param  [string|int] $whichdb      a string or int indicating what database this table is from
+	 * @param  [array]      $dbinfo       an array of information about the current database
 	 * @return [boolean] a boolean value indicating if a table should be included in the backup or not
 	 */
 	public function updraftplus_backup_table($bool, $table, $table_prefix, $whichdb, $dbinfo) {
@@ -640,7 +652,7 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 			// check this is actually set not to cause any errors
 			if (isset($this->database_tables[$key])) {
-				if (in_array($table_name, $this->database_tables[$key])){
+				if (in_array($table_name, $this->database_tables[$key])) {
 					return true;
 				} else {
 					return false;
@@ -650,23 +662,41 @@ class UpdraftPlus_Addon_MoreDatabase {
 
 		return true;
 	}
+
+	/**
+	 * Returns the member of the array with key (int)0. This function is used as a callback for array_map().
+	 *
+	 * @param Array $a - the array
+	 *
+	 * @return Mixed - the first item off the array
+	 */
+	private function cb_get_first_item($a) {
+		return $a[0];
+	}
 }
 
-# Needs keeping in sync with the version in backup.php
+/**
+ * Needs keeping in sync with the version in backup.php
+ */
 class UpdraftPlus_WPDB_OtherDB_Test extends wpdb {
-	// This adjusted bail() does two things: 1) Never dies and 2) logs in the UD log
-	public function bail( $message, $error_code = 'updraftplus_default' ) {
-// 		global $updraftplus_admin;
-// 		if ('updraftplus_default' == $error_code) {
-// 			$updraftplus_admin->logged[] = $message;
-// 		} else {
-// 			$updraftplus_admin->logged[$error_code] = $message;
-// 		}
-		# Now do the things that would have been done anyway
-		if ( class_exists( 'WP_Error' ) )
+	/**
+	 * This adjusted bail() does two things: 1) Never dies and 2) logs in the UD log
+	 *
+	 * @param  string $message
+	 * @param  string $error_code
+	 * @return boolean
+	 */
+	public function bail($message, $error_code = 'updraftplus_default') {
+// global $updraftplus_admin;
+// if ('updraftplus_default' == $error_code) {
+// $updraftplus_admin->logged[] = $message;
+// } else {
+// $updraftplus_admin->logged[$error_code] = $message;
+// }
+		// Now do the things that would have been done anyway
+		if (class_exists('WP_Error'))
 			$this->error = new WP_Error($error_code, $message);
-		else
-			$this->error = $message;
+		else $this->error = $message;
 		return false;
 	}
 }

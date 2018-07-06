@@ -13,7 +13,7 @@ register_post_type('blocks',
                         'not_found_in_trash' => __('No Blocks found in Trash', "blocks"),
                     ),
                     'public' => true,
-                    'has_archive' => true,
+                    'has_archive' => false,
                     'show_in_menu' => true,
                     'supports' => array('thumbnail','editor','title','revisions','custom-fields'),
                     'show_in_nav_menus' => true,
@@ -26,6 +26,8 @@ register_post_type('blocks',
                     'capability_type' => 'page',
                     'hierarchical' => true,
                     'menu_position' => null,
+                    'show_in_rest'  => true,
+                    'rest_base' => 'ux-blocks',
                     'menu_icon' => 'dashicons-tagcloud',
   )
 );
@@ -140,8 +142,8 @@ function block_shortcode($atts, $content = null) {
             && !is_customize_preview()
             && function_exists('ux_builder_is_active')
             && !ux_builder_is_active()) {
-           $edit_link = get_edit_post_link( $post_id );
-           $edit_link = admin_url('post.php?ux_builder=frontend&post_id='.$post_id.'&iframe_url='.urlencode($_SERVER['REQUEST_URI']));
+           // $edit_link = get_edit_post_link( $post_id );
+           $edit_link = ux_builder_edit_url( $post->ID /* post to preview */, $post_id /* post to edit */ );
            $edit_link_backend = admin_url('post.php?post='.$post_id.'&action=edit');
            $html = '<div class="block-edit-link" data-title="Edit Block: '.get_the_title($post_id).'"   data-backend="'.esc_url($edit_link_backend).'" data-link="'.esc_url($edit_link).'"></div>'.$html.'';
         }

@@ -3,8 +3,9 @@ Contributors: vark
 Donate link: https://www.varktech.com/woocommerce/woocommerce-dynamic-pricing-discounts-pro/
 Tags: woocommerce bulk pricing, woocommerce discounts, woocommerce dynamic discounts, woocommerce dynamic pricing, woocommerce wholesale pricing, woocommerce cart discount, bulk pricing, cart discount, category discount, customer role discount, user role discount, woocommerce prices, woocommerce pricing
 Requires at least: 3.3
-Tested up to: 4.7.3
-Stable tag: 1.1.7
+Tested up to: 4.9.3
+Stable tag: 2.0.0
+Requires PHP: 5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,21 +13,30 @@ Pricing Deals for Woocommerce - Dynamic Pricing, BOGO Deals, Bulk Discounts, Who
 
 == Description ==
 
-A great method to offer discount pricing and marketing deals!  
+
+A great plugin to offer discount pricing and marketing deals on your Woocommerce website!  
 Create a rule tailored to the deal you want. Pricing Deals for Woocommerce is a powerful discounting tool that helps you create both Dyanmic Cart Pricing discounts and Catalog Price (wholesale) discounts. 
 
-= Fully tested with WooCommerce 3.0+ =
+= Version 2.0 is here!! =
+
+*   Streamlined Processing
+*   NEW Discount Rule Screen Layout
+*   NEW Select Group options
+*   NEW BOGO Function - "Discount Equal or Lesser Value Item"
+*   NEW Clone Rule Function
+
+= Fully tested with WooCommerce 3.4+ =
 
 = OVERVIEW =
 
 *   Bogo Deals (buy one get one) 
 *   Category Pricing
-*   Bulk Pricing
+*   Bulk Pricing in a single rule!  Use the Bulk option for simple deals as well!
 *   Catalog Pricing
 *   Schedulable
 *   Advertise the deal on your site (shortcodes )
-*   Fully tested with WooCommerce 3.0+ 
 *   Multilanguage support through [qTranslateX](https://wordpress.org/plugins/qtranslate-x/) 
+*   Order History CART discount reporting  
 
 
 = DISCOUNT TYPES =
@@ -34,18 +44,23 @@ Create a rule tailored to the deal you want. Pricing Deals for Woocommerce is a 
 *   Percent Discount
 *   Fixed Amount Discounts  *(applied across a group or individually)*
 *   Package Pricing
-*   Discount Cheapest  *(or most expensive)*
+*   Discount Cheapest / Most Expensive / Equal or Lesser Value Item
 
 
 = Pricing Deals FREE =  
-*(deals apply to the whole store)*
 
+*   NEW Select (Include or Exclude) by:
+     - *Whole Store*
+     - *Variation name Across Products*
+     - *Brands*
+     - *Groups*
+     - *Members*
 *   Bulk Discounts
      - *Buy 5 get a discount, buy 10 get a larger discount*
      - *Buy $10 get a discount, buy $100 get a larger discount*
 *   BOGO Deals (Buy one get one)
      - *Buy 1, get next 1 at a discount* 
-*   Cart Deal activations by Woo Coupon
+*   Cart Deal activation by Woo Coupon
 *   Catalog Pricing
      - *Show the discount directly in the catalog pricing display.* 
 *   Marketing
@@ -53,15 +68,24 @@ Create a rule tailored to the deal you want. Pricing Deals for Woocommerce is a 
 *   Show a Cart discounts directly in the Unit Price, or as an automatically-inserted Woo Coupon
 
 
-= Pricing Deals PRO =  
-*(Full Group Power!)*
+= Pricing Deals PRO = 
 
-*   Set up ANY deal by:
-     - *Category*
+*   Expands functionality by adding many additional features
+*   NEW Select (Include or Exclude) by:
+     - *Whole Store*
+     - *Category, Custom Pricing Deals Category*
+     - *Product, Variation*
+     - *Variation name Across Products*
+     - *Brands*
      - *User Role*
-     - *Product*
-     - *Variation*
-     - *Custom Pricing Deals Category*
+     - *Email or Customer Name*
+     - *Groups*
+     - *Members*
+*   NEW Advanced Select Group options:
+     - *"And"  option  - Require One entry in a list to be in the cart to complete the deal*
+     - *"Or"   option  - Any entry in a list can complete the deal*
+     - *"Each" option  - Require Each entry in a list to be in the cart to complete the deal* 
+*   Automatically insert a Free item:
 *   Set Customer Limits:
      - *Example: "One per customer"*
 *   Product-level Deal Participation selection
@@ -106,36 +130,74 @@ Create a rule tailored to the deal you want. Pricing Deals for Woocommerce is a 
 [Documentation](https://www.varktech.com/documentation/pricing-deals/introrule/)
 [Deal Examples](https://www.varktech.com/documentation/pricing-deals/examples/)
 
-= How to set up a CART DEAL =
-[Deal Examples](https://www.varktech.com/documentation/pricing-deals/examples/)
-Look for "10% Off all Laptop Purchases for Wholesale"
+
+= How to set up BULK PRICING / PRICING TABLES =
 
 PRICING DEAL RULE SETUP:
 Blueprint Section
 Deal Applied in Catalog or Cart : Cart Purchase Discount
-Deal Type : Just Discount the Items
-Deal Action : Buy something, discount the item
-Show Me : Basic
+Deal Type : Bulk Purchasing   ( Pricing Table )
+Deal Action : Buy Something, Discount *The* Item
+Show Me : Basic OR Advanced
  
-Buy Group Section
-Buy Group Amount Type : Buy Each unit
-Buy Group Filter : Category / Logged-in Role / Plugin Category
-Buy Filter Product Categories : Laptops
-Buy Filter And / Or : And
-Buy Filter Logged-in Role : Wholesale Discount Role
+Qualify Group Section
+Qualify Group Product Filter : [your choice]
+Qualify Group Pricing Table 
+- Count by Units or Currency: 
+- - [What are we counting? select by units or by $$]
+- Begin / End Ranges Apply To: 
+- - [Counting the whole subtotal, or by individual cart line item total?]
+- Pricing Table Rows : [fill in as desired!]
+
+Discount Section
+Discount Applies to : [your choice]
+
+Checkout Message : WILDCARD message options for BULK rules
+  - {show_discount_val}   - wildcard shows discount val: 
+- - discount percent or discount amount applied from Pricing Table 
+  - {show_discount_val_more}   - wildcard shows: 
+- - discount val and more in msg
+
+
+
+= Buy 1 get next 1 at a Discount =
+
+PRICING DEAL RULE SETUP:
+Blueprint Section
+Deal Applied in Catalog or Cart : Cart Purchase Discount
+Deal Type : Buy one Get one (Bogo)
+Deal Action : Buy Something, Discount *Next* Item 
+Show Me : Advanced
+ 
+Qualify Group Section
+Qualify Group Product Filter : [your choice]
+Qualify Group Amount Type : Buy Unit Quantity
+Qualify Group Amount Count : 1
+Qualify Group Amount Applies To : All Products
+Qualify Group  Rule Usage Count  : [your choice]
+ 
+Discount Group Section
+
+Discount Group Filter : "Discount Group same as Qualify Group" - [Where the Buy and the Discount Group are the SAME ]
+- OR -
+Discount Group Filter : [some other choice] - [Where the Buy and the Discount Group are DIFFERENT ]
+
+Discount Group Amount Type : Discount Next One
+Discount Group Amount Applies To : All Products
+Discount Group Repeat : None
  
 Discount Section
-Discount Amount Type : % Off
-Discount Amount Count : 10
-Checkout Message  (sample) : Wholesaler 10% Off Laptops
-Sell the Deal Message  (sample) : Special Sale, 10% off All Laptops for Wholesaler! 
+Discount Amount Type : [your choice]
+Discount Applies To : Each Product
+Checkout Message : [your choice]
+
+Buy 1 fruit get next fruit at a discount  (Where the Buy and the Discount Group are the SAME)
+Buy 1 apple get next orange at a discount (Where the Buy and the Discount Group are DIFFERENT)
 
 
-= How to set up BULK PRICING =
-[Deal Examples](https://www.varktech.com/documentation/pricing-deals/examples/)
-Look for "Pricing Tiers   -   Buy 2-4, get 10% off, Buy 5-10 15% off"
+= Buy 2 get 1 of them at a discount =
 
-BUY 2 or more GET 10% OFF
+Buy 2 get the FIRST of those 2 at a discount!
 
 PRICING DEAL RULE SETUP:
 Blueprint Section
@@ -144,27 +206,54 @@ Deal Type : Buy one Get one (Bogo)
 Deal Action : Buy Something, Discount *The* Item
 Show Me : Advanced
  
-Buy Group Section
-Buy Group Amount Type : Buy Unit Qauntity
-Buy Group Amount Count : 2
-Buy Group Amount Applies To : All Products
-Buy Group Filter : Category / Logged-in Role / Plugin Category
-Buy Filter Product Categories : Books
-Buy Rule Usage Count : Apply Rule Once per Cart
+Qualify Group Section
+Qualify Group Product Filter : [your choice]
+Qualify Group Amount Type : Buy Unit Quantity
+Qualify Group Amount Count : 2
+Qualify Group Amount Applies To : All Products
+Qualify Group  Rule Usage Count  : [your choice]
  
-Get Group Section
-Get Group Amount Type : Discount Unit Quantity
-Get Group Amount Count : 1
-Get Group Amount Applies To : All Products
-Get Group Filter : Discount Group same as Buy Group
-Get Group Repeat : Unlimited Group Repeats
+Discount Group Section
+Discount Group Filter : Discount Group same as Qualify Group
+Discount Group Amount Type : Discount Unit Quantity
+Discount Group Amount Count : 1
+Discount Group Amount Applies To : All Products
+Discount Group Repeat : None
+ 
+Discount Section
+Discount Amount Type : [your choice]
+Discount Applies To : Each Product
+Checkout Message : [your choice]
+
+
+= BUY 2 or more GET 10% OFF ALL  =
+
+PRICING DEAL RULE SETUP:
+Blueprint Section
+Deal Applied in Catalog or Cart : Cart Purchase Discount
+Deal Type : Buy one Get one (Bogo)
+Deal Action : Buy Something, Discount *The* Item
+Show Me : Advanced
+ 
+Qualify Group Section
+Qualify Group Product Filter : [your choice]
+Qualify Group Amount Type : Buy Unit Quantity
+Qualify Group Amount Count : 2
+Qualify Group Amount Applies To : All Products
+Qualify Group  Rule Usage Count : Apply Rule Once per Cart
+ 
+Discount Group Section
+Discount Group Product Filter : Discount Group same as Qualify Group
+Discount Group Amount Type : Discount Unit Quantity
+Discount Group Amount Count : 1
+Discount Group Amount Applies To : All Products
+Discount Group Repeat : Unlimited Group Repeats
  
 Discount Section
 Discount Amount Type : % Off
 Discount Amount Count : 10
 Discount Applies To : Each Product
-Checkout Message  (sample) : Buy 2-4 Laptops, Get 10% off
-Sell the Deal Message  (sample) : Buy 2-4 Laptops, Get 10% off 
+Checkout Message : [your choice]
 
 
 = How to set up a BOGO DEAL =
@@ -178,14 +267,14 @@ Deal Type : Buy one Get one (Bogo)
 Deal Action : Buy Something, Discount *Next* Item
 Show Me : Basic
  
-Buy Group Section
-Buy Group Amount Type : Buy Each unit
-Buy Group Filter : Category / Logged-in Role / Plugin Category
+Qualify Group Section
+Qualify Group Amount Type : Buy Each unit
+Qualify Group Filter : Category / Logged-in Role / Plugin Category
 Buy Filter Product Categories : Laptops
  
-Get Group Section
-Get Group Amount Type : Discount Next One (single unit)
-Get Group Filter : Discount Group same as Buy Group
+Discount Group Section
+Discount Group Amount Type : Discount Next One (single unit)
+Discount Group Filter : Discount Group same as Qualify Group
  
 Discount Section
 Discount Amount Type : $ Off
@@ -193,7 +282,7 @@ Discount Amount Count : 100
 Checkout Message  (sample) : 2nd Laptop 20% off
 Sell the Deal Message  (sample) : One Day Sale, buy a Laptop, get a 2nd at 20% off! 
 
-= How to set up a CATALOG DEAL =
+= How to set up a CATALOG (Wholesale Pricing) DEAL =
 [Deal Examples](https://www.varktech.com/documentation/pricing-deals/examples/)
 Look for "10% Off Entire Catalog"
 
@@ -203,15 +292,117 @@ Deal Type : Whole Catalog on Sale
 Deal Action : Apply Discount to Catalog Item
 Show Me : Basic
  
-Buy Group Section
-Buy Group Amount Type : Buy Each unit
-Buy Group Filter : Any Product
+Qualify Group Section
+Qualify Group Amount Type : Buy Each unit
+Qualify Group Filter : Any Product
  
 Discount Section
 Discount Amount Type : % Off
 Discount Amount Count : 10
 Checkout Message  (sample) : none
 Sell the Deal Message  (sample) : Introductory Sale, 10% Off the Entire Store! 
+
+
+= BUY 2 Discount the Cheapest  =
+
+ Buy 2 Get cheapest (of those 2) at a discount 
+
+PRICING DEAL RULE SETUP:
+Blueprint Section
+Deal Applied in Catalog or Cart : Cart Purchase Discount
+Deal Type : Buy one Get one (Bogo)
+Deal Action : Buy Something, Discount *Next* Item
+Show Me : Advanced 
+Apply Discount to Cheapest Item First : Apply to Cheapest
+ 
+Qualify Group Section
+Qualify Group Filter : 
+	[your choice of **any option for the filter **]
+Qualify Group Amount Type :  Buy Unit Quantity 
+Qualify Group Amount Type Count : 2
+Qualify Group Amount Applies To : All Products 
+Qualify Group  Rule Usage Count : [your choice]
+ 
+Discount Group Section
+Discount Group Filter : [usually the *same group* as the Qualify Group Filter, selected in the same way:] 
+	[your choice of **any option for the filter, BUT NOT 'discount group same as Qualify Group'  **]
+Discount Group Amount Type : Discount Next One (single unit)
+Discount Group Repeat : none
+ 
+Discount Section
+Discount Amount Type : Free
+Discount Applies To : Each Product 
+etc ...
+
+PS 
+(the Qualify Group count may look strange combined with a 'next' deal, but it's correct...)
+JUST CHANGE:
+- Qualify Group Filter
+- Discount Group Filter
+- Qualify Group  Rule Usage Count
+
+
+= For Each $100 Purchased, get a $20 discount =
+
+Blueprint Section
+Deal Applied in Catalog or Cart : Cart Purchase Discount
+Deal Type : Buy one Get one (Bogo)
+Deal Action : Buy Something, Discount *The* Item
+Show Me : Advanced
+
+Qualify Group Section
+Qualify Group Filter : Any Product
+Qualify Group Amount Type : Buy $$ Value
+Qualify Group Amount Count : 100
+Qualify Group Amount Applies To : All Products
+Qualify Group  Rule Usage Count : Unlimited
+
+Discount Group Section
+Discount Group Filter : Discount Group same as Qualify Group
+Discount Group Amount Type : Discount $$ value
+Discount Group Amount Count : 100
+Discount Group Amount Applies To : All Products
+Discount Group Repeat : None
+
+Discount Section
+Discount Amount Type : $$ Off
+Discount Amount Count : 20
+Discount Applies To : All Products
+Checkout Message : [your choice]
+
+
+= BUY 1 of Anything, get a $20 discount CART Discount =
+
+Blueprint Section
+Deal Applied in Catalog or Cart : Cart Purchase Discount
+Deal Type : Buy one Get one (Bogo)
+ Deal Action : Buy Something, Discount *Next* Item 
+Show Me : Advanced
+ 
+Qualify Group Section
+Qualify Group Filter : Any Product
+Qualify Group Amount Type : Buy Each Unit
+Qualify Group Amount Count : 1 
+Qualify Group Amount Applies To : All Products
+Qualify Group  Rule Usage Count : Apply Rule Once per Cart
+ 
+Discount Group Section
+Discount Group Filter : Any Product [applies to whole cart]
+- [usually the *same group* as the Qualify Group Filter, selected in the same way:] 
+- [your choice of **any option for the filter, **BUT NOT** 'Discount group same as Qualify Group'  **]
+Discount Group Amount Type : Discount Next Unit Quantity
+Discount Group Amount Count : 99999 [ 5 9's (**which triggers the spread across the Discount Group**) ]
+Discount Group Amount Applies To : All Products
+Discount Group Repeat : None
+ 
+Discount Section
+Discount Amount Type : $$ off
+Discount Amount Count : 20
+Discount Applies To : All Products
+Checkout Message : [your choice]
+[When spreading a fixed discount across multiple products, best to use 
+ - Pricing Deals Setting/Unit Price Discount or Coupon Discount: Coupon Discount ] 
+
 
 = Where to get Pricing Deals PRO =
 [GET Pricing Deals Pro](https://www.varktech.com/woocommerce/woocommerce-dynamic-pricing-discounts-pro/)
@@ -225,7 +416,119 @@ Sell the Deal Message  (sample) : Introductory Sale, 10% Off the Entire Store!
 
 
 
+
 == Changelog ==
+
+= 2.0.0 - 2018-07-01 =
+* Enhancement - RULE SCREEN REWRITE - Look and feel revamp.
+          	Rewrite of the way to choose a Category, Product, etc in a rule - now using Select2. 
+          	Added Group Choice by Customer (email and name), Brands and Groups. 
+          	Each group choice will have an include/exclude option.
+
+          	If using a BRANDS plugin not in the supported list, add support by doing the following:
+          	//add the 'add_filter...' statement to your theme/child-theme functions.php file 
+          	//change [brands plugin taxonomy] to the brands taxonomy of your brands plugin   
+          	add_filter( 'vtprd_add_brands_taxonomy', function() { return  'brands plugin taxonomy'; } );
+* Enhancement - New "Apply Discount to Equal or Lesser Value Item"
+                      //--------------------------------------------------------------------                
+                      // Discount Equal or Lesser Value Item first
+                      //- Discount the item(s) in the Discount Group of equal or lesser value to the most expensive item in the Qualify Group    
+                      //--------------------------------------------------------------------   
+* Enhancement - New 'Copy to Support'button, for 1-click copying of rule for support emails 
+* Enhancement - Removed Include/Exclude Box on Product screen.  All existing include/exclude converted into new rule structures.
+          	Report documeting all original include/exclude settings available:
+          	Ex: http://[your website name]/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_help_page&doThis=reportInclExclV2.0.0  
+* Enhancement - Deal activation by Woo coupon and auto add for free function now works together! 
+* Fix - Compatible again with Gravity Forms plugin.  
+		Gravity Forms plugin (v2.3.2+)  interferes with the wordpress is-admin() conditional, 
+			making Gravity Forms incompatible with Pricing Deals.  
+		Replaced is-admin() conditional with REQUEST_URI test, where required for compatibility.  
+
+
+= 1.1.8.3 - 2018-01-27 =
+* Enhancement - Specialized filter to disallow discounts by Product Type.  Do not discount 'donation','gift-card', etc.
+          	// ( wordpress.org/plugins/donations-for-woocommerce/ YITH Woocommerce Gift Card, ... )
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+          	add_filter( 'vtprd_disallow_product_types', function() { return array('donation','gift-card'); } ); 
+          	//( to list more than 1, list using: array('xxx','yyyy','zzz') ) 
+* Enhancement - Copy to Support button - one button copy for support emails
+* Fix - intermittent rounding error (trailing 5 rounding down) resolved
+
+= 1.1.8.2 - 2018-01-27 =
+* Enhancement - Updates to accomodate Woocommerce Version 3.3
+* Enhancement - TEST license Improvements (for more info, see comments at top in admin/vtprd-license-options.php file) 
+    
+= 1.1.8.1 - 2017-12-29 =
+* Enhancement - Clone Rule Button now available on each rule.  Clicking on the button makes a rule copy, and the copy is placed in pending status.
+* Enhancement - Specialized filter to help BOGO deals.  When the Qualify Group and the Discount Group share members, but the Discount Group
+          	should not receive discounts on those products in the Qualify Group. 
+          	   - You must supply a RuleID / list of RuleIDs to the function .
+          	   - RuleID is the number in your rule URL: "...com/wp-admin/post.php?post=1066&action=edit"
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+          	add_filter( 'vtprd_remove_buy_group_members_from_get_group', function() { return  '1066,1918,1945' ; } ); 
+* Fix - Currency-based rule repeat bug fixed 
+          	When a currency value is greater than what's needed to satisfy a rule iteration, 
+          	The remaining value is used in succeeding iterations (until exhausted). 
+* Fix - Catalog rule discount display now shows original list price as old price crossed out, even if a woo sale is price has bee overridden.
+* Fix - Spread a $$ discount across the whole cart/Discount Group. USE '99999' in Discount Group amount: 
+          	   - SEE FAQ Example "BUY 1 of Anything, get a $20 discount CART Discount"
+* Fix - custom table definitions autofix
+
+= 1.1.8.0 - 2017-10-21 =
+* Enhancement - Bulk Processing in a single rule!  Use the Bulk option for simple deals as well! 
+* Enhancement - CART Discount reporting in Order History (very basic formatting, will improve soon)
+          	//to TURN OFF this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+          	add_filter( 'vtprd_do_not_show_order_history_report', function() { return  TRUE; } );  
+* Fix - at update time, had a rare issue when an active rule had auto add for free.
+* Fix - for the 'get variations' button in Rule UI product filter
+* Fix - custom table definitions 
+
+= 1.1.7.2 - 2017-10-10 =
+* Enhancement - Prevent Pricing Deals and Pricing Deals Pro from background auto-updating.  These plugins must always
+		These plugins must be updated *only* by and an admin click in response to an update nag ! 
+* Enhancement - Show WOO sales badge if shop product discounted by CATALOG rule discount
+          	//to TURN OFF this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+          	add_filter( 'vtprd_show_catalog_deal_sale_badge', function() { return  FALSE; } );  
+* Fix - by Variation Name across Products now also applies to CATALOG rules
+* Enhancement - Allow multiple coupons in coupon mode
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file
+          	add_filter( 'vtprd_allow_multiple_coupons_in_coupon_mode', function() { return TRUE; } ); 
+* Enhancement - By Role now tests against all roles user participates in (primary and secondary) 
+* Fix - by Variation Name across Products in the Discount Group now saving name correctly.
+* Enhancement - New Filter to Allow full discount reporting on customer emails for Units discounting
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file 
+          	add_filter( 'vtprd_always_show_email_discount_table', function() { return TRUE; } );
+* Fix - VTPRD_PURCHASE_LOG definition changed, 2 columns now Longtext.
+* Fix - Various Woocommerce 3.0, 3.12 and 3.2 log warnings resolved. 
+* Enhancement - Limit Cart Rule Discounting to a Single Rule or Rule type
+          	new setting: - Pricing Deal Settings Page => 'Cart Cross-Rule Limits'
+* Enhancement - New Filter vtprd_cumulativeRulePricing_custom_criteria.  Allows custom control of rule interaction.
+          	Using this filter, create your own custom function to manage Rule interaction
+          	(folow the example for using the 'vtprd_additional_inpop_include_criteria' in the PRO version apply-rules.php)
+
+= 1.1.7.1 - 2017-05-26 =
+* Enhancement - In the Group Product Filter, now select 
+		by Variation Name across Products ! 
+		Example: Apply a discount across all 'large' size shirts
+* Enhancement - FOR Cart rule with 'Buy amount applies to' = EAch, and discount group same as Qualify Group,
+		process EACH product matching the choice criteria INDIVIDUALLY.
+		  *NOTE* if 'Qualify Group RULE USAGE COUNT' = apply rule once per cart, the rule will be applied
+		  **once per product**
+* Enhancement - Filter to allow page Refresh of the CART page after an AJAX update 
+   		Valid Values for FILTER:
+  		    CouponOnly - only send JS on Cart Page when an existing rule is actuated by a Coupon
+  		    Never - never send the JS on Cart Page [DEFAULT] 
+ 		    Always - always on Cart Page      
+            	//Be sure to clear the cache and start a fresh browser session when testing this...
+            	function js_trigger_cart_page_reload() {
+           		 return 'Never';  //valid values: 'CouponOnly' / 'Never' / 'Always'
+          	}
+          	add_filter('vtprd_js_trigger_cart_page_reload', 'js_trigger_cart_page_reload', 10);
+
+          	//Alternative: same solution with less code, no additional function:
+          	add_filter( 'vtprd_js_trigger_cart_page_reload', function() { return  'Never'; } );  //valid values: 'CouponOnly' / 'Never' / 'Always'
+* Fix - Remove warnings on coupon use
+* Fix - IF auto add to cart granted and user logs in, correct auto added product count will be maintained.
 
 = 1.1.7 - 2017-04-03 =
 * Enhancement - Updates to accomodate Woocommerce 3.0
@@ -333,11 +636,7 @@ SVN Update issue
 		     // *** add to bottom of Theme Functions file (before the closing ? line, if there is one)
  		     //allows Pricing Deals to pick up current product pricing from other plugins
  		     //  ---  more resource intensive  ---
-     
-		    add_filter('vtprd_do_compatability_pricing', 'do_compatability_pricing', 10, 1); 
- 		    function do_compatability_pricing ($return_status) {
- 		     return true;
-		    }
+     		    add_filter( 'vtprd_do_compatability_pricing', function() { return TRUE; } );
 * Enhancement - Catalog Products Purchasability Display (pro):
 		- ** Gives you the ability to control Product Purchasability
 		- ** You can even turn your Woocommerce Store into a Catalog-only Installation!
@@ -390,7 +689,7 @@ SVN Update issue
 = 1.1.0.6 - 2015-07-07 =
 * Fix - Auto add free item function. 
 * Enhancement - Auto add free item function:
-		- Can now add multiple free items using the Get Group Amount count.
+		- Can now add multiple free items using the Discount Group Amount count.
 		- New Filter ==> $0 Price shown as 'Free' unless overridden by filter:
 			add_filter('vtprd_show_zero_price_as_free',FALSE); 
 			(in your theme's functions.php file)
@@ -426,7 +725,7 @@ SVN Update issue
 * Enhancement - New notification of mismatch between Free and Pro versions
 
 = 1.1 - 2015-04-19 =
-* Enhancement - In the Buy Group Filter, added Logged-in Role to Single product and single product with variations:
+* Enhancement - In the Qualify Group Filter, added Logged-in Role to Single product and single product with variations:
 	By Single Product with Variations   (+ Logged-in Role) 
 	By Single Product    (+ Logged-in Role)          
 
@@ -544,8 +843,8 @@ SVN Update issue
 = 1.0.8.1 - 2014-07-27 =
 * Fix - Refactored "Discount This" limits
 	If 'Buy Something, Discount This Item' is selected,
-	Get Group Amount is now *an absolute amount* of units/$$ applied to
-	working with the Get Group Repeat amount 
+	Discount Group Amount is now *an absolute amount* of units/$$ applied to
+	working with the Discount Group Repeat amount 
 
 = 1.0.8.0 - 2014-07-25 =
 * Fix - Customer Limits
@@ -621,7 +920,7 @@ SVN Update issue
 = 1.0.3 - 2014-04-26 =
 * Fix - warnings on apply
 * Fix - cartWidget print option corrected
-* Fix - Get group repeat logic
+* Fix - Discount Group repeat logic
 * Enhancement - e_notices made switchable, based on 'Test Debugging Mode Turned On' settings switch
 * Enhancement - debugging_mode output to error log
 * Change - cumulativeSalePricing switch default now = 'Yes - Apply Discount to Product Price, even if On Sale' - UI + JS chg
@@ -646,6 +945,83 @@ SVN Update issue
 
 
 == Upgrade Notice ==
+
+= 2.0.0 - 2018-07-01 =
+* Enhancement - RULE SCREEN REWRITE - Rewrite of the way to choose a Category, Product, etc in a rule - now using Select2.
+          	Added Group Choice by Customer (email and name), Brands and Groups. 
+          	Each group choice will have an include/exclude option.
+
+          	If using a BRANDS plugin not in the supported list, add support by doing the following:
+          	//add the 'add_filter...' statement to your theme/child-theme functions.php file 
+          	//change [brands plugin taxonomy] to the brands taxonomy of your brands plugin   
+          	add_filter( 'vtprd_add_brands_taxonomy', function() { return  'brands plugin taxonomy'; } );
+* Enhancement - New "Apply Discount to Equal or Lesser Value Item"
+                      //--------------------------------------------------------------------                
+                      // Discount Equal or Lesser Value Item first
+                      //- Discount the item(s) in the Discount Group of equal or lesser value to the most expensive item in the Qualify Group    
+                      //--------------------------------------------------------------------   
+* Enhancement - New 'Copy to Support'button, for 1-click copying of rule for support emails 
+* Enhancement - Removed Include/Exclude Box on Product screen.  All existing include/exclude converted into new rule structures.
+          	Report documeting all original include/exclude settings available:
+          	Ex: http://[your website name]/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_help_page&doThis=reportInclExclV2.0.0  
+* Enhancement - Deal activation by Woo coupon and auto add for free function now works together! 
+* Fix - Compatible again with Gravity Forms plugin.  
+		Gravity Forms plugin (v2.3.2+)  interferes with the wordpress is-admin() conditional, 
+			making Gravity Forms incompatible with Pricing Deals.  
+		Replaced is-admin() conditional with REQUEST_URI test, where required for compatibility.  
+
+= 1.1.8.0 - 2017-10-21 =
+* Enhancement - Bulk Processing in a single rule!  Use the Bulk option for simple deals as well! 
+* Enhancement - CART Discount reporting in Order History (very basic formatting, will improve soon)
+* Fix - at update time, had a rare issue when an active rule had auto add for free.
+* Fix - for the 'get variations' button in Rule UI product filter 
+
+= 1.1.7.2 - 2017-10-10 =
+* Enhancement - Prevent Pricing Deals and Pricing Deals Pro from background auto-updating.  These plugins must always
+		These plugins must be updated *only* by and an admin click in response to an update nag ! 
+* Enhancement - Show WOO sales badge if shop product discounted by CATALOG rule discount
+          	//to TURN OFF this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file  
+          	add_filter( 'vtprd_show_catalog_deal_sale_badge', function() { return  FALSE; } );  
+* Fix - by Variation Name across Products now also applies to CATALOG rules
+* Enhancement - Allow multiple coupons in coupon mode
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file
+          	add_filter( 'vtprd_allow_multiple_coupons_in_coupon_mode', function() { return TRUE; } ); 
+* Enhancement - By Role now tests against all roles user participates in (primary and secondary) 
+* Fix - by Variation Name across Products in the Discount Group now saving name correctly.
+* Enhancement - New Filter to Allow full discount reporting on customer emails for Units discounting
+          	//to TURN ON this new action, add the 'add_filter...' statement to your theme/child-theme functions.php file 
+          	add_filter( 'vtprd_always_show_email_discount_table', function() { return TRUE; } );
+* Fix - VTPRD_PURCHASE_LOG definition changed, 2 columns now Longtext.
+* Fix - Various Woocommerce 3.0, 3.12 and 3.2 log warnings resolved. 
+* Enhancement - Limit Cart Rule Discounting to a Single Rule or Rule type
+          	new setting: - Pricing Deal Settings Page => 'Cart Cross-Rule Limits'
+* Enhancement - New Filter vtprd_cumulativeRulePricing_custom_criteria.  Allows custom control of rule interaction.
+          	Using this filter, create your own custom function to manage Rule interaction
+          	(folow the example for using the 'vtprd_additional_inpop_include_criteria' in the PRO version apply-rules.php)
+
+= 1.1.7.1 - 2017-05-26 =
+* Enhancement - In the Group Product Filter, now select 
+		by Variation Name across Products ! 
+		Example: Apply a discount across all 'large' size shirts
+* Enhancement - FOR Cart rule with 'Buy amount applies to' = EAch, and discount group same as Qualify Group,
+		process EACH product matching the choice criteria INDIVIDUALLY.
+		  *NOTE* if 'Qualify Group RULE USAGE COUNT' = apply rule once per cart, the rule will be applied
+		  **once per product**
+* Enhancement - Filter to allow page Refresh of the CART page after an AJAX update 
+   		Valid Values for FILTER:
+  		    CouponOnly - only send JS on Cart Page when an existing rule is actuated by a Coupon
+  		    Never - never send the JS on Cart Page [DEFAULT] 
+ 		    Always - always on Cart Page      
+            	//Be sure to clear the cache and start a fresh browser session when testing this...
+            	function js_trigger_cart_page_reload() {
+           		 return 'Never';  //valid values: 'CouponOnly' / 'Never' / 'Always'
+          	}
+          	add_filter('vtprd_js_trigger_cart_page_reload', 'js_trigger_cart_page_reload', 10);
+
+          	//Alternative: same solution with less code, no additional function:
+          	add_filter( 'vtprd_js_trigger_cart_page_reload', function() { return  'Never'; } );  //valid values: 'CouponOnly' / 'Never' / 'Always'
+* Fix - Remove warnings on coupon use
+* Fix - IF auto add to cart granted and user logs in, correct auto added product count will be maintained.
 
 = 1.1.7 - 2017-04-03 =
 * Enhancement - Updates to accomodate Woocommerce 3.0
@@ -747,7 +1123,7 @@ SVN Update issue
 = 1.1.0.6 - 2015-07-07 =
 * Fix - Auto add free item function. 
 * Enhancement - Auto add free item function:
-		- Can now add multiple free items using the Get Group Amount count.
+		- Can now add multiple free items using the Discount Group Amount count.
 		- New Filter ==> $0 Price shown as 'Free' unless overridden by filter:
 			add_filter('vtprd_show_zero_price_as_free',FALSE); 
 			(in your theme's functions.php file)
@@ -783,7 +1159,7 @@ SVN Update issue
 * Enhancement - New notification of mismatch between Free and Pro versions
 
 = 1.1 - 2015-04-19 =
-* Enhancement - In the Buy Group Filter, added Logged-in Role to Single product and single product with variations:
+* Enhancement - In the Qualify Group Filter, added Logged-in Role to Single product and single product with variations:
 	By Single Product with Variations   (+ Logged-in Role) 
 	By Single Product    (+ Logged-in Role)          
 
@@ -897,8 +1273,8 @@ SVN Update issue
 = 1.0.8.1 - 2014-07-27 =
 * Fix - Refactored "Discount This" limits
 	If 'Buy Something, Discount This Item' is selected,
-	Get Group Amount is now *an absolute amount* of units/$$ applied to
-	working with the Get Group Repeat amount 
+	Discount Group Amount is now *an absolute amount* of units/$$ applied to
+	working with the Discount Group Repeat amount 
 
 = 1.0.8.0 - 2014-07-25 =
 * Fix - Customer Limits
@@ -972,7 +1348,7 @@ SVN Update issue
 = 1.0.3 - 2014-04-26 =
 * Fix - warnings on apply
 * Fix - cartWidget print option corrected
-* Fix - Get group repeat logic
+* Fix - Discount Group repeat logic
 * Enhancement - e_notices made switchable, based on 'Test Debugging Mode Turned On' settings switch
 * Enhancement - debugging_mode output to error log
 * Change - cumulativeSalePricing switch default now = 'Yes - Apply Discount to Product Price, even if On Sale' - UI + JS chg

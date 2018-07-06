@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 Flatsome_Option::add_section( 'payment-icons', array(
@@ -19,6 +19,7 @@ Flatsome_Option::add_field( 'option',  array(
 		'amazon' => __( 'Amazon', 'flatsome-admin' ),
 		'americanexpress' => __( 'American Express', 'flatsome-admin' ),
 		'applepay' => __( 'Apple Pay', 'flatsome-admin' ),
+    'afterpay' => __( 'AfterPay', 'flatsome-admin' ),
 		'atm' => __( 'Atm', 'flatsome-admin' ),
 		'bancontact' => __( 'Bancontact', 'flatsome-admin' ),
 		'bankomat' => __( 'Bankomat', 'flatsome-admin' ),
@@ -34,7 +35,7 @@ Flatsome_Option::add_field( 'option',  array(
 		'creditcard' => __( 'Credit Card', 'flatsome-admin' ),
 		'creditcard2' => __( 'Credit Card 2', 'flatsome-admin' ),
 		'dancard' => __( 'DanKort', 'flatsome-admin' ),
-		'dinnersclup' => __( 'Dinners Club', 'flatsome-admin' ),
+		'dinnersclub' => __( 'Dinners Club', 'flatsome-admin' ),
 		'discover' => __( 'Discover', 'flatsome-admin' ),
 		'elo' => __( 'Elo', 'flatsome-admin' ),
 		'eps' => __( 'Eps', 'flatsome-admin' ),
@@ -71,6 +72,7 @@ Flatsome_Option::add_field( 'option',  array(
 		'sofort' => __( 'Sofort', 'flatsome-admin' ),
 		'square' => __( 'Square', 'flatsome-admin' ),
 		'stripe' => __( 'Stripe', 'flatsome-admin' ),
+    'swish' => __( 'Swish (SE)', 'flatsome-admin' ),
 		'truste' => __( 'Truste', 'flatsome-admin' ),
 		'unionpay' => __( 'UnionPay', 'flatsome-admin' ),
 		'verisign' => __( 'VeriSign', 'flatsome-admin' ),

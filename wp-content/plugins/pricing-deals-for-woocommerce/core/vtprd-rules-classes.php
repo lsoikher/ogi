@@ -54,7 +54,7 @@ class VTPRD_Rule {
      //   display   = reduce price at product display time, 
      //   cart  = reduce price only at add-to-cart, cart processing and checkout time [default]
      //******************************************
-     public  $rule_execution_type;    
+     public  $rule_execution_type;  
 
      //these two are selected off of the rule type dropdown.
      public  $rule_template;   //internal only, key value reference to $vtprd_rule_type_[x]_framework, for debugging
@@ -322,6 +322,53 @@ class VTPRD_Rule {
 
      public  $only_for_this_coupon_name;    //v1.1.0.8  only apply if matching coupon PRESENTED at checkout
 
+     //************
+     // v2.0.0 Begin
+     //************    			
+     public  $buy_group_population_info; 
+     /* ALL of this now in **vtprd_edit_arrays_framework in vtprd-rules-ui-framework.php** 
+         'buy_group_prod_cat_incl_array'            => array(),
+         'buy_group_prod_cat_excl_array'            => array(), 
+         'buy_group_plugin_cat_incl_array'          => array(),
+         'buy_group_plugin_cat_excl_array'          => array(), 
+         'buy_group_product_incl_array'             => array(),
+         'buy_group_product_excl_array'             => array(),		 
+         'buy_group_var_name_incl_array'            => array(), 
+         'buy_group_var_name_excl_array'            => array(),
+         'buy_group_brands_incl_array'              => array(), //woo brands plugin / other brands plugins by filter
+         'buy_group_brands_excl_array'              => array(), //woo brands plugin / other brands plugins by filter                      
+         //Roles / Customers / Groups / Brands / Other
+         'buy_group_customer_and_or'                => 'and',  //'and' = 1 of the customer identifiers is required, 'or' = optional
+         'buy_group_role_incl_array'                => array(),
+         'buy_group_role_excl_array'                => array(),  
+         'buy_group_email_incl_array'               => array(), 
+         'buy_group_email_excl_array'               => array(), 
+         'buy_group_groups_incl_array'              => array(), //groups plugin / woo groups plugin
+         'buy_group_groups_excl_array'              => array(), //groups plugin / woo groups plugin
+         'buy_group_members_incl_array'             => array(), //official Woo membership plugin
+         'buy_group_members_excl_array'             => array() //official Woo membership plugin            
+     */
+      
+      public  $action_group_population_info; 
+     /* ALL of this now in **vtprd_edit_arrays_framework** 
+     //Action group - Categories, Products, Variations
+         'action_group_prod_cat_incl_array'         => array(),
+         'action_group_prod_cat_excl_array'         => array(), 
+         'action_group_plugin_cat_incl_array'       => array(),
+         'action_group_plugin_cat_excl_array'       => array(), 
+         'action_group_product_incl_array'          => array(),
+         'action_group_product_excl_array'          => array(),		 
+         'action_group_var_name_incl_array'         => array(), 
+         'action_group_var_name_excl_array'         => array(),
+         'action_group_brands_incl_array'           => array(), //woo brands plugin / other brands plugins by filter
+         'action_group_brands_excl_array'           => array() //woo brands plugin / other brands plugins by filter           
+     */  
+      
+      public  $rule_updated_with_free_version_number; //for conversion tracking, note which version of the FREE plugin last updated the row      
+     //************
+     // v2.0.0 end
+     //************
+
 /*
      WHAT ABOUT TAXATION?  IF TAXES ARE INCLUDED IN THE PRICING, HOW DOES THAT WORK???
      
@@ -372,8 +419,29 @@ class VTPRD_Rule {
      public  $advertising_msg_badge_sw; //v1.0.9.0  if this is on, span is created which allows a badge to be attached using css
           
      public  $apply_deal_to_cheapest_select; //v1.1.6.7 
+           
+     public  $buy_group_varName_array ;  //v1.1.7.1   array(array()) - allows for combining varnames within a single group (red+large)         
+     public  $action_group_varName_array ; //v1.1.7.1   array(array()) - allows for combining varnames within a single group (red+large)   
+
+     //v1.1.8.0 begin
+     public  $bulk_deal_method;  // units/currency
+     public  $bulk_deal_qty_count_by;  // each/all
+     public  $bulk_deal_array;
+          /*
+          array (
+            array (
+              'min_value' =>  '', 
+              'max_value' =>  '',
+              'discount_type' =>  '',
+              'discount_value' =>  ''
+            )
+          )
+          */         
+     //v1.1.8.0 end  
      //*********************
-   
+     //END of active RULE
+     //********************* 
+        
      //******************************************
      //temp data loaded only at rule processing time, not retained in storage
      //******************************************
@@ -452,7 +520,40 @@ class VTPRD_Rule {
         
      public  $coupons_amount_without_rule_discounts;  //TOTAL $$ value of USER-ENTERED coupons (only the 0 iteration is used)
      public  $auto_add_inserted_total_for_rule_repeat;  //v1.1.0.6
-     public  $auto_add_inserted_total_for_rule;   //v1.1.0.6       
+     public  $auto_add_inserted_total_for_rule;   //v1.1.0.6 
+     public  $bulk_deal_processing_array; //v1.1.8.0 
+            /*
+            array (
+              'actionPop_exploded_group_end'      =>  $actionPop_exploded_group_end,
+              'currency_last_iteration_remainder' =>  ( $actionPop_exploded_currency_total - $vtprd_rules_set[$i]->bulk_deal_array[$b]['max_value'] ), 
+              'prod_id' =>  $vtprd_rules_set[$i]->actionPop_exploded_found_list[$z]['prod_id'] , 
+              'orig_prod_unit_price' => $vtprd_rules_set[$i]->actionPop_exploded_found_list[$z]['prod_unit_price'],
+              'bulk_array_occurrence' =>  $b,
+              'msg_suffix' =>  $msg_suffix               
+            ); 
+            */   
+              
+     //v1.1.8.1 begin   for currency 'remainder' situation across multiple repeats 
+     public  $inPop_exploded_group_currency_array;
+     public  $actionPop_exploded_group_currency_array;  
+      /*
+        array (
+          'actionPop_exploded_group_end'      =>  $vtprd_rules_set[$i]->actionPop_exploded_group_end,
+          'price_divided_array'    =>  $price_divided_array,
+          
+            array (                       
+              'prod_unit_price_current' =>  $amount_used,
+              'prod_unit_price_remaining' =>  $prod_unit_price_remaining
+           ); 
+          
+          'price_divided_array_occurrence'    => 0,                              
+          'prod_id' =>  $vtprd_rules_set[$i]->actionPop_exploded_found_list[$e]['prod_id'] , 
+          'orig_prod_unit_price' => $vtprd_rules_set[$i]->actionPop_exploded_found_list[$e]['prod_unit_price'],
+          'actionPop_exploded_array_current_occurrence' =>  $e         
+        );             
+      */          
+     //v1.1.8.1 end   
+                    
      //******************************************
    
 	public function __construct(){
@@ -463,8 +564,9 @@ class VTPRD_Rule {
      
      $this->rule_execution_type;
           
-     $this->rule_type_framework_key;   //reference to $vtprd_rule_type_[x]_framework, guides editing and logic
-     $this->rule_type_name;
+     //v1.1.8.0 both unused
+     //$this->rule_type_framework_key;   //reference to $vtprd_rule_type_[x]_framework, guides editing and logic
+     //$this->rule_type_name;
      
      //*************************************
         //    PRICING DEAL TABLE INFO
@@ -518,7 +620,7 @@ class VTPRD_Rule {
      //*****************
      //  actionPop
     //*****************
-      $this->actionPop_same_as_inPop; 
+      //$this->actionPop_same_as_inPop; v1.1.8.0 unused
       $this->actionPop; // cart or single or groups
             
       $this->actionPop_varProdID;
@@ -536,10 +638,10 @@ class VTPRD_Rule {
       
      $this->specChoice_out; // all or each or any 
      
-     $this->anyChoiceOut_max;
+     $this->anyChoiceout_max;  //v1.1.8.0 Cap O for out wasnt' matched, changed
 
      $this->amtSelectedOut; //quantity or currency 
-     $this->actionPop_threshHold_amt;
+     //$this->actionPop_threshHold_amt;  v1.1.8.0 unused
      $this->end_of_actionPop_reached;
           
      //******************************************
@@ -573,8 +675,17 @@ class VTPRD_Rule {
      $this->rule_error_box_fields = array();
      $this->advertising_msg_badge_sw;  //v1.0.9.0    
      $this->apply_deal_to_cheapest_select = 'no'; //v1.1.6.7     
-     
-          
+     $this->buy_group_varName_array = '' ;  //v1.1.7.1  //don't use array() to allow default msg 
+     $this->action_group_varName_array = '' ; //v1.1.7.1  //don't use array() to allow default msg  
+
+     $this->bulk_deal_method = 'units' ;  // units/currency  v1.1.8.0
+     $this->bulk_deal_qty_count_by = 'all' ;  // each/all  v1.1.8.0
+     $this->bulk_deal_array = array();  //v1.1.8.0 
+     $this->bulk_deal_processing_array = array();  //v1.1.8.0     
+     //*********************
+     //END of active RULE
+     //********************* 
+               
      /* ************************************************* */
      /* Rule Processing at Purchase
      *  data is loaded here only at purchase processing time
@@ -663,9 +774,16 @@ class VTPRD_Rule {
       $this->auto_add_inserted_array = array();
       $this->coupons_amount_without_rule_discounts = 0;  //TOTAL $$ value of USER-ENTERED coupons (only the 0 iteration is used) 
       $this->auto_add_count_for_rule_repeat = 0;  //v1.1.0.6  ==> cleared at begine of each rule repeat
-      $this->auto_add_count_for_rule = 0;   //v1.1.0.6 
-      
-      $this->only_for_this_coupon_name = '';    //v1.1.0.8  only apply if matching coupon PRESENTED at checkout     
+      $this->auto_add_count_for_rule = 0;   //v1.1.0.6       
+      $this->only_for_this_coupon_name = '';    //v1.1.0.8  only apply if matching coupon PRESENTED at checkout  
+      $this->auto_add_inserted_total_for_rule_repeat = ''; //v1.1.8.1 
+      $this->auto_add_inserted_total_for_rule = ''; //v1.1.8.1  
+      $this->inPop_exploded_group_currency_array = array(); //v1.1.8.1
+      $this->actionPop_exploded_group_currency_array = array(); //v1.1.8.1   			
+      $this->buy_group_population_info = array(); //v2.0.0
+      $this->action_group_population_info = array(); //v2.0.0
+      $this->rule_updated_with_free_version_number; //v2.0.0 
+        
   } //end function 
     
 } //end class    

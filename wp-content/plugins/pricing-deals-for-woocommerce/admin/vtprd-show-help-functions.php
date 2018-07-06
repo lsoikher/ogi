@@ -1,6 +1,66 @@
 <?php
  /*
+v2.0.0 new entries:
 
+Products that the deal will be applied to, or that need to be in the cart in order for the discount to be applied.
+
+List of allowed emails to check against the customer billing email when an order is placed. Separate email addresses with commas.
+
+Products that the coupon will not be applied to, or that cannot be in the cart in order for the "Fixed cart discount" to be applied.
+
+'AND' message:
+"AND" ONE of entries in the Role, Email, Groups or Membership Lists MUST be satisfied, in order for the discount to be applied.
+
+"AND" Rule example - "Buy 3 of Category X and logged as Wholesale, get a discount"
+
+"OR" = Entries in the Role, Email, Groups or Membership Lists that the deal can be applied to.
+
+          "AND" ONE of entries in the Role, Email, Groups or Membership Lists MUST be satisfied, in order for the discount to be applied.
+          <br>
+          "AND" Rule example - "Buy 3 of Category X and logged as Wholesale, get a discount" 
+        <div class="andSelected  clear-left">
+          "AND" ONE of entries in the Role, Email, Groups or Membership Lists MUST be satisfied, in order for the discount to be applied.
+          <br>
+          "AND" Rule example - "Buy 3 of Category X and logged as Wholesale, get a discount" 
+        </div>
+        <div class="orSelected  clear-left">"OR" = Entries in the Role, Email, Groups or Membership Lists that the deal can be applied to.</div>
+        
+        that the deal will may be applied to
+        
+buy_group_prod_cat_incl
+buy_group_prod_cat_excl
+buy_group_plugin_cat_incl
+buy_group_plugin_cat_excl
+buy_group_product_incl
+buy_group_product_excl
+buy_group_var_name_incl
+buy_group_var_name_excl
+buy_group_brands_incl
+buy_group_brands_excl
+
+** in the INCLUDE doc, have the 'include' and 'required' message both here
+** and use JS to test the and/or radio buttons to show/hide the correct message!
+
+buy_group_role_incl
+buy_group_role_excl
+buy_group_email_incl
+buy_group_email_excl
+buy_group_groups_incl
+buy_group_groups_excl
+buy_group_memberships_incl
+buy_group_memberships_excl
+
+
+action_group_prod_cat_incl
+action_group_prod_cat_excl
+action_group_plugin_cat_incl
+action_group_plugin_cat_excl
+action_group_product_incl
+action_group_product_excl
+action_group_var_name_incl
+action_group_var_name_excl
+action_group_brands_incl
+action_group_brands_excl
  */
             
   //************************************************
@@ -11,7 +71,7 @@
   ?>           
     <div class="selection-panel selection-panel-0" id="selection-panel-0" >                                
       <span class="selection-panel-label label"><strong><?php _e('Tell me about Pricing Deals', 'vtprd');?></strong></span>  
-      <a id="open-help-in-new-window"  href="<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_help_page" onclick="javascript:void window.open('<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_help_page','1375122357919','width=1200,height=500,toolbar=0,menubar=0,location=1,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">Open "Help" in a Separate Window</a> 
+      <a id="open-help-in-new-window"  href="<?php echo VTPRD_ADMIN_URL;?>edit.php?post_type=vtprd-rule&page=vtprd_show_help_page" onclick="javascript:void window.open('<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_help_page','1375122357919','width=1200,height=500,toolbar=0,menubar=0,location=1,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">Open "Help" in a Separate Window</a> 
       <a class="selection-panel-close selection-panel-close-0" href="javascript:void(0);" ><img class="close-button" alt="help"  width="16" height="16" src="<?php echo VTPRD_URL;?>/admin/images/close-icon.png" /></a>                      
   		<span class="selection-panel-text" >
         <span class="selection-panel-text-info">
@@ -145,7 +205,7 @@
                <ul>
                 <li><?php _e('Realtime Display discount directly in the product Catalog', 'vtprd');?> 
                   <ul>
-                    <li><?php _e('Catalog Price Reduction ', 'vtprd');?>
+                    <li><?php _e('CATALOG Display Discount ', 'vtprd');?>
                       <ul>
                         <li><?php _e('Price is automatically reduced when shown to the customer ', 'vtprd');?></li>
                       </ul>
@@ -796,7 +856,7 @@
   ?>           
     <div class="selection-panel selection-panel-5" id="selection-panel-5" >                                
       <span class="selection-panel-label label"><strong><?php _e('Pricing Deal Examples FAQ', 'vtprd');?></strong></span>                         
-      <a id="open-faq-in-new-window"  href="<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_faq_page" onclick="javascript:void window.open('<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_faq_page','1375122357919','width=700,height=500,toolbar=0,menubar=0,location=1,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">Open "Examples FAQ" in a Separate Window</a>                       		      
+      <a id="open-faq-in-new-window"  href="<?php echo VTPRD_ADMIN_URL;?>edit.php?post_type=vtprd-rule&page=vtprd_show_faq_page" onclick="javascript:void window.open('<?php bloginfo('url');?>/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_show_faq_page','1375122357919','width=700,height=500,toolbar=0,menubar=0,location=1,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">Open "Examples FAQ" in a Separate Window</a>                       		      
       <a class="selection-panel-close selection-panel-close-5" href="javascript:void(0);" ><img class="close-button" alt="help"  width="16" height="16" src="<?php echo VTPRD_URL;?>/admin/images/close-icon.png" /></a>                      
   		<span class="selection-panel-text" >
         <span class="selection-panel-text-info">
@@ -833,7 +893,7 @@
             </p>            
             <ul id="" class="">
               <li><strong><em>
-                  <?php _e('Price Reductions - Realtime', 'vtprd');?>
+                  <?php _e('CATALOG Display Discount - Realtime', 'vtprd');?>
                   </em></strong>
                   <?php _e(' Catalog Item Sale Pricing, by Whole Store [and by additional the Grouping Options listed below, available in the Pro Version]', 'vtprd');?> 
                 <ul id="" class="">
@@ -1101,7 +1161,7 @@
               <li><?php _e('Download a Role Management Plugin (like ', 'vtprd');?> <a href="http://wordpress.org/extend/plugins/user-role-editor/"><?php _e('User Role Editor', 'vtprd');?></a>) </li>
               <li><?php _e('Set up unique Membership/Wholesale Roles using Role Management Plugin', 'vtprd');?></li>
               <li><?php _e('Ensure shop website theme allows user to Log In to store', 'vtprd');?></li>                    
-              <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="/wp-admin/users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
+              <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="<?php echo VTPRD_ADMIN_URL;?>users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
               <li><?php _e('Set up Pricing Deal rule(s) which specify the appropriate Membership/Wholesale role(s) for the Buy or Get Pool', 'vtprd');?></li>
             </ol>           
           </span>
@@ -1146,7 +1206,7 @@
               <h4 class="discount-help-title"><?php _e('Auto Adds work differently with Coupons.', 'vtprd');?></h4>
               <ul class="directions-list">
                 <li><?php _e('- For Auto Adds, "Apply this Rule Discount in Addition to Coupon Discount" must be "Yes" .', 'vtprd');
-                          echo '<br><br> &nbsp;&nbsp;<em>';
+                          echo '<br> &nbsp;&nbsp;<em>';
                           _e(' The FREE Auto Add takes place and any Coupon presented is skipped for the Free Product only... ', 'vtprd');
                           echo '</em>';
                      ?> 
@@ -1165,7 +1225,7 @@
                 <li><?php _e('- Buy and Get Groups are EXACTLY the same product', 'vtprd');
                            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';  
                           _e('("Buy WidgetX, get the next WidgetX FREE")', 'vtprd');
-                          echo '<br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                          echo '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                           _e('(Both BUY and GET Groups must select the SAME individual product, as a single variation or single product)', 'vtprd');                    
                      ?> 
                 </li>
@@ -1358,7 +1418,7 @@
         break;         
       case 'C-storeWideSale':  // Store-Wide Sale
               _e('Realtime price discount applied across the whole store.', 'vtprd'); 
-               echo '<br><br>';
+               echo '<br>';
                _e('The price reduction created by this Rule takes place at Add to Cart time.  Long Rule Description, whose display indicates that the product participates in a Pricing Deal, is available to the
               theme (at all times) using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display this info to the customer, informing them of the discount available to them.', 'vtprd');    
@@ -1399,7 +1459,7 @@
       case 'C-forThePriceOf-inCart':  // Buy 5, get them for the price of 4 - Cart 
           ?>  <span class="textarea"> <?php                          
               _e('5 for the price of 4 is a group purchase option, but with a difference. Here, the deal price is computed based on a percentage of the cost of the group total', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, if 5 items of equal cost are purchased, each costing $100.  The Deal price would be 80% of the total, or $400.', 'vtprd'); 
           ?>   
               </span>
@@ -1408,9 +1468,9 @@
       case 'C-cheapest-inCart':  //  Buy 5/$500, get a discount for Some/All 5 -Cart         
           ?>  <span class="textarea"> <?php                          
               _e('This is the most basic kind of group purchase. Here, the deal price pre-figured discount within the group purchased.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Example 1: buy 5 units, get $20 off of 2 items.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Example 2: buy 5 specific items, get them for a fixed group price - True Group Pricing.', 'vtprd'); 
           ?>   
               </span>
@@ -1494,7 +1554,7 @@
         break;
       case '4':  // Buy Each Nth Unit 
               _e('Rule applies to every Nth unit count of individual products, or a quantity across the all the products, in the Buy Pool.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Please note that the "Each Nth" option does not by definition repeat multiple times, but as in all other rule types, 
                   the repetition is controlled by the  Rule Usage Count Amt.', 'vtprd');    
         break;           
@@ -1594,7 +1654,7 @@
         break;
       case '5':  // Get Each Nth Unit 
               _e('Rule applies to every Nth unit count of individual products, or a quantity across the all the products, in the Get Pool.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Please note that the "Each Nth" option does not by definition repeat multiple times, but as in all other rule types, 
               the repetition is controlled by the  Get Pool Repeat Amt.', 'vtprd');    
         break;           
@@ -1679,31 +1739,31 @@
         break;
       case '1':  // Percentage Off Discount
               _e('Offer a Percentage Off Discount', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Long Rule Description is available to the theme using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display the Pricing Deal Message to the customer, informing them of the discount available to them.', 'vtprd');    
         break;
       case '2':  // Currency Amount Discount
               _e('Offer a fixed Currency Amount Discounted.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Long Rule Description is available to the theme using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display the Pricing Deal Message to the customer, informing them of the discount available to them.', 'vtprd');     
         break;
       case '3':  // Set a Discounted Fixed Price
               _e('Set a Discounted Fixed Price.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Long Rule Description is available to the theme using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display the Pricing Deal Message to the customer, informing them of the discount available to them.', 'vtprd');     
         break;        
       case '4':  // Free
               _e('Offer a product for Free in this Discount.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Long Rule Description is available to the theme using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display the Pricing Deal Message to the customer, informing them of the discount available to them.', 'vtprd');     
         break;        
       case '5':  // For the Price of (Units) Discount ["Buy 5 for the price of 4"]
               _e('Group Pricing, "Buy 5 for the price of 4".', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Long Rule Description is available to the theme using the "echo do_action" syntax discussed in the documentation and the readme,
               so that you can display the Pricing Deal Message to the customer, informing them of the discount available to them.', 'vtprd');     
         break;                   
@@ -1895,17 +1955,17 @@
       //display templates
       case '0':  //     No Discount Rule Max  
               _e('Please be careful when choosing the Get Group Selection. ', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('If you choose "Get Pool Group same as Buy Pool Group" or
                  "Apply to all products in store", the Buy and Get groups will be processed as a single group together, alternating
                  between Buy criteria and Get criteria.  For example, in this case you have "buy 5 get 1 free", the 6th item purchased will be free.', 'vtprd');
                  
-               echo '<br><br>';
+               echo '<br>';
               _e('If the Get Group is separately specified, it will be counted separately, regardless whether the two groups actuall share members.
                  For example, you have "buy 5 get 1 free", but the Get group separately specifies the same categories as the Buy Group.
                  In this case the Get Group will **Recount** the original 5, and offer the 1st free...', 'vtprd'); 
                  
-               echo '<br><br><strong>';
+               echo '<br><strong>';
                _e('So please be sure that if there is overlap between the Buy group and the specified Get Group, you have considered
                  the overlap issue.', 'vtprd');
                echo '</strong>';    
@@ -1935,7 +1995,7 @@
                  and add the product to the correct Pricing Deals category.  (On your product add/update screen, the Mininimum purchase 
                  category metabox is just below the default product category box.)  You can also apply the rule using Wholesaler / Membership / Roles (Displays different prices for logged in users)  
                  as a solo selection, or you can use any combination of all three.", 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e("Display different prices/pricing tiers for logged in users => Role/Membership is used within Wordpress to control access and capabilities, when a role is given to a user.  
                  Wordpress assigns certain roles by default such as Subscriber for new users or Administrator for the site's owner. Roles can also be used to associate a user 
                  with a pricing level.  Use a role management plugin like , ", 'vtprd'); 
@@ -1946,16 +2006,16 @@
                _e("to establish custom roles, which you can give 
                  to a user or class of users.  Then you can associate that role with a Pricing Deals Rule.  
                  So when the user logs into your site, their Role interacts with the appropriate Rule.", 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e("Please take note of the relationship choice 'and/or' when using roles.  The default is 'or', while choosing 'and' requires that 
                  both a role and a category be selected, before a rule can be published.", 'vtprd');?>
-                <br><br>
+                <br>
                 <h3><?php _e('Membership / Wholesale / Customer', 'vtprd'); echo '&nbsp;&nbsp;';  _e('Role How-To', 'vtprd');?></h3>
                 <ol class="directions-list">
                   <li><?php _e('Download a Role Management Plugin (like ', 'vtprd');?> <a href="http://wordpress.org/extend/plugins/user-role-editor/"><?php _e('User Role Editor', 'vtprd');?></a>) </li>
                   <li><?php _e('Set up unique Membership/Wholesale Roles using Role Management Plugin', 'vtprd');?></li>
                   <li><?php _e('Ensure shop website theme allows user to Log In to store', 'vtprd');?></li>                    
-                  <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="/wp-admin/users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
+                  <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="<?php echo VTPRD_ADMIN_URL;?>users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
                   <li><?php _e('Set up Pricing Deal rule(s) which specify the appropriate Membership/Wholesale role(s) for the Buy or Get Pool', 'vtprd');?></li>
                 </ol>          
             </span>
@@ -1982,22 +2042,22 @@
                  with a pricing level.  Use a role management plugin like http://wordpress.org/extend/plugins/user-role-editor/ to establish custom roles, which you can give 
                  to a user or class of users.  Then you can associate that role with a Pricing Deals Rule.  
                  So when the user logs into your site, their Role interacts with the appropriate Rule.", 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e("Use an existing category to identify the group of products to which you wish to apply the rule.  
                  If you'd rather, use a Pricing Deals Category to identify products - this avoids disturbing the store categories. Just add a Pricing Deals Category, go to the product screen,
                  and add the product to the correct Pricing Deals category.  (On your product add/update screen, the Mininimum purchase 
                  category metabox is just below the default product category box.)  You can also apply the rule using Wholesaler / Membership / Roles (Displays different prices for logged in users)  
                  as a solo selection, or you can use any combination of all three.", 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e("Please take note of the relationship choice 'and/or' when using roles.  The default is 'or', while choosing 'and' requires that 
                  both a role and a category be selected, before a rule can be published.", 'vtprd');?>
-                <br><br>
+                <br>
                 <h3><?php _e('Membership / Wholesale / Customer', 'vtprd'); echo '&nbsp;&nbsp;';  _e('Role How-To', 'vtprd');?></h3>
                 <ol class="directions-list">
                   <li><?php _e('Download a Role Management Plugin (like ', 'vtprd');?> <a href="http://wordpress.org/extend/plugins/user-role-editor/"><?php _e('User Role Editor', 'vtprd');?></a>) </li>
                   <li><?php _e('Set up unique Membership/Wholesale Roles using Role Management Plugin', 'vtprd');?></li>
                   <li><?php _e('Ensure shop website theme allows user to Log In to store', 'vtprd');?></li>                    
-                  <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="/wp-admin/users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
+                  <li><?php _e('Assign signed-up users to appropriate Membership/Wholesale Role (', 'vtprd');?><a href="<?php echo VTPRD_ADMIN_URL;?>users.php"><?php _e('Users Screen', 'vtprd');?></a>)</li>
                   <li><?php _e('Set up Pricing Deal rule(s) which specify the appropriate Membership/Wholesale role(s) for the Buy or Get Pool', 'vtprd');?></li>
                 </ol>          
             </span>
@@ -2037,17 +2097,17 @@
       //display templates            
       case 'basic-rule-scheduling':  
            _e('Rule scheduling is required.', 'vtprd');
-            echo '<br><br>';
+            echo '<br>';
             _e('The rule may Begin any time, the End Date may be the same as Begin Date or later.', 'vtprd');
-            echo '<br><br>';
+            echo '<br>';
             _e('In order for the rule to be active, the date must fall between the Begin and End Dates (inclusive of the stated boundary dates).', 'vtprd');               
         break;
       case 'deal-type-title':  
            _e('The Pricing Deal Template helps you to define what kind of Pricing Deal rule you wish to employ.  By choosing a template, further overall rule attributes
                are refined to reflect what is valid for that template type.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For most templates, the Buy (Buy one) Pool and the Get (Get one) Pool can have various contents.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, "Buy a 2 Laptops, get 10% off" - that would be a Buy Pool Selection of the Laptops category, 
                and an Get group selection of "Get Pool Group same as Buy Pool Group" .', 'vtprd');
                
@@ -2055,7 +2115,7 @@
       case 'buy-amt-title':  
            _e('The Buy Amount sets the gateway cart purchase Amount into this discount rule.  Options include whether the rule gnerally applies to the entire but pool, or if there is a 
                 count or $$ activation amount.', 'vtprd');
-              echo '<br><br>';             
+              echo '<br>';             
              _e('In order for a discount to apply, the Buy Amount criteria must first be satisfied', 'vtprd');              
         break; 
       case 'buy_amt_mod_title':
@@ -2063,17 +2123,17 @@
         break;                      
       case 'buy_repeat_condition_title':    
            _e('How many times the Whole Rule is repeated, for the cart.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, "Buy 5, get 10% off" with unlimited Rule repeats is the rule.  If the purchaser gets 10 items which participate in the Buy pool, then the 
              10% off will apply again vs the second group of 5.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('To control how many times the Whole Rule can Ever be executed for a Customer, use the "Per Customer Limit".', 'vtprd');
         break;
       case 'buy-amt-applies-to':     
             _e('Buy 5 ... "OF A SINGLE ITEM / FROM A GROUP "...', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
            _e('Applies to EACH = the count or $$ value applies ONLY to a quantity/$$ value of a single product.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
            _e('Applies to ALL = the count or $$ value applies ', 'vtprd');
               echo '<br>';
            _e(' EITHER to a a quantity/$$ value of a single product, ', 'vtprd');
@@ -2083,7 +2143,7 @@
         break;        
       case 'action_amt_title':  
            _e('.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('The threshhold (Get Pool Amount Condition) can apply to all products in the cart, or individual products quantites in the cart.', 'vtprd');               
         break;
       case 'action_amt_mod_title':
@@ -2092,16 +2152,16 @@
       case 'action_repeat_condition_title':  
            _e('How many times the Get Pool condition is counted (once the Buy Pool conditions are reached).  
             This essentially counts the number of times the JUST the action pool is repeated and eventually discounted.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, "Buy 5, get 10% off next one" with unlimited Get repeats is the rule, Get pool same as Buy pool set.  
              If the purchaser gets 10 items which participate in the Buy pool, then the 1st 5 will count towards the Buy count. 
              The 10% off will apply against products 6 - 10.', 'vtprd');
         break;                            
       case 'get-amt-applies-to':     
             _e('Get 5 ... "OF A SINGLE ITEM / FROM A GROUP "...', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
            _e('Applies to EACH = the count or $$ value applies ONLY to a quantity/$$ value of a single product.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
            _e('Applies to ALL = the count or $$ value applies ', 'vtprd');
               echo '<br>';
            _e(' EITHER to a a quantity/$$ value of a single product, ', 'vtprd');
@@ -2112,7 +2172,7 @@
       case 'discount_amt_title': 
            _e('The Discount offered is the heart of the Pricing Deal rule system.  
               Discount types include % off, $$ off, sell at a fixed price, free, or "for the price of" discount.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('The discount can apply to each Get product individually, or all products in the Get Pool.  The discount can also be applied against the
              most expensive/lease expensive product in the Get group.  Discounts granted by this rule can be limited by Maximum limits below.', 'vtprd');
         break;  
@@ -2122,18 +2182,18 @@
         break;
       case 'discount_auto_add_free_product': 
            _e('Always automatically insert the Free Product into the cart.', 'vtprd');
-           echo '<br><br>';
+           echo '<br>';
            _e('Automatically Remove the Free Product from the cart, if "free" conditions no longer apply...', 'vtprd');
-           echo '<br><br>';
+           echo '<br>';
            _e('The Free product will never be one of the items purchased by the client.', 'vtprd');             
-           echo '<br><br>';
+           echo '<br>';
            _e('The free product is only ever inserted automatically*.  (This is a reversal of normal behavior...)', 'vtprd');             
         break;        
       case 'discount_rule_max_amt_type':
            _e('Maximum Discount Limits for Cart Purchases as granted through this rule.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Lifetime Maximum Discount limits by IP can be applied immediately at add-to-cart time.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('All other name, email and address limits are applied at checkout time.', 'vtprd');
         break;
       case 'discount_rule_max_amt_msg': 
@@ -2156,24 +2216,24 @@
       case 'discount_short_msg':
            _e('The short message is used in the Cart, at the product detail level.  
               The short message is combined with the product name as the label for the product discount.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, if the short msg = "Buy 1 Get 1 at 10% off", the line showing the product discount could be:', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('"Buy 1 Get 1 at 10% off - discount for Dell Vostro Laptop:  cr $150.00"', 'vtprd');
         break;
       case 'cumulativeSalePricingLimitation':     //
            _e('PLEASE NOTE - Due to a WPEC system limitation,', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('if a product VARIATION is on sale, and there is an applicable Realtime product price discount,', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('the Rule discount WILL ALWAYS BE APPLIED, in ADDITION to the Sale Price,', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('REGARDLESS of any switch settings.', 'vtprd');          
         break;
       case 'cumulative_pricing_switches':     //cumulativeSalePricingLimitation
            _e('The switches control the interaction of this rule with other rules, sale pricing and coupons.', 'vtprd');
            if (VTPRD_PARENT_PLUGIN_NAME == 'WP E-Commerce') {
-              echo '<br><br>';
+              echo '<br>';
               _e('PLEASE NOTE - Due to a system limitation, if a product VARIATION is on sale, and there is an applicable Realtime
               product price discount, the Rule discount WILL ALWAYS BE APPLIED, in addition to the Sale Price discount, regardless of any switch settings.', 'vtprd');
            }           
@@ -2188,14 +2248,14 @@
            _e('If "Apply this Rule Discount in Addition to Other Rule Discounts" = "yes", 
               if this rule is applicable in addition to previous Rules applied, the additional
               discount will be applied UP TO the applicable Maximum settings.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('Please NOTE: This switch ONLY acts on other CART rules, there is no interaction with CATALOG/Display pricing rules', 'vtprd');              
         break;
       case 'cumulativeSalePricing':
            _e('"No Discount if Product Sale Priced" = All discounts are ignored if Product is Sale priced', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('"Apply Discount in addition to Product Sale Price" = Apply all discounts to the Product Sale Price, if there', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('"Use Discounted List Price, if Less than Sale Price" = Apply all discounts to the List Price.  Compare to Sale Price, and use
               discounted List Price, if less than Sale Price.', 'vtprd');
         break;       
@@ -2207,32 +2267,32 @@
       case 'pop-prod-id':
            _e('Only apply rule to a single product found in the cart, whose ID is supplied in the "Product ID" box.  The product ID can be found in the URL
             of the product during a product edit session', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('For example, in the product edit session url:<br>
             http://www.xxxx.com/wp-admin/post.php?post=872&action=edit', 'vtprd');
-             echo '<br><br>';
+             echo '<br>';
               _e('The product id is in the "post=872" portion of the address, and hence the number is 872.
             ', 'vtprd');
-        break;
+        break;     
       case 'buy-group-title':
            _e('The Buy group is the gateway into this discount rule. ', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
             _e('In order for a discount to apply, the Buy Group criteria must first be satisfied', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
             _e('The Buy group can be defined as the whole store catalog, or part of it  
             by product category, pricing deal category, wholesaler or membership, product or product variation.', 'vtprd');
         break; 
       case 'action-group-title':
            _e('The Get group defines what product or group of products the discount action may be applied to.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
             _e('In order for a product to receive this discount, the product must participate in the Get Group.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
             _e('The Get group can be defined as the same as buy group, the whole store catalog, or  
             by product category, pricing deal category, wholesaler or membership, product or product variation.', 'vtprd');
         break;
       case 'discount_amt_count_forThePriceOf':
            _e('For the price of Units works with either the Buy Amount or the Get Amount, based on which template was chosen.', 'vtprd');
-              echo '<br><br>';
+              echo '<br>';
               _e('The Buy/Get Amount is the first
             half of the "Buy 5, get for the price of 4".  The second half is the discount "For the Price of Units" amount.  The Buy/Get Amount must be greater than 
             the "For the Price of Units" amount.', 'vtprd');
@@ -2240,16 +2300,16 @@
       case 'includeOrExclude':
            _e('Control how individual product interacts with all Pricing Deal Rules as a group.', 'vtprd');
            if(!defined('VTPRD_PRO_DIRNAME')) { 
-             echo '<br><br>';
+             echo '<br>';
               _e('Please Note: This functionality is only available with the Pro plugin.', 'vtprd');
            }
-           echo '<br><br>';
+           echo '<br>';
            _e('Each option available in the dropdown (combined with the check list of rules, for two of the options) affects whether this product will participate with any/all rules.', 'vtprd');
         break; 
       case 'showPro-checkbox':
             echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
            _e('Unprotect All the Pro Options.', 'vtprd');
-           echo '<br><br>';
+           echo '<br>';
            _e("You'll be able to investigate the addtional Buy and Get Group Selection Options:", 'vtprd');
                ?>  
                 <ol>
@@ -2262,7 +2322,7 @@
         break; 
       case 'upgradeToPro':
            echo '<strong>'; _e('Group Power  -  Apply rules to any group you can think of, and More!', 'vtprd'); echo '</strong>';
-           echo '<br><br>';
+           echo '<br>';
            echo '<strong>';  _e("Create Rules which Filter By:", 'vtprd'); echo '</strong>';
                ?>  
                 <ol>
@@ -2274,7 +2334,7 @@
                 </ol>
                 <?php        
            echo '<strong>'; _e("Product-level Deal Exclusion", 'vtprd');  echo '</strong>';
-           echo '<br><br>';
+           echo '<br>';
            echo '<strong>'; _e('Maximum Deal Limits, including "One Per Customer" limit', 'vtprd');  echo '</strong>';
         break;                
       case 'onlyShowsIfJSerror':
@@ -2325,9 +2385,9 @@
       if ($type == 'small') {
 
    ?>                           
-         <div class="hoverHelp hideMe"> 
+         <div class="hoverHelp hideMe" id="small<?php echo '-'.$context; ?>" > 
             <?php vtprd_show_object_hover_small_text($context); ?> 
-            <?php if ($context != 'hover-help') { //don't show buttons in this case ?>
+            <?php if ($context == 'dontEverShowThis') { //$context != 'hover-help' ?>
                 <div class="wizard-links clear-left">  
                   <a id="more-info1<?php echo '-' .$context; ?>"  target="_blank" class="wizard-more-info" href="<?php vtprd_get_more_info_url($context); ?>">
                       <h4>More Info</h4>
@@ -2338,22 +2398,11 @@
                  
    <?php 
       } else { ?>       
-         <div class="wizardHelp wizardToolTip hideMe"> 
+         <div class="wizardHelp wizardToolTip hideMe" id="wizard<?php echo '-'.$context; ?>" > 
          
            <?php vtprd_show_object_hover_wizard_text($context); ?>
               
-              <div class="wizard-links clear-left">  
-                  <a id="more-info2<?php echo '-' .$context; ?>"  target="_blank" class="wizard-more-info" href="<?php vtprd_get_more_info_url($context); ?>">
-                      <h4>More Info</h4>
-                  </a>
-                   <!-- 
-                  <span class="wizard-pipe">|</span> --> 
-                  <a id="more-info<?php echo '-' .$context; ?>" class="wizard-turn-hover-help-off" href="javascript:void(0);">
-                      <h4>Turn off Hover Help Wizard</h4>
-                  </a>           
-      
-              </div>  
-                 
+           <?php //v2.0.0 REMOVED 'more info' and 'turn off hover wizard' ?>      
          </div>                     
    <?php
     }  
@@ -2388,7 +2437,12 @@
         break;        
       case 'buy_repeat_condition':
           echo "http://www.varktech.com/documentation/pricing-deals/introrule/#buygroup.repeat";              
-        break;        
+        break;   
+      //v1.1.8.0 begin
+      case 'pricingTable':
+          echo "http://www.varktech.com/documentation/pricing-deals/introrule/#buygroup.pricingTable";              
+        break; 
+      //v1.1.8.0 end            
       case 'action_amt_type':
           echo "http://www.varktech.com/documentation/pricing-deals/introrule/#getgroup.getamount";              
         break;
@@ -2450,7 +2504,484 @@
     
   function vtprd_show_object_hover_small_text($context) {          
     switch($context) {           
-           
+      //************
+      //v2.0.0 begin
+      //************    
+      case 'buy_group_prod_cat_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_prod_cat_incl" data-type="group"></a><h2>Product Category Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Product Categories that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_prod_cat_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_prod_cat_incl" data-type="group"></a><h2>Product Category Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Product Categories that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_plugin_cat_incl" data-type="group"></a><h2>Pricing Deals Category Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Pricing Deals Categories that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_plugin_cat_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_plugin_cat_incl" data-type="group"></a><h2>Pricing Deals Category Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Pricing Deals Categories that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_product_incl" data-type="group"></a><h2>Product Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Products that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_product_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_product_incl" data-type="group"></a><h2>Product Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Products that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_var_name_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Variation Names (across products) that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_var_name_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Variation Names (across products) that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;  
+      case 'buy_group_varName_catalog_info':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) NOTE</h2>
+            <p class="larger-strong">
+               <strong>Only <em>"priceable"</em> attributes can be used in a <em>CATALOG</em> rule.</strong>
+               <br><br>&nbsp;&nbsp;&nbsp;In the Product Edit screen
+               <br>&nbsp;&nbsp;&nbsp;If you can't <em>separately price</em> an attribute,
+               <br>&nbsp;&nbsp;&nbsp;you <em>can't</em> use that attribute
+               <br>&nbsp;&nbsp;&nbsp;in a Variation Name selection
+               <br>&nbsp;&nbsp;&nbsp;for a <em>Catalog</em> rule.
+               <br><br>&nbsp;&nbsp;&nbsp;ANY attribute
+               <br>&nbsp;&nbsp;&nbsp;is fine in a <em>CART</em> rule, though!!!                                           
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_incl':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.brands" data-type="group"></a><h2>Brand Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Brands that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>
+            <p class="larger-strong">
+                <span class='varName_addl_info  clear-left'> 
+                   ( These FREE Brands plugins are supported by Pricing Deals natively )
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/product-brands-for-woocommerce/">Product Brands For WooCommerce</a>  
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/perfect-woocommerce-brands/">Perfect WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/brands-for-woocommerce/">Brands for WooCommerce</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/yith-woocommerce-brands-add-on/">YITH WooCommerce Brands Add-On</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/ultimate-woocommerce-brands/">Ultimate WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/wc-brand/">Woocommerce Brands</a>     
+                </span>                                             
+            </p>
+            <p class="larger-strong  clear-left">
+               <br>
+               <strong>If you'd like to have another plugin supported, drop Varktech a line </strong>                                            
+            </p>            
+            <br>
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_excl':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.brands" data-type="group"></a><h2>Brand Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Brands that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>
+            <p class="larger-strong">
+                <span class='varName_addl_info  clear-left'> 
+                  <?php _e('( <em>These are the Brands plugins that Pricing Deals supports natively </em>)', 'vtprd'); ?>
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/product-brands-for-woocommerce/">Product Brands For WooCommerce</a>  
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/perfect-woocommerce-brands/">Perfect WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/brands-for-woocommerce/">Brands for WooCommerce</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/yith-woocommerce-brands-add-on/">YITH WooCommerce Brands Add-On</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/ultimate-woocommerce-brands/">Ultimate WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/wc-brand/">Woocommerce Brands</a>     
+                </span>                                             
+            </p>            
+            <p class="larger-strong  clear-left">
+               <br>
+               <strong>If you'd like to have another plugin supported, drop Varktech a line </strong>                                            
+            </p>            
+            <br>
+           </div>
+          <?php             
+        break;        
+      case 'buy-group-and-or-AndSelect':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.AndSelect" data-type="group"></a><h2>Customer Inclusion Attribute Required</h2>
+            <p class="larger-strong">
+               <strong>"AND" = ONE of entries in the Role, Email, Groups or Membership Lists MUST be satisfied, in order for the discount to be applied.</strong>                                             
+            </p>
+            <p>
+              "AND" Rule example - "Buy 3 of Category X and logged as Wholesale, get a discount" 
+            </p>  
+            <p>
+              <em>(exclusions don't care about "and" or "or" - they apply regardless)</em> 
+            </p>
+            
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                                 
+           </div>
+          <?php             
+        break;
+       case 'buy-group-and-or-OrSelect':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.AndSelect" data-type="group"></a><h2>Customer Attribute Selected for this Rule</h2>
+            <p class="larger-strong">
+              <strong>"OR" = <br>ANY of the listed items below will satisfy the Buy group participation criteria</strong>                                                             
+            </p>
+            <p class="larger-strong">
+               <strong>Any entry in the Role, Email, Groups or Membership Lists can "activate" the deal.</strong>                                                            
+            </p>
+            
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_role_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_role_incl" data-type="group"></a><h2>Role Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Roles that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_role_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_role_incl" data-type="group"></a><h2>Role Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Roles that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_email_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_email_incl" data-type="group"></a><h2>Email Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Emails or Customer Names that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_email_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_email_incl" data-type="group"></a><h2>Email Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Emails or Customer Names that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_groups_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_groups_incl" data-type="group"></a><h2>Groups Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Groups that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_groups_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_groups_incl" data-type="group"></a><h2>Groups Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Groups that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_memberships_incl':
+          ?>                           
+          <div class="section">
+            <a name="buymembership.buy_membership_memberships_incl" data-type="membership"></a><h2>Memberships Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Memberships that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;  
+      case 'buy_group_memberships_excl':
+          ?>                           
+          <div class="section">
+            <a name="buymembership.buy_membership_memberships_incl" data-type="membership"></a><h2>Memberships Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Memberships that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;              
+       case 'buy_group_groups_needed':
+          ?>                           
+          <div class="section">
+            <br>
+            <a name="buygroups.buy_group_groups_needed" data-type="groups"></a><h2>To search by Groups, &nbsp;  Free &nbsp; <a id="" class="" href="https://wordpress.org/plugins/groups/">Groups</a> &nbsp; plugin needed </h2>
+            <p>https://wordpress.org/plugins/groups/</p>
+            <br>                        
+           </div>
+          <?php             
+        break; 
+       case 'buy_group_memberships_needed':
+          ?>                           
+          <div class="section">  
+            <br>
+            <a name="buygroups.buy_group_groups_needed" data-type="groups"></a><h2>To search by Membership, &nbsp; <a id="" class="" href="https://woocommerce.com/products/woocommerce-memberships/">WooCommerce Memberships</a> &nbsp; plugin needed </h2>
+            <p>https://woocommerce.com/products/woocommerce-memberships/</p>
+            <br>  
+           </div>
+          <?php             
+        break; 
+      case 'buy_group_show_and_or_switches_YesSelect':
+          ?>                          
+          <div class="section">
+            <h2>Show &nbsp;&nbsp; AND | OR | EACH  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                               
+           </div>
+          <?php             
+        break;      
+      case 'action_group_show_and_or_switches_YesSelect':
+          ?>                          
+          <div class="section">            
+            <h2>Show &nbsp;&nbsp; AND | OR  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                               
+           </div>
+          <?php             
+        break;   
+      case 'buy_group_show_and_or_switches_NoSelect':
+          ?>                          
+          <div class="section">
+            <h2>Show &nbsp;&nbsp; AND | OR | EACH  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                               
+           </div>
+          <?php             
+        break;      
+      case 'action_group_show_and_or_switches_NoSelect':
+          ?>                          
+          <div class="section">            
+            <h2>Show &nbsp;&nbsp; AND | OR  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                               
+           </div>
+          <?php             
+        break;
+         
+      case 'buy_group_prod_cat_AndSelect':
+      case 'action_group_prod_cat_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Category'); ?>                                
+          </div>
+          <?php             
+        break;
+      case 'buy_group_prod_cat_OrSelect':
+      case 'action_group_prod_cat_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Category'); ?>                              
+           </div>
+          <?php             
+        break;
+      case 'buy_group_prod_cat_EachSelect':
+          ?>                          
+          <div class="section">
+           <?php  vtprd_show_and_or_each_message('each','Category'); ?> 
+          </div>
+          <?php             
+        break;
+               
+      case 'buy_group_plugin_cat_AndSelect':
+      case 'action_group_plugin_cat_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Category'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_OrSelect':
+      case 'action_group_plugin_cat_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Category'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_EachSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('each','Category'); ?> 
+          </div>
+          <?php             
+        break; 
+                	
+      case 'buy_group_product_AndSelect':
+      case 'action_group_product_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Product'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_OrSelect':
+      case 'action_group_product_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Product'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_EachSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('each','Product'); ?> 
+           </div>
+          <?php             
+        break;
+        
+      case 'buy_group_var_name_AndSelect':
+      case 'action_group_var_name_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Variation Name'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_var_name_OrSelect':
+      case 'action_group_var_name_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Variation Name'); ?>                               
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_AndSelect':
+      case 'action_group_brands_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Brand'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_OrSelect':
+      case 'action_group_brands_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Brand'); ?>                                 
+           </div>
+          <?php             
+        break;         
+        //*************
+        //v2.0.0 end 
+        //************* 
+                  
       case 'cart_or_catalog_select':
           ?>  
                 
@@ -2460,7 +2991,7 @@
              <p class="larger-strong">
               <strong>When and where does the discount happen?</strong>
                 <ul class="">
-                  <li><strong>Cart Purchase Discount</strong>
+                  <li><strong>Add to CART Discount</strong>
                   <br> - &nbsp;&nbsp; Discount <em>first applied</em>&nbsp; when a product is <em>added to cart</em> <strong> (Most Deals!)</strong>
                   </li>
                   <li><strong>Catalog Price Reduction</strong>
@@ -2508,6 +3039,7 @@
         break;
          
        case 'minimum_purchase_select':
+          //v1.1.8.1 reworded
           ?>  
  
           <!-- dealaction-->
@@ -2516,16 +3048,11 @@
             <p class="narrower-paragraph larger-strong">
                 <strong>What are we discounting? </strong>
                <ul>
-                  <li><strong>Do you have to</strong> 
-                  </li>
-                  <li><strong><em>purchase something first,</em></strong> 
-                  </li> 
-                   <li><strong>before you can purchase the discounted item?</strong> 
-                  </li>                                     
-                 <li>If <b>"Yes"</b>, Choose <em><b>"Discount *Next* item"</b></em>  
-                 </li> 
-                 <li>If <b>"No"</b>,&nbsp; Choose <em><b>"Discount the item"</b></em>  
-                 </li>                                                                      
+                  <li><strong>Buy 5 things, discount 1 of these 5</strong></li>
+                  <li>&nbsp;&nbsp; - Choose <em>"Discount the item"</em></li> 
+                  <li><strong>OR,</strong></li> 
+                  <li><strong>Buy 5 things, discount the Next 1 </strong></li>
+                  <li>&nbsp;&nbsp; - Choose <em>"Discount *Next* item"</em></li>                                                                                                         
                </ul>
 
             </p>                                                    
@@ -2585,27 +3112,24 @@
           <?php             
         break;
           
-      //v1.1.6.7
+      //v2.0.0 recoded
       case 'apply_deal_to_cheapest':
           ?>       
           <!-- apply_deal_to_cheapest-->
           <div class="section">
-            <a name="blueprint.apply_deal_to_cheapest" data-type="group"></a><h2>Apply Discount to Cheapest Item First</h2>
+            <a name="blueprint.apply_deal_to_cheapest" data-type="group"></a><h2>Apply Discount to ...Cart Item First</h2>
+            <p class="narrower-paragraph larger-strong"><em>Can only be used with BOGO Next deals</em></p>
+            <p class="narrower-paragraph larger-strong"><h2>1. Discount Cheapest Item first</h2></p>
+            <p class="narrower-paragraph larger-strong"><h2>2. Discount Most Expensive Item first</h2></p>
             <p class="narrower-paragraph larger-strong">
-               <ul class="">
-                  <li><em>- CHEAPEST attribute for BOGO "Next" Deals!!</em></li>
-                  <li><b>Say you want to create: </b></li> 
-                  <li><b>&nbsp;&nbsp;"Buy 4, get the cheapest in the cart free"</b></li> 
-                  <li>&nbsp;&nbsp;1. create your rule using <strong>a BOGO "next" deal</strong>:</li>
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>'Buy 4 get the next one free'</b></li>    
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;You can use this example to guide you:</li>
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a  href="https://www.varktech.com/documentation/pricing-deals/examples/#bogo"  title="Bogo Deal Examples">Bogo Deal Examples</a>&nbsp;&nbsp;look for</li> 
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;"Buy a NZ Gala Apple, get the next One Free"</li> 
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;- Set   Buy Group Amount Applies To :  </li>
-                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"All Products" or "Each", as appropriate  </li>    
-                  <li>&nbsp;&nbsp;2. Then select 'Apply to Cheapest Item First'  ! </li>                                                           
-               </ul>             
-            </p>
+                <ul class="">
+                  <li><h2>3. Discount Equal or <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lesser Value Item first</h2></li>
+                  <li>&nbsp;&nbsp;&nbsp; Equal or Lesser Value</li>
+                  <li><em>&nbsp;&nbsp;&nbsp; - Discount the item(s) in the GET Group</em></li>  
+                  <li><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of equal or lesser value to the most</em></li> 
+                  <li><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expensive item in the BUY Group</em></li>                
+               </ul>
+            </p>                           
           </div>  <!-- //apply_deal_to_cheapest --> 
           <?php             
         break;
@@ -2709,6 +3233,31 @@
           <?php             
         break; 
         
+       //v1.1.7.1 begin
+      case 'varName':
+           _e('Apply discounts across products using Variation (Product Attribute) Name(s).', 'vtprd');
+              echo '<br>';
+           _e('Multiple variations may be listed, separated by:  &nbsp; "|" ', 'vtprd');
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; "large|green|blue"', 'vtprd');           
+              echo '<br>';
+           _e('Multiple unique variation names may be strung together, separated by:  &nbsp; "+" ', 'vtprd');           
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; "large + green | large + blue | polo  + red + large"', 'vtprd');            
+              echo '<br><br>'; 
+            _e('NOTE1: You <strong>Must use</strong> the <strong>FULL attribute name</strong>.', 'vtprd');           
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; If you have an attribute such as "extra large"', 'vtprd');           
+              echo '<br>';                  
+          _e(' &nbsp;&nbsp; A search for "extra" or "large" will NOT be found', 'vtprd');  
+              echo '<br><br>';
+          _e('NOTE2: <strong>Unique variation name combinations are required.</strong>', 'vtprd'); 
+              echo '<br>';
+          _e(' &nbsp;&nbsp; So "chrome + chrome" will find anything with "chrome" in it.', 'vtprd');                                      
+              echo '<br><br>';                             
+        break;  
+        //v1.1.7.1 end   
+             
        case 'buy_amt_mod':
           ?>  
 
@@ -2756,6 +3305,39 @@
  
           <?php             
         break;
+ 
+         
+       //v1.1.8.0 begin
+      case 'pricingTable':
+          ?>  
+
+          <!-- pricingTable--> 
+          <div class="section subsection clickable-subsection">
+            <a name="pricingTable" data-type="group"></a><h2>Pricing Table / Bulk Discount / Pricing Tiers.</h2>  
+            <p class="larger-strong">
+                <strong>Discount based on Quantity Purchased - either by Unit Quantity or $$ Total</strong>
+
+               <ol class="">
+                  <li>"Count by Units or Currency" - Discount based on Unit Quantity or Dollar purchased
+                  </li>                  
+                  <li>"Begin / End Ranges Apply To" - Do you count the total in the group, or by Product line subtotal?
+                  </li> 
+                  <li>Pricing Table rows:
+                      <br>&nbsp;&nbsp;Begin Quantity and End Quantity apply inclusively - 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they count from and to <em>including the listed values</em>
+                      <br>&nbsp;&nbsp;If you are counting by $$, be sure to include <strong>pennies (decimals)</strong> in establishing your range. 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$5 - $10, $11-100, etc... 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row 1:: Begin: $5  End: $10
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row 2:: Begin: $10.01  End: $10
+                  </li> 
+               </ol>                              
+            </p>
+                                                                                                     
+          </div>  <!-- //pricingTable-->          
+ 
+          <?php                             
+        break;  
+        //v1.1.8.0 end 
         
       case 'action_amt_type':
           ?>  
@@ -3118,7 +3700,483 @@
     
   function vtprd_show_object_hover_wizard_text($context) {          
     switch($context) {           
-      
+      //************
+      //v2.0.0 begin
+      //************    
+      case 'buy_group_prod_cat_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_prod_cat_incl" data-type="group"></a><h2>Product Category Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Product Categories that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_prod_cat_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_prod_cat_incl" data-type="group"></a><h2>Product Category Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Product Categories that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_plugin_cat_incl" data-type="group"></a><h2>Pricing Deals Category Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Pricing Deals Categories that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_plugin_cat_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_plugin_cat_incl" data-type="group"></a><h2>Pricing Deals Category Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Pricing Deals Categories that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_product_incl" data-type="group"></a><h2>Product Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Products that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_product_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_product_incl" data-type="group"></a><h2>Product Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Products that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_var_name_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Variation Names (across products) that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_var_name_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Variation Names (across products) that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_varName_catalog_info':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_var_name_incl" data-type="group"></a><h2>Variation Name (across products) NOTE</h2>
+            <p class="larger-strong">
+               <strong>Only <em>"priceable"</em> attributes can be used in a <em>CATALOG</em> rule.</strong>
+               <br><br>&nbsp;&nbsp;&nbsp;In the Product Edit screen
+               <br>&nbsp;&nbsp;&nbsp;If you can't <em>separately price</em> an attribute,
+               <br>&nbsp;&nbsp;&nbsp;you <em>can't</em> use that attribute
+               <br>&nbsp;&nbsp;&nbsp;in a Variation Name selection
+               <br>&nbsp;&nbsp;&nbsp;for a <em>Catalog</em> rule.
+               <br><br>&nbsp;&nbsp;&nbsp;ANY attribute
+               <br>&nbsp;&nbsp;&nbsp;is fine in a <em>CART</em> rule, though!!!                                           
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_incl':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.brands" data-type="group"></a><h2>Brand Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Brands that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>
+            <p class="larger-strong">
+                <span class='varName_addl_info  clear-left'> 
+                  <?php _e('( These FREE Brands plugins are supported by Pricing Deals natively )', 'vtprd'); ?>
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/product-brands-for-woocommerce/">Product Brands For WooCommerce</a>  
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/perfect-woocommerce-brands/">Perfect WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/brands-for-woocommerce/">Brands for WooCommerce</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/yith-woocommerce-brands-add-on/">YITH WooCommerce Brands Add-On</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/ultimate-woocommerce-brands/">Ultimate WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/wc-brand/">Woocommerce Brands</a>          
+                </span>                                             
+            </p>
+            <p class="larger-strong  clear-left">
+               <br>
+               <strong>If you'd like to have another plugin supported, drop Varktech a line </strong>                                            
+            </p>            
+            <br>
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_excl':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.brands" data-type="group"></a><h2>Brand Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Brands that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>
+            <p class="larger-strong">
+                <span class='varName_addl_info  clear-left'> 
+                  <?php _e('( <em>These are the Brands plugins that Pricing Deals supports natively </em>)', 'vtprd'); ?>
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/product-brands-for-woocommerce/">Product Brands For WooCommerce</a>  
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/perfect-woocommerce-brands/">Perfect WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/brands-for-woocommerce/">Brands for WooCommerce</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/yith-woocommerce-brands-add-on/">YITH WooCommerce Brands Add-On</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/ultimate-woocommerce-brands/">Ultimate WooCommerce Brands</a> 
+                   <br>&nbsp;&nbsp;&nbsp; <a href="https://wordpress.org/plugins/wc-brand/">Woocommerce Brands</a>     
+                </span>                                             
+            </p>
+            <br>
+            <p class="larger-strong  clear-left">
+               <strong>If you'd like to have another plugin supported, drop Varktech a line </strong>                                            
+            </p>            
+            <br>
+           </div>
+          <?php             
+        break;        
+      case 'buy-group-and-or-AndSelect':
+          ?>                          
+          <div class="section">
+            <a name="buygroup.AndSelect" data-type="group"></a><h2>Customer Inclusion Attribute Required</h2>
+            <p class="larger-strong">
+               <strong>"AND" = <br>ONE of entries in the Role, Email, Groups or Membership Lists MUST be satisfied, in order for the discount to be applied.</strong>                                             
+            </p>
+            <p>
+              "AND" Rule example - "Buy 3 of Category X and logged as Wholesale, get a discount" 
+            </p>  
+            <p>
+              <em>(exclusions don't care about "and" or "or" - they apply regardless)</em> 
+            </p> 
+            
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                              
+           </div>
+          <?php             
+        break;
+       case 'buy-group-and-or-OrSelect':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.AndSelect" data-type="group"></a><h2>Customer Attribute Selected for this Rule</h2>
+            <p class="larger-strong">
+              <strong>"OR" = <br>ANY of the listed items below will satisfy the Buy group participation criteria</strong>                                                             
+            </p>
+            <p class="larger-strong">
+               <strong>Any entry in the Role, Email, Groups or Membership Lists can "activate" the deal.</strong>                                                            
+            </p>
+            
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                                   
+           </div>
+          <?php             
+        break;
+      case 'buy_group_role_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_role_incl" data-type="group"></a><h2>Role Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Roles that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_role_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_role_incl" data-type="group"></a><h2>Role Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Roles that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_email_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_email_incl" data-type="group"></a><h2>Email Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Emails or Customer Names that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;                   
+      case 'buy_group_email_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_email_incl" data-type="group"></a><h2>Email Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Emails or Customer Names that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_groups_incl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_groups_incl" data-type="group"></a><h2>Groups Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Groups that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_groups_excl':
+          ?>                           
+          <div class="section">
+            <a name="buygroup.buy_group_groups_incl" data-type="group"></a><h2>Groups Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Groups that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;
+      case 'buy_group_memberships_incl':
+          ?>                           
+          <div class="section">
+            <a name="buymembership.buy_membership_memberships_incl" data-type="membership"></a><h2>Memberships Inclusion</h2>
+            <p class="larger-strong">
+               <strong>Memberships that the Deal will be applied to, or that need to be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break;        
+      case 'buy_group_memberships_excl':
+          ?>                           
+          <div class="section">
+            <a name="buymembership.buy_membership_memberships_incl" data-type="membership"></a><h2>Memberships Exclusion</h2>
+            <p class="larger-strong">
+               <strong>Memberships that the Deal will not be applied to, or that cannot be in the cart in order for the discount to be applied</strong>                                             
+            </p>                        
+           </div>
+          <?php             
+        break; 
+       case 'buy_group_groups_needed':
+          ?>                           
+          <div class="section">
+            <br>
+            <a name="buygroups.buy_group_groups_needed" data-type="groups"></a><h2>To search by Groups, &nbsp;  Free &nbsp; <a id="" class="" href="https://wordpress.org/plugins/groups/">Groups</a> &nbsp; plugin needed </h2>
+            <p>https://wordpress.org/plugins/groups/</p>
+            <br>                        
+           </div>
+          <?php             
+        break; 
+       case 'buy_group_memberships_needed':
+          ?>                           
+          <div class="section">  
+            <br>
+            <a name="buygroups.buy_group_groups_needed" data-type="groups"></a><h2>To search by Membership, &nbsp; <a id="" class="" href="https://woocommerce.com/products/woocommerce-memberships/">WooCommerce Memberships</a> &nbsp; plugin needed </h2>
+            <p>https://woocommerce.com/products/woocommerce-memberships/</p>
+            <br>  
+           </div>
+          <?php             
+        break; 
+      case 'buy_group_show_and_or_switches_YesSelect':
+          ?>                          
+          <div class="section">
+            <h2>Show &nbsp;&nbsp; AND | OR | EACH  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                              
+           </div>
+          <?php             
+        break;      
+      case 'action_group_show_and_or_switches_YesSelect':
+          ?>                          
+          <div class="section">            
+            <h2>Show &nbsp;&nbsp; AND | OR  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                               
+           </div>
+          <?php             
+        break;   
+      case 'buy_group_show_and_or_switches_NoSelect':
+          ?>                          
+          <div class="section">
+            <h2>Show &nbsp;&nbsp; AND | OR | EACH  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                              
+           </div>
+          <?php             
+        break;      
+      case 'action_group_show_and_or_switches_NoSelect':
+          ?>                          
+          <div class="section">            
+            <h2>Show &nbsp;&nbsp; AND | OR  <br>in the "Select Products" box below</h2>
+            <p> DEFAULTS to "OR" </p>
+            <p> And/Or <strong>Processing Sequence</strong>: 
+              <br>1. Exclusions 
+              <br>2. Inclusions with 'AND' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> All </em> 'AND' inclusions
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>must</em> be satisfied
+              <br>3. Inclusions with 'OR' 
+                <br>&nbsp;&nbsp;&nbsp; - <em> Any </em> 'OR' inclusion 
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can "activate" the deal
+            </p>                              
+           </div>
+          <?php             
+        break;
+      case 'buy_group_prod_cat_AndSelect':
+      case 'action_group_prod_cat_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Category'); ?>                                
+          </div>
+          <?php             
+        break;
+      case 'buy_group_prod_cat_OrSelect':
+      case 'action_group_prod_cat_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Category'); ?>                              
+           </div>
+          <?php             
+        break;
+      case 'buy_group_prod_cat_EachSelect':
+          ?>                          
+          <div class="section">
+           <?php  vtprd_show_and_or_each_message('each','Category'); ?> 
+          </div>
+          <?php             
+        break;
+               
+      case 'buy_group_plugin_cat_AndSelect':
+      case 'action_group_plugin_cat_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Category'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_OrSelect':
+      case 'action_group_plugin_cat_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Category'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_plugin_cat_EachSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('each','Category'); ?> 
+          </div>
+          <?php             
+        break; 
+                	
+      case 'buy_group_product_AndSelect':
+      case 'action_group_product_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Product'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_OrSelect':
+      case 'action_group_product_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Product'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_product_EachSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('each','Product'); ?> 
+           </div>
+          <?php             
+        break;
+        
+      case 'buy_group_var_name_AndSelect':
+      case 'action_group_var_name_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Variation Name'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_var_name_OrSelect':
+      case 'action_group_var_name_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Variation Name'); ?>                               
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_AndSelect':
+      case 'action_group_brands_AndSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('and','Brand'); ?>                                
+           </div>
+          <?php             
+        break;
+      case 'buy_group_brands_OrSelect':
+      case 'action_group_brands_OrSelect':
+          ?>                          
+          <div class="section">
+            <?php  vtprd_show_and_or_each_message('or','Brand'); ?>                                 
+           </div>
+          <?php             
+        break;         
+        //*************
+        //v2.0.0 end 
+        //*************  
+              
       case 'cart_or_catalog_select':
           ?>  
                 
@@ -3128,17 +4186,17 @@
             <p class="larger-strong">
               <strong>When and where does the discount happen?</strong>
                 <ul class="">
-                  <li><strong>Cart Purchase Discount</strong>
+                  <li><strong>Add to CART Discount</strong>
                   <br> - &nbsp;&nbsp; Discount <em>first applied</em>&nbsp; when a product is <em>added to cart</em> <strong> (Most Deals!)</strong>
                   </li>
-                  <li><strong>Catalog Price Reduction</strong>
+                  <li><strong>CATALOG Display Discount</strong>
                   <br> - &nbsp;&nbsp; Discount <em>first applied</em>&nbsp; when the product is <em>seen in the catalog</em>&nbsp; (just like a product sale price)
                   </li>
                </ul>
              </p>
 
              <p class="larger-strong">
-               <em>Examples of Catalog Price Reduction</em>
+               <em>Examples of CATALOG Display Discount</em>
                <ol class="">
                   <li>For Membership or Wholesaler (by logged-in Role) Catalog Discount</li>
                   <li>Any Direct Catalog Discount Sale</li>
@@ -3291,6 +4349,34 @@
           <?php             
         break; 
         
+       //v1.1.7.1 begin
+      case 'varName':
+           _e('Apply discounts across products', 'vtprd');
+              echo '<br>';
+           _e(' &nbsp;&nbsp; by Variation (Product Attribute) Names.', 'vtprd');
+              echo '<br><br>';              
+           _e('Multiple unique variations may be listed, separated by:  &nbsp; "|" ', 'vtprd');
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; "large|green|blue"', 'vtprd');           
+              echo '<br><br>';
+           _e('Multiple variation names may be strung together, separated by:  &nbsp; "+" ', 'vtprd');           
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; "large + green | large + blue | polo  + red + large"', 'vtprd'); 
+              echo '<br><br>'; 
+           _e('NOTE1: You <strong>Must use</strong> the <strong>FULL attribute name</strong>.', 'vtprd');           
+              echo '<br>';
+           _e(' &nbsp;&nbsp; Example: &nbsp; If you have an attribute such as "extra large"', 'vtprd');           
+              echo '<br>';                  
+          _e(' &nbsp;&nbsp; A search for "extra" or "large" will NOT be found', 'vtprd');                        
+              echo '<br><br>';  
+          _e('NOTE2: <strong>Unique variation name combinations are required.</strong>', 'vtprd'); 
+              echo '<br>';
+          _e(' &nbsp;&nbsp; So "chrome + chrome" will find anything with "chrome" in it.', 'vtprd');                                  
+              echo '<br><br>';                          
+        break;  
+        //v1.1.7.1 end    
+                
+        
       case 'buy_amt_type':
           ?>  
                      
@@ -3418,91 +4504,14 @@
           <!-- buyfiltersinglevar-->
           <div class="section subsection">
             <a name="buygroup.buyfiltersinglevar" data-type="group"></a><h2>
-              <a class="subsection-title-smaller" href="javascript:void(0);">Filter by Single Product Variations</a></h2>          
+              <a class="subsection-title-smaller" href="javascript:void(0);">By Category / Role / Product / Variation / Variation Name / Customer /</a></h2>          
              <p class="">
-              <strong>Buy Group is Any Variations from a Single Product</strong>.
-
-               <ul class="">
-                  <li>" <b>XL or XXL</b> Men's Empire Crew-Neck Shirts, 10% off" </li>
-                  <li>" Galaxy S IV <b>in Green, Blue or Purple</b> 10% off "</li>
-               </ul>               
+              <strong>Buy Group Selected amongs a number of Options - Include/Exclude, by Product, Category, Role, Brand...</strong>.
+             
             </p>                      
           </div>  <!-- //buyfiltersinglevar-->
 
-          
-          <!-- buyfiltersingle-->
-          <div class="section subsection">
-            <a name="buygroup.buyfiltersingle" data-type="group"></a><h2> 
-              <a class="subsection-title-smaller" href="javascript:void(0);">Filter by Single Product</a></h2>         
-             <p class="">
-              <strong>Buy Group is Any Single Product</strong>.
-
-               <ul class="">
-                  <li>" Ipad Mini, 10% off" </li>
-                  <li>" Galaxy Tablet Model 10.1, 10% off "</li>          
-               </ul>               
-            </p>                      
-          </div>  <!-- //buyfiltersingle-->                             
-                             
-          
-          <!-- buyfiltercat-->  
-          <div class="section subsection">
-            <a name="buygroup.buyfiltersingle" data-type="group"></a><h2> 
-              <a class="subsection-title-smaller" href="javascript:void(0);">Buy Group Filter by Category / Role</a></h2>  
-             <p class="larger-strong">
-              Specify which products are Buy Group candidates <strong>by Category &nbsp;and / or&nbsp; Logged-in Role</strong>.
-                 <ul class="">
-                    <li>Product Categories and Pricing Deal Categories <em>are presented as checkable lists</em></li>
-                    <li>to be in the Buy Group, <em>a Product must be a member of one of the Checked Categories</em></li>
-                 </ul>
-
-                 <h3>And / Or</h3>
-                 <ul class="">
-                    <li><b>And</b> 
-                        <br> - Product must be in one of the checked Categories 
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;<strong><em>and</em></strong> 
-                        <br> - the Customer's Role is checked in the Logged-in Role List (longer explanation below).
-                    </li>
-                    <li><b>Or</b> 
-                        <br> - Product must be in one of the checked categories 
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;<strong><em>or</em></strong> 
-                        <br> - the Customer's Role is checked in the Logged-in Role List (longer explanation below).
-                    </li>                    
-                 </ul>                                                                  
-
-                <h3>By Logged-in Role</h3>
-            </p> 
-            
-
-            <p>
-                <em>Role Pricing is used primarily to give different pricing levels for Members or Wholesalers,
-                <br> and/or to differentiate generally between logged-in pricing and Not logged-in pricing</em>                                                                 
-            </p>            
-            <p>
-                 <h3>The Basics:</h3>
-                 <ul class="">
-                    <li>to be in the Buy Group:
-                    <br> - The Customer is logged in, and <b>his role is checked</b> 
-                    <br> - <strong>OR</strong> the Customer is NOT logged in, and <b>the 'not logged in / just visiting' Role is checked</b> 
-                    </li>
-                 </ul>                                                                  
-            </p>
-            <p>
-                 <h3>The Whole Nine Yards:</h3>
-                 <ul class="list-more-margin">
-                    <li>Customer is assigned to a Role at Signup time (defaults to "Subscriber")</li>
-                    <li>At time of purchase, Customer <em>may or may not</em>&nbsp; be logged in, or <em>may not have signed up</em></li>
-                    <li>to be in the Rule's Buy Group:
-                        <br> - The Customer is logged in, and <b>his role is checked</b> 
-                        <br> - <strong>OR</strong> the Customer is NOT logged in, and <b>the 'not logged in / just visiting' Role is checked</b> 
-                    </li>
-                    <li>Use Role Management software (see below) <em>To Create different roles</strong></em>
-                    <li>Use these roles to <b>create different pricing levels</b> in <b>separate pricing deal rules</b>
-                    </li>
-                 </ul>                                                                  
-            </p>                        
-                                           
-          </div>  <!-- //buyfiltercat--> 
+ 
         
           <?php             
         break; 
@@ -3575,7 +4584,41 @@
  
           <?php             
         break;
-        
+ 
+         
+       //v1.1.8.0 begin
+      case 'pricingTable':
+          ?>  
+
+          <!-- pricingTable--> 
+          <div class="section subsection clickable-subsection">
+            <a name="pricingTable" data-type="group"></a><h2>Pricing Table / Bulk Discount / Pricing Tiers.</h2>  
+            <p class="larger-strong">
+                <strong>Discount based on Quantity Purchased - either by Unit Quantity or $$ Total</strong>
+
+               <ol class="">
+                  <li>"Count by Units or Currency" - Discount based on Unit Quantity or Dollar purchased
+                  </li>                  
+                  <li>"Begin / End Ranges Apply To" - Do you count the total in the group, or by Product line subtotal?
+                  </li> 
+                  <li>Pricing Table rows:
+                      <br>&nbsp;&nbsp;Begin Quantity and End Quantity apply inclusively - 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;they count from and to <em>including the listed values</em>
+                      <br>&nbsp;&nbsp;If you are counting by $$, be sure to include <strong>pennies (decimals)</strong> in establishing your range. 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$5 - $10, $11-100, etc... 
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row 1:: Begin: $5  End: $10
+                      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row 2:: Begin: $10.01  End: $10
+                  </li> 
+               </ol>                              
+            </p>
+                                                                                                     
+          </div>  <!-- //pricingTable-->          
+ 
+          <?php                             
+        break;  
+        //v1.1.8.0 end   
+           
+                
       case 'action_amt_type':
           ?>  
                     
@@ -3728,50 +4771,17 @@
           <!-- getfiltercat-->  
           <div class="section subsection">
             <a name="getgroup.getfiltercat" data-type="group"></a><h2>          
-             <a class="subsection-title-smaller" href="javascript:void(0);">Get Group Filter by Category</a></h2>
+             <a class="subsection-title-smaller" href="javascript:void(0);">By Cateogry/Product/Variation/Variation Name/Brands</a></h2>
              <p class="">
               Specify which products are Get Group candidates 
-              <br> - <strong>by &nbsp;Product Category &nbsp;or&nbsp; Pricing Deal Category</strong>.
+              <br> - <strong>Include/Exclude By Cateogry/Product/Variation/Variation Name/Brands</strong>.
 
-                 <ul class="">
-                    <li>Product Categories and Pricing Deal Categories <em>are presented as checkable lists</em></li>
-                    <li>to be in the Get Group, <em>a Product must be a member of one of the Checked Categories</em></li>
-                 </ul>
                                                                  
             </p>
                                          
           </div> <!-- //getfiltercat--> 
  
-                  
-               
-          <!-- getfiltersinglevar-->
-          <div class="section subsection">
-            <a name="getgroup.getfiltersinglevar" data-type="group"></a><h2>
-              <a class="subsection-title-smaller" href="javascript:void(0);">Filter by Single Product Variations</a></h2>          
-             <p class="">
-              <strong>Get Group is Any Variations from a Single Product</strong>.
-
-               <ul class="">
-                  <li>" <b>XL or XXL</b> Men's Empire Crew-Neck Shirts, 10% off" </li>
-                  <li>" Galaxy S IV <b>in Green, Blue or Purple</b> 10% off "</li>
-               </ul>               
-            </p>                      
-          </div>  <!-- //getfiltersinglevar-->
-
-          
-          <!-- getfiltersingle-->
-          <div class="section subsection">
-            <a name="getgroup.getfiltersingle" data-type="group"></a><h2> 
-              <a class="subsection-title-smaller" href="javascript:void(0);">Filter by Single Product</a></h2>         
-             <p class="">
-              <strong>Get Group is Any Single Product</strong>.
-
-               <ul class="">
-                  <li>" Ipad Mini, 10% off" </li>
-                  <li>" Galaxy Tablet Model 10.1, 10% off "</li>          
-               </ul>               
-            </p>                      
-          </div>  <!-- //getfiltersingle-->                             
+                             
 
           <?php             
         break;
@@ -4320,20 +5330,37 @@
           </div>  
           <?php             
         break;
- 
         
       case '':
           ?>  
 
           <?php             
         break;
-
-
-               
-        
+   
     } //end switch           
   } //end function
- 
- 
- 
-                            
+            
+  //v2.0.0 New Function
+  function vtprd_show_and_or_each_message($type,$selector) {
+      switch($type) { 
+        case 'or':
+            echo '<h2>"OR"  = <br>ANY ' .$selector. '<br>from the include list <br>can select a product for the deal</h2>';
+          break;  
+        case 'and':
+            echo '<h2>"AND"  = <br>ONE ' .$selector. '<br>from the include list <br>is REQUIRED  to select a product for the deal</h2>';        
+          break;
+        case 'each':
+            echo '<h2>';
+            echo '"EACH"  =  "AND EACH" <br><br>"Buy 1 from  ' .$selector. ' X<br>&nbsp;&nbsp;&nbsp;&nbsp;AND<br>&nbsp;&nbsp;Buy 1 from  ' .$selector. ' Y, <br>&nbsp;&nbsp;&nbsp;&nbsp;get a discount..."';                                
+            
+            echo '<br><br>&nbsp;&nbsp;&nbsp; "AND" part  = <br>ONE ' .$selector. '<br>from the include list <br>is REQUIRED  to select a product for the deal';  
+            echo '<br><br>&nbsp;&nbsp;&nbsp; "EACH" part  = <br>ONE of EACH ' .$selector. '<br>from the include list <br>is REQUIRED  <br>to be IN THE CART <br>to "activate" the deal</h2>';
+            
+            echo '</h2>';
+
+            //echo '<h2>"EACH"  =  "AND EACH" <br><br>"Buy 1 from  ' .$selector. ' X<br>&nbsp;&nbsp;&nbsp;&nbsp;AND<br>&nbsp;&nbsp;Buy 1 from  ' .$selector. ' Y, <br>&nbsp;&nbsp;&nbsp;&nbsp;get a discount..." <br><br>One from EACH<br>&nbsp;&nbsp;&nbsp;&nbsp;Category listed<br>must be in the Cart<br>to "activate" the deal</h2>';                                
+
+          break;                  
+      }
+  
+  }  

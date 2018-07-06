@@ -13,7 +13,7 @@
 			$tags_list = get_the_tag_list( '', __( ', ', 'flatsome' ) );
 			if ( $tags_list ) :
 		?>
-		<span class="sep"> | </span>
+		<span class="sep">&nbsp;|&nbsp;</span>
 		<span class="tags-links">
 			<?php printf( __( 'Tagged %1$s', 'flatsome' ), $tags_list ); ?>
 		</span>

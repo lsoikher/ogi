@@ -2,7 +2,19 @@
 /* @var $product WC_Product */
 ?>
 
-<?php do_action( 'wc_autoship_before_product_autoship_options_variable', $product->id ); ?>
+<?php
+$wc_3 = false;
+if ( function_exists( 'WC' ) ) {
+	$version = WC()->version;
+	if ( version_compare( $version, '3.0.0', '>=' ) ) { // true if we are running WC 3+
+		$wc_3 = true;
+	}
+}
+$product_id = $wc_3 ? $product->get_id() : $product->variation_id;
+
+do_action( 'wc_autoship_before_product_autoship_options_variable', $product_id ); 
+
+?>
 
 <div class="wc-autoship-container">
 
@@ -21,9 +33,9 @@
 						<?php foreach ( $frequency_options as $days => $name ): ?>
 							<?php if ( $days < $autoship_min_frequency || $days > $autoship_max_frequency ) continue; ?>
 							<div class="wc-autoship-frequency-radio radio">
-								<label for="wc_autoship_frequency_<?php echo esc_attr( $product->id ); ?>_<?php echo esc_attr( $days ); ?>">
+								<label for="wc_autoship_frequency_<?php echo esc_attr( $product_id ); ?>_<?php echo esc_attr( $days ); ?>">
 									<input type="radio" name="wc_autoship_frequency" class="wc-autoship-frequency-input-radio"
-										id="wc_autoship_frequency_<?php echo esc_attr( $product->id ); ?>_<?php echo esc_html( $days ); ?>"
+										id="wc_autoship_frequency_<?php echo esc_attr( $product_id ); ?>_<?php echo esc_html( $days ); ?>"
 										value="<?php echo esc_html( $days ); ?>"
 										<?php echo checked( $days, $autoship_default_frequency ); ?> /> 
 									<?php echo esc_html( $name ), ' ', __( "(Every $days days)", 'wc-autoship-product-page' ); ?>
@@ -32,9 +44,9 @@
 						<?php endforeach; ?>
 					<?php endif; ?>
 					<div class="wc-autoship-frequency-no-autoship wc-autoship-frequency-radio radio">
-						<label for="wc_autoship_frequency_<?php echo esc_attr( $product->id ); ?>_no_autoship">
+						<label for="wc_autoship_frequency_<?php echo esc_attr( $product_id ); ?>_no_autoship">
 							<input type="radio" name="wc_autoship_frequency" class="wc-autoship-frequency-input-radio"
-								id="wc_autoship_frequency_<?php echo esc_attr( $product->id ); ?>_no_autoship"
+								id="wc_autoship_frequency_<?php echo esc_attr( $product_id ); ?>_no_autoship"
 								value=""
 								<?php checked( true, empty( $autoship_default_frequency ) ); ?> />
 							<?php echo __( "No auto-ship. Make this a one-time purchase.", 'wc-autoship-product-page' ); ?>
@@ -47,4 +59,4 @@
 	
 </div>
 
-<?php do_action( 'wc_autoship_after_product_autoship_options_variable', $product->id ); ?>
+<?php do_action( 'wc_autoship_after_product_autoship_options_variable', $product_id ); ?>

@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 /*
 UpdraftPlus Addon: multisite:Multisite/Network
 Description: Makes UpdraftPlus compatible with a WordPress Network (a.k.a. multi-site) and adds Network-related features
@@ -6,11 +7,12 @@ Version: 3.4
 Shop: /shop/network-multisite/
 Latest Change: 1.12.33
 */
+// @codingStandardsIgnoreEnd
 
 if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed');
 
 // Options handling
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+if (!defined('ABSPATH')) die('No direct access allowed');
 
 if (class_exists('UpdraftPlus_Options')) return;
 
@@ -60,7 +62,7 @@ if (is_multisite()) {
 		}
 
 		public static function add_admin_pages() {
-			if (is_super_admin()) add_submenu_page('settings.php', 'UpdraftPlus', __('UpdraftPlus Backups','updraftplus'), 'manage_options', 'updraftplus', array('UpdraftPlus_Options', 'options_printpage'));
+			if (is_super_admin()) add_submenu_page('settings.php', 'UpdraftPlus', __('UpdraftPlus Backups', 'updraftplus'), 'manage_options', 'updraftplus', array('UpdraftPlus_Options', 'options_printpage'));
 		}
 
 		public static function setdefaults() {
@@ -86,8 +88,9 @@ if (is_multisite()) {
 					'updraft_dropbox' => array(),
 					'updraft_onedrive' => array(),
 					'updraft_azure' => array(),
-					'updraft_sftp_settings' => array(),
-					'updraft_webdav_settings' => array(),
+					'updraft_sftp' => array(),
+					'updraft_backblaze' => array(),
+					'updraft_webdav' => array(),
 
 					'updraft_log_syslog' => 0,
 					'updraft_ssl_nossl' => 0,
@@ -168,16 +171,18 @@ if (is_multisite()) {
 			$already_inited = true;
 		
 			global $updraftplus, $updraftplus_admin;
-			$updraftplus->plugin_title .= " - ".__('Multisite Install','updraftplus');
+			$updraftplus->plugin_title .= " - ".__('Multisite Install', 'updraftplus');
 		}
 
-		# This is the function outputing the HTML for our options page
+		/**
+		 * This is the function outputing the HTML for our options page
+		 */
 		public static function options_printpage() {
-			if (!self::user_can_manage())  {
-				wp_die( __('You do not have sufficient permissions to access this page.') );
+			if (!self::user_can_manage()) {
+				wp_die(__('You do not have sufficient permissions to access this page.'));
 			}
 
-			if (isset($_POST['action']) && $_POST['action'] == 'update' && isset($_POST['updraft_interval'])) {
+			if (isset($_POST['action']) && 'update' == $_POST['action'] && isset($_POST['updraft_interval'])) {
 				$updated_options = self::mass_options_update($_POST);
 			}
 
@@ -188,7 +193,7 @@ if (is_multisite()) {
 
 		public static function mass_options_update($new_options) {
 
-			if ( !self::user_can_manage() ) wp_die( __( 'You do not have permission to access this page.' ) );
+			if (!self::user_can_manage()) wp_die(__('You do not have permission to access this page.'));
 
 			global $updraftplus, $updraftplus_admin;
 
@@ -200,12 +205,14 @@ if (is_multisite()) {
 				} elseif ('updraft_include_more_path' == $key) {
 					$options[$key] = $updraftplus->remove_empties($value);
 				} elseif ('updraft_delete_local' == $key || 'updraft_debug_mode' == $key || (preg_match('/^updraft_include_/', $key))) {
-					# Booleans/numeric
+					// Booleans/numeric
 					$options[$key] = absint($value);
 				} elseif ('updraft_googledrive' == $key && is_array($value)) {
 					$options[$key] = $updraftplus->googledrive_checkchange($value);
 				} elseif ('updraft_dropbox' == $key && is_array($value)) {
 					$options[$key] = $updraftplus->dropbox_checkchange($value);
+				} elseif ('updraft_backblaze' == $key && is_array($value)) {
+					$options[$key] = $updraftplus->backblaze_sanitise($value);
 				} elseif ('updraft_ftp' == $key && is_array($value)) {
 					$options[$key] = $updraftplus->ftp_sanitise($value);
 				} elseif ('updraft_s3' == $key && is_array($value)) {
@@ -220,19 +227,19 @@ if (is_multisite()) {
 					$options[$key] = $updraftplus->schedule_backup_database($value);
 				} elseif ('updraft_service' == $key) {
 					if (is_array($value)) {
-						foreach ($value as $subkey => $subvalue){
-							if ($subvalue == '0') unset($value[$subkey]);
+						foreach ($value as $subkey => $subvalue) {
+							if ('0' == $subvalue) unset($value[$subkey]);
 						}
 					}
 					$options[$key] = $updraftplus->just_one($value);
-				} elseif ('updraft_webdav_settings' == $key) {
+				} elseif ('updraft_webdav' == $key) {
 					$options[$key] = $updraftplus->construct_webdav_url($value);
 				} elseif ('updraft_email' == $key) {
 					$options[$key] = $updraftplus->just_one_email($value);
 				} elseif ('updraft_starttime_files' == $key || 'updraft_starttime_db' == $key) {
 					if (preg_match("/^([0-2]?[0-9]):([0-5][0-9])$/", $value, $matches)) {
 						$options[$key] = sprintf("%02d:%s", $matches[1], $matches[2]);
-					} elseif ($value == '') {
+					} elseif ('' == $value) {
 						$options[$key] = date('H:i', time()+300);
 					} else {
 						$options[$key] = '00:00';
@@ -265,7 +272,6 @@ if (is_multisite()) {
 
 			return $options;
 		}
-
 	}
 
 	register_activation_hook('updraftplus', array('UpdraftPlus_Options', 'setdefaults'));
@@ -348,7 +354,15 @@ if (is_multisite()) {
 			}
 		}
 		
-		// $move_from is a WP_Filesystem path
+		/**
+		 * $move_from is a WP_Filesystem path
+		 *
+		 * @param  string $move_from
+		 * @param  string $type
+		 * @param  array  $restore_options
+		 * @param  array  $backup_info
+		 * @return string
+		 */
 		public function restore_backup_move_from($move_from, $type, $restore_options, $backup_info) {
 		
 			$selective_restore_site_id = (is_array($restore_options) && !empty($restore_options['updraft_restore_ms_whichsites']) && $restore_options['updraft_restore_ms_whichsites'] > 0) ? $restore_options['updraft_restore_ms_whichsites'] : false;
@@ -425,10 +439,17 @@ if (is_multisite()) {
 					
 				}
 			}
-			return $move_from;			
+			return $move_from;
 		}
 		
-		// $backupable_entities is in the 'full info' format
+		/**
+		 * $backupable_entities is in the 'full info' format
+		 *
+		 * @param  array $backupable_entities [description]
+		 * @param  array $restore_options     [description]
+		 * @param  array $backup_set          [description]
+		 * @return array
+		 */
 		public function backupable_file_entities_on_restore($backupable_entities, $restore_options, $backup_set) {
 
 			if (!is_array($restore_options) || !is_array($backupable_entities) || empty($backupable_entities['uploads']) || empty($restore_options['updraft_restore_ms_whichsites']) || $restore_options['updraft_restore_ms_whichsites'] < 1 || !is_multisite()) return $backupable_entities;
@@ -443,7 +464,7 @@ if (is_multisite()) {
 			// Re-populate the data with the new result
 			$backupable_entities['uploads'] = array(
 				'path' => untrailingslashit($wp_upload_dir['basedir']),
-				'description' => __('Uploads','updraftplus')
+				'description' => __('Uploads', 'updraftplus')
 			);
 			
 			restore_current_blog();
@@ -451,7 +472,15 @@ if (is_multisite()) {
 			return $backupable_entities;
 		}
 		
-		// $site_id is >=2 in current implementations (not called otherwise)
+		/**
+		 * $site_id is >=2 in current implementations (not called otherwise)
+		 *
+		 * @param  array  $restore_or_not
+		 * @param  string $site_id
+		 * @param  string $unprefixed_table_name
+		 * @param  string $restore_options
+		 * @return array
+		 */
 		public function restore_this_site($restore_or_not, $site_id, $unprefixed_table_name, $restore_options) {
 		
 			if (!empty($restore_options['updraft_restore_ms_whichsites']) && -1 != $restore_options['updraft_restore_ms_whichsites']) {
@@ -483,7 +512,7 @@ if (is_multisite()) {
 					$require_prefix = '';
 					
 				} else {
-					$require_prefix =  $restore_options['updraft_restore_ms_whichsites'].'_';
+					$require_prefix = $restore_options['updraft_restore_ms_whichsites'].'_';
 				}
 				
 				$has_prefix = preg_match('/^(\d+_).*$/', $unprefixed_table_name, $matches) ? $matches[1] : '';
@@ -504,9 +533,9 @@ if (is_multisite()) {
 			// $entities is an set of index numbers, which in the common case of 1 zip only, will be '0' - so, don't test with empty()
 			if (!is_array($info) || empty($info['multisite']) || !is_array($entities) || (!isset($entities['db']) && (!isset($entities['uploads']) || get_site_option('ms_files_rewriting')) && (!isset($entities['others']) || !get_site_option('ms_files_rewriting'))) || (isset($info['same_url']) && !$info['same_url'])) return;
 
-// 			if (!is_array($info) || empty($info['multisite']) || empty($info['same_url'])) return $info;
+			// if (!is_array($info) || empty($info['multisite']) || empty($info['same_url'])) return $info;
 
-// 			if (!defined('UPDRAFTPLUS_MULTISITE_EXPERIMENTAL_RESTOREONLYONE') || !UPDRAFTPLUS_MULTISITE_EXPERIMENTAL_RESTOREONLYONE) return $info;
+			// if (!defined('UPDRAFTPLUS_MULTISITE_EXPERIMENTAL_RESTOREONLYONE') || !UPDRAFTPLUS_MULTISITE_EXPERIMENTAL_RESTOREONLYONE) return $info;
 
 			// N.B. "If wp_is_large_network() returns TRUE, wp_get_sites() will return an empty array. By default wp_is_large_network() returns TRUE if there are 10,000 or more sites in your network." - https://codex.wordpress.org/Function_Reference/wp_get_sites (wp_is_large_network() is since WP 3.3)
 			
@@ -549,16 +578,21 @@ if (is_multisite()) {
 				$info['addui'] .= '</select>';
 				if (!empty($other_entities)) $info['addui'] .= '<em>'.__('N.B. this option only affects the restoration of the database and uploads - other file entities (such as plugins) in WordPress are shared by the whole network.').'</strong> <a href="https://updraftplus.com/restoring-single-sites-on-network/">'.__('Read more...', 'updraftplus').'</a>';
 			}
-// 			return $info;
+			// return $info;
 		}
 		
-		// wp_get_sites doesn't exist until WP 3.7. We provide this for earlier versions.
+		/**
+		 * Function wp_get_sites doesn't exist until WP 3.7. We provide this for earlier versions.
+		 *
+		 * @param  array $args
+		 * @return array
+		 */
 		private function wp_get_sites($args = array()) {
 			global $wpdb;
 
 			// Does not exist on the versions we're targeting
-// 			if ( wp_is_large_network() )
-// 					return array();
+			// if (wp_is_large_network())
+			// return array();
 
 			$defaults = array(
 					'network_id' => $wpdb->siteid,
@@ -571,38 +605,39 @@ if (is_multisite()) {
 					'offset'     => 0,
 			);
 
-			$args = wp_parse_args( $args, $defaults );
+			$args = wp_parse_args($args, $defaults);
 
 			$query = "SELECT * FROM $wpdb->blogs WHERE 1=1 ";
 
-			if ( isset( $args['network_id'] ) && ( is_array( $args['network_id'] ) || is_numeric( $args['network_id'] ) ) ) {
-					$network_ids = implode( ',', wp_parse_id_list( $args['network_id'] ) );
+			if (isset($args['network_id']) && (is_array($args['network_id']) || is_numeric($args['network_id']))) {
+					$network_ids = implode(',', wp_parse_id_list($args['network_id']));
 					$query .= "AND site_id IN ($network_ids) ";
 			}
 
-			if ( isset( $args['public'] ) )
-					$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
+			if (isset($args['public']))
+					$query .= $wpdb->prepare("AND public = %d ", $args['public']);
 
-			if ( isset( $args['archived'] ) )
-					$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
+			if (isset($args['archived']))
+					$query .= $wpdb->prepare("AND archived = %d ", $args['archived']);
 
-			if ( isset( $args['mature'] ) )
-					$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
+			if (isset($args['mature']))
+					$query .= $wpdb->prepare("AND mature = %d ", $args['mature']);
 
-			if ( isset( $args['spam'] ) )
-					$query .= $wpdb->prepare( "AND spam = %d ", $args['spam'] );
+			if (isset($args['spam']))
+					$query .= $wpdb->prepare("AND spam = %d ", $args['spam']);
 
-			if ( isset( $args['deleted'] ) )
-					$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
+			if (isset($args['deleted']))
+					$query .= $wpdb->prepare("AND deleted = %d ", $args['deleted']);
 
-			if ( isset( $args['limit'] ) && $args['limit'] ) {
-					if ( isset( $args['offset'] ) && $args['offset'] )
-							$query .= $wpdb->prepare( "LIMIT %d , %d ", $args['offset'], $args['limit'] );
-					else
-							$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
+			if (isset($args['limit']) && $args['limit']) {
+				if (isset($args['offset']) && $args['offset']) {
+					$query .= $wpdb->prepare("LIMIT %d , %d ", $args['offset'], $args['limit']);
+				} else {
+					$query .= $wpdb->prepare("LIMIT %d ", $args['limit']);
+				}
 			}
 
-			$site_results = $wpdb->get_results( $query, ARRAY_A );
+			$site_results = $wpdb->get_results($query, ARRAY_A);
 
 			return $site_results;
 		}
@@ -618,10 +653,10 @@ if (is_multisite()) {
 				);
 				if (!get_option('ms_files_rewriting') && defined('UPLOADBLOGSDIR')) {
 					$ud = $updraftplus->wp_upload_dir();
-					if (strpos(UPLOADBLOGSDIR, $ud['basedir'] === false)) {
+					if (strpos(UPLOADBLOGSDIR, false === $ud['basedir'])) {
 						$arr['blogs'] = array(
 							'path' => ABSPATH.UPLOADBLOGSDIR,
-							'description' => __('Blog uploads','updraftplus')
+							'description' => __('Blog uploads', 'updraftplus')
 						);
 					}
 				}
@@ -629,7 +664,7 @@ if (is_multisite()) {
 				$arr['mu-plugins'] = WPMU_PLUGIN_DIR;
 				if (!get_option('ms_files_rewriting') && defined('UPLOADBLOGSDIR')) {
 					$ud = $updraftplus->wp_upload_dir();
-					if (strpos(UPLOADBLOGSDIR, $ud['basedir'] === false)) {
+					if (strpos(UPLOADBLOGSDIR,  false === $ud['basedir'])) {
 						$arr['blogs'] = ABSPATH.UPLOADBLOGSDIR;
 					}
 				}
@@ -655,7 +690,6 @@ if (is_multisite()) {
 				'href' => UpdraftPlus_Options::admin_page_url().'?page=updraftplus'
 			));
 		}
-
 	}
 	
 	$updraftplus_addon_multisite = new UpdraftPlusAddOn_MultiSite;

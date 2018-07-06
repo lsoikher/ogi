@@ -1,7 +1,53 @@
 <?php
+/*
+ *  ALL LICENSING FUNCTIONS ARE PRO-ONLY
+ *  AND DO NOT RUN WEHN ONLY THE FREE VERSION
+ *  HOSTED AT WORDPRESS.ORG IS INSTALLED
+ *  
+ *  Installation and activation of tHE PURCHASABLE PRO VERSION ACTIVATES ALL LICENSING CODE   
+
+*/
 
 /**
- *  Added v1.1.5
+ *  ------------------------------------------------------
+
+= 1.1.8.2 - 2018-01-22 =
+* Enhancement - Licensing Improvements
+          	TEST site registration 
+          	A.  ------------------------------------------------------
+            
+                *** Removed requirement that the TEST site be a subdomain of PROD ***
+                *** prod_url_supplied_for_test_site NO LONGER IN USE! ***
+                *                
+                ------------------------------------------------------
+                                
+          	B. any website with test. / testing. / staging etc may be registered as a TEST site on an existing pro license
+          	C. If a rego request is sent as a PROD registration with a **test** NAME, then:
+          	   - if found, carry on
+               - if not found, the PROD rego is changed to a TEST rego.
+               - This change now carries **back** to the CLIENT and updats the test/prod field on the client!!
+          	D. If PROD site registration has already been utilized, and a 2nd site attempts to use the same PROD rego,
+          	   - if the 2nd site NAME is a test/staging site, no strike will be counted on the PROD rego attempt
+          	   - if the 2nd site NAME is a test/staging site, an attempt will be made to regsiter as a TEST site
+          	   - client licensing will *NOT* communicate with licensing host for retry, if test/staging site is already in error, and no changes have been made to rego credentials 
+          	E. Valid_license table rows are now forever (matching the purchaser valid_activation_count).  
+                A new row (if available in the license) is now added when either a new PROD or TEST license is activated.
+          	   - When a new table row is added, if PROD, then the test area is blank (ditto if TEST added)
+               - Deactivation just changes an existing status on the valid license table
+               - when Activating a PROD or TEST license, it looks for:
+                  1. empty space [if PROD, look for PROD...] (fill it when found)
+                  2. if no empty space, look for deactivated name matching
+                  3. if no name matching, take the first non-matching deactivated space
+               - PROD activation
+                  1. 'license_valid_activation_count' on the license_purchaser table is NO LONGER decremented when a PROD license is deactivate,
+                      it now simply matches the number of license valid table rows                                
+          	F. The 'get newest version' activity on the plugins page now bounces right back to the plugins page when done.
+               - ALSO, the in-admin PRO plugin update ONLY works with a PROD installation, not a TEST one.
+
+
+ *  ------------------------------------------------------
+ *   
+ *  Added v1.1.5   
  *  Both  class VTPRD_License_Options
  *    and non-class Functions below... 
  *    
@@ -14,7 +60,12 @@
 
  // this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
 
-//define( 'VTPRD_STORE_URL', 'https://stage.varktech.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
+//********************************************
+// also look for $new_combined_options['url']  when testing staging.
+//********************************************
+
+  //TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST v1.1.8.2
+  //define( 'VTPRD_STORE_URL', 'https://stage.varktech.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
   define( 'VTPRD_STORE_URL', 'https://www.varktech.com/' );  // you should use your own CONSTANT name, and be sure to replace it throughout this file
  
  
@@ -132,15 +183,16 @@ function vtprd_add_admin_menu_setup_items() {
 function vtprd_license_options_cntl() {
   
   
-  //v1.1.6.3 begin
-  // From a URL anywhere in the site
-  // looks for 'action=force_plugin_updates_check', 
-  //  which executes a function which clears the TS and transfers to  'update-core.php'
-  $action     = isset( $_GET['action'] ) ? strtolower( $_GET['action'] )  : false;
-  if ($action == 'force_plugin_updates_check') {
-    vtprd_force_plugin_updates_check();
-  }  
-  //v1.1.6.3 end
+    //v1.1.6.3 begin
+    // From a URL anywhere in the site
+    // looks for 'action=force_plugin_updates_check', 
+    //  which executes a function which clears the TS and transfers to  'plugins.php' (v1.1.8.2 used to be'update-core.php')
+    $action     = isset( $_GET['action'] ) ? strtolower( $_GET['action'] )  : false;
+    //error_log( print_r(  'vtprd_license_options_cntl, action= ' .$action, true ) );
+    if ($action == 'force_plugin_updates_check') {
+      vtprd_force_plugin_updates_check();
+    }  
+    //v1.1.6.3 end
   
   
   //add help tab to this screen...
@@ -390,31 +442,39 @@ function vtprd_license_options_cntl() {
           //v1.1.6.7 shifted message here - admin_notices can be blocked by some plugins, now shown DIRECTLY!!
           // works in conjunction with new PRO plugin update message on the plugins page, using after-nag logic 
 
-          if ($vtprd_license_options['pro_plugin_version_status'] == 'Pro Version Error') {          
+          if ( ($vtprd_license_options['pro_plugin_version_status'] == 'Pro Version Error') &&
+               ($vtprd_license_options['status'] == 'valid') && //v1.1.8.2 
+               ($vtprd_license_options['state']  == 'active') ) { //v1.1.8.2 
             //FULL message for rego screen
-            $message  =  '<strong>' . __('Pro Plugin  ** Update Reguired ** ' , 'vtprd') .'</strong>' ;
+            $message  =  '<strong>' . __('Pro Plugin  ** Update Required ** ' , 'vtprd') .'</strong>' ;
             $message .=  "<span style='color:grey !important;'><em>&nbsp;&nbsp;&nbsp; (pro plugin will not discount until updated)</em></span>" ;
             
             $message .=  '<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . __('Your Pro Version = ' , 'vtprd') .$vtprd_license_options['pro_version'] .'&nbsp;&nbsp;<strong>' . __(' Required Pro Version = ' , 'vtprd') .VTPRD_MINIMUM_PRO_VERSION .'</strong>'; 
             
            // $message .=  '<br><br><em>'  .VTPRD_PRO_PLUGIN_NAME . '&nbsp;&nbsp;' . ' will not give discounts until this is resolved.' .'</em>' ;  
-            
-            $message .=  '<br><br>&nbsp;&nbsp; 1. &nbsp;&nbsp;<em>' . __('For Dashboard update, CLICK HERE: '  , 'vtprd') .'</em>';
-            $message .=  '&nbsp;&nbsp;<a style="text-decoration: underline;font-size:18px;" href="'.$vtprd_license_options['home_url'].'/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_license_options_page&action=force_plugin_updates_check">' . __('Check for Plugin Updates', 'vtprd'). '</a>';
-             
+            //v1.1.8.2 begin
+            if ($vtprd_license_options['prod_or_test'] == 'test') { 
+              $message .=  '<br><br>&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;<em>' . __('In a TEST environment, only MANUAL updates are available:'  , 'vtprd') .'</em>'; //v1.1.8.2                               
+            } else {
+              $message .=  '<br><br>&nbsp;&nbsp; 1. &nbsp;&nbsp;<em>' . __('For Plugin update, CLICK HERE: '  , 'vtprd') .'</em>'; //v1.1.8.2
+              $message .=  '&nbsp;&nbsp;<a style="text-decoration: underline;font-size:18px;" href="'.VTPRD_ADMIN_URL.'edit.php?post_type=vtprd-rule&page=vtprd_license_options_page&action=force_plugin_updates_check">' . __('Check for Plugin Updates', 'vtprd'). '</a>'; //v1.1.8.2 - removed home_url, also bounces to license page, which then sets the transient and goes on to the plugins page.
+              $message .=  '<br><br>&nbsp;&nbsp; 2. &nbsp;&nbsp;<em>' . __('If no Plugin update is available, please update manually:'  , 'vtprd') .'</em>'; //v1.1.8.2
+            }
+            //v1.1.8.2 end
+            // $message .=  '&nbsp;&nbsp;<a style="text-decoration: underline;font-size:18px;" href="'.VTPRD_ADMIN_URL.'edit.php?post_type=vtprd-rule&page=vtprd_license_options_page&action=force_plugin_updates_check">' . __('Check for Plugin Updates', 'vtprd'). '</a>'; //v1.1.8.2  bounces to license page, which then sets the transient and goes on to the plugins page.
+                   
           //  $message .=  '<br><br>&nbsp;&nbsp; 1. &nbsp;&nbsp;<em>' . __('IF your PRO plugin is currently registered, '  , 'vtprd').'</em>';
           //  $message .=  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>' . __('You should see an update prompt on your '  , 'vtprd');
-          //  $message .=     '<a class="ab-item" href="'.$vtprd_license_options['home_url'].'/wp-admin/plugins.php?plugin_status=all&paged=1&s">' . __('Plugins Page', 'vtprd') . '</a>';
+          //  $message .=     '<a class="ab-item" href="'.VTPRD_ADMIN_URL.'plugins.php?plugin_status=all&paged=1&s">' . __('Plugins Page', 'vtprd') . '</a>';
           //  $message .=     __(' for a PRO Plugin automated update'  , 'vtprd') .'</strong>';           
             
          //   $message .=  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;' . __('If no Pro Plugin update nag, Click Here: '  , 'vtprd');
-         //   $message .=  '<a href="'.$vtprd_license_options['home_url'].'/wp-admin/edit.php?post_type=vtprd-rule&page=vtprd_license_options_page&action=force_plugin_updates_check">' . __('Check for Plugin Updates', 'vtprd'). '</a>';
+         //   $message .=  '<a href="'.VTPRD_ADMIN_URL.'edit.php?post_type=vtprd-rule&page=vtprd_license_options_page&action=force_plugin_updates_check">' . __('Check for Plugin Updates', 'vtprd'). '</a>';
            // $message .=  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;' . __('Then return to your '  , 'vtprd');
-           // $message .=     '<a class="ab-item" href="'.$vtprd_license_options['home_url'].'/wp-admin/plugins.php?plugin_status=all&paged=1&s">' . __('Plugins Page', 'vtprd') . '</a>';
+           // $message .=     '<a class="ab-item" href="'.VTPRD_ADMIN_URL.'plugins.php?plugin_status=all&paged=1&s">' . __('Plugins Page', 'vtprd') . '</a>';
            // $message .=     __(' to apply the PRO Plugin automated update'  , 'vtprd') .'</strong>';
             
                  
-            $message .=  '<br><br>&nbsp;&nbsp; 2. &nbsp;&nbsp;<em>' . __('If no Dashboard update is available, please update manually:'  , 'vtprd') .'</em>';
             //$message .=  '<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;' . __('Use the login credentials emailed to you at purchase time, and'  , 'vtprd');
             $message .=  '<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;' . __('Go to Varktech ', 'vtprd');
             $message .=  '<a target="_blank" href="https://www.varktech.com/your-account/your-login/">Your Login</a>';
@@ -575,8 +635,8 @@ function vtprd_license_options_cntl() {
                     _e(' - Activate the  &nbsp;&nbsp;<em>', 'vtprd');
                     echo $item_name; 
                     _e('</em> &nbsp;&nbsp;  on the &nbsp;&nbsp; 
-                    <a href="'.$vtprd_license_options['home_url'].'/wp-admin/plugins.php">Plugins page</a> &nbsp;&nbsp; 
-                    - to show a Registration Button here.', 'vtprd'); ?> </strong>
+                    <a href="'.VTPRD_ADMIN_URL.'plugins.php">Plugins page</a> &nbsp;&nbsp; 
+                    - to show a Registration Button here.', 'vtprd'); // v1.1.8.2  removed home_url ?> </strong>
                 </h3> 
         <?php 
               } else {  //PRO not currently installed
@@ -584,7 +644,7 @@ function vtprd_license_options_cntl() {
                <br><br><br>
                <h3 class="yellow">
                     <?php 
-                    _e(' - Install and Activate the  &nbsp;&nbsp;<em>', 'vtprd');
+                    _e(' - You have installed and activated the FREE version of the plugin only.  <br><br>Please &nbsp;<strong>also</strong>&nbsp; Install and Activate the  &nbsp;&nbsp;<em>', 'vtprd');  //v1.1.7.2 wording changed
                     echo $item_name;  
                     _e('</em> &nbsp;&nbsp; to show a Registration Button here.', 'vtprd'); ?>
                 </h3> 
@@ -593,20 +653,43 @@ function vtprd_license_options_cntl() {
             } 
           }  
           //v1.1.6 end
-            
-          $this->vtprd_show_clear_button();
+          
+          //v1.1.7.2 begin
+          // make clear button conditional - makes 'deactivate' only button after activation!!
+          if ( $vtprd_license_options['state'] != 'active' ) {   
+            $this->vtprd_show_clear_button();
+          }
+          //v1.1.7.2 end
         ?> 
 
 		</form>
     
     
        
-     <?php //v1.1.6.7 begin  ?>
+     <?php //v1.1.8.2  re-coded begin  ?>
     
           
       <br><br>
-
-        <div class="pricing-deal-example group" id="pricing-deal-example-1">                     
+        <div class="pricing-deal-example group" id="pricing-deal-example-2">                     
+          <p class="title">                                                                      
+            <a class="title-anchor title-anchor-plus"  id="title-anchor-plus-2"   href="javascript:void(0);"> 
+              <span class="title-text">How to Transfer PROD or TEST registration from one site to another
+              </span>
+              <span class="plus-icon">+
+              </span> </a>            
+            <a class="title-anchor title-anchor-minus" id="title-anchor-minus-2"  href="javascript:void(0);"> 
+              <span class="title-text">How to Transfer PROD or TEST  registration from one site to another
+              </span>
+              <span class="minus-icon">-
+              </span> </a>          
+          </p>               
+          <span class="example-details  hideMe" id="example-details-2">            
+            <br>&nbsp;&nbsp; 1. *Deactivate* the license in the First &nbsp;(currently active)&nbsp; Site &nbsp;&nbsp;&nbsp; <em>(use the DEACTIVATE button)</em>
+        <br><br>&nbsp;&nbsp; 2. *Activate* the license in the Second Site
+          </span>        
+        </div> 
+         
+         <div class="pricing-deal-example group" id="pricing-deal-example-1">                     
           <p class="title">                                                                      
             <a class="title-anchor title-anchor-plus"  id="title-anchor-plus-1"   href="javascript:void(0);"> 
               <span class="title-text">Test Site Registration OPTIONS
@@ -620,43 +703,29 @@ function vtprd_license_options_cntl() {
               </span> </a>          
           </p>               
           <span class="example-details  hideMe" id="example-details-1">            
-              <h2>   You have a couple of options for registering a test site.</h2> 
+              <h2>   Test Site Naming Requirements</h2> 
               1. <b>Use the 'test' selection option above</b>
-             <br>&nbsp;&nbsp;&nbsp;&nbsp; But that has strict naming requirements:
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (a)&nbsp;&nbsp; the test site must be a subdomain (or a wpengine staging site) 
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (b)&nbsp;&nbsp; the test site name must have "test." or "dev." or "development" or "beta." or "demo." or "stage." or "staging" in the URL
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (c)&nbsp;&nbsp; when registering a test site, you are prompted for a Prod site URL. 
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - the Prod site URL you supply *Must* be the ACTUAL PROD site URL  
-         <br><br>2. <b>Use the 'prod' selection option above on your test site!</b> 
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - only a single 'prod' site can be active at a time -
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (a)&nbsp;&nbsp; (If the PROD site is already registered, *deactivate it temporarily)
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (b)&nbsp;&nbsp; Activate the Test site as the 'prod' site above
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (c)&nbsp;&nbsp; When it's time to activate the license in the actual PROD site,
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you must first **deactivate** the license in the test site
-             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before activating the License in the PROD site.
+             <br>&nbsp;&nbsp;&nbsp;&nbsp; Your test site's Wordpress Home URL setting must contain ONE of the following strings (ignore the "|"):
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   development  |  testing  |  demonstration  |  staging   |    
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   test.   |  .test   |  test-   |  -test   |  /test   |  
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   stage.  |  .stage  |  stage-  |  -stage  |  /stage  |  
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   dev.    |  .dev    |  dev-    |  -dev    |  /dev    |   
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   demo.   |  .demo   |  demo-   |  -demo   |  /demo   |   
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   beta.   |  .beta   |  beta-   |  -beta   |  /beta   |  
+               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   stg.    |  .stg    |  stg-    |  -stg    |  /stg    | 
           </span>        
         </div>  
-   
-        <div class="pricing-deal-example group" id="pricing-deal-example-2">                     
-          <p class="title">                                                                      
-            <a class="title-anchor title-anchor-plus"  id="title-anchor-plus-2"   href="javascript:void(0);"> 
-              <span class="title-text">How to Transfer PROD registration from one site to another
-              </span>
-              <span class="plus-icon">+
-              </span> </a>            
-            <a class="title-anchor title-anchor-minus" id="title-anchor-minus-2"  href="javascript:void(0);"> 
-              <span class="title-text">How to Transfer PROD registration from one site to another
-              </span>
-              <span class="minus-icon">-
-              </span> </a>          
-          </p>               
-          <span class="example-details  hideMe" id="example-details-2">            
-            <br>&nbsp;&nbsp; 1. *Deactivate* the license in the First &nbsp;(currently active)&nbsp; Site &nbsp;&nbsp;&nbsp; <em>(use the DEACTIVATE button)</em>
-        <br><br>&nbsp;&nbsp; 2. *Activate* the license in the Second Site
-          </span>        
-        </div>  
-                     
-     <?php //v1.1.6.7 end ?>    
+          <?php /* WHOLE LIST:
+                development  |  testing  |  demonstration  |  staging   |    
+               test.   |  .test   |  test-   |  -test   |  /test   |  
+               stage.  |  .stage  |  stage-  |  -stage  |  /stage  |  
+               dev.    |  .dev    |  dev-    |  -dev    |  /dev    |   
+               demo.   |  .demo   |  demo-   |  -demo   |  /demo   |   
+               beta.   |  .beta   |  beta-   |  -beta   |  /beta   |  
+               stg.    |  .stg    |  stg-    |  -stg    |  /stg    | 
+                */
+           ?>        
+     <?php //v1.1.8.2 end ?>    
     
     
               
@@ -688,62 +757,10 @@ function vtprd_license_options_cntl() {
             } else {
               $updater_action_reduced_frequency = 'no';
             }
-            
-            $return  = '### Begin Licensing Info ###' . "\n\n";
-
-          	$return .= 'Home URL:                 ' . $vtprd_license_options['url'] . "\n";
-            $return .= 'Plugin Name:              ' . $item_name . "\n";
-            $return .= 'Status:                   ' . $vtprd_license_options['status'] . "\n";
-            $return .= 'State:                    ' . $vtprd_license_options['state'] . "\n";
-            $return .= 'Message:                  ' . $vtprd_license_options['msg'] . "\n";
-          	$return .= 'Key:                      ' . $vtprd_license_options['key'] . "\n";
-            $return .= 'Email:                    ' . $vtprd_license_options['email'] . "\n";
-            $return .= 'Activation Type:          ' . $vtprd_license_options['prod_or_test'] . "\n";
-            $return .= 'Prod Site URL (if test):  ' . $vtprd_license_options['prod_url_supplied_for_test_site'] . "\n";
-            $return .= 'Strikes:                  ' . $vtprd_license_options['strikes'] . "\n"; 
-            $return .= 'Last Action:              ' . $vtprd_license_options['last_action'] . "\n"; 
-            $return .= 'Last good attempt:        ' . $vtprd_license_options['last_successful_rego_date_time'] . "\n";
-            $return .= 'Last failed attempt:      ' . $vtprd_license_options['last_failed_rego_date_time'] . "\n"; 
-            $return .= 'Expires:                  ' . $vtprd_license_options['expires'] . "\n"; 
-            $return .= 'Plugin Item ID:           ' . VTPRD_ITEM_ID . "\n";
-           // $return .= 'Plugin Item ID Demo:      ' . VTPRD_ITEM_ID_DEMO . "\n";  //removed 1.1.6.7
-            $return .= 'Registering To:           ' . VTPRD_STORE_URL . "\n"; 
-            $return .= 'Diagnostic Message:       ' . $vtprd_license_options['diagnostic_msg'] . "\n";
-                          
-            $return .= 'Pro Current Version:      ' . $vtprd_license_options['plugin_current_version'] . "\n";  //used by plugin updater only
-            $return .= 'Pro New Version:          ' . $vtprd_license_options['plugin_new_version'] . "\n";
-            
-            $return .= 'Pro Version:              ' . $vtprd_license_options['pro_version'] . "\n";
-            $return .= 'Pro Required Version:     ' . VTPRD_MINIMUM_PRO_VERSION . "\n";
-            $return .= 'Pro Version Status:       ' . $vtprd_license_options['pro_plugin_version_status'] . "\n";
-            
-            $return .= 'Free Current Version:     ' . VTPRD_VERSION . "\n";
-            $return .= 'Free Required Version:    ' . $vtprd_license_options['pro_minimum_free_version'] . "\n";
-            
-            $count = get_option( 'vtprd_license_count');
-            $return .= 'License Count:            ' . $count . "\n";
-            $return .= 'Pro Deactivate Flag:      ' . $vtprd_license_options['pro_deactivate'] . "\n";
-           // $return .= 'Updater Reduced Frequency:' . ' ' . $updater_action_reduced_frequency . "\n";
-            
-            $last_check = get_option('vtprd_last_license_check_ts');
-            $last_check_formatted   = is_numeric( $last_check ) ? date( 'Y-m-d H:i:s', $last_check ) : $last_check; 
-             
-            $return .= 'Last Check_License TS:    ' . $last_check_formatted . "\n";              
-             
-            $return .= 'Home URL (for anchors):   ' . $vtprd_license_options['home_url'] . "\n"; //v1.1.6.1
-            $return .= 'Rego Done Flag:           ' . $vtprd_license_options['rego_done'] . "\n"; //v1.1.6.1
-
-            $return .= "\n \n \n";
-            
-            $return .= 'Last Response from Host: <pre>'.print_r($vtprd_license_options['last_response_from_host'], true).'</pre>'  . "\n" ;     
-
-            $return .= "\n \n \n";
-            
-            $return .= 'Last Parameters sent to Host: <pre>'.print_r($vtprd_license_options['params_sent_to_host'], true).'</pre>'  . "\n" ;   
-                                 
+                   
            ?>  
            <textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" 
-           name="edd-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo $return; ?></textarea>
+           name="edd-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo vtprd_return_license_info(); ?></textarea>
          
 
           <?php  global $vtprd_license_options;
@@ -824,8 +841,8 @@ function vtprd_initialize_options() {
 /*      //v1.1.6 begin
       global $vtprd_license_options;
       $vtprd_license_options = get_option( 'vtprd_license_options' );
- //error_log( print_r(  'Begin License Options, vtprd_license_options= ', true ) );  
- //error_log( var_export($vtprd_license_options, true ) );
+   //error_log( print_r(  'Begin License Options, vtprd_license_options= ', true ) );  
+   //error_log( var_export($vtprd_license_options, true ) );
       if (!$vtprd_license_options) {
         $vtprd_license_options = $this->vtprd_set_default_options();
         update_option( 'vtprd_license_options', $vtprd_license_options);
@@ -882,13 +899,12 @@ function vtprd_initialize_options() {
 		)
 	);
 
+/* v1.1.8.2 removed
      //v1.1.6.8- change workding        
     add_settings_field(	       
 		'prod_url_supplied_for_test_site',						// ID used to identify the field throughout the theme
     '<span class="production_url_for_test">'.   
     		__( 'PRODUCTION Site URL', 'vtprd' )
-   /* .'<br>'.
-      __( "&nbsp;&nbsp;<em>(Test site registration requires the PROD site url)</em>", 'vtprd' ) */
 
     .'</span>',   // The label to the left of the option interface element
 		array(&$this, 'vtprd_prod_url_callback'), // The name of the function responsible for rendering the option interface
@@ -898,6 +914,7 @@ function vtprd_initialize_options() {
 			 __( 'Pro Plugin License prod_url', 'vtprd' )
 		)
 	);
+  */
 
   	
 	// Finally, we register the fields with WordPress
@@ -929,10 +946,14 @@ function vtprd_initialize_options() {
   //****************************
 function vtprd_set_default_options() {
    
-     //error_log( print_r(  'License-Options.php, Begin vtprd_set_default_options', true ) ); 
+       //error_log( print_r(  'License-Options.php, Begin vtprd_set_default_options', true ) ); 
     
-     $url = home_url();
-     $url_no_http = $this->vtprd_strip_out_http($url); //v1.1.6.1
+     $url = home_url(); //SET URL     
+     $url_no_http = $this->vtprd_strip_out_http($url); //v1.1.6.1 
+     
+    //TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST v1.1.8.2
+    //$url_no_http  = 'dev.anystore.com';
+
       //VTPRD_PRO_VERSION only exists if PRO version is installed and active
      if (defined('VTPRD_PRO_VERSION')) {  //changed v1.1.6
        $version = VTPRD_PRO_VERSION;
@@ -944,13 +965,21 @@ function vtprd_set_default_options() {
        $version =   $vtprd_setup_options['current_pro_version'];
        */
      } 
-       
+      /*
+      //v1.1.8.2
+      'url' = Registering site URL , may be a PROD or a TEST name
+      'prod_or_test' = the type of license the site/user thinks it is apply to.
+      - if this is PROD request
+      - if PROD rego already exists
+      - if 'url' is TEST site name type
+      - try to register as a TEST site
+      */       
      $options = array(           
           //screen fields
           'key'=> '',  //opt1 
           'email' => '',  //opt1 
           'prod_or_test' => 'prod',  //opt1
-          'prod_url_supplied_for_test_site' => '',  //IF THIS IS a TEST site, MUST also give PROD URL
+          'prod_url_supplied_for_test_site' => '',  //v1.1.8.2  NO LONGER USED, but remains for historical structure
           //not screen fields
           'url' =>  $url_no_http,  //v1.1.6.1   
           'status' => 'unregistered',    //  'valid'/'invalid'/'unregistered'
@@ -996,8 +1025,8 @@ function vtprd_license_section_callback () {
     global $vtprd_license_options; 
     $vtprd_license_options = get_option( 'vtprd_license_options' );
 
-  //error_log( print_r(  'activation callback $vtprd_license_options', true ) );
-  //error_log( var_export($vtprd_license_options, true ) ); 
+    //error_log( print_r(  'activation callback $vtprd_license_options', true ) );
+    //error_log( var_export($vtprd_license_options, true ) ); 
       // **********************************************************
       // STATUS: valid / invalid / unregistered (default)
       // STATE:  active (only if valid) / deactivated (only if valid) / pending (error but not yet suspended) / suspended-by-vendor / unregistered (default)
@@ -1145,8 +1174,8 @@ function vtprd_license_section_callback () {
   function vtprd_prod_or_test_callback() {   
   	$options = get_option( 'vtprd_license_options' );	
     
-  //error_log( print_r(  'showing prod or test radio buttons, $vtprd_license_options= ' , true ) );
-  //error_log( var_export($options, true ) );    
+    //error_log( print_r(  'showing prod or test radio buttons, $vtprd_license_options= ' , true ) );
+    //error_log( var_export($options, true ) );    
     
     
 /* 
@@ -1167,12 +1196,12 @@ function vtprd_license_section_callback () {
     $html  = '<ul style="
               padding: 15px;
               background: white none repeat scroll 0% 0%;
-              width: 250px;
+              width: 350px;
               border: 1px solid rgb(221, 221, 221);
                " >';			
        
     $html .= '<li> <input id="radio-prod" class="" name="prod_or_test" value="prod" type="radio" '  . $prod_checked . '><span>'    . __("Production Site", "vtprd") .  '</span> </li>';
-    $html .= '<li> <input id="radio-test" class="" name="prod_or_test" value="test" type="radio" '  . $test_checked . '><span>'    . __("Test/Staging/Dev Site", "vtprd") .  '</span> </li>';  //v1.1.6.8 wording changed
+    $html .= '<li> <input id="radio-test" class="" name="prod_or_test" value="test" type="radio" '  . $test_checked . '><span>'    . __("Test Site / Staging Site / Development Site", "vtprd") .  '</span> </li>';  //v1.1.7.2 wording changed
   //removed 1.1.6.7
  //   $html .= '<li> <input id="radio-demo" class="" name="prod_or_test" value="demo" type="radio" '  . $demo_checked . '><span>'    . __("3-Day Full Free Demo License", "vtprd") .  '</span> </li>';     
     $html .= '</ul>';	
@@ -1182,41 +1211,34 @@ function vtprd_license_section_callback () {
   
   
 
- 
+ /*
   function vtprd_prod_url_callback() {    //opt4
   	$options = get_option( 'vtprd_license_options' );	
     $html = '<div class="production_url_for_test">';
     $html .= '<textarea type="text" id="prod_url_supplied_for_test_site"  rows="1" cols="60" name="vtprd_license_options[prod_url_supplied_for_test_site]">' . $options['prod_url_supplied_for_test_site'] . '</textarea>';
      
     $html .= '<br><br><p><em>';
-    $html .= 'There is a strict relationship Required between the Production Site Name and the Test Site Name.';
-    $html .= '<br><br>';
-    $html .= 'The Test site **must** be a <strong>subdomain of the Production Site</strong>';
-    $html .= '<br><br>';
-    $html .= '<strong>The Test site URL **must Include** </strong> one of these:';
-    $html .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  "test." &nbsp;&nbsp; or';
-    $html .= '&nbsp;&nbsp;  "dev." &nbsp;&nbsp; or ';
-    $html .= '&nbsp;&nbsp;  "devlopment" &nbsp;&nbsp; or ';
-    $html .= '&nbsp;&nbsp;  "stage." &nbsp;&nbsp; or ';
-    $html .= '&nbsp;&nbsp;  "staging" &nbsp;&nbsp; or ';
-    $html .= '&nbsp;&nbsp;  "beta." &nbsp;&nbsp; or ';
-    $html .= '&nbsp;&nbsp;  "demo." ';
+    //v1.1.8.2 changed names list
+    $html .= '<strong>The TEST site URL **must Include** </strong> one of the following strings (ignore the "|"):';
+    $html .= '&nbsp;&nbsp;   development  |  testing  |  demonstration  |  staging   | ';   
+    $html .= '&nbsp;&nbsp;   test.   |  .test   |  test-   |  -test   |  /test   | '; 
+    $html .= '&nbsp;&nbsp;   stage.  |  .stage  |  stage-  |  -stage  |  /stage  | '; 
+    $html .= '&nbsp;&nbsp;   dev.    |  .dev    |  dev-    |  -dev    |  /dev    | ';  
+    $html .= '&nbsp;&nbsp;   demo.   |  .demo   |  demo-   |  -demo   |  /demo   | ';  
+    $html .= '&nbsp;&nbsp;   beta.   |  .beta   |  beta-   |  -beta   |  /beta   | '; 
+    $html .= '&nbsp;&nbsp;   stg.    |  .stg    |  stg-    |  -stg    |  /stg    | '; 
     $html .=  '</em></p>'; 
     $html .= '<br>';
     $html .= '<strong>For Example:</strong>';
     $html .= '<br>&nbsp;&nbsp; Production URL: &nbsp;&nbsp;&nbsp; www.sellyourstuff.com';
     $html .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Test URL: &nbsp;&nbsp;&nbsp; www<strong><em>.test.</em></strong>sellyourstuff.com';
     $html .= '<br><br>';
-    //v1.1.6 begin
-    $html .= '&nbsp;&nbsp;&nbsp;&nbsp; <strong> - OR - </strong>';
-    $html .= '<br><br>';
-    $html .= '<br>&nbsp;&nbsp;<em> The TEST site resides at "staging.wpengine"</em>';
-    //v1.1.6 end
     $html .=  '</div>'; 
       	
   	echo $html;
     return;
   }
+  */
 
   //*****************************************************************************************************
   //THIS function is a PRO-ONLY function, and runs ONLY when the PRO plugin is INSTALLED AND ACTIVE
@@ -1224,7 +1246,7 @@ function vtprd_license_section_callback () {
   function vtprd_license_phone_home($input, $action, $skip_admin_check=null) {
   //$skip_admin_check is for phone_home exec from function vtprd_maybe_recheck_license_activation()
     
-  //error_log( print_r(  'Begin vtprd_license_phone_home' , true ) );
+    //error_log( print_r(  'Begin vtprd_license_phone_home' , true ) );
     
     //v1.1.6.3  begin - is Woocommerce installed
     if ( ! class_exists( 'WooCommerce' ) )  {
@@ -1279,33 +1301,21 @@ function vtprd_license_section_callback () {
     $prod_or_test  = $input['prod_or_test'];
     
     //********************************************
-    //$url ALWAYS has the PROD url in it, for BOTH 'prod_or_test' = PROD and DEMO
+    //$url USAGE CHANGED - now it's ALWAYA the current url
     //********************************************  
-    if ( ($prod_or_test == 'prod') ||
-         ($prod_or_test == 'demo') ) {
-      $url = $input['url'];
-      $test_url = '';    
-    } else {
-      $test_url = $input['url'];
-      $url = $input['prod_url_supplied_for_test_site']; //PROD URL off of screen
-      $url = $this->vtprd_strip_out_http($url);
-      $input['prod_url_supplied_for_test_site'] = $url;
-    }
+    $url = $input['url'];
+
 
 //********************************************************** 
-//TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST 
-// $url = 'www.nefarious.com';
+//TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST v1.1.8.2
+//$url = 'anystore2.com';
 //$test_url = 'test.staging.wpengine.anything.com';
 // $ip_address = '1.2.3.4';
 //**********************************************************   
       
-    if ($prod_or_test == 'demo') {
-      $item_name = VTPRD_ITEM_NAME . ' Demo';
-      $item_id   = VTPRD_ITEM_ID_DEMO;
-    }  else {
-      $item_name = VTPRD_ITEM_NAME;
-      $item_id   = VTPRD_ITEM_ID;
-    }
+    $item_name = VTPRD_ITEM_NAME;
+    $item_id   = VTPRD_ITEM_ID;
+
     
     /*
     //**************************
@@ -1333,7 +1343,7 @@ function vtprd_license_section_callback () {
       'item_id'      => $item_id , // the ID of our product in VTPRD
 			'url'          => urlencode( $url ),
       'prod_or_test' => $prod_or_test,
-      'test_url'     => urlencode( $test_url ),
+      //'test_url'     => urlencode( $test_url ), v1.1.8.2 NO LONGER USED
       'email'        => urlencode($email),            
       'ip_address'   => vtprd_get_ip_address() 
 
@@ -1441,6 +1451,23 @@ function vtprd_license_section_callback () {
       $input['expires']  =  $license_data->expires;
     }
 
+    //*******************************************
+    //v1.1.8.2 begin - ** new data coming back **
+    /*
+      'url' = Registering site URL , may be a PROD or a TEST name
+      'prod_or_test' = the type of license the site/user thinks it is apply to.
+      - if this is PROD request
+      - if PROD rego already exists
+      - if 'url' is TEST site name type
+      - try to register as a TEST site 
+     */   
+    if (isset($license_data->prod_or_test)) {
+      $input['prod_or_test'] = $license_data->prod_or_test; 
+    }
+
+    //v1.1.8.2 end
+    //************
+
       // **********************************************************
       // STATUS: valid / invalid / unregistered (default)
       // STATE:  active / deactivated / pending (error but not yet suspended) / suspended-by-vendor
@@ -1471,8 +1498,8 @@ function vtprd_license_section_callback () {
     }
 
  
-   //error_log( print_r(  'PHONE Home at BOTTOM,  $vtprd_license_options= ', true ) );
-  //error_log( var_export($vtprd_license_options, true ) );  
+     //error_log( print_r(  'PHONE Home at BOTTOM,  $vtprd_license_options= ', true ) );
+    //error_log( var_export($vtprd_license_options, true ) );  
  
    return $input;
   } 
@@ -1491,7 +1518,7 @@ function vtprd_license_section_callback () {
 
   
   function vtprd_validate_setup_input( $input ) {
-   //error_log( print_r(  'Begin  vtprd_validate_setup_input' , true ) ); 
+     //error_log( print_r(  'Begin  vtprd_validate_setup_input' , true ) ); 
     //Get the existing settings!
     
     
@@ -1581,126 +1608,76 @@ function vtprd_license_section_callback () {
     if ( (isset($new_combined_options['prod_or_test'])) &&
     */
     if ($new_combined_options['prod_or_test'] == 'test')  {
-      
-      if ( (isset($new_combined_options['prod_url_supplied_for_test_site'])) &&
-           ($new_combined_options['prod_url_supplied_for_test_site'] > ' ') ) {
         
-        //v1.1.6.7 begin
-        if ($new_combined_options['prod_url_supplied_for_test_site'] == $new_combined_options['url']) {
-          $admin_errorMsg = 'In the Production URL box, You have placed the Test site URL.  Please replace it with the *actual* production site URL.';
-          $admin_errorMsgTitle = 'TEST site registration';
-          add_settings_error( 'vtprd Options', $admin_errorMsgTitle , $admin_errorMsg , 'error' );
-          $settings_error = true;      
-                  
-        }
-        //v1.1.6.7 end
-  
-        //*****************************************
-        //TEST URL MUST HAVE '.demo.' '.test.' '.stage.' '.staging.' '.beta.'
-        //*****************************************
-        
-        //current site IS a TEST site
+        //v1.1.8.2 RECODED!!
     
           //v1.1.6.3  staging[number].prod url need for SITEGROUND  
           //  needs to be added to   vark-software-licenses.php  !!!
       
         if ( (strpos($new_combined_options['url'],'test.') !== false)  ||
+             (strpos($new_combined_options['url'],'.test') !== false)  ||
+             (strpos($new_combined_options['url'],'test-') !== false)  ||
+             (strpos($new_combined_options['url'],'-test') !== false)  ||
+             (strpos($new_combined_options['url'],'/test') !== false)  ||   
+             
              (strpos($new_combined_options['url'],'dev.') !== false)  ||
-             (strpos($new_combined_options['url'],'development') !== false)  ||  //v1.1.6.3 chg - no period at end
+             (strpos($new_combined_options['url'],'.dev') !== false)  ||
+             (strpos($new_combined_options['url'],'dev-') !== false)  ||
+             (strpos($new_combined_options['url'],'-dev') !== false)  ||
+             (strpos($new_combined_options['url'],'/dev') !== false)  ||  
+              
              (strpos($new_combined_options['url'],'demo.') !== false)  ||
+             (strpos($new_combined_options['url'],'.demo') !== false)  ||
+             (strpos($new_combined_options['url'],'demo-') !== false)  ||
+             (strpos($new_combined_options['url'],'-demo') !== false)  ||
+             (strpos($new_combined_options['url'],'/demo') !== false)  ||
+             
              (strpos($new_combined_options['url'],'beta.') !== false)  ||
+             (strpos($new_combined_options['url'],'.beta') !== false)  ||
+             (strpos($new_combined_options['url'],'beta-') !== false)  ||
+             (strpos($new_combined_options['url'],'-beta') !== false)  ||
+             (strpos($new_combined_options['url'],'/beta') !== false)  ||
+
              (strpos($new_combined_options['url'],'stage.') !== false)  ||
-             (strpos($new_combined_options['url'],'stg.') !== false)   ||     //v1.1.6.8
-             (strpos($new_combined_options['url'],'staging') !== false) ||  //v1.1.6.3 chg - no period at end 
-             (strpos($new_combined_options['url'],'/test') !== false)  ||   //v1.1.6.8
-             (strpos($new_combined_options['url'],'/dev') !== false)  ||    //v1.1.6.8
-             (strpos($new_combined_options['url'],'/beta') !== false)  ||   //v1.1.6.8
-             (strpos($new_combined_options['url'],'/demo') !== false)  ||   //v1.1.6.8
-             (strpos($new_combined_options['url'],'/stg') !== false)  ||   //v1.1.6.8
-             (strpos($new_combined_options['url'],'/stage') !== false) ) {  //v1.1.6.8	             
+             (strpos($new_combined_options['url'],'.stage') !== false)  ||
+             (strpos($new_combined_options['url'],'stage-') !== false)  ||
+             (strpos($new_combined_options['url'],'-stage') !== false)  ||
+             (strpos($new_combined_options['url'],'/stage') !== false)  ||
+
+             (strpos($new_combined_options['url'],'stg.') !== false)  ||
+             (strpos($new_combined_options['url'],'.stg') !== false)  ||
+             (strpos($new_combined_options['url'],'stg-') !== false)  ||
+             (strpos($new_combined_options['url'],'-stg') !== false)  ||
+             (strpos($new_combined_options['url'],'/stg') !== false)  ||
+               
+             (strpos($new_combined_options['url'],'development') !== false)  ||  
+             (strpos($new_combined_options['url'],'testing') !== false)  || 
+             (strpos($new_combined_options['url'],'demonstration') !== false)  ||              
+             (strpos($new_combined_options['url'],'staging') !== false) ) {            
            $carry_on = true; 
           
         } else {
-          $admin_errorMsg = 'This Test site Does NOT meet naming requirements, must be a production subdomain and have "test." or "dev." or "development" or "beta." or "demo." or "stage." or "staging" in the URL!';
+          //v1.1.8.2 new error msg
+          $admin_errorMsg = '"Activation Type = TEST"
+              <br><br>This Internal Site Name 
+              <br><br>&nbsp;&nbsp; ==> &nbsp;&nbsp;' .$new_combined_options['url']. '&nbsp;&nbsp; <==
+               <br><br>Does NOT meet TEST naming requirements
+               <br>&nbsp;&nbsp;  TEST NAME Must contain ONE of the following strings (ignore the "|"):
+               <br><br>&nbsp;&nbsp;   development  |  testing  |  demonstration  |  staging   |    
+               <br>&nbsp;&nbsp;   test.   |  .test   |  test-   |  -test   |  /test   |  
+               <br>&nbsp;&nbsp;   stage.  |  .stage  |  stage-  |  -stage  |  /stage  |  
+               <br>&nbsp;&nbsp;   dev.    |  .dev    |  dev-    |  -dev    |  /dev    |   
+               <br>&nbsp;&nbsp;   demo.   |  .demo   |  demo-   |  -demo   |  /demo   |   
+               <br>&nbsp;&nbsp;   beta.   |  .beta   |  beta-   |  -beta   |  /beta   |  
+               <br>&nbsp;&nbsp;   stg.    |  .stg    |  stg-    |  -stg    |  /stg    | 
+              <br><br>(Internal site name = Wordpress Home URL)'; 
+
           $admin_errorMsgTitle = 'TEST site registration';
           add_settings_error( 'vtprd Options', $admin_errorMsgTitle , $admin_errorMsg , 'error' );
-          $settings_error = true;      
-          
-        }
-        
-        if (!$settings_error) {
-          //*****************************************
-          //Require TEST URL to be a SUBDOMAIN of PROD URL
-          //  last 2 nodes XXXXX.com  must be the SAME
-          //*****************************************
-         
-          //remove slashes
-          $test_url_no_slashes = str_replace ('/', '', $new_combined_options['url']);
-          //explode parts
-          $test_url = explode('.',$test_url_no_slashes);
-      
-          $test_url_last_piece = array_pop($test_url); //gets last entry, reduces source array
-          $test_url_2nd_to_last_piece = array_pop($test_url);
-          
-          //LAST 2 NODES OF URL FOR COMPARISON
-          $test_url_last2 = $test_url_2nd_to_last_piece . '.' .$test_url_last_piece ;
-          
-   //error_log( print_r(  '$test_url_2nd_to_last_piece= ' .$test_url_2nd_to_last_piece, true  ) ); 
-   //error_log( print_r(  '$test_url_2nd_to_last_piece= ' .$test_url_last_piece, true  ) );        
-          
-          //remove slashes
-          $prod_url = str_replace ('/', '', $new_combined_options['prod_url_supplied_for_test_site']);
-          //explode parts
-          $prod_url_array = explode('.',$prod_url);
-
-          $prod_url_last_piece = array_pop($prod_url_array); //gets last entry, reduces source array
- 
-          //only 1 other piece left
-          if ( sizeof($prod_url_array) == 1) {
-            $prod_url_2nd_to_last_piece = $prod_url_array[0];
-          } else {
-            $prod_url_2nd_to_last_piece = array_pop($prod_url_array);
-          }
-
-   //error_log( print_r(  '$prod_url_2nd_to_last_piece= ' .$prod_url_2nd_to_last_piece, true  ) ); 
-   //error_log( print_r(  '$prod_url_2nd_to_last_piece= ' .$prod_url_last_piece, true  ) );
-
-          //LAST 2 NODES OF URL FOR COMPARISON
-          $prod_url_last2 = $prod_url_2nd_to_last_piece . '.' .$prod_url_last_piece ;    
-
-   //error_log( print_r(  '$test_url_last2= ' .$test_url_last2 .'x', true  ) ); 
- // error_log( print_r(  '$prod_url_last2= ' .$prod_url_last2 .'x', true  ) );
-
-   //error_log( print_r(  'URL = ' .$new_combined_options['url'], true  ) );
- 
-          //v1.1.6 begin
-          //***********************************************
-          // ALLOW ANY '.staging.wpengine.' NAME
-          //***********************************************
-          if (strpos($new_combined_options['url'],'.staging.wpengine.') !== false) {
-            $all_good = true;
-          } else { //v1.1.6 END
-            if ($test_url_last2 != $prod_url_last2) {
-              $admin_errorMsg = 'Test site Does NOT meet naming requirements - last 2 nodes of the TEST URL (this site) and the PROD URL (supplied) Must be the same!';
-              $admin_errorMsgTitle = 'TEST site registration';
-              add_settings_error( 'vtprd Options', $admin_errorMsgTitle , $admin_errorMsg , 'error' );
-              $settings_error = true;   
-            }           
-          }
-
-        }     
-   
-      } else {
-        $admin_errorMsg = 'TEST site registration ALSO requires the PROD site URL';
-        $admin_errorMsgTitle = 'TEST site registration';
-        add_settings_error( 'vtprd Options', $admin_errorMsgTitle , $admin_errorMsg , 'error' );
-        $settings_error = true;    
-      }    
-    } else {
-      //if PROD, clear out test site data
-      $new_combined_options['prod_url_supplied_for_test_site'] = null;
+          $settings_error = true;                
+        }   
     }
-    
+       
     if ($settings_error) {
       $new_combined_options['status'] = 'invalid';
       $new_combined_options['state']  = 'pending';
@@ -1738,9 +1715,11 @@ function vtprd_license_section_callback () {
             add_action( 'admin_notices', 'vtprd_license_error_notice' );        
           }
           */
+          /*
           If ($new_combined_options['status'] == 'valid') {
             //MESSAGE, built-in perhaps ===>>> always displays status
           }
+          */
    
         break;
       case $deactivate       === true :  
@@ -1843,6 +1822,7 @@ function vtprd_license_section_callback () {
       $url = str_replace( 'https://', '', $url  ) ; 
       $url = str_replace( 'http://', '', $url  ) ; 
       $url = rtrim($url, "/" ); //remove trailing slash
+      //$url = str_replace( 'www.', '', $url  ) ; //v1.1.8.2 strip out WWW
       return $url;
   }
 
@@ -1918,7 +1898,7 @@ PLUGIN UPDATER
   */
   function vtprd_maybe_exec_plugin_updater() {
   
-    //error_log( print_r(  'BEGIN vtprd_maybe_exec_plugin_updater' , true ) );
+      //error_log( print_r(  'BEGIN vtprd_maybe_exec_plugin_updater' , true ) );
   
   
       global $vtprd_license_options, $vtprd_setup_options;
@@ -1927,7 +1907,7 @@ PLUGIN UPDATER
     
       //demo licenses are NEVER updated
       if ($vtprd_license_options['prod_or_test'] == 'demo') {  
-        //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit001' , true ) ); 
+          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit001' , true ) ); 
         return;
       } 
       
@@ -1938,18 +1918,12 @@ PLUGIN UPDATER
       
       */
       
-      
-      
-      
-      
-      
-      
       //allows through PENDING status, such as Version Mismatch!
       if ( ($vtprd_license_options['state'] == 'suspended-by-vendor') ||
            ($vtprd_license_options['state'] == 'unregistered') ||
            ($vtprd_license_options['state'] == null) ||  //v1.1.6.3
            ($vtprd_license_options['state'] == 'deactivated') ) { 
-        //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit002' , true ) );       
+          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit002' , true ) );       
         return;
       }
       
@@ -1958,7 +1932,7 @@ PLUGIN UPDATER
       //usually takes three rounds of access to successfully bring a new version across...
       $new_version_access_count = get_option( 'vtprd_new_version_access_count' );
       
-    //error_log( print_r(  '$host_has_new_version= ' .$new_version_access_count , true ) );
+      //error_log( print_r(  '$host_has_new_version= ' .$new_version_access_count , true ) );
   
       //only allow this through $new_version_access_count times, decrementing as you go.  Set in plugin-updater!
       if ($new_version_access_count) {
@@ -1978,13 +1952,13 @@ PLUGIN UPDATER
           
       if (!is_numeric($last_updater_check_ts)) {  
          update_option('vtprd_last_updater_check_ts', $today);  //just update the TS if not there, 1st-time activation will be in progress!!!!!!! 
-        //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit003' , true ) );          
+          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit003' , true ) );          
          return;
       }
 
   // $subbie = ($today - $last_updater_check_ts);
-    //error_log( print_r(  '$last_check= ' .$last_updater_check_ts, true ) );
-    //error_log( print_r(  'Updater date difference= ' .$subbie , true ) ); 
+      //error_log( print_r(  '$last_check= ' .$last_updater_check_ts, true ) );
+      //error_log( print_r(  'Updater date difference (looking for > 39600) = ' . ($today - $last_updater_check_ts) , true ) ); 
   
       
   
@@ -1996,7 +1970,7 @@ PLUGIN UPDATER
               ($new_version_access_count) ) { 
           $carry_on = true;
         } else {
-        //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit004' , true ) );         
+          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit004' , true ) );         
           return;
         }
 
@@ -2013,7 +1987,7 @@ PLUGIN UPDATER
           $pro_plugin_is_installed = true;
           $version = $vtprd_setup_options['current_pro_version'];
         /* TEST TEST TEST
-       //error_log( print_r(  'Pro plugin not active, get pro version from if-installed list' , true ) );  
+         //error_log( print_r(  'Pro plugin not active, get pro version from if-installed list' , true ) );  
           $pro_plugin_is_installed = vtprd_check_pro_plugin_installed();
           if ( $pro_plugin_is_installed ) {
             global $vtprd_setup_options;
@@ -2028,8 +2002,8 @@ PLUGIN UPDATER
       
       
         if ($pro_plugin_is_installed) {
-         //error_log( print_r(  'vtprd_maybe_exec_plugin_updater Pro plugin installed, above updater check, VERSION = ' .$version, true ) );        
-          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater RUNNING UPDATER' , true ) );     
+           //error_log( print_r(  'vtprd_maybe_exec_plugin_updater Pro plugin installed, above updater check, VERSION = ' .$version, true ) );        
+            //error_log( print_r(  'vtprd_maybe_exec_plugin_updater RUNNING UPDATER' , true ) );     
         	// setup the updater
         	$edd_updater = new VTPRD_Plugin_Updater( VTPRD_STORE_URL, __FILE__, array(
               //v1.1.6.3 allow for DEACTIVATED plugin
@@ -2044,7 +2018,7 @@ PLUGIN UPDATER
           update_option('vtprd_last_updater_check_ts', $today);  //v1.1.6.3  mark license check TS as  done   
         }
   
-        //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit at BOTTOM' , true ) ); 
+          //error_log( print_r(  'vtprd_maybe_exec_plugin_updater exit at BOTTOM' , true ) ); 
         
     return;  
   }
@@ -2098,7 +2072,7 @@ PLUGIN UPDATER
   
   
   function  vtprd_maybe_license_state_message() { 
-   //error_log( print_r(  'Begin vtprd_maybe_license_state_message', true ) );
+     //error_log( print_r(  'Begin vtprd_maybe_license_state_message', true ) );
       global $vtprd_license_options;
       
       $pro_plugin_is_installed = vtprd_check_pro_plugin_installed();
@@ -2147,8 +2121,8 @@ PLUGIN UPDATER
       //FORBIDDEN - SECURITY message cutout
       //**********************
       
-  // error_log( print_r(  '$vtprd_license_options = ' , true ) );
-  // error_log( var_export($vtprd_license_options, true ) );        
+  // //error_log( print_r(  '$vtprd_license_options = ' , true ) );
+  // //error_log( var_export($vtprd_license_options, true ) );        
       
       //v1.1.6.3 IF the return is an object, it came from inside Software Licensing, and this test IS NOT NECESSARY!
       if ( ( isset($vtprd_license_options['last_response_from_host']) ) &&
@@ -2238,7 +2212,7 @@ PLUGIN UPDATER
                       ?> <p class="yellow" id="license-status-msg" style="font-size:12px;"><strong> <?php echo VTPRD_ITEM_NAME . $prod_or_test; ?> is in a Pending Activation state. <br><br> Please edit the Licensing Information and then activate. </strong></p> <?php
                      break;
                   case 'deactivate_license' :
-                      ?> <p class="yellow" id="license-status-msg" style="font-size:12px;"><strong> <?php echo VTPRD_ITEM_NAME . $prod_or_test; ?> is in a Pending Deactivation state. <br><br> Please edit the Licensing Information and then activate. </strong></p> <?php
+                      ?> <p class="yellow" id="license-status-msg" style="font-size:12px;"><strong> <?php echo VTPRD_ITEM_NAME . $prod_or_test; ?> is in a Pending Deactivation state. <br><br> Please edit the Licensing Information and then deactivate. </strong></p> <?php
                      break;                             
               }
             break;                    
@@ -2254,7 +2228,7 @@ PLUGIN UPDATER
  
 
   function  vtprd_demo_license_expired_message() { 
-     //error_log( print_r(  'Begin vtprd_demo_license_expired_message', true ) );
+       //error_log( print_r(  'Begin vtprd_demo_license_expired_message', true ) );
     
     global $vtprd_license_options;
     
@@ -2279,7 +2253,7 @@ PLUGIN UPDATER
   } 
   
   function  vtprd_license_suspended_message() { 
-      //error_log( print_r(  'Begin vtprd_license_suspended_message', true ) );
+        //error_log( print_r(  'Begin vtprd_license_suspended_message', true ) );
     
     global $vtprd_license_options;
     
@@ -2326,19 +2300,19 @@ PLUGIN UPDATER
   function vtprd_maybe_delete_pro_plugin_action() {
    
       $pageURL = $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]; 
-    //error_log( print_r(  'Begin vtprd_maybe_delete_pro_plugin_action, URL= ' .$pageURL , true ) );
+      //error_log( print_r(  'Begin vtprd_maybe_delete_pro_plugin_action, URL= ' .$pageURL , true ) );
   
       if ( (strpos($pageURL,'plugins.php') !== false)  &&
            (strpos($pageURL,'delete-selected') !== false) &&
            (strpos($pageURL,VTPRD_PRO_PLUGIN_FILE) !== false) ) {
           $carry_on = true;
       } else {
-   //error_log( print_r(  'vtprd_maybe_delete_pro_plugin_action ENTRY exit =  ' , true ) );        
+     //error_log( print_r(  'vtprd_maybe_delete_pro_plugin_action ENTRY exit =  ' , true ) );        
         return;
     	}    
     	//if( ! current_user_can( 'install_plugins' ) ) {      //v1.1.6
       if ( !current_user_can( 'edit_posts', 'vtprd-rule' ) ) { //v1.1.6
-    //error_log( print_r(  'vtprd_maybe_delete_pro_plugin_action permission exit =  ' , true ) );      
+      //error_log( print_r(  'vtprd_maybe_delete_pro_plugin_action permission exit =  ' , true ) );      
     		return;
     	}    
 
@@ -2376,19 +2350,35 @@ PLUGIN UPDATER
   	echo '<span class="spam">' . strip_tags( $info, '<br><a><b><i><span>' ) . '</span>';      
    return;
   }
- 
 
   //*********************************************
   //v1.1.6 new function
   //v1.1.6.3 refactored
   //*********************************************
   function vtprd_force_plugin_updates_check() { 
-      update_option('vtprd_last_updater_check_ts', 1435870883 );   //set older date = 1435870883 (july 2015) to allow immediate plugin update check          
+      //error_log( print_r(  'Begin vtprd_force_plugin_updates_check ', true ) );
+     
+     //v1.1.8.2 begin
+     // only allow auto updates in PROD sites
+     global $vtprd_license_options;
+     if (!$vtprd_license_options) {
+        $vtprd_license_options = get_option( 'vtprd_license_options' ); 
+     }
+     if ($vtprd_license_options['prod_or_test'] == 'prod') {
+     //v1.1.8.2 end
+         
+          update_option('vtprd_last_updater_check_ts', 1435870883 );   //set older date = 1435870883 (july 2015) to allow immediate plugin update check          
+    
+          //from plugin "Force Plugin Updates Check", hook in main plugin file
+        	set_site_transient( 'update_plugins', null ); 
+     
+     } //v1.1.8.2
 
-      //from plugin "Force Plugin Updates Check", hook in main plugin file
-    	set_site_transient( 'update_plugins', null );    
-    	wp_safe_redirect( network_admin_url( 'update-core.php' ) ); 
-      exit; 
+    //error_log( print_r(  'would have gone to update-core ', true ) ); 
+     wp_safe_redirect( network_admin_url( 'plugins.php' ) ); //v1.1.8.2 changed to bounce right back to the plugins page!    
+  	//wp_safe_redirect( network_admin_url( 'update-core.php' ) );
+     
+    exit; 
 
   }     
 
@@ -2403,7 +2393,7 @@ PLUGIN UPDATER
   * now *both* admin call and cron call act as backup to plugin update checks!      
   *************************************************** */ 
 	function vtprd_recheck_license_activation() {
-     //error_log( print_r(  'Begin vtprd_recheck_license_activation' , true ) ); 
+       //error_log( print_r(  'Begin vtprd_recheck_license_activation' , true ) ); 
    
     //- is Woocommerce installed
     if ( ! class_exists( 'WooCommerce' ) )  {
@@ -2412,12 +2402,12 @@ PLUGIN UPDATER
 
     //VTPRD_PRO_VERSION only exists if PRO version is installed and active
     if ((!defined('VTPRD_PRO_VERSION')) )  { 
-        //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation exit001' , true ) );          
+          //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation exit001' , true ) );          
       return;
     }
 
     
-    //error_log( print_r(  'Begin vtprd_maybe_admin_recheck_license_activation ADMIN RECHECK' , true ) );  
+      //error_log( print_r(  'Begin vtprd_maybe_admin_recheck_license_activation ADMIN RECHECK' , true ) );  
    
      global $vtprd_license_options;
      if (!$vtprd_license_options) {
@@ -2429,7 +2419,7 @@ PLUGIN UPDATER
           ($vtprd_license_options['pro_plugin_version_status'] == 'valid')  )  {                          
        $carry_on = true; 
       } else {
-    //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation exit002' , true ) );        
+      //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation exit002' , true ) );        
         return;
       }
    
@@ -2440,14 +2430,14 @@ PLUGIN UPDATER
       //run the check first time, then every 12 thereafter
       if (!is_numeric($last_check)) {  
          update_option('vtprd_last_license_check_ts', $today);  //v1.1.6.2 just update the TS if not there, 1st-time activation will be in progress!!!!!!!
-    //error_log( print_r(  'vtprd_maybe_recheck_license_activation exit003' , true ) );  
+      //error_log( print_r(  'vtprd_maybe_recheck_license_activation exit003' , true ) );  
          return;
       }
       
   //$last_check=1465603200;
   //$subbie = ($today - $last_check);
-    //error_log( print_r(  '$last_check= ' .$last_check, true ) );
-    //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation date difference= ' .$subbie , true ) );  
+      //error_log( print_r(  '$last_check= ' .$last_check, true ) );
+      //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation date difference= ' .$subbie , true ) );  
       
       
       
@@ -2458,7 +2448,7 @@ PLUGIN UPDATER
       // It's a fallback, Luke!
       //***********************************************
       if (($today - $last_check) < 46800 )  { //13 hours...
-    //error_log( print_r(  'vtprd_maybe_recheck_license_activation difference greater than 13 hours' , true ) );        
+      //error_log( print_r(  'vtprd_maybe_recheck_license_activation difference greater than 13 hours' , true ) );        
         return;
       } 
       
@@ -2483,17 +2473,79 @@ PLUGIN UPDATER
        if ($vtprd_license_options['status'] == 'invalid') {
           //Can't update vtprd_license_options here, things explode!! Store for update in main plugin php file
          update_option('vtprd_license_suspended', $vtprd_license_options);
-            //error_log( print_r(  'created vtprd_license_suspended', true ) );       
+              //error_log( print_r(  'created vtprd_license_suspended', true ) );       
        }  
 
       //v1.1.6.7 moved above
       // update_option('vtprd_last_license_check_ts', $today);
 
      
-    //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation at BOTTOM' , true ) ); 
+      //error_log( print_r(  'Begin vtprd_maybe_recheck_license_activation at BOTTOM' , true ) ); 
   
    return;
   } 
+
+  //*********************************************
+  //v1.1.8.2 new function
+  //*********************************************
+  function vtprd_return_license_info() { 
+        global $vtprd_license_options;    
+        $send_data  = '### Begin Licensing Info ###' . "\n\n";
+
+      	$send_data .= 'Home URL:                 ' . $vtprd_license_options['url'] . "\n";
+        $send_data .= 'Plugin Name:              ' . VTPRD_ITEM_NAME . "\n";
+        $send_data .= 'Status:                   ' . $vtprd_license_options['status'] . "\n";
+        $send_data .= 'State:                    ' . $vtprd_license_options['state'] . "\n";
+        $send_data .= 'Message:                  ' . $vtprd_license_options['msg'] . "\n";
+      	$send_data .= 'Key:                      ' . $vtprd_license_options['key'] . "\n";
+        $send_data .= 'Email:                    ' . $vtprd_license_options['email'] . "\n";
+        $send_data .= 'Activation Type:          ' . $vtprd_license_options['prod_or_test'] . "\n";
+        //$send_data .= 'Prod Site URL (if test):  ' . $vtprd_license_options['prod_url_supplied_for_test_site'] . "\n"; v1.1.8.2 removed
+        $send_data .= 'Strikes:                  ' . $vtprd_license_options['strikes'] . "\n"; 
+        $send_data .= 'Last Action:              ' . $vtprd_license_options['last_action'] . "\n"; 
+        $send_data .= 'Last good attempt:        ' . $vtprd_license_options['last_successful_rego_date_time'] . "\n";
+        $send_data .= 'Last failed attempt:      ' . $vtprd_license_options['last_failed_rego_date_time'] . "\n"; 
+        $send_data .= 'Expires:                  ' . $vtprd_license_options['expires'] . "\n"; 
+        $send_data .= 'Plugin Item ID:           ' . VTPRD_ITEM_ID . "\n";
+       // $send_data .= 'Plugin Item ID Demo:      ' . VTPRD_ITEM_ID_DEMO . "\n";  //removed 1.1.6.7
+        $send_data .= 'Registering To:           ' . VTPRD_STORE_URL . "\n"; 
+        $send_data .= 'Diagnostic Message:       ' . $vtprd_license_options['diagnostic_msg'] . "\n";
+                      
+        $send_data .= 'Pro Current Version:      ' . $vtprd_license_options['plugin_current_version'] . "\n";  //used by plugin updater only
+        $send_data .= 'Pro New Version:          ' . $vtprd_license_options['plugin_new_version'] . "\n";
+        
+        $send_data .= 'Pro Version:              ' . $vtprd_license_options['pro_version'] . "\n";
+        $send_data .= 'Pro Required Version:     ' . VTPRD_MINIMUM_PRO_VERSION . "\n";
+        $send_data .= 'Pro Version Status:       ' . $vtprd_license_options['pro_plugin_version_status'] . "\n";
+        
+        $send_data .= 'Free Current Version:     ' . VTPRD_VERSION . "\n";
+        $send_data .= 'Free Required Version:    ' . $vtprd_license_options['pro_minimum_free_version'] . "\n";
+        
+        $count = get_option( 'vtprd_license_count');
+        $send_data .= 'License Count:            ' . $count . "\n";
+        $send_data .= 'Pro Deactivate Flag:      ' . $vtprd_license_options['pro_deactivate'] . "\n";
+        $send_data .= 'IP Address:               ' . vtprd_get_ip_address() . "\n"; //v1.1.8.2
+        
+       // $send_data .= 'Updater Reduced Frequency:' . ' ' . $updater_action_reduced_frequency . "\n";
+        
+        $last_check = get_option('vtprd_last_license_check_ts');
+        $last_check_formatted   = is_numeric( $last_check ) ? date( 'Y-m-d H:i:s', $last_check ) : $last_check; 
+         
+        $send_data .= 'Last Check_License TS:    ' . $last_check_formatted . "\n";              
+         
+        $send_data .= 'Home URL (for anchors):   ' . $vtprd_license_options['home_url'] . "\n"; //v1.1.6.1
+        $send_data .= 'Rego Done Flag:           ' . $vtprd_license_options['rego_done'] . "\n"; //v1.1.6.1
+
+        $send_data .= "\n \n \n";
+        
+        $send_data .= 'Last Response from Host: <pre>'.print_r($vtprd_license_options['last_response_from_host'], true).'</pre>'  . "\n" ;     
+
+        $send_data .= "\n \n \n";
+        
+        $send_data .= 'Last Parameters sent to Host: <pre>'.print_r($vtprd_license_options['params_sent_to_host'], true).'</pre>'  . "\n" ;   
+   return $send_data;                          
+  }     
+
   
  
   /*

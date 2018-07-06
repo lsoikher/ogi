@@ -27,7 +27,7 @@ function ux_instagram_feed( $atts, $content = null ){
       'lightbox' => '',
       'image_overlay' => '',
       'image_hover' => 'overlay-remove',
-      'size' => 'small', // small // thumbnail // original // 
+      'size' => 'small', // small // thumbnail // original //
     ), $atts ) );
 
       ob_start();
@@ -64,12 +64,12 @@ function ux_instagram_feed( $atts, $content = null ){
 
           foreach ( $media_array as $item ) {
               echo '<div class="col"><div class="col-inner">';
-              if($caption) $caption = $item['description']; ?>  
+              if($caption) $caption = $item['description']; ?>
               <div class="img has-hover no-overflow" id="<?php echo $_id; ?>">
                 <div class="dark instagram-image-container image-<?php echo $image_hover; ?>">
                     <a href="<?php echo $item['link']; ?>" target="_blank" class="plain">
                     <?php echo flatsome_get_image($item[$size], false, $caption); ?>
-                      <div class="overlay" 
+                      <div class="overlay"
                           style="background-color: rgba(0,0,0,.2)">
                       </div>
                     <?php if($caption){ ?>
@@ -92,7 +92,7 @@ function ux_instagram_feed( $atts, $content = null ){
       if ( $link != '' ) {
         ?><a class="plain uppercase" href="<?php echo trailingslashit( '//instagram.com/' . esc_attr( trim( $username ) ) ); ?>" rel="me" target="<?php echo esc_attr( $target ); ?>"><?php echo get_flatsome_icon('icon-instagram') ;?> <?php echo wp_kses_post( $link ); ?></a><?php
       }
-  
+
     $w = ob_get_contents();
 
     ob_end_clean();
@@ -182,7 +182,7 @@ function flatsome_scrape_instagram( $username ) {
 
       // do not set an empty transient - should help catch private or empty accounts
       if ( ! empty( $instagram ) ) {
-        $instagram = base64_encode( serialize( $instagram ) );
+        $instagram = base64_encode( serialize( $instagram ) ); //100% safe - ignore theme check nag
         set_transient( 'instagram-a5-'.sanitize_title_with_dashes( $username ), $instagram, apply_filters( 'null_instagram_cache_time', HOUR_IN_SECONDS*2 ) );
       }
     }

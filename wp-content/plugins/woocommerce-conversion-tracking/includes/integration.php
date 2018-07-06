@@ -9,8 +9,8 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
 
     function __construct() {
 
-        $this->id = 'wc_conv_tracking';
-        $this->method_title = __( 'Conversion Tracking Pixel', 'woocommerce-conversion-tracking' );
+        $this->id                 = 'wc_conv_tracking';
+        $this->method_title       = __( 'Conversion Tracking Pixel', 'woocommerce-conversion-tracking' );
         $this->method_description = __( 'Various conversion tracking pixel integration like Facebook Ad, Google AdWords, etc. Insert your scripts codes here:', 'woocommerce-conversion-tracking' );
 
         // Load the settings.
@@ -18,18 +18,18 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
         $this->init_settings();
 
         // Save settings if the we are in the right section
-        if ( isset( $_POST[ 'section' ] ) && $this->id === $_POST[ 'section' ] ) {
-            add_action( 'woocommerce_update_options_integration', array($this, 'process_admin_options') );
+        if ( isset( $_POST['section'] ) && $this->id === $_POST['section'] ) {
+            add_action( 'woocommerce_update_options_integration', array( $this, 'process_admin_options' ) );
         }
 
-        add_action( 'woocommerce_product_options_reviews', array($this, 'product_options') );
-        add_action( 'woocommerce_process_product_meta', array($this, 'product_options_save'), 10, 2 );
+        add_action( 'woocommerce_product_options_reviews', array( $this, 'product_options' ) );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'product_options_save' ), 10, 2 );
 
-        add_action( 'woocommerce_registration_redirect', array($this, 'wc_redirect_url') );
-        add_action( 'template_redirect', array($this, 'track_registration') );
-        add_action( 'wp_head', array($this, 'code_handler') );
-        add_action( 'wp_footer', array($this, 'code_handler') );
-        add_action( 'woocommerce_thankyou', array($this, 'thankyou_page') );
+        add_action( 'woocommerce_registration_redirect', array( $this, 'wc_redirect_url' ) );
+        add_action( 'template_redirect', array( $this, 'track_registration' ) );
+        add_action( 'wp_head', array( $this, 'code_handler' ) );
+        add_action( 'wp_footer', array( $this, 'code_handler' ) );
+        add_action( 'woocommerce_thankyou', array( $this, 'thankyou_page' ) );
     }
 
     /**
@@ -55,8 +55,8 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
             'cart' => array(
                 'title'       => sprintf( /* translators: %s: page name */
                                    __( 'Tags for %s', 'woocommerce-conversion-tracking' ),
-                                   __( 'View Cart', 'woocommerce-conversion-tracking' )
-                                 ),
+                    __( 'View Cart', 'woocommerce-conversion-tracking' )
+                ),
                 'description' => __( 'Adds script on the cart page', 'woocommerce-conversion-tracking' ),
                 'desc_tip'    => true,
                 'id'          => 'cart',
@@ -65,21 +65,21 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
             'checkout' => array(
                 'title'       => sprintf( /* translators: %s: page name */
                                    __( 'Tags for %s', 'woocommerce-conversion-tracking' ),
-                                   __( 'Purchase', 'woocommerce-conversion-tracking' )
-                                 ),
+                    __( 'Successful Order', 'woocommerce-conversion-tracking' )
+                ),
                 'desc_tip'    => __( 'Adds script on the purchase success page', 'woocommerce-conversion-tracking' ),
                 'description' => sprintf( /* translators: %s: dynamic values */
                                    __( 'You can use dynamic values: %s', 'woocommerce-conversion-tracking' ),
-                                   '<code>{order_number}</code>, <code>{order_total}</code>, <code>{order_subtotal}</code>, <code>{currency}</code>'
-                                 ),
+                    '<code>{customer_id}</code>, <code>{customer_email}</code>, <code>{customer_first_name}</code>, <code>{customer_last_name}</code>, <code>{order_number}</code>, <code>{order_total}</code>, <code>{order_subtotal}</code>, <code>{currency}</code>, <code>{payment_method}</code>'
+                ),
                 'id'          => 'checkout',
                 'type'        => 'textarea',
             ),
             'reg' => array(
                 'title'       => sprintf( /* translators: %s: page name */
                                    __( 'Tags for %s', 'woocommerce-conversion-tracking' ),
-                                   __( 'User Registration', 'woocommerce-conversion-tracking' )
-                                 ),
+                    __( 'User Registration', 'woocommerce-conversion-tracking' )
+                ),
                 'description' => __( 'Adds script on the successful registraion page', 'woocommerce-conversion-tracking' ),
                 'desc_tip'    => true,
                 'id'          => 'registration',
@@ -95,7 +95,7 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
      * @return string
      */
     function validate_textarea_field( $key, $value ) {
-        $text = trim( stripslashes( $_POST[$this->plugin_id . $this->id . '_' . $key] ) );
+        $text = trim( stripslashes( $_POST[ $this->plugin_id . $this->id . '_' . $key ] ) );
 
         return $text;
     }
@@ -126,17 +126,19 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
 
         echo '<div class="options_group">';
 
-        woocommerce_wp_textarea_input( array(
-            'id'          => '_wc_conv_track',
-            'label'       => __( 'Conversion Tracking Code', 'woocommerce-conversion-tracking' ),
-            'desc_tip'    => true,
-            'description' => __( 'Insert conversion tracking code for this product.', 'woocommerce-conversion-tracking' )
-                             .sprintf(
-                             /* translators: %s: dynamic values */
-                               __( 'You can use dynamic values: %s', 'woocommerce-conversion-tracking' ),
-                               '<code>{order_number}</code>, <code>{order_total}</code>, <code>{order_subtotal}</code>, <code>{currency}</code>'
-                             )
-        ) );
+        woocommerce_wp_textarea_input(
+            array(
+				'id'          => '_wc_conv_track',
+				'label'       => __( 'Conversion Tracking Code', 'woocommerce-conversion-tracking' ),
+				'desc_tip'    => true,
+				'description' => __( 'Insert conversion tracking code for this product.', 'woocommerce-conversion-tracking' )
+								 . sprintf(
+									 /* translators: %s: dynamic values */
+									 __( 'You can use dynamic values: %s', 'woocommerce-conversion-tracking' ),
+									 '<code>{customer_id}</code>, <code>{customer_email}</code>, <code>{customer_first_name}</code>, <code>{customer_last_name}</code>, <code>{order_number}</code>, <code>{order_total}</code>, <code>{order_subtotal}</code>, <code>{currency}</code>, <code>{payment_method}</code>'
+								 )
+            )
+        );
 
         echo '</div>';
     }
@@ -149,7 +151,7 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
      */
     function track_registration() {
         if ( isset( $_GET['_wc_user_reg'] ) && $_GET['_wc_user_reg'] == 'true' ) {
-            add_action( 'wp_head', array($this, 'print_reg_code') );
+            add_action( 'wp_head', array( $this, 'print_reg_code' ) );
         }
     }
 
@@ -162,9 +164,17 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
      */
     function wc_redirect_url( $redirect ) {
         if ( wp_get_referer() ) {
-            $redirect = add_query_arg( array('_wc_user_reg' => 'true'), esc_url( wp_get_referer() ) );
+            $redirect = add_query_arg(
+                array(
+					'_wc_user_reg' => 'true'
+                ), esc_url( wp_get_referer() )
+            );
         } else {
-            $redirect = add_query_arg( array('_wc_user_reg' => 'true'), esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) ) );
+            $redirect = add_query_arg(
+                array(
+					'_wc_user_reg' => 'true'
+                ), esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) )
+            );
         }
 
         return $redirect;
@@ -202,7 +212,7 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
     /**
      * Put product specific conversion tracking pixel in thank you page
      *
-     * @param  int  $order_id
+     * @param  int $order_id
      *
      * @since 0.3
      *
@@ -212,14 +222,14 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
         $order = wc_get_order( $order_id );
 
         if ( $items = $order->get_items() ) {
-            foreach ($items as $item) {
+            foreach ( $items as $item ) {
                 $product = $order->get_product_from_item( $item );
 
                 if ( ! $product ) {
                     continue;
                 }
 
-                $code = get_post_meta( $product->id, '_wc_conv_track', true );
+                $code = get_post_meta( $product->get_id(), '_wc_conv_track', true );
 
                 if ( empty( $code ) ) {
                     continue;
@@ -261,7 +271,7 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
      *
      * @since 1.1
      *
-     * @param  string  $code
+     * @param  string $code
      *
      * @return string
      */
@@ -279,15 +289,38 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
             return $code;
         }
 
-        $order_currency = $order->get_order_currency();
+        if ( version_compare( WC()->version, '3.0', '<' ) ) {
+            // older version
+            $order_currency = $order->get_order_currency();
+            $payment_method = $order->payment_method;
+
+        } else {
+            $order_currency = $order->get_currency();
+            $payment_method = $order->get_payment_method();
+        }
+
+        $customer       = $order->get_user();
+        $used_coupons   = $order->get_used_coupons() ? implode( ',', $order->get_used_coupons() ) : '';
+        $order_currency = $order_currency;
         $order_total    = $order->get_total();
         $order_number   = $order->get_order_number();
         $order_subtotal = $order->get_subtotal();
 
-        $code           = str_replace( '{currency}', $order_currency, $code );
-        $code           = str_replace( '{order_total}', $order_total, $code );
-        $code           = str_replace( '{order_number}', $order_number, $code );
-        $code           = str_replace( '{order_subtotal}', $order_subtotal, $code );
+        // customer details
+        if ( $customer ) {
+            $code = str_replace( '{customer_id}', $customer->ID, $code );
+            $code = str_replace( '{customer_email}', $customer->user_email, $code );
+            $code = str_replace( '{customer_first_name}', $customer->first_name, $code );
+            $code = str_replace( '{customer_last_name}', $customer->last_name, $code );
+        }
+
+        // order details
+        $code = str_replace( '{used_coupons}', $used_coupons, $code );
+        $code = str_replace( '{payment_method}', $payment_method, $code );
+        $code = str_replace( '{currency}', $order_currency, $code );
+        $code = str_replace( '{order_total}', $order_total, $code );
+        $code = str_replace( '{order_number}', $order_number, $code );
+        $code = str_replace( '{order_subtotal}', $order_subtotal, $code );
 
         return $code;
     }
@@ -297,7 +330,7 @@ class WeDevs_WC_Tracking_Integration extends WC_Integration {
      *
      * @since 1.1
      *
-     * @param  string  $code
+     * @param  string $code
      *
      * @return string
      */

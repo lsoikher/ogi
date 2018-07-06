@@ -50,7 +50,6 @@ function _wpsc_get_field_output( $field, $r ) {
 		return _wpsc_get_fieldset_output( $field, $r );
 	}
 
-	do_action( 'wpsc_action_field_control_before', $r['before_field'], $field, $r );
 	$before_field = apply_filters( 'wpsc_field_before', $r['before_field'], $field, $r );
 	$before_field = sprintf( $before_field, $field['id'], $field['class'] );
 
@@ -59,8 +58,6 @@ function _wpsc_get_field_output( $field, $r ) {
 	$output .= apply_filters( "wpsc_control_{$field['type']}", ''                   , $field, $r );
 	$output .= apply_filters( 'wpsc_control_after'           , $r['after_controls'] , $field, $r );
 	$output .= apply_filters( 'wpsc_field_after'             , $r['after_field']    , $field, $r );
-
-	do_action( 'wpsc_action_field_control_after', $r['after_field'], $field, $r );
 
 	return $output;
 }
@@ -107,6 +104,7 @@ function wpsc_get_form_output( $args ) {
 	$defaults = array(
 		'method'              => 'post',
 		'id'                  => "wpsc-form-{$form_id}",
+		'data-id'             => 0,
 		'class'               => 'wpsc-form wpsc-form-horizontal',
 		'before_field'        => '<div id="%1$s" class="%2$s">',
 		'after_field'         => '</div>',
@@ -128,7 +126,7 @@ function wpsc_get_form_output( $args ) {
 
 	$r = wp_parse_args( $args, $defaults );
 
-	$output = "<form id='{$r['id']}' method='{$r['method']}' action='{$r['action']}' class='{$r['class']}'>";
+	$output = "<form id='{$r['id']}' data-id='{$r['data-id']}' method='{$r['method']}' action='{$r['action']}' class='{$r['class']}'>";
 
 	do_action( 'wpsc_get_form_output_before_form_fields', $r );
 
@@ -870,3 +868,57 @@ function wpsc_form_button( $name, $title, $args = array(), $echo = true ) {
 
 	return $output;
 }
+
+function wpsc_get_add_to_cart_form_variation_args( $args, $product, $id ) {
+	$has_variations = $product->has_variations;
+	$classes        = get_body_class();
+	$select_options = $has_variations != false && in_array( 'wpsc-grid', $classes );
+
+	if ( ! $select_options ) {
+		return $args;
+	}
+
+	$args['action'] = get_permalink( $id );
+
+	foreach ( $args['form_actions'] as $index => $action ) {
+		if ( isset( $action['primary'] ) &&  $action['primary'] ) {
+			$args['form_actions'][ $index ]['button_class'] = 'wpsc-select-options';
+			$args['form_actions'][ $index ]['icon']         = array();
+			$args['form_actions'][ $index ]['title']        = __( 'Select Options', 'wp-e-commerce' );
+		}
+	}
+
+	return $args;
+
+}
+
+add_filter( 'wpsc_get_add_to_cart_form_args', 'wpsc_get_add_to_cart_form_variation_args', 5, 3 );
+
+function wpsc_get_add_to_cart_form_external_link_args( $args, $product, $id ) {
+
+	// Check if the product is external
+	$product_meta = get_post_meta( $id, '_wpsc_product_metadata', true );
+
+	if ( isset( $product_meta['external_link'] ) && ! empty( $product_meta['external_link'] ) ) {
+
+		$external_link      = $product_meta['external_link'];
+		$external_link_text = __( 'View Details', 'wp-e-commerce' );
+
+		if ( isset( $product_meta['external_link_text'] ) && ! empty( $product_meta['external_link_text'] ) ) {
+			$external_link_text = $product_meta['external_link_text'];
+		}
+
+		$args['action'] =  $external_link;
+
+		foreach ( $args['form_actions'] as $index => $action ) {
+			if ( isset( $action['primary'] ) &&  $action['primary'] ) {
+				$args['form_actions'][ $index ]['icon']         = array();
+				$args['form_actions'][ $index ]['title']        = $external_link_text;
+			}
+		}
+	}
+
+	return $args;
+}
+
+add_filter( 'wpsc_get_add_to_cart_form_args', 'wpsc_get_add_to_cart_form_external_link_args', 15, 3 );

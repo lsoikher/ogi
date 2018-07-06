@@ -140,7 +140,7 @@ msgstr ","
 #: content-single.php:59
 #, php-format
 msgid "This entry was posted in %1$s and tagged %2$s."
-msgstr "Dette indlæg var udgivet %1$s og tagged %2$s."
+msgstr "Dette indlæg blev postet i %1$s og tagged %2$s."
 
 # @ flatsome
 #: content-single.php:61

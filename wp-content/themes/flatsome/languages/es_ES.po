@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Flatsome v2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-09-16 15:58+0200\n"
-"Last-Translator: DIAR <diar.webmaster@gmail.com>\n"
+"PO-Revision-Date: 2017-04-15 20:15+0200\n"
+"Last-Translator: esiddhi.com <info@esiddhi.com>\n"
 "Language-Team: \n"
 "Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.0.1\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;__:1;"
 "_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;_x:1,2c;"
 "_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;esc_attr__:1;"
@@ -28,14 +28,14 @@ msgstr ""
 msgctxt "comments title"
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
-msgstr[0] "Un comentario sobre &ldquo;%2$s&rdquo;"
-msgstr[1] "%1$s comentarios sobre &ldquo;%2$s&rdquo;"
+msgstr[0] "Un comentario de &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s comentarios de &ldquo;%2$s&rdquo;"
 
 #. translators: used between list items, there is a space after the comma
 #: content-single.php:51 content-single.php:54 content.php:58 content.php:66
 #: content.php:109 content.php:117 content.php:167 content.php:187
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: image.php:25
 #, php-format
@@ -46,7 +46,7 @@ msgid ""
 "\">%8$s</a>"
 msgstr ""
 "Publicado <span class=\"entry-date\"><time class=\"entry-date\" datetime=\"%1$s"
-"\">%2$s</time></span> at <a href=\"%3$s\" title=\"Enlace a la imagen completa\">"
+"\">%2$s</time></span> en <a href=\"%3$s\" title=\"Enlace a la imagen completa\">"
 "%4$s &veces; %5$s</a> en <a href=\"%6$s\" title=\"Volver a %7$s\" rel=\"gallery"
 "\">%8$s</a>"
 
@@ -58,9 +58,9 @@ msgid ""
 "\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
 msgstr ""
 "<a class=\"comment-link\" href=\"#respond\" title=\"Publicar un comentario"
-"\">Publicar un cometnario</a> o dejar un Trackback: <a class=\"trackback-link\" "
-"href=\"%s\" title=\"Trackback (URL de Rastreo) para su publicación\" rel="
-"\"trackback\">Trackback (URL de Rastreo)</a>."
+"\">Publicar un comentario</a> o dejar un trackback: <a class=\"trackback-link\" "
+"href=\"%s\" title=\"Trackback URL (URL de Rastreo) para su publicación\" rel="
+"\"trackback\">Trackback URL (URL de Rastreo)</a>."
 
 #: image.php:103
 #, php-format
@@ -69,9 +69,9 @@ msgid ""
 "href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback\">Trackback "
 "URL</a>."
 msgstr ""
-"Los comentarios están cerrados, pero puedes dejar  trackback: <a class="
-"\"trackback-link\" href=\"%s\" title=\"Trackback URL para tu post\" rel="
-"\"trackback\">Trackback URL</a>."
+"Los comentarios están cerrados, pero puedes dejar un trackback: <a class="
+"\"trackback-link\" href=\"%s\" title=\"Trackback URL (URL de Rastreo) para tu "
+"post\" rel=\"trackback\">Trackback URL (URL de Rastreo)</a>."
 
 #: image.php:105
 msgid ""
@@ -83,7 +83,7 @@ msgstr ""
 
 #: image.php:107
 msgid "Both comments and trackbacks are currently closed."
-msgstr "Comentarios y TrackBacks están ahora cerrados."
+msgstr "Comentarios y Trackbacks están ahora cerrados."
 
 #: inc/woocommerce/tempalte-tags-global:36
 msgid "Home"
@@ -95,7 +95,7 @@ msgstr "Popular"
 
 #: inc/extras.php:120
 msgid "Top Content"
-msgstr "Top Content - Contenido de Arriba"
+msgstr "Contenido Superior - Top Content"
 
 #: inc/extras.php:126
 msgid ""
@@ -103,7 +103,7 @@ msgid ""
 "top of the category."
 msgstr ""
 "Entrar un valor para este campo. Los Shortcodes están permitidos. Este se verá "
-"en el top-arriba de la categoría."
+"en la parte superior de la categoría."
 
 #: inc/post-types/blocks.php:33
 msgid "Shortcode"
@@ -127,20 +127,21 @@ msgstr "Pingback:"
 
 #: inc/widgets/upsell-widget.php:20
 msgid "Add upsell products to product page"
-msgstr "Añadir Upsell (Venta Dirigida) a la página de producto"
+msgstr "Añadir Productos de Venta Dirigida a la página de producto"
 
 #: no-results.php:19
 #, php-format
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""
-"¿Preparado para publicar su primer post? <a href=\"%1$s\">Empiece aquí</a>."
+"¿Preparado para publicar su primera publicación? <a href=\"%1$s\">Empezar aquí</"
+"a>."
 
 #: no-results.php:23
 msgid ""
 "Sorry, but nothing matched your search terms. Please try again with some "
 "different keywords."
 msgstr ""
-"Lo siento, pero nada coincide con sus términos de búsqueda. Por favor pruebe "
+"Lo siento, pero nada coincide con los términos de búsqueda. Por favor pruebe "
 "con otras palabras clave."
 
 #: no-results.php:28
@@ -156,8 +157,8 @@ msgid ""
 "It looks like nothing was found at this location. Maybe try one of the links "
 "below or a search?"
 msgstr ""
-"Parece que no se encontró nada en este sitio. Quizás se puede probar uno de los "
-"links inferiors o una búsqueda?"
+"Parece que no se encontró nada en este sitio. ¿Quizás deba probar uno de los "
+"links inferiores o una búsqueda?"
 
 #: archive.php:58
 #, php-format
@@ -196,15 +197,15 @@ msgstr "&larr; Comentarios Anteriores"
 
 #: comments.php:37 comments.php:57
 msgid "Newer Comments &rarr;"
-msgstr "Nuevos Comentarios &rarr;"
+msgstr "Comentarios Nuevos &rarr;"
 
 #: comments.php:55
 msgid "Comment navigation"
-msgstr "Comentar navegación"
+msgstr "Navegación en los comentarios"
 
 #: comments.php:67
 msgid "Comments are closed."
-msgstr "Los Comentarios están cerrados."
+msgstr "Los comentarios están cerrados."
 
 #: content-page.php:17 content-single.php:33 content.php:47 image.php:92
 #: page-left-sidebar-notitle.php:22 page-right-sidebar-notitle.php:22
@@ -222,12 +223,12 @@ msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink "
 "to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
-"Esta entrada fue publicada en %1$s. Bookmark el <a href=\"%3$s\" title=\"Enlace "
-"permanente a %4$s\" rel=\"bookmark\">Enlace permanente</a>."
+"Esta entrada fue publicada en %1$s. Marque como favorito el <a href=\"%3$s\" "
+"title=\"Enlace permanente a %4$s\" rel=\"bookmark\">Enlace permanente</a>."
 
 #: content.php:77 content.php:133 content.php:181 inc/widgets/recent-posts.php:59
 msgid "Leave a comment"
-msgstr "Comentar"
+msgstr "Deje un comentario"
 
 #: content.php:112 content.php:170
 #, php-format
@@ -236,11 +237,11 @@ msgstr "%1$s"
 
 #: functions.php:214
 msgid "Footer Menu"
-msgstr "Menú a Pie de Página"
+msgstr "Menú en el pie de página"
 
 #: functions.php:215
 msgid "Top bar Menu"
-msgstr "Menú Superior Página"
+msgstr "Menú Barra superior - Top bar"
 
 #: functions.php:216
 msgid "My Account Menu"
@@ -248,23 +249,23 @@ msgstr "Menú Mi Cuenta"
 
 #: functions.php:231
 msgid "Sidebar"
-msgstr "Barra-Lateral"
+msgstr "Barra lateral - Sidebar"
 
 #: functions.php:241
 msgid "Shop Sidebar"
-msgstr "Barra-Lateral Tienda"
+msgstr "Barra lateral de la Tienda - Shop Sidebar"
 
 #: functions.php:250
 msgid "Product Sidebar"
-msgstr "Barra-Lateral Producto"
+msgstr "Barra lateral del Producto - Product Sidebar"
 
 #: functions.php:260
 msgid "Footer 1 (4 column)"
-msgstr "Pie 1 (4 columnas)"
+msgstr "Pie de página 1 (4 columnas)"
 
 #: functions.php:270
 msgid "Footer 2 (4 column)"
-msgstr "Pie 2 (4 columnas)"
+msgstr "Pie de página 2 (4 columnas)"
 
 #: functions.php:349
 msgid "Flatsome Theme Options"
@@ -289,7 +290,7 @@ msgstr "Publicado en %s"
 #: inc/template-tags.php:147
 #, php-format
 msgid "View all posts by %s"
-msgstr "Ver todas las Publicaciones de %s"
+msgstr "Ver todas las publicaciones de %s"
 
 #: inc/widgets/recent-posts.php:98
 msgid "Number of posts to show:"
@@ -301,7 +302,7 @@ msgstr "Completa la apariencia"
 
 #: 404.php:22
 msgid "Oops! That page can&rsquo;t be found."
-msgstr "Oops! No se encontró la página."
+msgstr "¡Oops! No se encontró la página."
 
 #: archive.php:40
 #, php-format
@@ -316,7 +317,7 @@ msgstr "Archivos de Etiquetas: %s"
 #: archive.php:50
 #, php-format
 msgid "Author Archives: %s"
-msgstr "Archivos de Autor: %s"
+msgstr "Archivos del Autor: %s"
 
 #: archive.php:70
 msgid "Images"
@@ -324,7 +325,7 @@ msgstr "Imágenes"
 
 #: content.php:44
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
-msgstr "Leer Más <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Continuar leyendo <span class=\"meta-nav\">&rarr;</span>"
 
 #: content.php:61
 #, php-format
@@ -334,9 +335,7 @@ msgstr "Publicado en %1$s"
 #: content.php:71 content.php:122 content.php:192
 #, php-format
 msgid "Tagged %1$s"
-msgstr ""
-"Etiquetado\n"
-" %1$s"
+msgstr "Etiquetado %1$s"
 
 #: content.php:77 content.php:133 content.php:181 inc/widgets/recent-posts.php:59
 msgid "<strong>1</strong> Comment"
@@ -364,7 +363,7 @@ msgstr "Nuevo"
 
 #: inc/custom-css.php:177
 msgid "Hot"
-msgstr "Caliente ;-)"
+msgstr "Caliente"
 
 #: inc/custom-css.php:178
 msgid "Sale"
@@ -386,19 +385,19 @@ msgstr "Fecha"
 
 #: inc/shortcodes/share_follow.php:21
 msgid "Share on Facebook"
-msgstr "Comparte en Facebook"
+msgstr "Compartir en Facebook"
 
 #: inc/shortcodes/share_follow.php:24
 msgid "Share on Twitter"
-msgstr "Comparte en Twitter"
+msgstr "Compartir en Twitter"
 
 #: inc/shortcodes/share_follow.php:27
 msgid "Email to a Friend"
-msgstr "Envía por email a un amigo"
+msgstr "Envía por email"
 
 #: inc/shortcodes/share_follow.php:30
 msgid "Pin on Pinterest"
-msgstr "Pin en Pinterest"
+msgstr "Pinear en Pinterest"
 
 #: inc/shortcodes/share_follow.php:33
 msgid "Share on Google+"
@@ -408,45 +407,77 @@ msgstr "Compartir en Google+"
 msgid "Share on Tumblr"
 msgstr "Compartir en Tumblr"
 
+#: inc/shortcodes/share_follow.php:79
+msgid "Send us an email"
+msgstr "Envíanos un email"
+
 #: inc/shortcodes/share_follow.php:73
 msgid "Follow us on Facebook"
+msgstr "Síguenos en Facebook"
+
+#: inc/shortcodes/share_follow.php:73
+msgid "Follow on Facebook"
 msgstr "Síguenos en Facebook"
 
 #: inc/shortcodes/share_follow.php:103
 msgid "Follow us on YouTube"
 msgstr "Síguenos en Youtube"
 
+#: inc/shortcodes/share_follow.php:103
+msgid "Follow on YouTube"
+msgstr "Síguenos en Youtube"
+
 #: inc/shortcodes/share_follow.php:76
 msgid "Follow us on Twitter"
 msgstr "Síguenos en Twitter"
 
+#: inc/shortcodes/share_follow.php:76
+msgid "Follow on Twitter"
+msgstr "Síguenos en Twitter"
+
 #: inc/shortcodes/share_follow.php:79
-msgid "Send us an email"
-msgstr "Envíanos un email"
+msgid "Follow us on SnapChat"
+msgstr "Síguenos en Snapchat"
+
+#: inc/shortcodes/share_follow.php:79
+msgid "Follow on SnapChat"
+msgstr "Síguenos en Snapchat"
 
 #: inc/shortcodes/share_follow.php:82
 msgid "Follow us on Pinterest"
+msgstr "Síguenos en Pinterest"
+
+#: inc/shortcodes/share_follow.php:82
+msgid "Follow on Pinterest"
 msgstr "Síguenos en Pinterest"
 
 #: inc/shortcodes/share_follow.php:85
 msgid "Follow us on Google+"
 msgstr "Síguenos en Google+"
 
+#: inc/shortcodes/share_follow.php:85
+msgid "Follow on Google+"
+msgstr "Síguenos en Google+"
+
 #: inc/shortcodes/share_follow.php:88
 msgid "Follow us on Instagram"
 msgstr "Síguenos en Instagram"
 
+#: inc/shortcodes/share_follow.php:88
+msgid "Follow on Instagram"
+msgstr "Síguenos en Instagram"
+
 #: inc/shortcodes/share_follow.php:91
 msgid "Subscribe to RSS"
-msgstr "Subscríbete a los RSS"
+msgstr "Subscribirse a los RSS"
 
 #: inc/template-tags.php:49
 msgid "<span class=\"icon-angle-left\"></span> Older posts"
-msgstr "<span class=\"icon-angle-left\"></span> Publicaciones Antiguas"
+msgstr "<span class=\"icon-angle-left\"></span> Publicaciones anteriores"
 
 #: inc/template-tags.php:53
 msgid "Newer posts <span class=\"icon-angle-right\"></span>"
-msgstr "Publicaciones Recientes"
+msgstr "Nuevas publicaciones <span class=\"icon-angle-right\"></span>"
 
 #: inc/template-tags.php:93
 #, php-format
@@ -465,11 +496,11 @@ msgstr "por %s"
 
 #: inc/template-tags.php:376
 msgid "Previous Post"
-msgstr "Publicación Previa"
+msgstr "Publicación anterior"
 
 #: inc/template-tags.php:376
 msgid "Next Post"
-msgstr "Publicación Siguiente"
+msgstr "Siguiente publicación"
 
 #: search.php:35
 #, php-format
@@ -498,8 +529,39 @@ msgstr "Pedido Completado"
 
 #: page-my-account.php:30 woocommerce/checkout/form-checkout.php:41
 msgid "Login / Register with <strong>Facebook</strong>"
-msgstr "Login / Registrar con <strong>Facebook</strong>"
+msgstr "Login / Registrarse con <strong>Facebook</strong>"
+
+#: woocommerce/myaccount/header.php:33
+msgid "Login with <strong>Facebook</strong>"
+msgstr "Login con <strong>Facebook</strong>"
+
+#: woocommerce/myaccount/header.php:42
+msgid "Login with <strong>Google</strong>"
+msgstr "Login con <strong>Google</strong>"
 
 #: content-product.php:61 woocommerce/content-product.php:61
 msgid "Quick View"
 msgstr "Vista Rápida"
+
+#: structure-wc-product-page.php:149 woocommerce/content-product.php:149
+msgid "Zoom"
+msgstr "Zoom"
+
+#: structure-wc-global.php:139 inc/shortcodes/portfolio.php:139
+msgid "All"
+msgstr "Todo"
+
+#: flatsome-live-search.php:129 inc/shortcodes/portfolio.php:129
+msgid "No matches found"
+msgstr "No se encontraron coincidencias"
+
+#: structure-wc-global.php:188 inc/woocommerce/structure-wc-global.php:188
+msgid "Pages and posts found"
+msgstr "Páginas y publicaciones encontradas"
+
+#: searchform.php:11
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Video"
+msgstr "Vídeo"

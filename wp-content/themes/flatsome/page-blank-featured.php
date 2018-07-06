@@ -6,7 +6,7 @@ get_header(); ?>
 <div class="parallax-title mb">
 <?php while ( have_posts() ) : the_post(); ?>
 	<?php ob_start(); ?>
-	<header class="entry-header  text-center">
+	<header class="entry-header text-center relative">
 		<h1 class="entry-title is-larger">
 			<strong><?php the_title(); ?></strong>
 		</h1>

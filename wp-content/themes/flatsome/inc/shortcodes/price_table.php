@@ -40,7 +40,11 @@ function ux_price_table( $atts, $content = null ){
     <div class="pricing-table-header">
       <div class="title uppercase strong"><?php echo $title;?></div>
       <div class="price is-xxlarge"><?php echo $price;?></div>
-      <div class="description is-small uppercase"><?php echo $description;?></div>
+      <?php if(!empty($description)) { ?>
+        <div class="description is-small">
+          <?php echo $description;?>
+        </div>
+      <?php } ?>
     </div>
     <div class="pricing-table-items items">
       <?php echo flatsome_contentfix($content); ?>

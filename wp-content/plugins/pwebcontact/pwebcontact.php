@@ -1,12 +1,12 @@
-<?php 
+<?php
 /**
- * Plugin Name: Perfect Easy & Powerful Contact Form PRO
- * Plugin URI: https://www.perfect-web.co/wordpress/contact-form
- * Description: Easy for beginners, customizable for pros!
- * Version: 2.3.0
+ * Plugin Name: Gator Forms
+ * Plugin URI: https://gatorforms.com
+ * Description: Gator Forms: the WordPress Contact Form for sharp people.
+ * Version: 2.5.0
  * Text Domain: pwebcontact
- * Author: Piotr Moćko
- * Author URI: https://www.perfect-web.co
+ * Author: Gator Forms
+ * Author URI: https://gatorforms.com
  * License: GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -33,6 +33,13 @@ if (version_compare($GLOBALS['wp_version'], '3.5', '>=') AND version_compare(PHP
 
     if ( is_admin() ) {
 
+        // Load CSS for menu icon always
+        function pwebcontact_admin_menu_style() {
+            wp_register_style('pwebcontact_admin_menu_style', plugins_url('media/css/menu-icon.css', __FILE__, false));
+            wp_enqueue_style('pwebcontact_admin_menu_style');
+        }
+        add_action( 'admin_enqueue_scripts', 'pwebcontact_admin_menu_style' );
+
         if (defined( 'DOING_AJAX' )) {
 
             add_action('wp_ajax_pwebcontact_sendEmail', array('PWebContact', 'sendEmailAjax'));
@@ -55,7 +62,7 @@ if (version_compare($GLOBALS['wp_version'], '3.5', '>=') AND version_compare(PHP
             register_activation_hook( __FILE__, 'pwebcontact_install' );
             register_uninstall_hook( __FILE__, 'pwebcontact_uninstall' );
         }
-    } 
+    }
     else {
 
         add_action('init', array('PWebContact', 'init'));
@@ -72,7 +79,7 @@ else {
     function pwebcontact_requirements_notice() {
         ?>
         <div class="error">
-            <p><?php printf(__( 'Perfect Easy & Powerful Contact Form plugin requires WordPress %s and PHP %s', 'pwebcontact' ), '3.5+', '5.3+'); ?></p>
+            <p><?php printf(__( 'Gator Forms plugin requires WordPress %s and PHP %s', 'pwebcontact' ), '3.5+', '5.3+'); ?></p>
         </div>
         <?php
     }

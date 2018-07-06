@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatsome v2.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 11:25+0000\n"
-"PO-Revision-Date: 2016-09-01 11:28+0000\n"
-"Last-Translator: alyaeda <admin@chuwal.com>\n"
+"POT-Creation-Date: 2017-05-10 11:47+0000\n"
+"PO-Revision-Date: 2017-05-10 12:26+0000\n"
+"Last-Translator: admin <aa@ff.ccoco>\n"
 "Language-Team: Turkish\n"
 "Language: tr-TR\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -27,40 +27,48 @@ msgstr ""
 "X-Loco-Target-Locale: tr_TR"
 
 #: image.php:25
+#, php-format
 msgid ""
 "Published <span class=\"entry-date\"><time class=\"entry-date\" "
 "datetime=\"%1$s\">%2$s</time></span> at <a href=\"%3$s\" title=\"Link to "
 "full-size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return "
 "to %7$s\" rel=\"gallery\">%8$s</a>"
 msgstr ""
+"<a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%8$s</a>, <a "
+"href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
+"çözünürlüğünde <span class=\"entry-date\"><time class=\"entry-date\" "
+"datetime=\"%1$s\">%2$s</time></span> tarihinde yayınlandı"
 
-#: inc/shortcodes/share_follow.php:73
-msgid "Follow on Facebook"
-msgstr "Facebook' ta Takip Edin"
+#: searchform.php:11
+msgid "Search"
+msgstr "Ara"
 
-#: inc/shortcodes/share_follow.php:103
-msgid "Follow on YouTube"
-msgstr "Youtube' ta Takip Edin"
+#: woocommerce/myaccount/header.php:33
+msgid "Login with <strong>Facebook</strong>"
+msgstr "<strong>Facebook</strong> ile giriş yap"
 
-#: inc/shortcodes/share_follow.php:76
-msgid "Follow on Twitter"
-msgstr "Twitter' da Takip Edin"
+#: woocommerce/myaccount/header.php:42
+msgid "Login with <strong>Google</strong>"
+msgstr "<strong>Google</strong> ile giriş yap"
 
-#: inc/shortcodes/share_follow.php:79
-msgid "Follow on SnapChat"
-msgstr "Snapchat ' te Takip Edin"
+#: structure-wc-product-page.php:149 woocommerce/content-product.php:149
+msgid "Zoom"
+msgstr "Yakınlaştır"
 
-#: inc/shortcodes/share_follow.php:82
-msgid "Follow on Pinterest"
-msgstr "Pinterest' te Takip Edin"
+#: structure-wc-global.php:188 inc/woocommerce/structure-wc-global.php:188
+msgid "Pages and posts found"
+msgstr "Sayfalar ve gönderiler bulundu"
 
-#: inc/shortcodes/share_follow.php:85
-msgid "Follow on Google+"
-msgstr "Google+' ta Takip Edin"
+#: structure-wc-global.php:139 inc/shortcodes/portfolio.php:139
+msgid "All"
+msgstr "Hepsi"
 
-#: inc/shortcodes/share_follow.php:88
-msgid "Follow on Instagram"
-msgstr "Instagram' da Takip Edin"
+#: flatsome-live-search.php:129 inc/shortcodes/portfolio.php:129
+msgid "No matches found"
+msgstr "Eşleşme Bulunamadı"
+
+msgid "Video"
+msgstr "Video"
 
 #: 404.php:22
 msgid "Oops! That page can&rsquo;t be found."
@@ -75,26 +83,32 @@ msgstr ""
 "deneyebilir ya da arama yapabilirsiniz?"
 
 #: archive.php:40
+#, php-format
 msgid "Category Archives: %s"
 msgstr "Kategori Arşivleri: %s"
 
 #: archive.php:43
+#, php-format
 msgid "Tag Archives: %s"
 msgstr "Etiket Arşivleri: %s"
 
 #: archive.php:50
+#, php-format
 msgid "Author Archives: %s"
 msgstr "Yazar Arşivleri: %s"
 
 #: archive.php:58
+#, php-format
 msgid "Daily Archives: %s"
 msgstr "Günlük Arşivler: %s"
 
 #: archive.php:61
+#, php-format
 msgid "Monthly Archives: %s"
 msgstr "Aylık Arşivler: %s"
 
 #: archive.php:64
+#, php-format
 msgid "Yearly Archives: %s"
 msgstr "Yıllık Arşivler: %s"
 
@@ -119,6 +133,7 @@ msgid "Links"
 msgstr "Linkler"
 
 #: comments.php:29
+#, php-format
 msgctxt "comments title"
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
@@ -141,22 +156,24 @@ msgstr "Yorum gezgini"
 msgid "Comments are closed."
 msgstr "Yorumlar kapalıdır."
 
-#: content-page.php:17 content-single.php:33 content.php:47 image.php:92 
+#: content-page.php:17 content-single.php:33 content.php:47 image.php:92
 #: page-left-sidebar-notitle.php:22 page-right-sidebar-notitle.php:22
 msgid "Pages:"
 msgstr "Sayfalar:"
 
 #. translators: used between list items, there is a space after the comma
-#: content-single.php:51 content-single.php:54 content.php:58 content.php:66 
+#: content-single.php:51 content-single.php:54 content.php:58 content.php:66
 #: content.php:109 content.php:117 content.php:167 content.php:187
 msgid ", "
 msgstr ", "
 
 #: content-single.php:59
+#, php-format
 msgid "This entry was posted in %1$s and tagged %2$s."
 msgstr "Bu gönderi %1$s&rsquo; te gönderildi ve %2$s&rsquo; te etiketlendi."
 
 #: content-single.php:61
+#, php-format
 msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" "
 "title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
@@ -169,29 +186,32 @@ msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Okumaya devam edin <span class=\"meta-nav\">&rarr;</span>"
 
 #: content.php:61
+#, php-format
 msgid "Posted in %1$s"
 msgstr "%1$s gönderildi"
 
 #: content.php:71 content.php:122 content.php:192
+#, php-format
 msgid "Tagged %1$s"
 msgstr "%1$s etiketlendi"
 
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "Leave a comment"
 msgstr "Bir yorum bırak"
 
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "<strong>1</strong> Comment"
 msgstr "<strong>1</strong> Yorum"
 
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "<strong>%</strong> Comments"
 msgstr "<strong>%</strong> Yorumlar"
 
 #: content.php:112 content.php:170
+#, php-format
 msgid "%1$s"
 msgstr "%1$s"
 
@@ -235,12 +255,13 @@ msgstr "Altbilgi 2 (4 kolon)"
 msgid "Flatsome Theme Options"
 msgstr "Flatsome Tema Seçenekleri"
 
-#: image.php:36 image.php:109 inc/template-tags.php:77 
+#: image.php:36 image.php:109 inc/template-tags.php:77
 #: inc/template-tags.php:106
 msgid "Edit"
 msgstr "Düzenle"
 
 #: image.php:101
+#, php-format
 msgid ""
 "<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
 "comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
@@ -252,6 +273,7 @@ msgstr ""
 "Geri izleme URL&rsquo; si</a>."
 
 #: image.php:103
+#, php-format
 msgid ""
 "Comments are closed, but you can leave a trackback: <a class=\"trackback-"
 "link\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback\">"
@@ -302,6 +324,7 @@ msgid "Popular"
 msgstr "Popüler"
 
 #: inc/extras.php:101
+#, php-format
 msgid "Page %s"
 msgstr "Sayfa %s"
 
@@ -317,7 +340,7 @@ msgstr ""
 "Bu alana bir değer girin. Kısakod kullanılabilir. Bu, kategorinin üstünde "
 "görünecektir."
 
-#: inc/post-types/blocks.php:30 
+#: inc/post-types/blocks.php:30
 #: inc/widgets/woocommerce-subcategories-widget.php:108
 msgid "Title"
 msgstr "Başlık"
@@ -354,9 +377,37 @@ msgstr "Google+ ile Paylaş"
 msgid "Share on Tumblr"
 msgstr "Tumblr&rsquo; da Paylaş"
 
+#: inc/shortcodes/share_follow.php:73
+msgid "Follow on Facebook"
+msgstr "Facebook' ta Takip Edin"
+
+#: inc/shortcodes/share_follow.php:103
+msgid "Follow on YouTube"
+msgstr "Youtube' ta Takip Edin"
+
+#: inc/shortcodes/share_follow.php:76
+msgid "Follow on Twitter"
+msgstr "Twitter' da Takip Edin"
+
+#: inc/shortcodes/share_follow.php:79
+msgid "Follow on SnapChat"
+msgstr "Snapchat ' te Takip Edin"
+
 #: inc/shortcodes/share_follow.php:79
 msgid "Send us an email"
 msgstr "Bize email gönderin"
+
+#: inc/shortcodes/share_follow.php:82
+msgid "Follow on Pinterest"
+msgstr "Pinterest' te Takip Edin"
+
+#: inc/shortcodes/share_follow.php:85
+msgid "Follow on Google+"
+msgstr "Google+' ta Takip Edin"
+
+#: inc/shortcodes/share_follow.php:88
+msgid "Follow on Instagram"
+msgstr "Instagram' da Takip Edin"
 
 #: inc/shortcodes/share_follow.php:91
 msgid "Subscribe to RSS"
@@ -387,6 +438,7 @@ msgid "Pingback:"
 msgstr "Pingback:"
 
 #: inc/template-tags.php:93
+#, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr "%s <span class=\"says\">diyor ki:</span>"
 
@@ -395,21 +447,25 @@ msgid "Your comment is awaiting moderation."
 msgstr "Yorumunuz moderatör onayı bekliyor."
 
 #: inc/template-tags.php:104
+#, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr "%1$s - %2$s&rsquo; te"
 
 #: inc/template-tags.php:86
+#, php-format
 msgctxt "post date"
 msgid "Posted on %s"
 msgstr "%s&rsquo;' te gönderildi"
 
 #: inc/template-tags.php:91
+#, php-format
 msgctxt "post author"
 msgid "by %s"
 msgstr "%s tarafından"
 
 #: inc/template-tags.php:147
+#, php-format
 msgid "View all posts by %s"
 msgstr "Tüm gönderileri %s&rsquo; a göre göster"
 
@@ -422,6 +478,7 @@ msgid "Next Post"
 msgstr "Sonraki Gönderi"
 
 #: search.php:35
+#, php-format
 msgid "Search Results for: %s"
 msgstr "%s için Arama Sonuçları"
 
@@ -446,6 +503,7 @@ msgid "Nothing Found"
 msgstr "Bir şey bulunamadı"
 
 #: no-results.php:19
+#, php-format
 msgid ""
 "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""

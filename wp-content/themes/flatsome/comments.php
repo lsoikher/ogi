@@ -1,4 +1,3 @@
-
 <?php
 /**
  * The template for displaying comments.
@@ -31,7 +30,7 @@ if ( post_password_required() ) {
 		<h3 class="comments-title uppercase">
 			<?php
 				printf( // WPCS: XSS OK.
-					esc_html( _nx( 'One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'flatsome' ) ),
+					esc_html( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'flatsome' ) ),
 					number_format_i18n( get_comments_number() ),
 					'<span>' . get_the_title() . '</span>'
 				);

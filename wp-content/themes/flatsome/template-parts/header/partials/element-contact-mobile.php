@@ -37,7 +37,7 @@
 				  <?php echo get_flatsome_icon('icon-envelop',$icon_size); ?>
 			      <?php if($label) echo _e('Contact','flatsome'); ?>
 			  </a>
-			</li class="icon">
+			</li>
 			<?php } ?>
 
 			<?php if(flatsome_option('contact_hours')){ ?>

@@ -215,7 +215,7 @@ $wp_admin_bar->add_menu( array(
 $wp_admin_bar->add_menu( array(
  'parent' => 'options_shop',
  'id' => 'options_shop_category_page',
- 'title' => 'Category Page',
+ 'title' => 'Shop / Category Page',
  'href' =>  $optionUrl_section.'category-page'
 ));
 

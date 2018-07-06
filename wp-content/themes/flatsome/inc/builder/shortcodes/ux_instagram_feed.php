@@ -43,6 +43,7 @@ $options = array(
 );
 
 // Set defaults
+$options['layout_options']['options']['columns']['default'] = '5';
 $options['layout_options']['options']['col_spacing']['default'] = 'collapse';
 $options['layout_options']['options']['type']['default'] = 'row';
 $options['layout_options']['options']['type']['options'] = array(

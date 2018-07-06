@@ -1,34 +1,87 @@
 /**
  * @version 2.3.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
 
+.button.pweb-buy {
+    background: #709c2d;
+    border-color: #5e8129 #527320 #527320;
+    box-shadow: 0 1px 0 #527320;
+    -moz-box-shadow: 0 1px 0 #668e29;
+    -webkit-box-shadow: 0 1px 0 #668e29;
+    -o-box-shadow: 0 1px 0 #668e29;
+    text-shadow: 0 -1px 1px #527320, 1px 0 1px #527320, 0 1px 1px #527320, -1px 0 1px #527320;
+}
+
+.js .postbox.gf-box .hndle {
+    cursor: inherit;
+}
+
+.button.pweb-buy:hover,
+.button.pweb-buy:active,
+.button.pweb-buy:focus {
+    background: #79a831;
+    border-color: #527320;
+}
+
+.button.pweb-buy:focus {
+    box-shadow: 0 1px 0 #527320, 0 0 2px 1px #527320;
+    -moz-box-shadow: 0 1px 0 #527320, 0 0 2px 1px #527320;
+    -webkit-box-shadow: 0 1px 0 #527320, 0 0 2px 1px #527320;
+    -o-box-shadow: 0 1px 0 #527320, 0 0 2px 1px #527320;
+}
+
+.button.pweb-buy:active {
+    box-shadow: inset 0 2px 0 #527320;
+    -moz-box-shadow: inset 0 2px 0 #527320;
+    -webkit-box-shadow: inset 0 2px 0 #527320;
+    -o-box-shadow: inset 0 2px 0 #527320;
+}
+
+.gf-misc-actions-container {
+     padding: 10px;
+}
+
+#pweb-buy-button {
+    display: block;
+    width: 100%;
+}
+
+#pweb-docs-button {
+
+}
+
+#pweb-buy-button,
+#pweb-docs-button {
+    margin-bottom: 10px;
+}
+
 #pweb-adminbar {
-    position: fixed;
-    z-index: 98;
     background: #F1F1F1;
-    left: 0;
-    right: 0;
-    top: 32px;
-    margin-left: 180px;
-    margin-right: 20px;
     padding: 10px 0;
-    overflow: auto;
 }
 .folded #pweb-adminbar {
     margin-left: 56px;
 }
-@media only screen and (max-width: 900px) {
-    .auto-fold #pweb-adminbar {
-        margin-left: 56px;
-    }  
+
+#pweb-tabs .nav-tab-active,
+#pweb-tabs .nav-tab-active:focus,
+#pweb-tabs .nav-tab-active:focus:active,
+#pweb-tabs .nav-tab-active:hover {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+h2#pweb-tabs {
+    padding: 15px 0 0;
 }
 
 #pweb-tabs-content {
-    padding-top: 100px;
+    padding-top: 10px;
 }
 #pweb-settings-content {
     padding-top: 50px;
@@ -220,7 +273,7 @@ input.pweb-warning {
 .pweb-steps {
     margin-bottom: 40px;
     margin-left: 20px;
-} 
+}
 .pweb-steps button.button, .pweb-steps button.button:focus {
     vertical-align: middle;
 }
@@ -229,9 +282,6 @@ input.pweb-warning {
 }
 .pweb-steps select {
     vertical-align: middle;
-}
-.pweb-steps .pweb-next-tab-button {
-    margin-left: 30px;
 }
 
 
@@ -316,7 +366,7 @@ input.pweb-warning {
     float: left;
 }
 .pweb-location-step {
-    
+
 }
 .pweb-location-step h3 {
     text-align: center;
@@ -448,13 +498,13 @@ input.pweb-warning {
     border-left-color: #DD823B;
 }
 
-#pweb_params_handler .pweb-field-option, 
+#pweb_params_handler .pweb-field-option,
 #pweb_params_effect .pweb-field-option,
 #pweb_params_layout_type .pweb-field-option {
     display: inline-block;
     width: 250px;
 }
-#pweb_params_handler .pweb-field-option label, 
+#pweb_params_handler .pweb-field-option label,
 #pweb_params_effect .pweb-field-option label,
 #pweb_params_layout_type .pweb-field-option label {
     max-width: 230px;
@@ -557,21 +607,9 @@ input.pweb-warning {
 .pweb-field {
     margin-bottom: 20px;
 }
-.pweb-field > label + .pweb-field-control,
-.pweb-field > label + span.pweb-pro + .pweb-field-control{
-    margin-top: 10px;
-}
-.pweb-field .pweb-field-control {
-    margin-left: 15px;
-}
 .pweb-field .pweb-field-desc {
     margin-top: 5px;
     font-style: italic;
-}
-.pweb-radio-group .pweb-field-option {
-    display: inline-block;
-    margin-right: 20px;
-    min-width: 50px;
 }
 .pweb-radio-group-vertical .pweb-field-option {
     display: block;
@@ -952,10 +990,9 @@ span.pweb-pro,
 span.pweb-free {
     display: inline-block;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 10px;
     line-height: 18px;
     padding: 0 5px;
-    margin-left: 3px;
     text-transform: uppercase;
 }
 span.pweb-pro {
@@ -975,6 +1012,9 @@ span.pweb-free {
     top: 5px;
 }
 
+.ui-dialog-buttonset .ui-button + .ui-button {
+    margin-left: 10px;
+}
 
 .ui-dialog-content p {
     margin: 10px;
@@ -1002,6 +1042,50 @@ code, pre var {
     font-size: 13px;
     line-height: 20px;
     color: #777777;
+}
+
+.c-admin-footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #777;
+}
+
+.c-admin-footer .c-rating .dashicons-star-filled {
+  line-height: 18px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #FFB300;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.c-admin-footer a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.c-admin-footer .c-rating a:hover {
+  color: #27ae60;
+}
+
+.c-admin-footer .c-links {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.c-admin-footer .c-links a:hover {
+  color: #27ae60;
+}
+
+.c-admin-footer .c-links a + a {
+  margin-left: 15px;
+}
+
+.c-admin-footer .c-rating a:hover .dashicons-star-filled {
+  color: rgb(241, 169, 0);
 }
 
 .pweb-clear {
@@ -1034,41 +1118,37 @@ code, pre var {
     100% { transform: rotate(359deg) }
 }
 
-.pweb-alert {
-    border: 1px solid rgba(0, 0, 0, 0);
-    border-radius: 4px;
+#pweb_theme_warning {
     margin-bottom: 20px;
+}
+
+#pweb-tab-check-content .pweb-alert {
+    margin-bottom: 10px;
+}
+
+.pweb-alert {
     padding: 15px;
 }
 .pweb-alert-danger {
     background-color: #F2DEDE;
-    border-color: #EBCCD1;
     color: #A94442;
 }
 .pweb-alert-warning {
     background-color: #FCF8E3;
-    border-color: #FAEBCC;
     color: #8A6D3B;
 }
 .pweb-alert-info {
     background-color: #D9EDF7;
-    border-color: #BCE8F1;
     color: #31708F;
 }
 .pweb-alert-success {
     background-color: #DFF0D8;
-    border-color: #D6E9C6;
     color: #3C763D;
 }
 
 .pweb-alert .button,
 .pweb-alert .button:focus {
     vertical-align: middle;
-}
-
-.pweb-field-control .pweb-alert {
-    margin-top: 10px;
-    margin-right: 10px;
 }
 
 /* jQuery UI Tooltips */
@@ -1092,11 +1172,11 @@ body .ui-tooltip {
 .pwebposition-top-left, .pwebposition-top-right,
 .pwebposition-bottom-left, .pwebposition-bottom-right,
 .pwebposition-static {
-	display: block; 
+	display: block;
 	border: 1px solid #aaa;
     background: #fff;
-	width: 50px; 
-	height: 30px; 
+	width: 50px;
+	height: 30px;
 	position: relative;
 	cursor: pointer;
 	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -1161,3 +1241,11 @@ body .ui-tooltip {
     line-height: 31px;
 }
 
+.pweb-c-navbar {
+  justify-content: space-between;
+}
+
+.pweb-u-flex-row {
+  display: flex;
+  flex-direction: row;
+}

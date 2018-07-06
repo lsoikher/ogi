@@ -652,3 +652,15 @@ msgstr ""
 #@ flatsome
 msgid "No matches found"
 msgstr ""
+
+#@ flatsome
+msgid "Video"
+msgstr ""
+
+#@ flatsome
+msgid "Contact"
+msgstr ""
+
+#@ flatsome
+msgid "Location"
+msgstr ""

@@ -1,7 +1,7 @@
 /**
  * @version 2.3.0
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
+ * @package Gator Forms
+ * @copyright (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
  * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
  * @author Piotr Moćko
  */
@@ -12,49 +12,43 @@ var pwebcontact_l10n = pwebcontact_l10n || {},
     pwebcontact_admin = pwebcontact_admin || {};
 
 if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
-	
+
     if (typeof pwebcontact_admin.is_pro === "undefined") {
         pwebcontact_admin.is_pro = false;
     }
-    
+
     pwebcontact_admin.confirm = true;
     pwebcontact_admin.confirmed = false;
     pwebcontact_admin.running_related = false;
     pwebcontact_admin.duration = 0;
     pwebcontact_admin.isLocalhost = (document.location.host === "localhost" || document.location.host === "127.0.0.1");
     pwebcontact_admin.domain = document.location.host.replace("www.", "");
-    
+
     var $tabs = $("#pweb-tabs-content"),
         $adminBar = $("#pweb-adminbar");
-    
-    $(window).resize(function(){
+
+    /*$(window).resize(function(){
         $tabs.css("padding-top", $(this).width() < 768 ? 0 : $adminBar.height());
-    });
-    
+    });*/
+
     // Initialize tooltips
     $(".pweb-has-tooltip").tooltip({
         track: true
     });
-    
+
     // Tabs
     $("#pweb-tabs").find(".nav-tab").click(function(e){
         e.preventDefault();
-        document.location.hash = $(this).attr("href");
 
         $("#pweb-tabs").find(".nav-tab-active").removeClass("nav-tab-active");
         $(this).addClass("nav-tab-active");
 
         $tabs.find(".nav-tab-content-active").removeClass("nav-tab-content-active");
         $($(this).attr("href")+"-content").addClass("nav-tab-content-active");
-        
+
         $(window).trigger("resize");
     });
-    
-    $tabs.find(".pweb-next-tab-button").click(function(e){
-        e.preventDefault();
-        $( "#"+ $(this).closest(".nav-tab-content").attr("id").replace("-content", "") ).next().click();
-    });
-    
+
     // Location tabs
     $("#pweb-location-steps .pweb-location-step-tab").click(function(e){
         e.preventDefault();
@@ -67,55 +61,55 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 
         var winWidth = $(window).width(),
             topOffset = $tabs.offset().top;
-        
+
         if (winWidth > 600) {
             topOffset = topOffset - $("#wpadminbar").height();
             if (winWidth > 768) {
                 topOffset = 0;
             }
         }
-        
+
         if ($(window).scrollTop() > topOffset) {
             $("html,body").animate({ scrollTop: topOffset }, 500);
         }
     });
-    
+
     // Show related options
     var $relatedFields = $tabs.find("fieldset.pweb-related input").not(".pweb-shortcode");
     $relatedFields.each(function(){
         $(this).data("relations", $(this).parent().attr("class").match(/pweb-related-[a-z\-]+/g) );
     }).change(function(e){
-        
+
         if (pwebcontact_admin.running_related === true || !$(this).is(":checked")) return;
-        
+
         pwebcontact_admin.running_related = true;
-                
+
         var current_relations = $(this).data("relations"),
             relations = {
                 name: [],
                 strength: []
             };
-        
+
         // find combinations of relations for checked options
         $relatedFields.filter(":checked").each(function(){
             var related = $.grep( $(this).data("relations"), function( n, i ){
                 return $.inArray(n, current_relations) > -1;
             });
-            
+
             if (related.length) {
                 $.each(related, function( i, related_name ){
                     var index = $.inArray(related_name, relations.name);
                     if (index === -1) {
                         relations.name.push(related_name);
                         relations.strength.push(1);
-                    } 
+                    }
                     else {
                         relations.strength[index]++;
                     }
                 });
             }
         });
-        
+
         // find most relevant combination
         var strength = 0;
         $.each(relations.strength, function( i, s ){
@@ -123,16 +117,16 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
                 strength = i;
             }
         });
-        
+
         var selected = relations.name[strength];
-        
+
         // change options which do not meet most relevan combination
         $relatedFields.filter(":checked").each(function(){
             if ($.inArray(selected, $(this).data("relations")) === -1) {
                 $(this).closest("fieldset").find("."+selected+" input:not(:disabled)").first().click();
             }
         });
-        
+
         // mark not related options
         $relatedFields.each(function(){
             var $option = $(this).parent();
@@ -145,11 +139,11 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
                 $option.addClass("pweb-not-related");
             }
         });
-        
+
         pwebcontact_admin.running_related = false;
-    }); 
-    
-    
+    });
+
+
     // display selected option in main settings of Location tab
     $("#pweb_params_handler input").change(function(e){
         if (this.checked) {
@@ -157,7 +151,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             $("#pweb-location-before .pweb-step-option").text(text);
         }
     });
-    
+
     $("#pweb_params_effect input").change(function(e){
         if (this.checked) {
             $("#pweb-location-after .pweb-step-option").text( $("#"+$(this).attr("id")+"-lbl").text() );
@@ -165,7 +159,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
     }).filter(":checked").each(function(){
         $("#pweb-location-after .pweb-step-option").text( $("#"+$(this).attr("id")+"-lbl").text() );
     });
-    
+
     $("#pweb_params_position input").change(function(e){
         if (this.checked) {
             $("#pweb-location-place .pweb-step-option").text( $("#"+$(this).attr("id")+"-lbl").text() );
@@ -173,12 +167,12 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
     }).filter(":checked").each(function(){
         $("#pweb-location-place .pweb-step-option").text( $("#"+$(this).attr("id")+"-lbl").text() );
     });
-    
-    
-    
-    
+
+
+
+
     function hideChildOptions(parent_id, current_id) {
-        
+
         // Find child elements of given parent
         var $elements = $tabs.find( "."+ parent_id );
         if (typeof current_id !== "undefined") {
@@ -208,24 +202,24 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         });
     }
-    
+
     // store array of parents for each child
     $tabs.find(".pweb-child").each(function(){
         $(this).data("parents", $(this).attr("class").match(/pweb_params_[a-z_]+/g) );
     })
     // hide all childs on page load
     .filter(".pweb-field").hide();
-    
+
     // Show options for checked parent
     $tabs.find("fieldset.pweb-parent input").change(function(e){
         var current_id = $(this).attr("id");
             $options = $(this).closest("fieldset").find("input.pweb-parent");
-        
+
         // Hide child options of unchecked options
         $options.filter(":not(:checked)").each(function(){
             hideChildOptions( $(this).attr("id"), current_id );
         });
-        
+
         // Show child options for checked option (current)
         $options.filter(":checked").each(function(){
             var $elements = $tabs.find( "."+ $(this).attr("id") );
@@ -234,24 +228,24 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             $elements.find("input.pweb-parent:checked").trigger("change");
         });
     });
-    
+
     var $inputFields = $tabs.find(".pweb-field-text input.pweb-parent, .pweb-field-color input.pweb-parent").change(function(e){
         $tabs.find( "."+ $(this).attr("id") )[ $(this).val() ? "show" : "hide" ](pwebcontact_admin.duration);
     });
-    
-    
+
+
     // Init fields
     $relatedFields.filter(":checked").first().trigger("change");
 	// Init parent options for fields not dependend on releated fields
     $tabs.find("fieldset.pweb-parent").find("input:first").trigger("change");
     $inputFields.trigger("change");
-    
-    
-    
+
+
+
     // Advanced options toggler
     $(".pweb-advanced-options-toggler").click(function(e){
         e.preventDefault();
-        
+
         var that = this,
             $box = $(this).parent();
         if ($box.hasClass("pweb-advanced-options-active")) {
@@ -266,11 +260,11 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
                 $(that).find("i.glyphicon-chevron-down").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
             });
         }
-        
+
         $(this).blur();
     }).filter(".pweb-advanced-options-open").click();
-    
-    
+
+
     // Select current Administrator if Email to is empty
     if ($("#pweb_params_email_to").val() === "") {
         var $email_cms_user = $("#pweb_params_email_cms_user");
@@ -281,8 +275,8 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         }
     }
-    
-	
+
+
 	// validate single email
 	$(".pweb-filter-email").on("change", function() {
 		if (this.value) {
@@ -294,7 +288,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			}
 		}
 	});
-	
+
 	// validate coma separated emails
 	$(".pweb-filter-emails").on("change", function() {
 		if (this.value) {
@@ -306,7 +300,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			}
 		}
 	});
-	
+
 	// validate list of email recipients
 	$(".pweb-filter-emailRecipients").on("change", function() {
 		if (this.value) {
@@ -318,7 +312,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			}
 		}
 	});
-	
+
 	// validate int
 	$(".pweb-filter-int").on("change", function() {
 		if (this.value && this.value !== "auto") {
@@ -326,7 +320,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			this.value = isNaN(value) ? "" : value;
 		}
 	});
-	
+
 	// validate float
 	$(".pweb-filter-float").on("change", function() {
 		if (this.value && this.value !== "auto") {
@@ -334,7 +328,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			this.value = isNaN(value) ? "" : value;
 		}
 	});
-	
+
 	// validate unit
 	$(".pweb-filter-unit").on("change", function() {
 		var regex = /^\d+(px|em|ex|cm|mm|in|pt|pc|%){1}$/i;
@@ -350,7 +344,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			}
 		}
 	});
-	
+
 	// validate color
 	$(".pweb-filter-color").on("change", function() {
 		var regex = /^(\w|#[0-9a-f]{3}|#[0-9a-f]{6}|rgb\(\d{1,3},[ ]?\d{1,3},[ ]?\d{1,3}\)|rgba\(\d{1,3},[ ]?\d{1,3},[ ]?\d{1,3},[ ]?[0]?\.\d{1}\))$/i;
@@ -360,11 +354,11 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			$(this).addClass("pweb-invalid");
 		}
 	});
-	
+
 	// validate url
 	$(".pweb-filter-url").on("change", function() {
 		this.value = encodeURI(decodeURI(this.value));
-        
+
         var regex = /^((http|https):){0,1}\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/i;
 		if (!this.value || regex.test(this.value)) {
 			$(this).removeClass("pweb-invalid");
@@ -372,7 +366,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			$(this).addClass("pweb-invalid");
 		}
 	});
-	
+
 	// validate upload file size
 	$(".pweb-filter-upload-max-size").on("change", function() {
 		if (this.value) {
@@ -383,13 +377,13 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
 			this.value = value;
 		}
 	});
-	
+
 	// Validate upload files extensions
 	$(".pweb-filter-ext").on("change", function(){
 		this.value = this.value.toLowerCase().replace(/[^a-z0-9|?]+/g, "");
 	});
-    
-    
+
+
     $("#pweb_params_email_from").change(function(e){
         $(this).removeClass("pweb-invalid");
         var email = $(this).val().toLowerCase();
@@ -397,7 +391,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             $(this).addClass("pweb-invalid");
         }
     }).trigger("change");
-    
+
     $("#pweb_params_smtp_username").change(function(e){
         $(this).removeClass("pweb-invalid");
         if (!pwebcontact_admin.isLocalhost && $("#pweb_params_mailer input:checked").val() === "smtp") {
@@ -408,7 +402,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         }
     }).trigger("change");
-    
+
     $("#pweb_params_smtp_host").change(function(e){
         $(this).removeClass("pweb-invalid");
         if (!pwebcontact_admin.isLocalhost && $("#pweb_params_mailer input:checked").val() === "smtp") {
@@ -419,7 +413,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         }
     }).trigger("change");
-    
+
     // Set SMTP port depending on security encryption
     $("#pweb_params_smtp_secure input").change(function(e){
         var port = 25;
@@ -432,8 +426,8 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
        }
        $("#pweb_params_smtp_port").val(port);
     });
-    
-    
+
+
     // AdWords paste button
 	$("#pweb_params_adwords_url_btn").click(function(e){
 		e.preventDefault();
@@ -457,29 +451,29 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
 		}
 	});
-    
+
     $("#pweb_params_bg_color").closest(".pweb-field-control").append( $("#pweb_params_bg_opacity") );
-    
-    
+
+
     $(".pweb-load-email-tmpl").change(function(e){
-        
+
         if (this.selectedIndex) {
-            
+
             var id = $(this).attr("id").replace("_list", "");
-            
+
             // confirm loading of email tmpl
             if (!$("#"+id).val() || pwebcontact_admin.confirmed === true) {
                 pwebcontact_admin.confirmed = false;
-                
+
                 var that = this,
                     data = {
                         "tmpl": $(this).val(),
                         "format": pwebcontact_admin.is_pro ? parseInt($("#"+id+"_format input:checked").val()) : 1
                     };
-                
+
                 $.ajax({
                     url: $(this).data("action"),
-                    type: "POST", 
+                    type: "POST",
                     dataType: "text",
                     data: data,
                     beforeSend: function() {
@@ -507,14 +501,14 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         }
     });
-    
+
     $("#pweb-dialog-email-load").dialog({
         dialogClass: "wp-dialog",
         autoOpen: false,
         resizable: false,
         modal: true,
         buttons: [
-            { 
+            {
                 text: pwebcontact_l10n.ok,
                 class : "button-primary",
                 click: function(e) {
@@ -533,27 +527,27 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         ]
     });
-    
-    
+
+
     $("#pweb_load_email_scheme").change(function(e){
-        
+
         if (this.selectedIndex) {
-            
+
             // confirm loading of email scheme
             if ((!$("#pweb_params_msg_success").val() && !$("#pweb_params_email_user_tmpl").val()) || pwebcontact_admin.confirmed === true) {
                 pwebcontact_admin.confirmed = true;
-                
+
                 try {
                     var data = $.parseJSON( $(this).val() );
                 } catch (e) {
                     var data = false;
                 }
-                
+
                 if (data) {
                     $("#pweb_params_msg_success").val( data.msg );
                     $("#pweb_params_email_user_tmpl_list").val( data.tmpl ).trigger("change");
                 }
-                
+
                 $(this).val("");
             }
             else {
@@ -562,14 +556,14 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         }
     });
-    
+
     $("#pweb-dialog-email-scheme-load").dialog({
         dialogClass: "wp-dialog",
         autoOpen: false,
         resizable: false,
         modal: true,
         buttons: [
-            { 
+            {
                 text: pwebcontact_l10n.ok,
                 class : "button-primary",
                 click: function(e) {
@@ -588,8 +582,8 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         ]
     });
-    
-    
+
+
     // Themes coverflow
     var $flipster = $("#pweb-themes-coverflow");
     var start = $flipster.find(".pweb-active-theme").index();
@@ -604,7 +598,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
         enableNav: false,
         enableNavButtons: false
     });
-    
+
     // Themes coverflow navigation
     $("#pweb-themes-coverflow-control-prev").click(function(e){
         e.preventDefault();
@@ -614,13 +608,13 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
         e.preventDefault();
         $flipster.flipster("jump", "right");
     });
-    
+
     // Reset theme settings
     $("#pweb-themes-coverflow-control-reset").click(function(e){
         e.preventDefault();
-        
+
         $("#pweb_params_theme").val("");
-        
+
         $.each( $(this).data("settings"), function(option, value) {
             var $option = $("#pweb_params_"+option);
             if ($option.prop("tagName").toLowerCase() === "fieldset") {
@@ -634,14 +628,14 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         });
     });
-    
+
     // Load theme settings
     $("#pweb-themes-coverflow-control-load").click(function(e){
         e.preventDefault();
         $(this).blur();
         $("#pweb-dialog-theme").dialog("open");
     });
-    
+
     // Load theme settings dialog
     $("#pweb-dialog-theme").dialog({
         dialogClass: "wp-dialog",
@@ -649,12 +643,12 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
         resizable: false,
         modal: true,
         buttons: [
-            { 
+            {
                 text: pwebcontact_l10n.ok,
                 class : "button-primary",
                 click: function(e) {
                     $(this).dialog("close");
-                    
+
                     if (pwebcontact_admin.is_pro) {
                         // Find current theme
                         var $theme = $flipster.find(".flip-current .pweb-theme");
@@ -673,7 +667,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
                                 $option.val(value).trigger("change");
                             }
                         });
-                        
+
                         $("#pweb-save-button").click();
                     }
                 }
@@ -687,7 +681,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         ]
     });
-    
+
     // Disable predefined styles in Contact Form upgraded from verison 1.0
     $("#pweb-themes-disable-predefined").click(function(e){
         e.preventDefault();
@@ -695,41 +689,37 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
         $("#pweb_params_style_form").val(-1);
         $("#pweb_params_style_bg").val(-1);
     });
-    
+
     //TODO select background image
-    
-    
+
+
     $("input.pweb-shortcode").click(function(e){
         e.preventDefault();
         e.stopPropagation();
         $(this).select();
-    }).on("keydown", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).select();
     });
-    
-    
+
+
     $(".pweb-email-tmpl-vars").click(function(e){
         e.preventDefault();
-        
+
         var width = $(window).width() - 100,
             height = $(window).height() - 150;
-        
+
         if (width > 700) {
             width = 700;
         }
-        
-        tb_show(pwebcontact_l10n.email_vars, 
+
+        tb_show(pwebcontact_l10n.email_vars,
             "#TB_inline?width="+width+"&height="+height+"&inlineId=pweb-email-tmpl-vars", "");
     });
-    
-    
-    $("#pweb-tab-check").click(function(){
-        
+
+
+    var gfCheckStatus = function() {
+
         var is_empty_recipient = (!$("#pweb_params_email_to").val() && $("#pweb_params_email_cms_user").get(0).selectedIndex === 0);
         $("#pweb-email-to-warning")[is_empty_recipient ? "show" : "hide"]();
-        
+
         if ($("#pweb-cog-check .pweb-alert-danger:visible").length) {
             $("#pweb-cog-check-success").hide();
             $("#pweb-cog-check-warning").hide();
@@ -748,47 +738,48 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             $("#pweb-cog-check-error").hide();
             $("#pweb-cog-check-save").show();
         }
+    };
+
+    $(window).load(function() {
+        gfCheckStatus();
     });
-    
+
+    window.setInterval(function(){
+        gfCheckStatus();
+    }, 5000);
+
     $("#pweb-cog-check-save").click(function(){
         $("#pweb-save-button").click();
     });
-    
-    
+
+
     $("span.pweb-pro, .pweb-buy").click(function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        
-        var width = $(window).width() - 50,
-            height = $(window).height();
-        
-        if (width > 700) {
-            width = 700;
+        var self = $(this);
+        var tagName = $(this).prop('tagName').toUpperCase();
+
+        if (tagName !== 'A') {
+            var elRole = self.attr('data-role') || null;
+            if (elRole === 'anchor') {
+                var targetUrl = self.attr('data-href') || '';
+                if (targetUrl.length) {
+                    var w = window.open(targetUrl, '_blank');
+                    w.focus();
+                }
+            }
         }
-        if (height >= 750) {
-            height = height - 120;
-        }
-        else {
-            height = height - 20;
-        }
-        
-        tb_show(pwebcontact_l10n.buy_subscription, 
-            pwebcontact_admin.buy_url 
-                    + (pwebcontact_admin.buy_url.indexOf("?") === -1 ? "?" : "&") 
-                    + "TB_iframe=1&width="+width+"&height="+(height-30), "");
     });
-    
-    
+
+
     // save
     $("#pweb_form").on("submit", function(e){
-        
+
         e.preventDefault();
-        
+
         $("#pweb-save-button").get(0).disabled = true;
-        
+
         // close options
         $("#pweb_fields_options_close").click();
-        
+
         // change index in names of fields to match current order
         var counter = 0, last = 0;
         $("#pweb_fields_rows").find("input,textarea").not(":disabled").each(function(){
@@ -800,7 +791,7 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
             //TODO always update data index with counter
             $(this).attr( "name", $(this).attr("name").replace("["+last+"]", "["+counter+"]") ).data("index", counter);
-            
+
             // generate alias for email template
             if ($(this).hasClass("pweb-custom-field-alias") && !$(this).val()) {
                 var $alias = $(this).closest(".pweb-custom-field-options").find("input.pweb-custom-field-label-input");
@@ -811,11 +802,11 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
         });
         //TODO get disabled inputs and update name and index with global counter, that when field will be removed from column, then column wuld have unique index and name
-        
+
         // save with ajax
         $.ajax({
 			url: $(this).attr("action")+"&ajax=1",
-			type: "post", 
+			type: "post",
 			dataType: "json",
             data: $(this).serialize(),
             beforeSend: function() {
@@ -823,22 +814,52 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
             }
 		}).always(function(){
             $("#pweb-save-button").get(0).disabled = false;
-            
+
         }).done(function(response, textStatus, jqXHR) {
-			if (response && typeof response.success === "boolean") 
-			{
-                $("#pweb-save-status").html(
-                        response.success === true ? pwebcontact_l10n.saved_on+" "+(new Date()).toLocaleTimeString() : (response.message ? response.message : pwebcontact_l10n.error));
+			if (response && typeof response.success === "boolean") {
+          var message = null;
+          var statusClass = null;
+          if (response.success === true) {
+              message = pwebcontact_l10n.saved_on + " " + (new Date()).toLocaleTimeString();
+              statusClass = 'success';
+          } else {
+              message = response.message ? response.message : pwebcontact_l10n.error;
+              statusClass = 'error';
+          }
+
+          var wrapper = $('<div></div>', {
+              class:'o-notice is-dismissible notice notice-' + statusClass,
+              style: 'display: none'
+          });
+
+          wrapper.html('<p>'+ message +'</p><button type="button" class="notice-dismiss">&nbsp;</button>');
+
+          $('button', wrapper).on('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+
+              var wrapper = $(this).parent();
+
+              wrapper.slideUp({
+                  complete: function() {
+                      wrapper.remove();
+                  }
+              });
+          });
+
+          $('#pweb_form').prepend(wrapper);
+
+          wrapper.slideDown();
 			}
 		}).fail(function(jqXHR, textStatus, errorThrown) {
             $("#pweb-save-status").html("Request error");
             alert(pwebcontact_l10n.request_error+ ". "+ jqXHR.status +" "+ errorThrown);
 		});
-        
+
         return false;
     });
-    
-    
+
+
     // Open last active tab
     if (document.location.hash) {
         $(document.location.hash).click();
@@ -846,10 +867,10 @@ if (typeof jQuery !== "undefined") jQuery(document).ready(function($){
     else {
         $(window).trigger("resize");
     }
-    
+
     // Set duration of showing/hiding options
     setTimeout(function(){ pwebcontact_admin.duration = 400; }, 600);
-    
+
     $("#wpbody").find(".error, .updated, .update-nag, .update-message, .update-php, .update-plugins").each(function(){
         var $close = $('<button class="button" style="position:absolute;top:5px;right:5px">&times;</button>')
         .click(function(e){

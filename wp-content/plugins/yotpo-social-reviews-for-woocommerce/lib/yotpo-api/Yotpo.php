@@ -112,23 +112,25 @@ class Yotpo {
     public function notify_user_migration($id) {
         return $this->get('/users/'.$id.'/migration/notify');
     }
-    
+
     public function create_user(array $user_hash, $install_step_done = false) {
         $response = $this->check_if_b2c_user($user_hash['email']);
-        if (empty($response['response']['data'])){    	
-	        $user = array(
-	            'email' => $user_hash['email'],
-	            'display_name' => $user_hash['display_name'],
-	            'first_name' => $user_hash['first_name'],
-	            'last_name' => $user_hash['last_name'],
-	            'website_name' => $user_hash['website_name'],
-	            'password' => $user_hash['password'],
-	            'support_url' => $user_hash['support_url'],
-	            'callback_url' => $user_hash['callback_url'],
-	            'url' => $user_hash['url']
-	        );
-	        $data = $install_step_done ? array('install_step' => 'done', 'user' => $user) : array('user' => $user); 
-	        return $this->post('/users', $data);
+        if (empty($response['response']['data'])){
+            $user = array(
+                'email' => $user_hash['email'],
+                'display_name' => $user_hash['display_name'],
+                'first_name' => $user_hash['first_name'],
+                'last_name' => $user_hash['last_name'],
+                'website_name' => $user_hash['website_name'],
+                'password' => $user_hash['password'],
+                'support_url' => $user_hash['support_url'],
+                'callback_url' => $user_hash['callback_url'],
+                'url' => $user_hash['url']
+            );
+
+            $data = $install_step_done ? array('install_step' => 'done', 'user' => $user) : array('user' => $user);
+            return $this->post('/users', $data);
+
         } else {
             $id = $response['response']['data']['id'];
             $data = array(

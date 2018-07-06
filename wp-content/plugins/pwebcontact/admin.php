@@ -1,10 +1,10 @@
 <?php
 /**
- * @version 2.2.2
- * @package Perfect Easy & Powerful Contact Form
- * @copyright © 2016 Perfect Web sp. z o.o., All rights reserved. https://www.perfect-web.co
- * @license GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
- * @author Piotr Moćko
+ * @version     2.2.2
+ * @package     Gator Forms
+ * @copyright   (C) 2018 Gator Forms, All rights reserved. https://gatorforms.com
+ * @license     GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @author      Piotr Moćko
  */
 
 // TODO editor button for inserting shortcode
@@ -16,7 +16,6 @@ function_exists('add_action') or die;
 $pwebcontact_admin = new PWebContact_Admin;
 
 class PWebContact_Admin {
-
     protected $id = null;
     protected $view = null;
     protected $can_edit = false;
@@ -36,18 +35,80 @@ class PWebContact_Admin {
         'fields' => array(),
         'field_types' => array(),
         'settings' => array(
+            'dlid',
+            'googleapi_accesscode'
         ),
         'params' => array(
+            'attachment_delete',
+            'attachment_type',
+            'bg_color',
+            'bg_image',
+            'bg_opacity',
+            'bg_padding',
+            'bg_padding_position',
+            'bg_position',
+            'bg_repeat',
+            'bg_size',
+            'buttons_fields_color',
+            'buttons_text_color',
+            'email_copy::1',
+            'fields_border_color',
+            'fields_color',
+            'fields_text_color',
+            'fields_active_border_color',
+            'fields_active_color',
+            'fields_active_text_color',
+            'fields_invalid_border_color',
+            'fields_invalid_color',
+            'fields_invalid_text_color',
+            'form_font_family',
+            'form_font_size',
+            'gradient',
+            'labels_invalid_color',
+            'labels_position',
+            'labels_width',
+            'msg_error_color',
+            'msg_success_color',
+            'modal_bg',
+            'modal_opacity',
+            'rounded',
+            'shadow',
+            'show_upload',
+            'text_color',
+            'ticket_enable',
+            'ticket_format',
+            'toggler_bg',
+            'toggler_color',
+            'toggler_font',
+            'toggler_font_family',
+            'toggler_font_size',
+            'toggler_glyphicon',
+            'toggler_icomoon',
+            'toggler_icon',
+            'toggler_icon_custom_image',
+            'toggler_icon_gallery_image',
+            'toggler_rotate',
+            'toggler_vertical',
+            'upload_allowed_ext',
+            'upload_autostart',
+            'upload_files_limit',
+            'upload_max_size',
+            'upload_path',
+            'upload_show_limits',
+            'upload_size_limit',
+            'googlesheets_enable',
+            'googlesheets_spreadsheet_id',
+            'googlesheets_sheet_id'
         )
     );
 
 
     function __construct() {
 
-        $source = 'perfect-web.co';
+        $source = 'wordpress.org';
 
-        $this->documentation_url = 'https://www.perfect-web.co/wordpress-plugins/contact-form/documentation?utm_source=backend&utm_medium=button&utm_campaign=documentation&utm_content='.$source;
-        $this->buy_url = 'https://www.perfect-web.co/wordpress-plugins/contact-form/subscriptions?tmpl=component&utm_source=backend&utm_medium=button&utm_campaign=upgrade_to_pro&utm_content='.$source;
+        $this->documentation_url = 'https://gatorforms.com/documentation?utm_source=backend&utm_medium=button&utm_campaign=documentation&utm_content='.$source;
+        $this->buy_url = 'https://gatorforms.com/pro?utm_source=backend&utm_medium=button&utm_campaign=upgrade_to_pro&utm_content='.$source;
 
         // initialize admin view
         add_action( 'admin_init', array($this, 'init') );
@@ -55,26 +116,52 @@ class PWebContact_Admin {
         // Configuration link in menu
         add_action( 'admin_menu', array($this, 'menu') );
 
-		// Add action for message
-        add_action( 'admin_notices', array($this, 'display_update_message') );
 
-		// Add filter for requesting our server, checking for updates!
-        add_filter( 'puc_request_info_result-pwebcontact', array($this, 'prepere_update_message') );
-
-		// Configuration link on plugins list
+        // Configuration link on plugins list
         add_filter( 'plugin_action_links', array($this, 'action_links'), 10, 2 );
     }
 
 
     function init() {
 
-        $this->_check_updates();
 
-        if (!isset($_GET['page']) OR $_GET['page'] !== 'pwebcontact') {
-            return;
-        }
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : '';
+
+        if (!in_array($currentPage, array('pwebcontact', 'pwebcontact-messages'))) return;
 
         load_plugin_textdomain( 'pwebcontact', false, basename(dirname(__FILE__)).'/languages' );
+
+        if ($currentPage === 'pwebcontact-messages') {
+            wp_enqueue_style('pwebcontact_admin_style', plugins_url('media/css/admin.css', __FILE__));
+
+            $itemId = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+
+            if ($itemId > 0) {
+                wp_enqueue_style(
+                    'pwebcontact-message',
+                    plugins_url('media/css/messages-item.css', __FILE__)
+                );
+            } else {
+                wp_register_style('jquery-ui', '//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css');
+                wp_enqueue_style('jquery-ui');
+
+                wp_enqueue_style(
+                    'pwebcontact-messages',
+                    plugins_url('media/css/messages-list.css', __FILE__)
+                );
+
+                wp_enqueue_script(
+                    'pwebcontact-messages',
+                    plugins_url('media/js/messages-list.js', __FILE__),
+                    array(
+                        'jquery',
+                        'jquery-ui-datepicker'
+                    )
+                );
+            }
+
+            return;
+        }
 
         $this->can_edit = current_user_can('manage_options');
 
@@ -194,7 +281,7 @@ class PWebContact_Admin {
 
             if (isset($_GET['ajax'])) {
                 check_ajax_referer( 'newsletter' );
-                
+
                 $result = $this->_get_newsletter_lists();
 
                 header('Content-Type: application/json');
@@ -426,7 +513,7 @@ class PWebContact_Admin {
 
             $this->_check_requirements();
             $this->_load_forms();
-			$this->_load_settings();
+            $this->_load_settings();
 
             // load JS files
             wp_enqueue_script('pwebcontact_admin_script', plugins_url('media/js/jquery.admin-list.js', __FILE__),
@@ -522,15 +609,36 @@ class PWebContact_Admin {
 
     function menu() {
 
-        $title = __('Perfect Easy & Powerful Contact Form', 'pwebcontact');
+        $title = __('Gator Forms', 'pwebcontact');
 
         if (isset($_GET['task']) AND $_GET['task'] == 'edit') {
             $title = __('Edit') .' &lsaquo; '. $title;
         }
 
-        add_menu_page($title, __('Perfect Contact Forms', 'pwebcontact'),
-                'manage_options', 'pwebcontact', array($this, 'configuration'),
-                plugins_url('media/images/admin/menu-icon.png', dirname(__FILE__).'/pwebcontact.php'));
+        add_menu_page(
+            $title,
+            __('Gator Forms', 'pwebcontact'),
+            'manage_options',
+            'pwebcontact',
+            array($this, 'configuration')
+        );
+
+        global $pagenow;
+
+        $messageId = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+
+        if (!is_admin()
+            || $pagenow !== 'admin.php'
+            || !isset($_GET['page'])
+            || $_GET['page'] !== 'pwebcontact-messages'
+            || $messageId <= 0
+        ) {
+            $messagesPageTitle = __('Messages', 'pwebcontact');
+        } else {
+            $messagesPageTitle = sprintf(__('Message #%d', 'pwebcontact'), $messageId);
+        }
+
+        add_submenu_page('pwebcontact', $messagesPageTitle, __('Messages', 'pwebcontact'), 'manage_options', 'pwebcontact-messages', array($this, 'renderMessagesPage'));
     }
 
 
@@ -552,7 +660,6 @@ class PWebContact_Admin {
 var pwebcontact_admin = pwebcontact_admin || {};
 pwebcontact_admin.plugin_url = "<?php echo plugins_url('pwebcontact/'); ?>";
 pwebcontact_admin.buy_url = "<?php echo $this->buy_url; ?>";
-pwebcontact_admin.is_pro = true;
 </script>
 <?php
     }
@@ -741,16 +848,6 @@ pwebcontact_admin.is_pro = true;
         $settings = $this->_get_post('settings');
         $settings['timestamp'] = time(); // add timestamp to save settings event if it has not changed
 
-        require_once dirname( __FILE__ ) . '/google.php';
-        
-        if (!empty($settings['googleapi_accesscode'])) {
-            try {
-                PWebContact_GoogleApi::getInstance()->setAccessCode($settings['googleapi_accesscode']);
-            } catch (Exception $ex) {
-                $error = sprintf(__('Failed to get the access token requested with provided access code. Error message: %s'), $ex->getMessage());
-            }
-            $settings['googleapi_accesscode'] = '';
-        }
 
         $result = update_option('pwebcontact_settings', $settings);
 
@@ -868,16 +965,24 @@ pwebcontact_admin.is_pro = true;
 
     endif; ?>
 
-    <hr>
-
-    <p class="pweb-copyrights">
-		Copyright &copy; 2016
-        <a href="https://www.perfect-web.co/wordpress-plugins/contact-form" target="_blank"><strong>Perfect Web sp. z o.o.</strong></a>,
-        All rights reserved.
-		Distributed under
-        <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><strong>GNU/GPL</strong></a>.<br>
-		All other trademarks and copyrights are property of their respective owners.
-	</p>
+    <footer class="c-admin-footer">
+      <div class="c-rating">
+        <a href="https://wordpress.org/support/plugin/pwebcontact/reviews/#new-post" target="_blank" rel="noopener noreferer">
+            <?php
+            printf(
+                __('If you like Gator Forms please leave us a %s rating. Thank you!', 'pwebcontact'),
+                '<span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span>'
+            );
+            ?>
+        </a>
+      </div>
+      <hr>
+      <nav class="c-links">
+        <a href="https://gatorforms.com" target="_blank" rel="noopener noreferer"><?php _e('Gator Forms Homepage', 'pwebcontact'); ?></a>
+        <a href="https://gatorforms.com/documentation" target="_blank" rel="noopener noreferer"><?php _e('Documentation', 'pwebcontact'); ?></a>
+        <a href="https://gatorforms.com/contact" target="_blank" rel="noopener noreferer"><?php _e('Contact', 'pwebcontact'); ?></a>
+      </nav>
+    </footer>
 </div>
 <?php
 
@@ -903,28 +1008,27 @@ pwebcontact_admin.is_pro = true;
 ?>
 <div class="error pweb-clearfix"><p><strong><?php echo implode('<br>', $this->errors); ?></strong></p></div>
 <?php
-		}
+        }
 
         if (count($this->warnings)) {
 ?>
 <div class="error pweb-clearfix"><p><strong><?php echo implode('<br>', $this->warnings); ?></strong></p></div>
 <?php
-		}
+        }
 
         if (isset($_GET['notification']) AND $_GET['notification']) {
             $this->notifications[] = urldecode($_GET['notification']);
         }
-		if (count($this->notifications)) {
+        if (count($this->notifications)) {
 ?>
 <div class="updated pweb-clearfix"><p><strong><?php echo implode('<br>', $this->notifications); ?></strong></p></div>
 <?php
-		}
+        }
     }
 
 
     protected function _display_settings() {
 
-        require_once dirname( __FILE__ ) . '/google.php';
         $this->_load_tmpl('settings');
     }
 
@@ -951,7 +1055,7 @@ pwebcontact_admin.is_pro = true;
 
         $themes = array();
 
-        $active_theme = $this->_get_param('theme', $this->_get_param('style_form', -1) === -1 ? 'clean' : null);
+        $active_theme = $this->_get_param('theme', 'free');
 
         $themes_url = plugins_url('/media/themes/', dirname(__FILE__) .'/pwebcontact.php');
         $media_dir = dirname(__FILE__) .'/media/';
@@ -963,9 +1067,6 @@ pwebcontact_admin.is_pro = true;
 
                 $basename = $item->getBasename('.json');
 
-                if ($basename === 'dev' AND WP_DEBUG !== true) {
-                    continue;
-                }
 
                 if (function_exists('WP_Filesystem') AND WP_Filesystem()) {
                     global $wp_filesystem;
@@ -1011,19 +1112,6 @@ pwebcontact_admin.is_pro = true;
     }
 
 
-	protected function _get_feeds_script() {
-
-		global $wp_version;
-
-        return
-			  '(function(){'
-			. 'var pw=document.createElement("script");pw.type="text/javascript";pw.async=true;'
-			. 'pw.src="https://www.perfect-web.co/index.php?option=com_ars&view=update&task=stream&format=raw&id=8&version='.$this->_get_version().'&wpversion='.$wp_version.'&uid='.md5(home_url()).'";'
-			. 'var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(pw,s);'
-			. '})();';
-    }
-
-
     protected function _get_name() {
 
         $data = get_plugin_data(dirname(__FILE__).'/pwebcontact.php', false, true);
@@ -1047,6 +1135,9 @@ pwebcontact_admin.is_pro = true;
 
         extract( $opt );
 
+        if ($is_pro === null) {
+            $opt['is_pro'] = $is_pro = in_array($name, self::$pro[$group]);
+        }
 
         if ($parent !== null) {
             $names = array();
@@ -1089,6 +1180,9 @@ pwebcontact_admin.is_pro = true;
 
         if (empty($id)) {
             $id = 'pweb_'. $group .'_'. ($index !== null ? $index.'_' : '') . $name;
+        }
+        if ($is_pro === null) {
+            $is_pro = in_array($name, self::$pro[$group]);
         }
 
         return '<label for="'.esc_attr($id).'" id="'.esc_attr($id).'-lbl"' .
@@ -1136,6 +1230,9 @@ pwebcontact_admin.is_pro = true;
 
         $field_name = esc_attr($group. ($index !== null ? '['.$index.']' : '') . '['.$name.']');
 
+        if ($is_pro === null) {
+            $is_pro = in_array($name, self::$pro[$group]);
+        }
 
         if (!isset($attributes['class'])) {
             $attributes['class'] = '';
@@ -1399,7 +1496,7 @@ pwebcontact_admin.is_pro = true;
                         }
                     }
 
-                    $option['is_pro'] = false;
+                    $option['is_pro'] = ($is_pro !== true AND in_array($name.'::'.$option['value'], self::$pro[$group]));
 
                     $option_id = $id .'_'. preg_replace('/[^a-z0-9-_]/i', '', str_replace(':', '_', $option['value']));
 
@@ -1441,6 +1538,9 @@ pwebcontact_admin.is_pro = true;
 
     protected function _display_badge($field_type = null)
     {
+        if (in_array($field_type, self::$pro['field_types'])) {
+            return $this->_display_badge_pro();
+        }
     }
 
     protected function _display_badge_pro()
@@ -1450,7 +1550,7 @@ pwebcontact_admin.is_pro = true;
 
     protected function _is_pro_field($field_type = null)
     {
-        return false;
+        return in_array($field_type, self::$pro['field_types']);
     }
 
     protected function _set_pro_options($group = null, $options = array())
@@ -1463,156 +1563,20 @@ pwebcontact_admin.is_pro = true;
         $val = trim($str);
         $last = strtolower($str[strlen($str)-1]);
         switch($last)
-		{
+        {
             case 'g': $val *= 1024;
             case 'm': $val *= 1024;
             case 'k': $val *= 1024;
         }
-		$val = $val / 1024 / 1024;
+        $val = $val / 1024 / 1024;
 
         return $val > 10 ? intval($val) : round($val, 2);
     }
 
-    private function _check_updates()
-    {
-        require_once dirname(__FILE__). '/update-checker/plugin-update-checker.php';
-
-        $UpdateChecker = PucFactory::buildUpdateChecker(
-            'https://www.perfect-web.co/index.php?option=com_ars&view=update&task=stream&format=json&id=8',
-            dirname(__FILE__).'/pwebcontact.php'
-        );
-        $UpdateChecker->addQueryArgFilter( array($this, 'get_updates_query') );
-    }
-
-	public function prepere_update_message($pluginInfo)
-	{
-        // create object for update info
-        $update = new stdClass();
-
-		if (isset($pluginInfo->updateImage) AND !empty($pluginInfo->updateImage))
-		{
-			$path = 'media/cache/' . basename($pluginInfo->updateImage);
-
-			// Always override file!
-			if ($contents = file_get_contents($pluginInfo->updateImage))
-			{
-				file_put_contents(plugin_dir_path(__FILE__) . $path, $contents);
-			}
-
-			if (isset($pluginInfo->updateStyle))
-			{
-				$pluginInfo->updateStyle = str_replace('__IMAGE__', plugin_dir_url(__FILE__) . $path, $pluginInfo->updateStyle);
-			}
-		}
-
-        $update->message    = isset($pluginInfo->updateMessage) ? $pluginInfo->updateMessage : '';
-        $update->style      = isset($pluginInfo->updateStyle) ? $pluginInfo->updateStyle : '';
-        $update->version    = isset($pluginInfo->version) ? $pluginInfo->version : '';
-
-        // Save upgrade info to database
-        update_site_option('pwebcontact_update', $update);
-
-        return $pluginInfo;
-    }
-
-    public function display_update_message()
-	{
-        global $pagenow;
-        $option = get_site_option('pwebcontact_update');
-
-        // If $option is `false` script never checked plugin for update, so exit this method
-        if ($option === false)
-		{
-			return;
-		}
-
-		if (isset($option->version))
-		{
-			if ( $option->version <= $this->_get_version() )
-			{
-				$option->version = NULL;
-				update_site_option('pwebcontact_update', $option);
-			}
-
-			if ($option->version !== NULL AND
-				(in_array($pagenow, array('plugins.php', 'index.php')) OR ( $pagenow == 'admin.php' AND $_GET['page'] == 'pwebcontact' ))
-			) {
-				echo '<div class="updated position-relative display-block" style="' . $option->style . '">'
-					. '<p>'
-					. ($option->message ? __($option->message, 'pwebcontact') : sprintf(__('There is a new update of %s!', 'pwebcontact')
-                            , '<strong>' . $this->_get_plugin_name() . '</strong>'))
-					. ' <a href="' . admin_url('update-core.php') . '">' . __('Click here', 'pwebcontact') . '</a>'
-					. '</p>'
-					. '</div>';
-
-                $this->_display_dlid_message();
-			}
-		}
-    }
-
-    protected function _display_dlid_message()
-    {
-        if (!isset($this->_dlid_message_displayed))
-        {
-            $this->_dlid_message_displayed = true;
-            $this->_load_settings();
-            if (!$this->_get_param('dlid', null, 'settings'))
-            {
-                echo '<div class="error display-block">'
-                    . '<p>'
-                    . sprintf(__('To update %s directly from WordPress enter %s in plugin %s. Get your Download ID at %s', 'pwebcontact')
-                            , '<strong>' . $this->_get_plugin_name() . '</strong>'
-                            , '<strong>' . __('Download ID', 'pwebcontact') . '</strong>'
-                            , '<a href="' . admin_url( 'admin.php?page=pwebcontact&task=settings#pweb_settings_dlid' ) . '">' . __('settings', 'pwebcontact') . '</a>'
-                            , '<a href="https://www.perfect-web.co/login" target="_blank">Perfect-Web.co</a>')
-                    . '</p>'
-                    . '</div>';
-            }
-        }
-    }
-
-    public function get_updates_query($query)
-    {
-        global $wp_version;
-
-        $this->_load_settings();
-
-        // Get download ID from settings
-        $query['dlid'] = $this->_get_param('dlid', null, 'settings');
-        if (empty($query['dlid']))
-        {
-            // Get download ID from a file
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-            $files = list_files( dirname(__FILE__), 1 );
-            foreach ($files as $file) {
-                $file = basename($file);
-                if (preg_match('/^[a-f0-9]{32}$/', $file)) {
-                    $query['dlid'] = $file;
-
-                    // Save old download ID in settings
-                    $this->data->settings['dlid'] = $file;
-                    update_option('pwebcontact_settings', $this->data->settings);
-                    break;
-                }
-            }
-        }
-
-        // plugin version
-        // installed_version = x.x.x
-        $query['version'] = $this->_get_version();
-
-		// WP version
-		$query['wpversion'] = $wp_version;
-
-		// host name
-		$query['host'] = urlencode(home_url());
-
-        return $query;
-    }
 
     private function _check_image_text_creation()
-	{
-		if (!isset($this->requirements['image_text']))
+    {
+        if (!isset($this->requirements['image_text']))
         {
             $this->requirements['image_text'] = true;
 
@@ -1638,11 +1602,11 @@ pwebcontact_admin.is_pro = true;
             }
         }
 
-		return $this->requirements['image_text'];
-	}
+        return $this->requirements['image_text'];
+    }
 
     private function _check_cache_path()
-	{
+    {
         if (!isset($this->requirements['cache_path']))
         {
             $this->requirements['cache_path'] = true;
@@ -1678,10 +1642,10 @@ pwebcontact_admin.is_pro = true;
         }
 
         return $this->requirements['cache_path'];
-	}
+    }
 
     private function _check_upload_path()
-	{
+    {
         if (!isset($this->requirements['upload_path']))
         {
             $this->requirements['upload_path'] = true;
@@ -1730,10 +1694,10 @@ pwebcontact_admin.is_pro = true;
         }
 
         return $this->requirements['upload_path'];
-	}
+    }
 
     private function _check_mailer()
-	{
+    {
         if (!isset($this->requirements['mailer']))
         {
             $this->requirements['mailer'] = true;
@@ -1758,7 +1722,7 @@ pwebcontact_admin.is_pro = true;
     }
 
     private function _check_php_version()
-	{
+    {
         if (!isset($this->requirements['php_version']))
         {
             $this->requirements['php_version'] = true;
@@ -1772,7 +1736,7 @@ pwebcontact_admin.is_pro = true;
     }
 
     private function _check_wp_version()
-	{
+    {
         global $wp_version;
 
         if (!isset($this->requirements['wp_version']))
@@ -1799,17 +1763,225 @@ pwebcontact_admin.is_pro = true;
                 $options[substr(strstr($key, '_', false), 1)] = $value;
             }
 
-            if (!empty($_POST['newsletter_type']))
-            {
-                require_once dirname(__FILE__).'/newsletter.php';
-                $class = 'PWebContact_'.  ucfirst(preg_replace('/[^a-z]+/', '', strtolower($_POST['newsletter_type'])));
-                if (class_exists($class)) {
-                    return call_user_func(array($class, 'getLists'), $options);
-                }
-            }
         }
 
         return array('error'=>__('Somthing went wrong or newsletter integration does not exist', 'pwebcontact'));
     }
 
+    public static function renderMessagesPage()
+    {
+        global $pagenow;
+
+        if (!is_admin()
+            || $pagenow !== 'admin.php'
+            || !isset($_GET['page'])
+            || $_GET['page'] !== 'pwebcontact-messages'
+        ) {
+            return;
+        }
+
+        global $wpdb;
+
+        $dateFormat = (string)get_option('date_format');
+        if (empty($dateFormat)) {
+            $dateFormat = 'Y-m-d';
+        }
+
+        $timeFormat = (string)get_option('time_format');
+        if (empty($timeFormat)) {
+            $timeFormat = 'H:i:s';
+        }
+
+        $dateTimeFormat = $dateFormat . ' ' . $timeFormat;
+
+        $instanceTimezone = (string)get_option('timezone_string');
+        if (empty($instanceTimezone)) {
+            $instanceTimezone = 'UTC';
+        }
+
+        $instanceTimezone = new \DateTimeZone($instanceTimezone);
+
+        $utcTimeZone = new \DateTimeZone('UTC');
+
+        $messageId = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+
+        if ($messageId <= 0) {
+            $orderBy = 'created_at';
+            $orderBySql = '`message`.`'. $orderBy .'`';
+            $orderDir = 'desc';
+
+            if (isset($_GET['orderby'])
+                && in_array($_GET['orderby'], array('created_at', 'ip_address', 'browser', 'user'))
+            ) {
+                $orderBy = $_GET['orderby'];
+
+                if ($orderBy === 'user') {
+                    $orderBySql = '`user`.`display_name`';
+                } else {
+                    $orderBySql = '`message`.`'. $orderBy .'`';
+                }
+            }
+
+            if (isset($_GET['orderdir'])
+                && in_array(strtoupper($_GET['orderdir']), array('ASC', 'DESC'))
+            ) {
+                $orderDir = strtolower($_GET['orderdir']);
+            }
+
+            $filters = (object)array(
+                'search'    => '',
+                'form'      => -1,
+                'status'    => -1,
+                'startDate' => '',
+                'endDate'   => ''
+            );
+
+            $sqlWhere = '1 = 1';
+            if (isset($_GET['s'])) {
+                $s = esc_sql(trim($_GET['s']));
+                if (strlen($s) > 0) {
+                    $filters->search = $s;
+
+                    $sqlWhere .= sprintf(
+                        ' AND (`message`.`ip_address` = "%s"
+                            OR `message`.`browser` = "%1$s"
+                            OR `message`.`os`
+                            OR `message`.`ticket` LIKE "%2$s"
+                            OR `user`.`display_name` LIKE "%2$s")',
+                        $s,
+                        '%' . $s . '%'
+                    );
+                }
+                unset($s);
+            }
+
+            if (isset($_GET['form'])) {
+                $form = isset($_GET['form']) && is_numeric($_GET['form']) ? (int)$_GET['form'] : 0;
+                if ($form > 0) {
+                    $filters->form = $form;
+
+                    $sqlWhere .= ' AND (`message`.`form_id` = '. $form .')';
+                }
+                unset($form);
+            }
+
+            if (isset($_GET['status'])) {
+                $status = isset($_GET['status']) && is_numeric($_GET['status']) ? (int)$_GET['status'] : -1;
+                if (in_array($status, array(1, 0))) {
+                    $filters->status = $status;
+
+                    $sqlWhere .= ' AND (`message`.`sent` = '. $status .')';
+                }
+                unset($status);
+            }
+
+            if (isset($_GET['start_date'])) {
+                $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
+                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startDate)) {
+                    $filters->startDate = $startDate;
+                }
+                unset($startDate);
+            }
+
+            if (isset($_GET['end_date'])) {
+                $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endDate)) {
+                    $filters->endDate = $endDate;
+                }
+                unset($endDate);
+            }
+
+            if (!empty($filters->startDate)) {
+                $sqlWhere .= ' AND (`message`.`created_at` >= "'. $filters->startDate .' 00:00:00")';
+            }
+
+            if (!empty($filters->endDate)) {
+                $sqlWhere .= ' AND (`message`.`created_at` <= "'. $filters->endDate .' 23:59:59")';
+            }
+
+            $totalCount = $wpdb->get_var(sprintf(
+                'SELECT COUNT(`message`.`id`)
+                FROM `%s` AS `message`',
+                $wpdb->prefix . 'pwebcontact_messages'
+            ));
+
+            $rowsetCount = $wpdb->get_var(sprintf(
+                'SELECT COUNT(`message`.`id`)
+                FROM `%s` AS `message`
+                LEFT JOIN `%s` AS `form` ON `form`.`id` = `message`.`form_id`
+                LEFT JOIN `%s` AS `user` ON `user`.`ID` = `message`.`user_id`
+                WHERE %s',
+                $wpdb->prefix . 'pwebcontact_messages',
+                $wpdb->prefix . 'pwebcontact_forms',
+                $wpdb->prefix . 'users',
+                !empty($sqlWhere) ? $sqlWhere : ''
+            ));
+
+            $limit = isset($_GET['l']) && is_numeric($_GET['l']) ? (int)$_GET['l'] : 10;
+            if ($limit <= 0 || $limit > 100) {
+                $limit = 10;
+            }
+
+            $pagination = (object)array(
+                'pages'       => ceil($rowsetCount / $limit),
+                'currentPage' => isset($_GET['p']) && is_numeric($_GET['p']) ? ($_GET['p'] > 0 ? (int)$_GET['p'] : 1) : 1
+            );
+
+            $pagination->offset = ($pagination->currentPage - 1) * $limit;
+
+            $sql = sprintf(
+                'SELECT `message`.*, `form`.`title`, `user`.`display_name`
+                FROM `%s` AS `message`
+                LEFT JOIN `%s` AS `form` ON `form`.`id` = `message`.`form_id`
+                LEFT JOIN `%s` AS `user` ON `user`.`ID` = `message`.`user_id`
+                WHERE %s
+                ORDER BY %s %s
+                LIMIT %d, %d',
+                $wpdb->prefix . 'pwebcontact_messages',
+                $wpdb->prefix . 'pwebcontact_forms',
+                $wpdb->prefix . 'users',
+                !empty($sqlWhere) ? $sqlWhere : '',
+                $orderBySql,
+                $orderDir,
+                $pagination->offset,
+                $limit
+            );
+
+            $rowset = (array)$wpdb->get_results($sql);
+
+            $formsRowset = (array)$wpdb->get_results(sprintf(
+                'SELECT `form`.`id`, `form`.`title`
+                FROM `%s` AS `form`
+                ORDER BY `form`.`title` ASC',
+                $wpdb->prefix . 'pwebcontact_forms'
+            ));
+
+            unset($sql);
+
+            ob_start();
+            include 'tmpl/messages/list.php';
+            $html = ob_get_contents();
+            ob_end_clean();
+
+        } else {
+            $row = $wpdb->get_row(sprintf(
+                'SELECT `message`.*, `form`.`title`, `user`.`display_name`
+                FROM `%s` AS `message`
+                LEFT JOIN `%s` AS `form` ON `form`.`id` = `message`.`form_id`
+                LEFT JOIN `%s` AS `user` ON `user`.`ID` = `message`.`user_id`
+                WHERE `message`.`id` = %d',
+                $wpdb->prefix . 'pwebcontact_messages',
+                $wpdb->prefix . 'pwebcontact_forms',
+                $wpdb->prefix . 'users',
+                $messageId
+            ));
+
+            ob_start();
+            include 'tmpl/messages/item.php';
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+
+        echo $html;
+    }
 }

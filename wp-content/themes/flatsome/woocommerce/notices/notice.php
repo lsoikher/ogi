@@ -14,15 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! $messages ){
 	return;
 }
-
 ?>
 
-<div class="woocommerce-messages medium-text-center">
-	<div class="message-wrapper">
-		<?php foreach ( $messages as $message ) : ?>
-			<div class="woocommerce-info container">
-				<?php echo wp_kses_post( $message ); ?>
-			</div>
-		<?php endforeach; ?>
+<?php foreach ( $messages as $message ) : ?>
+	<div class="woocommerce-info message-wrapper">
+     <div class="message-container container medium-text-center">
+  	   <?php echo wp_kses_post( $message ); ?>
+     </div>
 	</div>
-</div>
+<?php endforeach; ?>

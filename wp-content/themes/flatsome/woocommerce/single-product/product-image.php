@@ -1,110 +1,122 @@
 <?php
-
 /**
  * Single Product Image
  *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.6.4
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/product-image.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://docs.woocommerce.com/document/template-structure/
+ * @author  WooThemes
+ * @package WooCommerce/Templates
+ * @version 3.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+  exit;
 }
 
-global $post, $woocommerce, $product;
+// Fallback to WC.2x Versions.
+if(!fl_woocommerce_version_check('3.0.0') ) {
+  wc_get_template( 'woocommerce/single-product/w2-product-image.php' );
+  return;
+}
 
-// Get wide image
 if(flatsome_option('product_layout') == 'gallery-wide'){
-	wc_get_template_part( 'single-product/product-image', 'wide' );
-	return;
+  wc_get_template_part( 'single-product/product-image', 'wide' );
+  return;
 }
 
-// Get vertical gallery styøe
 if(flatsome_option('product_image_style') == 'vertical'){
-	wc_get_template_part( 'single-product/product-image', 'vertical' );
-	return;
+  wc_get_template_part( 'single-product/product-image', 'vertical' );
+  return;
 }
 
-$attachment_ids = $product->get_gallery_attachment_ids();
+global $post, $product;
+$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
+$thumbnail_size    = apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' );
+$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
+$full_size_image   = wp_get_attachment_image_src( $post_thumbnail_id, $thumbnail_size );
+$placeholder       = has_post_thumbnail() ? 'with-images' : 'without-images';
+$wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_classes', array(
+  'woocommerce-product-gallery',
+  'woocommerce-product-gallery--' . $placeholder,
+  'woocommerce-product-gallery--columns-' . absint( $columns ),
+  'images',
+) );
 
-$slider_classes = array('slider','slider-nav-small','mb-half');
+$slider_classes = array('product-gallery-slider','slider','slider-nav-small','mb-half');
 
 // Image Zoom
-if(get_theme_mod('product_zoom')){
-  	$slider_classes[] = 'has-image-zoom';
+if(get_theme_mod('product_zoom', 0)){
+  $slider_classes[] = 'has-image-zoom';
 }
 
 $rtl = 'false';
 if(is_rtl()) $rtl = 'true';
 
-$image_size = 'shop_single';
+if(get_theme_mod('product_lightbox','default') == 'disabled'){
+  $slider_classes[] = 'disable-lightbox';
+}
 
 ?>
-
 <?php do_action('flatsome_before_product_images'); ?>
-<div class="product-images images relative has-hover">
 
-		<?php do_action('flatsome_sale_flash'); ?>
+<div class="product-images relative mb-half has-hover <?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>">
 
-		<div class="image-tools absolute top show-on-hover right z-3">
-			<?php do_action('flatsome_product_image_tools_top'); ?>
-		</div>
-		
-		<div class="product-gallery-slider <?php echo implode(' ', $slider_classes); ?>"
-				data-flickity-options='{ 
-		            "cellAlign": "center",
-		            "wrapAround": true,
-		            "autoPlay": false,
-		            "prevNextButtons":true,
-		            "adaptiveHeight": true,
-		            "percentPosition": true,
-		            "imagesLoaded": true,
-		            "lazyLoad": 1,
-		            "dragThreshold" : 15,
-		            "pageDots": false,
-		            "rightToLeft": <?php echo $rtl; ?>
-		        }'>
+  <?php do_action('flatsome_sale_flash'); ?>
 
-		<?php
-			if ( has_post_thumbnail() ) {
+  <div class="image-tools absolute top show-on-hover right z-3">
+    <?php do_action('flatsome_product_image_tools_top'); ?>
+  </div>
 
-				$image_title 	= esc_attr( get_the_title( get_post_thumbnail_id() ) );
-				$image_caption 	= get_post( get_post_thumbnail_id() )->post_excerpt;
-				$image_link  	= wp_get_attachment_url( get_post_thumbnail_id() );
-				$image       	= get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', $image_size), array(
-					'title'	=> $image_title,
-					'alt'	=> $image_title
-					) );
+  <figure class="woocommerce-product-gallery__wrapper <?php echo implode(' ', $slider_classes); ?>"
+        data-flickity-options='{
+                "cellAlign": "center",
+                "wrapAround": true,
+                "autoPlay": false,
+                "prevNextButtons":true,
+                "adaptiveHeight": true,
+                "imagesLoaded": true,
+                "lazyLoad": 1,
+                "dragThreshold" : 15,
+                "pageDots": false,
+                "rightToLeft": <?php echo $rtl; ?>
+       }'>
+    <?php
+    $attributes = array(
+      'title'                   => get_post_field( 'post_title', $post_thumbnail_id ),
+      'data-caption'            => get_post_field( 'post_excerpt', $post_thumbnail_id ),      
+      'data-src'                => $full_size_image[0],
+      'data-large_image'        => $full_size_image[0],
+      'data-large_image_width'  => $full_size_image[1],
+      'data-large_image_height' => $full_size_image[2],
+    );
 
-				$attachment_count = count( $product->get_gallery_attachment_ids() );
+    if ( has_post_thumbnail() ) {
+      $html  = '<div data-thumb="' . get_the_post_thumbnail_url( $post->ID, 'shop_thumbnail' ) . '" class="first slide woocommerce-product-gallery__image"><a href="' . esc_url( $full_size_image[0] ) . '">';
+      $html .= get_the_post_thumbnail( $post->ID, 'shop_single', $attributes );
+      $html .= '</a></div>';
+    } else {
+      $html  = '<div class="woocommerce-product-gallery__image--placeholder">';
+      $html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src() ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
+      $html .= '</div>';
+    }
 
-				if ( $attachment_count > 0 ) {
-					$gallery = '[product-gallery]';
-				} else {
-					$gallery = '';
-				}
+    echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, get_post_thumbnail_id( $post->ID ) );
 
-				echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="slide first"><a href="%s" itemprop="image" class="woocommerce-main-image zoom" title="%s" data-rel="prettyPhoto' . $gallery . '">%s</a></div>', $image_link, $image_caption, $image ), $post->ID );
+    do_action( 'woocommerce_product_thumbnails' );
+    ?>
+  </figure>
 
-				// Add additional images
-				do_action('flatsome_single_product_images');
-				
-			} else {
-
-				echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<img src="%s" alt="%s" />', wc_placeholder_img_src(), __( 'Placeholder', 'woocommerce' ) ), $post->ID );
-
-			}
-		?>
-
-		</div><!-- .product-gallery-slider -->
-
-
-		<div class="image-tools absolute bottom left z-3">
-			<?php do_action('flatsome_product_image_tools_bottom'); ?>
-		</div>
-
-</div><!-- .product-images -->
+  <div class="image-tools absolute bottom left z-3">
+    <?php do_action('flatsome_product_image_tools_bottom'); ?>
+  </div>
+</div>
 <?php do_action('flatsome_after_product_images'); ?>
 
-<?php do_action( 'woocommerce_product_thumbnails' ); ?>
+<?php wc_get_template( 'woocommerce/single-product/product-gallery-thumbnails.php' ); ?>

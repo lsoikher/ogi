@@ -58,9 +58,9 @@ function flatsome_page_footer(){
 		// Custom Page footers
 		$page_footer =  get_post_meta( get_the_ID(), '_footer', true );
 
-		if(empty($page_footer) && $page_footer == 'simple'){
+		if(empty($page_footer) || $page_footer == 'normal'){
 			echo get_template_part('template-parts/footer/footer');
-		} else if(!empty($page_footer) || $page_footer != 'disabled'){
+		} else if(!empty($page_footer) && $page_footer !== 'disabled'){
 			echo get_template_part('template-parts/footer/footer', $page_footer);
 		}
 

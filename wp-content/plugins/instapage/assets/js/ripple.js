@@ -1,8 +1,7 @@
-( function( $ )
-{
-  $(document).ready(function () {
+(function($) {
+  $(document).ready(function() {
     $(document).off('click', '.fx-ripple-effect')
-      .on('click', '.fx-ripple-effect', function (e) {
+      .on('click', '.fx-ripple-effect', function(e) {
         var rippler = $(this);
 
         // create .ink element if it doesn't exist
@@ -35,4 +34,4 @@
         }).addClass("fx-animate");
       });
   });
-} )( jQuery );
+})(jQuery);

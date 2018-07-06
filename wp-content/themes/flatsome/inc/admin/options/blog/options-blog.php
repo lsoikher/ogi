@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 Flatsome_Option::add_panel( 'blog', array(
 	'title'       => __( 'Blog', 'flatsome-admin' ),
@@ -16,7 +16,7 @@ function flatsome_refresh_blog_partials( WP_Customize_Manager $wp_customize ) {
   if ( ! isset( $wp_customize->selective_refresh ) ) {
       return;
   }
-  
+
 	$wp_customize->selective_refresh->add_partial( 'blog-layout', array(
 	    'selector' => '.blog-wrapper.blog-archive',
 	    'settings' => array('blog_posts_depth_hover','blog_posts_depth','blog_layout','blog_layout_divider','blog_show_excerpt'),
@@ -24,7 +24,7 @@ function flatsome_refresh_blog_partials( WP_Customize_Manager $wp_customize ) {
 	        return get_template_part( 'template-parts/posts/layout', get_theme_mod('blog_layout','right-sidebar') );
 	    },
 	) );
-	
+
 	$wp_customize->selective_refresh->add_partial( 'blog-layout-single', array(
 	    'selector' => '.blog-wrapper.blog-single',
 	    'settings' => array('blog_posts_depth_hover','blog_posts_depth','blog_post_layout','blog_post_style','blog_author_box','blog_share'),

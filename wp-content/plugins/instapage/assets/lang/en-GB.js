@@ -13,3 +13,6 @@ InstapageDictionary['ERROR_WHILE_CONNECTING_SUBACCOUNTS'] = 'There was an error,
 InstapageDictionary['ERROR_WHILE_DISCONNECTING_SUBACCOUNTS'] = 'There was an error, selected subaccounts are not properly disconnected from app. Try to disconnect subaccounts again.';
 InstapageDictionary['NO_DEPRECATED_PAGES_MIGRATED'] = 'No pages migrated.';
 InstapageDictionary['COULDNT_PARSE_RESPONSE'] = 'Couldn\'t parse response.';
+InstapageDictionary['TOKEN_ALREADY_IN_USE'] = 'This token is already in use.';
+InstapageDictionary['DIAGNOSTIC_IS_ON_WARNING'] = '<strong>Diagnostic mode is ON</strong>. Be sure to turn it off right after generating the diagnostic log. Diagnostic mode is very resource consuming and can increase your page loading time significantly!';
+

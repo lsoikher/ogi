@@ -90,6 +90,7 @@ class VTPRD_Cart_Item {
     public $product_variation_key; //woo, combo of other fields... //v1.0.8.6
     public $product_name;
     public $parent_product_name;  //woo and jigo only 
+    public $parent_product_id;  //v2.0.0
     public $quantity;
     public $unit_price;
     public $total_price;
@@ -115,8 +116,14 @@ class VTPRD_Cart_Item {
     //logic generated
     public $prod_cat_list;
     public $rule_cat_list;
-    public $prod_rule_include_only_list;  //from product screen
-    public $prod_rule_exclusion_list;  //from product screen
+    
+    //v2.0.0 begin
+    public $brands_list;
+    public $brands_tax_found; 
+    public $groups_list;
+    public $memberships_list;
+    //v2.0.0 end
+
     public $rule_applied_tracking; 
        
     //used during rule process logic
@@ -174,6 +181,9 @@ class VTPRD_Cart_Item {
     //v1.0.9.3 end                        
     public $zero_price_auto_add_free_item; //v1.1.0.6
     public $product_list_price_catalog_correctly_taxed;     //v1.1.1
+    public $product_orig_cart_unit_price;     //v1.1.8.0 (includes any taxation)
+    public $yousave_total_amt_taxed;    //v1.1.8.0 
+    public $parent_product_id_found_in_search = false;  //v2.0.0  
     
 	public function __construct(){
     $this->product_id;
@@ -199,6 +209,7 @@ class VTPRD_Cart_Item {
       */      
     $this->product_name;
     $this->parent_product_name;
+    $this->parent_product_id = false; //v2.0.0
     $this->quantity = 0.00;
     $this->unit_price = 0.00;
     $this->total_price = 0.00;
@@ -226,9 +237,14 @@ class VTPRD_Cart_Item {
     
     $this->prod_cat_list = array();
     $this->rule_cat_list = array();
-    $this->prod_rule_include_only_list = array();  
-    $this->prod_rule_exclusion_list = array();    
     
+    //v2.0.0 begin
+    $this->brands_list = array();
+    $this->brands_tax_found;     
+    $this->groups_list = array();
+    $this->memberships_list = array();
+    //v2.0.0 end
+
     $this->rule_applied_tracking;
        /* **The following array structure is created on-the-fly during the apply process**
         array(
@@ -287,7 +303,7 @@ class VTPRD_Cart_Item {
            'discount_amt_count'   => 0,
            'discount_for_the_price_of_count'  => '', 
            'discount_applies_to_qty'  => 1,         
-           'yousave_amt'       => $curr_prod_array['prod_discount_amt'] ,
+           'yousave_amt'       => $curr_prod_array['prod_discount_amt'] ,           
            'yousave_pct'       => $yousave_pct ,
            'rule_max_amt_msg'  => $max_msg,
            'rule_execution_type' =>  $vtprd_rules_set[$i]->rule_execution_type, //used in email msg production!            
@@ -295,7 +311,14 @@ class VTPRD_Cart_Item {
            'rule_full_msg'     => $vtprd_rules_set[$i]->discount_product_full_msg
            //used at cart discount display time => if coupon used, does this discount apply?
            //  ---> pick this up directly from the ruleset occurrence at application time
-           //'cumulativeCouponPricingAllowed' => $vtprd_rules_set[$i]->cumulativeCouponPricingAllowed  
+           //'cumulativeCouponPricingAllowed' => $vtprd_rules_set[$i]->cumulativeCouponPricingAllowed 
+           
+           //v1.1.8.0 begin used for BULK reporting, when only SOME of a product get discounted
+           'bulk_fully_discounted_product_count'        => 0, //how many fully discounted
+           'bulk_partial_discount_product_value'        => 0, //how much of the $$ value of the unit was discounted
+           'bulk_partial_discount_product_yousave_amt'  => 0,  //$$ value of the discount itself
+           'yousave_amt_taxed'                          => 0 
+           //v1.1.8.0 end            
         )
        */
      );
@@ -354,7 +377,10 @@ class VTPRD_Cart_Item {
     $this->product_catalog_yousave_total_amt_excl_tax_woo;       
     $this->computation_summary = '';  
     //v1.0.9.3 end 
-    $this->zero_price_auto_add_free_item = '';  //v1.1.0.6            
+    $this->zero_price_auto_add_free_item = '';  //v1.1.0.6  
+    $this->product_orig_cart_unit_price = 0;     //v1.1.8.0 (includes any taxation)
+    $this->yousave_total_amt_taxed = 0;    //v1.1.8.0
+    $this->parent_product_id_found_in_search;  //v2.0.0              
 	}
 
 } //end class

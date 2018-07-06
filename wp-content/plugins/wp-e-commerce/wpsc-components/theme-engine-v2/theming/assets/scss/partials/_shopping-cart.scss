@@ -1,5 +1,5 @@
 /*******************
-Shopping Cart 
+Shopping Cart
 ********************/
 
 .wpsc-cart-table {
@@ -8,9 +8,7 @@ Shopping Cart
 .wpsc-cart-item,
 .wpsc-row,
 .wpsc-cart-footer {
-    display: block;
-    padding: 20px 0;
-    border-bottom: $cart_border;
+	@include wpsc-cart-item();
 }
 .wpsc-cart-header {
 	border-top: $cart_border;
@@ -37,6 +35,9 @@ Shopping Cart
 	display: inline-block;
     vertical-align: bottom;
     box-shadow: none !important; //needed to override .entry-content a
+}
+.express-checkout-button {
+	border-bottom: none !important;
 }
 .paypal-express-separator {
 	margin: 0 0.5em;
@@ -109,6 +110,6 @@ Shopping Cart
 }
 
 /* Sidebar Cart */
-.widget-area {
+.widget {
 	@import 'mobile-and-sidebar';
 }
