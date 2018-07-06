@@ -13,7 +13,7 @@ function make_child_theme( $new_theme_title, $new_theme_description, $new_theme_
 		// Validate theme name
 		$new_theme_path = $theme_root.'/'.$new_theme_name;
 		if ( file_exists( $new_theme_path ) ) {
-			return new WP_Error( 'exists', __( 'Theme directory already exists!', self::_SLUG ) );
+			return new WP_Error( 'exists', __( 'Theme directory already exists!' ) );
 		}
 
 		mkdir( $new_theme_path );

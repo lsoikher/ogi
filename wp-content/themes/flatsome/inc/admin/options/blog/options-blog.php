@@ -4,6 +4,7 @@ Flatsome_Option::add_panel( 'blog', array(
 	'title'       => __( 'Blog', 'flatsome-admin' ),
 ) );
 
+include_once( dirname( __FILE__ ) . '/options-blog-global.php' );
 include_once(dirname( __FILE__ ).'/options-blog-layout.php');
 include_once(dirname( __FILE__ ).'/options-blog-archive.php');
 include_once(dirname( __FILE__ ).'/options-blog-single.php');
@@ -27,9 +28,9 @@ function flatsome_refresh_blog_partials( WP_Customize_Manager $wp_customize ) {
 
 	$wp_customize->selective_refresh->add_partial( 'blog-layout-single', array(
 	    'selector' => '.blog-wrapper.blog-single',
-	    'settings' => array('blog_posts_depth_hover','blog_posts_depth','blog_post_layout','blog_post_style','blog_author_box','blog_share'),
+	    'settings' => array('blog_posts_depth_hover','blog_posts_depth','blog_post_layout','blog_post_style','blog_single_header_meta','blog_single_footer_meta','blog_single_featured_image','blog_share','blog_author_box','blog_single_next_prev_nav'),
 	    'render_callback' => function() {
-	        return get_template_part( 'template-parts/posts/layout', get_theme_mod('right-sidebar') );
+	        return get_template_part( 'template-parts/posts/layout', get_theme_mod('blog_post_layout','right-sidebar') );
 	    },
 	) );
 

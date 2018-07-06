@@ -70,6 +70,7 @@ add_ux_builder_shortcode( 'team_member', array(
                 'googleplus' => array( 'type' => 'textfield','heading' => 'Google+', 'default' => ''),
                 'youtube' => array( 'type' => 'textfield','heading' => 'Youtube', 'default' => ''),
                 'email' => array( 'type' => 'textfield','heading' => 'Email', 'default' => ''),
+                'phone' => array( 'type' => 'textfield','heading' => 'Phone', 'default' => ''),
                 'pinterest' => array( 'type' => 'textfield','heading' => 'Pinterest', 'default' => ''),
                 'linkedin' => array( 'type' => 'textfield','heading' => 'Linkedin', 'default' => ''),
                 'snapchat' => array( 'type' => 'image', 'heading' => __( 'SnapChat' )),

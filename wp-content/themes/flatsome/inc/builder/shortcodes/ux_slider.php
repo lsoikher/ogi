@@ -42,12 +42,20 @@ add_ux_builder_shortcode( 'ux_slider', array(
             'heading' => 'Admin label',
             'placeholder' => 'Enter admin label...'
         ),
+        'type' => array(
+          'type' => 'select',
+          'heading' => 'Type',
+          'default' => 'slide',
+          'options' => array(
+            'slide' => 'Slide',
+            'fade' => 'Fade',
+          ),
+        ),
         'layout_options' => array(
           'type' => 'group',
           'heading' => __( 'Layout' ),
           'options' => array(
             'visibility'  => require( __DIR__ . '/commons/visibility.php' ),
-            
             'style' => array(
               'type' => 'select',
               'heading' => 'Style',
@@ -57,7 +65,8 @@ add_ux_builder_shortcode( 'ux_slider', array(
                   'container' => 'Container',
                   'focus' => 'Focus',
                   'shadow' => 'Shadow',
-              )
+              ),
+              'conditions' => 'type !== "fade"',
             ),
             'slide_width' => array(
               'type' => 'scrubfield',
@@ -65,6 +74,7 @@ add_ux_builder_shortcode( 'ux_slider', array(
               'placeholder' => 'Width in Px',
               'default' => '',
               'min' => '0',
+              'conditions' => 'type !== "fade"',
             ),
 
             'slide_align' => array(
@@ -75,7 +85,8 @@ add_ux_builder_shortcode( 'ux_slider', array(
                   'center' => 'Center',
                   'left' => 'Left',
                   'right' => 'Right',
-              )
+              ),
+              'conditions' => 'type !== "fade"',
             ),
             'bg_color' => array(
               'type' => 'colorpicker',
@@ -215,8 +226,10 @@ add_ux_builder_shortcode( 'ux_slider', array(
               'default' => 'circle',
               'options' => array(
                 'circle' => 'Circle',
+                'dashes' => 'Dashes',
+                'dashes-spaced' => 'Dashes (Spaced)',
                 'simple' => 'Simple',
-                'dashes' => 'Dashes'
+                'square' => 'Square',
             )
            ),
           ),
@@ -224,7 +237,7 @@ add_ux_builder_shortcode( 'ux_slider', array(
         'slide_options' => array(
           'type' => 'group',
           'heading' => __( 'Auto Slide' ),
-          'options' => array(  
+          'options' => array(
             'auto_slide' => array(
                 'type' => 'radio-buttons',
                 'heading' => __('Auto slide'),

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Flatsome v2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-27 15:09+0000\n"
-"PO-Revision-Date: 2017-05-27 15:09+0000\n"
+"PO-Revision-Date: 2018-01-17 08:59+0000\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,7 +16,7 @@ msgstr ""
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
-"Last-Translator: admin <admin@kallonis.com>\n"
+"Last-Translator: jim <jim.uxthemes@gmail.com>\n"
 "Language: ru-RU\n"
 "X-Poedit-SearchPath-0: ."
 
@@ -592,7 +592,7 @@ msgstr ""
 # @ flatsome
 #: page-checkout.php:17 page-checkout.php:28
 msgid "Shopping Cart"
-msgstr "Карзина"
+msgstr "Корзина"
 
 # @ flatsome
 #: page-checkout.php:19 page-checkout.php:30

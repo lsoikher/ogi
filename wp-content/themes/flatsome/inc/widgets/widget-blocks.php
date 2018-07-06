@@ -90,8 +90,8 @@ class Flatsome_UX_Blocks_Widget extends WP_Widget {
 		<?php foreach ($blocks as $key => $value) {
  		   echo '<option '.selected( $instance['block'], $key).' value="'.$key.'">'.$value.'</option>';
  		} ?>
- 		</select>
- 		<p>You can edit blocks width the UX Builder if you hover them in the front-end.<a href="#">Learn more about Blocks</a></p>
+		</select></p>
+ 		<p>You can edit blocks width the UX Builder if you hover them in the front-end.<br/><a href="http://docs.uxthemes.com/article/237-ux-builder-how-to-use-blocks" target="_blank">Learn more about Blocks</a></p>
 <?php
 	}
 }

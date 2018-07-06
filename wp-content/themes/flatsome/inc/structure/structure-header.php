@@ -329,24 +329,54 @@ function flatsome_sticky_headers($classes){
 
 add_filter('flatsome_header_class','flatsome_sticky_headers', 11);
 
+/**
+ * Checks if top bar has elements for desktop and/or mobile
+ *
+ * @return array
+ */
+function flatsome_has_top_bar() {
+	$screens = array(
+		'large'  => false,
+		'mobile' => false,
+	);
+	if ( get_theme_mod( 'topbar_show', 1 ) ) {
+		if ( get_theme_mod( 'topbar_elements_center' )
+		     || get_theme_mod( 'topbar_elements_left' )
+		     || get_theme_mod( 'topbar_elements_right' ) ) {
+			$screens['large'] = true;
+		}
+		if ( get_theme_mod( 'header_mobile_elements_top' ) ) {
+			$screens['mobile'] = true;
+		}
+	}
+	$screens['large_or_mobile'] = $screens['large'] || $screens['mobile'];
+	$screens['mobile_only']     = ! $screens['large'] && $screens['mobile'];
 
-function flatsome_has_top_bar(){
-  if(!get_theme_mod('topbar_show', 1)) return false;
-  if(get_theme_mod('topbar_elements_center')
-  || get_theme_mod('topbar_elements_left')
-  || get_theme_mod('topbar_elements_right')
-  || get_theme_mod('header_mobile_elements_top')){
-      return true;
-  }
+	return $screens;
 }
 
-function flatsome_has_bottom_bar(){
-  if(get_theme_mod('header_elements_bottom_left')
-  || get_theme_mod('header_elements_bottom_center')
-  || get_theme_mod('header_elements_bottom_right')
-  || get_theme_mod('header_mobile_elements_bottom')){
-      return true;
-    }
+/**
+ * Checks if bottom bar has elements for desktop and/or mobile
+ *
+ * @return array
+ */
+function flatsome_has_bottom_bar() {
+	$screens = array(
+		'large'  => false,
+		'mobile' => false,
+	);
+	if ( get_theme_mod( 'header_elements_bottom_left' )
+	     || get_theme_mod( 'header_elements_bottom_center' )
+	     || get_theme_mod( 'header_elements_bottom_right' ) ) {
+		$screens['large'] = true;
+	}
+	if ( get_theme_mod( 'header_mobile_elements_bottom' ) ) {
+		$screens['mobile'] = true;
+	}
+	$screens['large_or_mobile'] = $screens['large'] || $screens['mobile'];
+	$screens['mobile_only']     = ! $screens['large'] && $screens['mobile'];
+
+	return $screens;
 }
 
 /* Page Header inner classes */
@@ -391,7 +421,7 @@ function header_inner_class($position) {
         if(!get_theme_mod('header_mobile_elements_bottom')) {
           $classes[] = 'hide-for-medium';
         }
-        elseif(get_theme_mod('header_mobile_elements_bottom') && !flatsome_has_bottom_bar()){
+        elseif(get_theme_mod('header_mobile_elements_bottom') && flatsome_has_bottom_bar()['mobile_only']){
           $classes[] = 'show-for-medium';
         }
     }

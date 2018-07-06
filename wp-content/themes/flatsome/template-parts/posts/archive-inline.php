@@ -8,7 +8,7 @@
 	<div class="article-inner <?php flatsome_blog_article_classes(); ?>">
 		
 		<header class="entry-header">
-		  		<div class="entry-header-text text-<?php echo flatsome_option('blog_posts_title_align');?>">
+		  		<div class="entry-header-text text-<?php echo get_theme_mod( 'blog_posts_title_align', 'center' );?>">
 				   	<?php get_template_part( 'template-parts/posts/partials/entry', 'title');  ?>
 				</div><!-- .entry-header -->
 		</header><!-- post-header -->

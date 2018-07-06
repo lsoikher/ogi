@@ -16,6 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php the_title(); ?>
 </h1>
 
-<?php if(flatsome_option('product_info_divider')) { ?>
+<?php if(get_theme_mod('product_title_divider', 1)) { ?>
 	<div class="is-divider small"></div>
 <?php } ?>

@@ -21,14 +21,14 @@ class Flatsome_Option {
    * @var array
    */
   protected static $config = array();
-  
+
   /**
    * @static
    * @access protected
    * @var array
    */
   protected static $fields = array();
-  
+
   /**
    * The class constructor
    */
@@ -46,7 +46,7 @@ class Flatsome_Option {
    * @param   array       the panel arguments
    */
   public static function add_panel( $id = '', $args = array() ) {
-     
+
 
     if ( class_exists( 'Kirki' ) ) {
       Kirki::add_panel( $id, $args );
@@ -89,43 +89,8 @@ class Flatsome_Option {
    * @param    array     $args         The field's arguments
    */
   public static function add_field( $config_id, $args ) {
-    /*if ( class_exists( 'Redux' ) && !is_customize_preview() ) {
-    global $opt_name;
-
-    $default = $args['default'];
-    $options = null;
-
-    if($args['type'] == 'color-alpha'){
-      $args['type'] = 'color_rgba';
-    }
-    if($args['type'] == 'radio-image'){
-      $args['type'] = 'image_select';
-    }
-    if($args['type'] == 'radio-buttonset'){
-      $args['type'] = 'button_set';
-    }
-    if($args['type'] == 'code'){
-      $args['type'] = 'ace_editor';
-    }
-    if($args['type'] == 'typography'){
-      $args['type'] = 'media';
-    }
-
-    Redux::setField( $opt_name, array(
-        'title'  =>  $args['title'],
-        'section_id' => $args['section'],
-        'id'       => $args['setting'],
-        'type'     => $args['type'],
-        'title'    => $args['label'],
-        'desc'     => $args['description'],
-        'default'  => $default,
-        'options' => $args['choices'],
-        'min' =>  $args['choices']['min'],
-        'max' =>  $args['choices']['max'],
-        'step' => $args['choices']['step'],
-    ) );
-    } */
-
+    if($config_id == '') $config_id = $args['settings'];
+    
     // if Kirki exists, use it.
     if ( class_exists( 'Kirki' ) ) {
       Kirki::add_field( $config_id, $args );

@@ -1,6 +1,6 @@
 [ux_slider]
 
-[ux_banner height="637px" bg="4061" bg_size="orginal" bg_pos="62% 60%"]
+[ux_banner height="637px" bg="4061" bg_size="original" bg_pos="62% 60%"]
 
 [text_box text_color="dark" width="44" width__sm="90" padding="30px 30px 30px 30px" position_x="5" position_y__sm="95" text_align="left" bg="rgba(255, 255, 255, 0.94)" depth="1"]
 

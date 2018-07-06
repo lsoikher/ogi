@@ -47,7 +47,7 @@ function get_flatsome_portfolio_breadcrumbs(){
     echo '<div class="breadcrumbs"><a href="';
     echo get_option('home');
     echo '">';
-    echo 'Home';
+    echo _x( 'Home', 'breadcrumb', 'flatsome' );
     echo "</a>";
     echo "<span class='divider'>/</span>";
     if(flatsome_option('featured_items_page') && !is_page()){

@@ -12,7 +12,7 @@
 
 ?>
 
-<?php echo do_shortcode('[blog_posts type="masonry" depth="'.flatsome_option('blog_posts_depth').'" depth_hover="'.flatsome_option('blog_posts_depth_hover').'" text_align="left" columns="2" ids="'.$ids.'"]'); ?>
+<?php echo do_shortcode('[blog_posts type="masonry" depth="' . flatsome_option('blog_posts_depth') . '" depth_hover="' . flatsome_option('blog_posts_depth_hover') . '" text_align="' . get_theme_mod( 'blog_posts_title_align', 'center' ) . '" columns="2" ids="' . $ids . '"]'); ?>
 
 <?php flatsome_posts_pagination(); ?>
 

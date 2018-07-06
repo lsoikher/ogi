@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Flatsome v2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-01 11:20+0000\n"
-"PO-Revision-Date: 2016-09-01 11:22+0000\n"
-"Last-Translator: alyaeda <admin@chuwal.com>\n"
+"PO-Revision-Date: 2017-12-26 08:20+0000\n"
+"Last-Translator: jim <jim.uxthemes@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -34,31 +34,31 @@ msgstr ""
 
 #: inc/shortcodes/share_follow.php:73
 msgid "Follow on Facebook"
-msgstr "Folge uns Facebook"
+msgstr "Folge uns auf Facebook"
 
 #: inc/shortcodes/share_follow.php:103
 msgid "Follow on YouTube"
-msgstr "Folge uns Youtube"
+msgstr "Folge uns auf Youtube"
 
 #: inc/shortcodes/share_follow.php:76
 msgid "Follow on Twitter"
-msgstr "Folge uns Twitter"
+msgstr "Folge uns auf Twitter"
 
 #: inc/shortcodes/share_follow.php:79
 msgid "Follow on SnapChat"
-msgstr "Folge uns Snapchat"
+msgstr "Folge uns auf Snapchat"
 
 #: inc/shortcodes/share_follow.php:82
 msgid "Follow on Pinterest"
-msgstr "Folge uns Pinterest"
+msgstr "Folge uns auf Pinterest"
 
 #: inc/shortcodes/share_follow.php:85
 msgid "Follow on Google+"
-msgstr "Folge uns Google+"
+msgstr "Folge uns auf Google+"
 
 #: inc/shortcodes/share_follow.php:88
 msgid "Follow on Instagram"
-msgstr "Folge uns Instagram"
+msgstr "Folge uns auf Instagram"
 
 # @ flatsome
 #: 404.php:22
@@ -158,14 +158,14 @@ msgid "Comments are closed."
 msgstr "Kommentare sind geschlossen."
 
 # @ flatsome
-#: content-page.php:17 content-single.php:33 content.php:47 image.php:92 
+#: content-page.php:17 content-single.php:33 content.php:47 image.php:92
 #: page-left-sidebar-notitle.php:22 page-right-sidebar-notitle.php:22
 msgid "Pages:"
 msgstr "Seiten:"
 
 # @ flatsome
 #. translators: used between list items, there is a space after the comma
-#: content-single.php:51 content-single.php:54 content.php:58 content.php:66 
+#: content-single.php:51 content-single.php:54 content.php:58 content.php:66
 #: content.php:109 content.php:117 content.php:167 content.php:187
 msgid ", "
 msgstr ", "
@@ -200,19 +200,19 @@ msgid "Tagged %1$s"
 msgstr "Markiert %1$s"
 
 # @ flatsome
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "Leave a comment"
 msgstr "Hinterlasse ein kommentar"
 
 # @ flatsome
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "<strong>1</strong> Comment"
 msgstr "<strong>1</strong> Kommentar"
 
 # @ flatsome
-#: content.php:77 content.php:133 content.php:181 
+#: content.php:77 content.php:133 content.php:181
 #: inc/widgets/recent-posts.php:59
 msgid "<strong>%</strong> Comments"
 msgstr "<strong>%</strong> Kommentare"
@@ -273,7 +273,7 @@ msgid "Flatsome Theme Options"
 msgstr "Flatsome Theme Options"
 
 # @ flatsome
-#: image.php:36 image.php:109 inc/template-tags.php:77 
+#: image.php:36 image.php:109 inc/template-tags.php:77
 #: inc/template-tags.php:106
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -370,7 +370,7 @@ msgstr ""
 "am oberen Rand der Kategorie angezeigt werden."
 
 # @ default
-#: inc/post-types/blocks.php:30 
+#: inc/post-types/blocks.php:30
 #: inc/widgets/woocommerce-subcategories-widget.php:108
 msgid "Title"
 msgstr "Titel"

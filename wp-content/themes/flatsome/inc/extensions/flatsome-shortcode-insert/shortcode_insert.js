@@ -636,8 +636,9 @@ function ux_add_uxbanner(editor){
             label: 'Background Image',
             text: 'Select image',
             icon: 'icon dashicons-format-gallery',
-             onclick: function() {
-                     UXgalleryModal();
+             onclick: function(e) {
+               e.preventDefault();
+               UXgalleryModal();
             },
         },
         {
@@ -761,8 +762,9 @@ function ux_add_section(editor){
             label: 'Background Image',
             text: 'Select image',
             icon: 'icon dashicons-format-gallery',
-             onclick: function() {
-                     UXgalleryModal();
+             onclick: function(e) {
+               e.preventDefault();
+               UXgalleryModal();
             },
         },
         {
@@ -930,8 +932,6 @@ var uxAnimations = [
 function UXgalleryModal(){
     // Uploading files
 var file_frame;
- 
-    event.preventDefault();
  
     // If the media frame already exists, reopen it.
     if ( file_frame ) {

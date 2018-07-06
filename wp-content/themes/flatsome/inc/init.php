@@ -7,13 +7,18 @@
  */
 
 
-// Add Flatsome Option Class
+/**
+ * Require Classes
+ */
+require get_template_directory() . '/inc/classes/class-flatsome-default.php';
 require get_template_directory() . '/inc/classes/class-flatsome-options.php';
+require get_template_directory() . '/inc/classes/class-flatsome-upgrade.php';
 
 /**
  * Setup.
  * Enqueue styles, register widget regions, etc.
  */
+require get_template_directory() . '/inc/functions/function-conditionals.php';
 require get_template_directory() . '/inc/functions/function-global.php';
 require get_template_directory() . '/inc/functions/function-upgrade.php';
 require get_template_directory() . '/inc/functions/function-defaults.php';
@@ -23,6 +28,7 @@ require get_template_directory() . '/inc/functions/function-plugins.php';
 require get_template_directory() . '/inc/functions/function-custom-css.php';
 require get_template_directory() . '/inc/functions/function-maintenance.php';
 require get_template_directory() . '/inc/functions/function-fallbacks.php';
+require get_template_directory() . '/inc/functions/fl-template-functions.php';
 
 if(get_theme_mod('lazy_load_google_fonts',1)){
   require get_template_directory() . '/inc/functions/function-fonts.php';
@@ -117,6 +123,9 @@ if (is_woocommerce_activated()) {
   require get_template_directory() . '/inc/shortcodes/ux_products_list.php';
   require get_template_directory() . '/inc/shortcodes/product_flip.php';
   require get_template_directory() . '/inc/shortcodes/product_categories.php';
+  if(get_theme_mod('product_layout') == 'custom') {
+    require get_template_directory() . '/inc/shortcodes/custom-product.php';
+  }
 }
 
 
@@ -142,6 +151,7 @@ if ( is_woocommerce_activated() ) {
   require get_template_directory() . '/inc/woocommerce/structure-wc-cart.php';
   require get_template_directory() . '/inc/woocommerce/structure-wc-product-page.php';
   require get_template_directory() . '/inc/woocommerce/structure-wc-product-page-header.php';
+  require get_template_directory() . '/inc/woocommerce/structure-wc-single-product.php';
   if(get_theme_mod('catalog_mode')) require get_template_directory() . '/inc/woocommerce/structure-wc-catalog-mode.php';
 
   // Add structured data fallback for older WooCommerce versions.

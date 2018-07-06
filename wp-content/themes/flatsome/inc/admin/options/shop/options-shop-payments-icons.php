@@ -4,11 +4,11 @@
 Flatsome_Option::add_section( 'payment-icons', array(
 	'title'       => __( 'Payments Icons', 'flatsome-admin' ),
 	'description' => 'Note: This is not where you select payment methods. This is just graphical icons that let you show what kind of shopping payments your shop supports. You can add these anywere by using the shortcode [ux_payment_icons]',
-	'panel' => 'shop'
+	'panel' => 'woocommerce'
 ) );
 
 Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'select',
+	'type'        => 'sortable',
 	'settings'     => 'payment_icons',
 	'label'       => __( 'Payment Icons', 'flatsome-admin' ),
 	'section'     => 'payment-icons',

@@ -14,7 +14,8 @@ function ux_products_list($atts, $content = null, $tag) {
     'orderby' => '', // normal, sales, rand, date
     'order' => '',
     'tags' => '',
-    'show' => '' //featured, onsale
+    'show' => '', //featured, onsale
+    'out_of_stock' => '', // exclude.
 
   ), $atts));
 
@@ -32,6 +33,7 @@ function ux_products_list($atts, $content = null, $tag) {
         'post__in' => $ids,
         'post_type' => 'product',
         'numberposts' => -1,
+        'posts_per_page' => -1,
         'orderby' => 'post__in',
         'ignore_sticky_posts' => true,
       );

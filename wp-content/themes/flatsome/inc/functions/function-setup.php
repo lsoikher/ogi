@@ -5,7 +5,6 @@ if ( ! isset( $content_width ) ) $content_width = 1020; /* pixels */
 
 function flatsome_setup() {
 
-
   /* add woocommerce support */
   add_theme_support( 'woocommerce' );
 
@@ -29,6 +28,9 @@ function flatsome_setup() {
 
   /* Add support for Selective Widget refresh */
   add_theme_support( 'customize-selective-refresh-widgets' );
+
+  /** Add sensei support */
+  add_theme_support( 'sensei' );
 
   /* Add support for HTML5 */
   add_theme_support( 'html5', array(
@@ -105,7 +107,7 @@ function flatsome_scripts() {
   // Styles
   if(!is_rtl()){
       wp_enqueue_style( 'flatsome-main', $uri .'/assets/css/flatsome.css', array(), $version, 'all' );
-  } else{
+  } else {
       wp_enqueue_style( 'flatsome-main-rtl', $uri .'/assets/css/flatsome-rtl.css', array(), $version, 'all' );
   }
 
@@ -136,13 +138,18 @@ function flatsome_scripts() {
   ), $version, true );
 
   $sticky_height = get_theme_mod('header_height_sticky', 70);
+
   if(is_admin_bar_showing()) $sticky_height = $sticky_height + 30;
+
   // Add variables to scripts
   wp_localize_script( 'flatsome-js', 'flatsomeVars',
       array(
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'rtl' => is_rtl(),
-        'sticky_height' => $sticky_height
+        'sticky_height' => $sticky_height,
+        'user' => array(
+        	'can_edit_pages' => current_user_can( 'edit_pages' ),
+        )
       )
   );
 

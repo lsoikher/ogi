@@ -1,6 +1,6 @@
 [ux_slider bg_color="rgb(0, 0, 0)"]
 
-[ux_banner height="100%" slide_effect="zoom-in" bg="8271" bg_size="orginal" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
+[ux_banner height="100%" slide_effect="zoom-in" bg="8271" bg_size="original" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
 
 [text_box width="58" width__sm="100" animate="fadeInUp" parallax="2"]
 
@@ -10,11 +10,11 @@
 
 [button text="Shop Women" color="white" style="outline"]
 
-
 [/text_box]
 
 [/ux_banner]
-[ux_banner height="100%" slide_effect="zoom-in" bg="8243" bg_size="orginal" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
+[ux_banner height="100%" slide_effect="zoom-in" bg="8243" bg_size="original" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
+
 
 [text_box width="58" width__sm="100" animate="fadeInLeft" parallax="2" position_x="0" text_align="left"]
 
@@ -28,7 +28,8 @@
 [/text_box]
 
 [/ux_banner]
-[ux_banner height="100%" slide_effect="zoom-in" bg="8273" bg_size="orginal" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
+
+[ux_banner height="100%" slide_effect="zoom-in" bg="8273" bg_size="original" bg_color="rgb(35, 35, 35)" bg_overlay="rgba(0, 0, 0, 0.17)" bg_pos="44% 34%"]
 
 [text_box width="58" width__sm="100" animate="fadeInLeft" parallax="3" position_x="0" text_align="left"]
 

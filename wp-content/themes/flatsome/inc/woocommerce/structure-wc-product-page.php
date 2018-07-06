@@ -13,15 +13,15 @@ function flatsome_product_summary_fix(){
 add_action('wp_head','flatsome_product_summary_fix', 9999);
 
 // Product summary classes
-function flatsome_product_summary_classes(){
-    $classes = array('product-summary');
-    if(get_theme_mod('product_info_align')){
-       $classes[] = 'text-'.flatsome_option('product_info_align');
-    }
-    if(get_theme_mod('product_info_form')){
-      $classes[] = 'form-'.flatsome_option('product_info_form');
-    }
-    echo implode(' ', $classes);
+function flatsome_product_summary_classes( $main = true, $align = true, $form = true ) {
+	$classes = $main ? array( 'product-summary' ) : array();
+	if ( $align && get_theme_mod( 'product_info_align' ) ) {
+		$classes[] = 'text-' . get_theme_mod( 'product_info_align', 'left' );
+	}
+	if ( $form && get_theme_mod( 'product_info_form' ) ) {
+		$classes[] = 'form-' . get_theme_mod( 'product_info_form', '' );
+	}
+	echo implode( ' ', $classes );
 }
 
 function flatsome_product_upsell_sidebar(){
@@ -59,7 +59,7 @@ function flatsome_remove_product_information_heading($heading){
 add_filter('woocommerce_product_additional_information_heading','flatsome_remove_product_information_heading');
 
 
-// Add Extra Product Images to Product Slider
+// Add Extra Product Images to Product Slider ( FOR WC 2.X ONLY)
 if(!function_exists('flatsome_add_extra_product_images')) {
     function flatsome_add_extra_product_images(){
         global $post;
@@ -193,6 +193,10 @@ function flatsome_custom_product_tabs( $tabs ) {
         'callback'  => 'flatsome_global_tab_content'
       );
   }
+
+  // Move review tab to the last position
+  //$tabs['reviews']['priority'] = 100;
+
   return $tabs;
 }
 

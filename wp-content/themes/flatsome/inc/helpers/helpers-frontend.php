@@ -57,3 +57,9 @@ function flatsome_minify_css($css){
   $css = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $css);
   return $css;
 }
+
+
+function flatsome_dummy_text(){
+	$content = '<p><strong>This is a dummy text for demo purpose</strong>. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p><p> Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>';
+	return apply_filters( 'flatsome_dummy_text', $content );
+}

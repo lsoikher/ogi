@@ -1,4 +1,4 @@
-[ux_banner height="540px" bg="8950" bg_size="orginal" bg_overlay__sm="rgba(0, 0, 0, 0.3)" bg_pos="35% 23%" parallax="3"]
+[ux_banner height="540px" bg="8950" bg_size="original" bg_overlay__sm="rgba(0, 0, 0, 0.3)" bg_pos="35% 23%" parallax="3"]
 
 [text_box width="41" width__sm="80" animate="fadeInLeft" position_x="95" position_x__sm="50" position_y__sm="50"]
 

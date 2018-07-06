@@ -34,7 +34,7 @@ if($badge_style == 'style3') $badge_style = 'frame';
 
 		// Presentage Sale Bubble
 		if(get_theme_mod('sale_bubble_percentage')){
-			$text = flatsome_presentage_bubble($product,'-','%');
+			$text = flatsome_presentage_bubble( $product );
 		}
 	?>
 	<?php echo apply_filters( 'woocommerce_sale_flash', '<div class="callout badge badge-'.$badge_style.'"><div class="badge-inner secondary on-sale"><span class="onsale">' .  $text . '</span></div></div>', $post, $product ); ?>

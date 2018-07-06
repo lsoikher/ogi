@@ -9,7 +9,6 @@ Flatsome_Option::add_section( 'pages', array(
     'description' => __( 'Change the default page layout for all pages. You can also override some of these options per page in the page editor.', 'flatsome-admin' ),
 ) );
 
-
 Flatsome_Option::add_field( 'option', array(
     'type'        => 'select',
     'settings'     => 'pages_template',

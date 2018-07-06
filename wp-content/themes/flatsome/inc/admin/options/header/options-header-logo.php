@@ -80,7 +80,7 @@ Flatsome_Option::add_field( 'option',  array(
   'settings'     => 'logo_max_width',
   'label'       => __( 'Logo max width (px)', 'flatsome-admin' ),
   'section'     => 'title_tagline',
-  'description' => __( 'Set the logo max with in pixels. Leave it blank to make it auto fit inside logo container.', 'flatsome-admin' ),
+  'description' => __( 'Set the logo max width in pixels. Leave it blank to make it auto fit inside the logo container.', 'flatsome-admin' ),
   'transport' => 'postMessage',
 ));
 

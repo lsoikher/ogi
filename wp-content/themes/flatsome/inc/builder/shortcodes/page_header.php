@@ -204,7 +204,7 @@ add_ux_builder_shortcode( 'page_header', array(
           'heading' => 'Size',
           'default' => 'large',
           'options' => array(
-            'orginal' => 'Orginal',
+            'original' => 'Original',
             'large' => 'Large',
             'medium' => 'Medium',
             'thumbnail' => 'Thumbnail',

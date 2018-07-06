@@ -89,6 +89,7 @@ $admin_body_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
   <app-stack></app-stack>
 	<draggable-helper></draggable-helper>
   <context-menu></context-menu>
+  <flatsome-studio></flatsome-studio>
 
 	<!-- Templates -->
 	<script id="components/text-editor/text-editor.html" type="text/ng-template">

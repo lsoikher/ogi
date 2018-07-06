@@ -17,7 +17,7 @@
   	box-shadow-{{ shortcode.options.depth }}
   	box-shadow-{{ shortcode.options.depthHover }}-hover
   	text-shadow-{{ shortcode.options.textDepth }}"
-  	ng-attr-data-animate="{{ shortcode.options.animate }}"
+  	ng-attr-data-animate="{{ shortcode.options.animate }}" data-animated="true"
 		ng-style="{
       'max-width' : shortcode.options.maxWidth,
 			'padding' : (shortcode.options.padding | noDefault: shortcode.data.options.get('padding')),

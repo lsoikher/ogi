@@ -3,7 +3,7 @@ $color = get_theme_mod('site_loader_color');
 $bg_color = get_theme_mod('site_loader_bg');
 
 if(empty($bg_color) && $color == 'dark'){
-	$bg_color = get_theme_mod('color_primary','#446084');
+	$bg_color = get_theme_mod('color_primary', Flatsome_Default::COLOR_PRIMARY );
 } else if(empty($bg_color)){
 	$bg_color = '#fff';
 }

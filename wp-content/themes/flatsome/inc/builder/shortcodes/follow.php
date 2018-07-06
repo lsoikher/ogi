@@ -46,6 +46,7 @@ add_ux_builder_shortcode( 'follow', array(
         'twitter' => array( 'type' => 'textfield','heading' => 'Twitter', 'default' => ''),
         'linkedin' => array( 'type' => 'textfield','heading' => 'Linkedin', 'default' => ''),
         'email' => array( 'type' => 'textfield','heading' => 'Email', 'default' => ''),
+        'phone' => array( 'type' => 'textfield','heading' => 'Phone', 'default' => ''),
         'pinterest' => array( 'type' => 'textfield','heading' => 'Pinterest', 'default' => ''),
         'googleplus' => array( 'type' => 'textfield','heading' => 'Google Plus', 'default' => ''),
         'rss' => array( 'type' => 'textfield','heading' => 'RSS', 'default' => ''),

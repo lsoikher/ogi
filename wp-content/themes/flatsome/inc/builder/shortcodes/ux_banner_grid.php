@@ -85,7 +85,7 @@ add_ux_builder_shortcode( 'ux_banner_grid', array(
             'options' => array(
                     'xsmall' => array( 'title' => 'XS' ),
                     'small' => array( 'title' => 'S' ),
-                    '' => array( 'title' => 'Normal'),
+                    'normal' => array( 'title' => 'Normal'),
                     'large' => array( 'title' => 'L' ),
                     'collapse' => array( 'title' => 'Collapse' ),
              ),

@@ -25,7 +25,7 @@ function flatsome_banner_grid($atts, $content = null) {
       $spacing = 'small';
     }
 
-    if($spacing) $classes[] = 'row-'.$spacing;
+    if($spacing !== 'normal') $classes[] = 'row-'.$spacing;
     if($depth) $classes[] = 'row-box-shadow-'.$depth;
     if($depth_hover) $classes[] = 'row-box-shadow-'.$depth_hover.'-hover';
     if($width == 'full-width') $classes[] = 'row-full-width';

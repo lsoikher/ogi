@@ -8,19 +8,22 @@ function flatsome_is_upgrading(){
   if(!empty($is_old)) return true;
 }
 
+/**
+ * Fix content when upgrading to major version 3.0
+ */
 function flatsome_fix_old_content(){
 
    // Upgrade to flatsome 3.0
    if(get_theme_mod('flatsome_version') < 3){
 
       $options = get_theme_mods();
-      
+
       // Check if old content is installed
       if(flatsome_is_upgrading()){
         set_theme_mod('flatsome_fallback', 1);
         update_option('envato_setup_complete', time());
       } else {
-        set_theme_mod('flatsome_fallback', 0); 
+        set_theme_mod('flatsome_fallback', 0);
       }
 
      if(!isset($options['topbar_elements_left'])) set_theme_mod('topbar_elements_left', flatsome_topbar_elements_left());
@@ -58,7 +61,7 @@ $old_search = get_theme_mod('search_pos');
 function flatsome_topbar_elements_left(){
   global $old_nav, $old_nav_topbar;
   if($old_nav && !$old_nav_topbar) return array();
-  
+
   $options[] = 'html';
 
   return $options;
@@ -166,7 +169,7 @@ function flatsome_header_elements_bottom_center(){
 function flatsome_header_elements_bottom_right(){
   global $old_nav, $old_search;
   $options = array();
-  
+
   if($old_nav == 'bottom') {
     $options[] = 'html-5';
   }
@@ -195,10 +198,10 @@ function flatsome_header_mobile_sidebar(){
   if(!$old_nav || $account == 1){
     $options[] = 'account';
   }
-  
+
   if(!$old_nav) $options[] = 'newsletter';
   if(!$old_nav) $options[] = 'social';
-  
+
   $options[] = 'html-2';
   $options[] = 'html-3';
 
@@ -209,13 +212,13 @@ function flatsome_header_mobile_sidebar(){
 function flatsome_header_mobile_elements_right(){
   global $old_nav, $old_search;
    $options = array();
-   
+
    if($old_nav){
       if(get_theme_mod('show_cart') == 1) $options[] = 'cart';
    } else{
      $options[] = 'cart';
    }
-   
+
    return $options;
 }
 

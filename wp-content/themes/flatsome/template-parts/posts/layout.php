@@ -1,4 +1,4 @@
-<?php 
+<?php
 	do_action('flatsome_before_blog');
 ?>
 
@@ -19,6 +19,4 @@
 
 </div><!-- .row -->
 
-<?php 
-	do_action('flatsome_after_blog');
-?>
+<?php do_action('flatsome_after_blog');

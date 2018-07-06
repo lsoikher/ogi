@@ -11,6 +11,11 @@ $panel_url = get_admin_url().'admin.php?page=flatsome-panel';
 $advanced_url = get_admin_url().'admin.php?page=optionsframework&tab=';
 $permalink = get_permalink();
 if(is_admin()) $permalink = get_home_url();
+
+if(function_exists('is_shop') && is_shop()) {
+  $permalink = get_permalink( wc_get_page_id( 'shop' ) );
+}
+
 $optionUrl_panel = get_admin_url().'customize.php?url='.$permalink.'&autofocus%5Bpanel%5D=';
 $optionUrl_section = get_admin_url().'customize.php?url='.$permalink.'&autofocus%5Bsection%5D=';
 $icon_style = 'font-size:20px; -webkit-font-smoothing: antialiased; font-weight:400!important; padding-right:4px; font-family:dashicons!important;margin-top:-2px;';
@@ -205,47 +210,80 @@ $wp_admin_bar->add_menu( array(
 
 if(is_woocommerce_activated()) {
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'theme_options',
- 'id' => 'options_shop',
- 'title' => '<span class="dashicons dashicons-cart" style="'.$icon_style.'"></span> Shop',
- 'href' =>  $optionUrl_panel.'shop'
-));
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'theme_options',
+   'id' => 'options_shop',
+   'title' => '<span class="dashicons dashicons-cart" style="'.$icon_style.'"></span> Shop (WooCommerce)',
+   'href' =>  $optionUrl_panel.'woocommerce'
+  ));
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'options_shop',
- 'id' => 'options_shop_category_page',
- 'title' => 'Shop / Category Page',
- 'href' =>  $optionUrl_section.'category-page'
-));
+  if(fl_woocommerce_version_check('3.3.0') ) {
+    $wp_admin_bar->add_menu( array(
+     'parent' => 'options_shop',
+     'id' => 'options_shop_store_notice',
+     'title' => __( 'Store Notice', 'woocommerce' ),
+     'href' =>  $optionUrl_section.'woocommerce_store_notice'
+    ));
+  }
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'options_shop',
- 'id' => 'options_shop_product_page',
- 'title' => 'Product Page',
- 'href' =>  $optionUrl_section.'product-page'
-));
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_category_page',
+   'title' => __( 'Product Catalog', 'woocommerce' ),
+   'href' =>  $optionUrl_section.'woocommerce_product_catalog'
+  ));
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'options_shop',
- 'id' => 'options_shop_my_account',
- 'title' => 'My Account',
- 'href' =>  $optionUrl_section.'fl-my-account'
-));
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_product_page',
+   'title' => 'Product Page',
+   'href' =>  $optionUrl_section.'product-page'
+  ));
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'options_shop',
- 'id' => 'options_shop_cart_checkout',
- 'title' => 'Cart and Checkout',
- 'href' =>  $optionUrl_section.'cart-checkout'
-));
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_my_account',
+   'title' => 'My Account',
+   'href' =>  $optionUrl_section.'fl-my-account'
+  ));
 
-$wp_admin_bar->add_menu( array(
- 'parent' => 'options_shop',
- 'id' => 'options_shop_payment_icons',
- 'title' => 'Payment Icons',
- 'href' =>  $optionUrl_section.'payment-icons'
-));
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_payment_icons',
+   'title' => 'Payment Icons',
+   'href' =>  $optionUrl_section.'payment-icons'
+  ));
+
+
+  if(fl_woocommerce_version_check('3.3.0') ) {
+    $wp_admin_bar->add_menu( array(
+       'parent' => 'options_shop',
+       'id' => 'options_shop_product_images',
+       'title' => __( 'Product Images', 'woocommerce' ),
+       'href' =>  $optionUrl_section.'woocommerce_product_images'
+      ));
+  }
+
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_checkout',
+   'title' => 'Checkout',
+   'href' =>  $optionUrl_section.'woocommerce_checkout'
+  ));
+
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_shop_cart',
+   'title' => 'Cart',
+   'href' =>  $optionUrl_section.'cart-checkout'
+  ));
+
+  $wp_admin_bar->add_menu( array(
+   'parent' => 'options_shop',
+   'id' => 'options_advanced_woocommerce_2',
+   'title' => 'Advanced',
+   'href' =>  $advanced_url.'of-option-woocommerce'
+  ));
 
 }
 
@@ -347,6 +385,14 @@ $wp_admin_bar->add_menu( array(
 
 $wp_admin_bar->add_menu( array(
  'parent' => 'options_advanced',
+ 'id' => 'options_ux_builder',
+ 'title' => 'UX Builder',
+ 'href' =>  $advanced_url.'of-option-uxbuilder'
+));
+
+
+$wp_admin_bar->add_menu( array(
+ 'parent' => 'options_advanced',
  'id' => 'options_advanced_custom_lazyloading',
  'title' => 'Lazy Loading',
  'href' =>  $advanced_url.'of-option-lazyloading'
@@ -381,20 +427,19 @@ $wp_admin_bar->add_menu( array(
 ));
 
 $wp_admin_bar->add_menu( array(
+	'parent' => 'options_advanced',
+	'id'     => 'options_advanced_404',
+	'title'  => '404 Page',
+	'href'   => $advanced_url . 'of-option-404page',
+) );
+
+$wp_admin_bar->add_menu( array(
  'parent' => 'options_advanced',
  'id' => 'options_advanced_custom_fonts',
  'title' => 'Custom Fonts',
  'href' =>  $advanced_url.'of-option-customfonts'
 ));
 
-if(is_woocommerce_activated()) {
-  $wp_admin_bar->add_menu( array(
-   'parent' => 'options_advanced',
-   'id' => 'options_advanced_woocommerce',
-   'title' => 'WooCommerce',
-   'href' =>  $advanced_url.'of-option-woocommerce'
-  ));
-}
 $wp_admin_bar->add_menu( array(
  'parent' => 'options_advanced',
  'id' => 'options_advanced_catalog_mode',
@@ -403,10 +448,24 @@ $wp_admin_bar->add_menu( array(
 ));
 
 $wp_admin_bar->add_menu( array(
+	'parent' => 'options_advanced',
+	'id' => 'options_advanced_infinite_scroll',
+	'title' => 'Infinite Scroll',
+	'href' =>  $advanced_url.'of-option-infinitescroll'
+));
+
+$wp_admin_bar->add_menu( array(
  'parent' => 'options_advanced',
  'id' => 'options_advanced_portfolio',
  'title' => 'Portfolio',
  'href' =>  $advanced_url.'of-option-portfolio'
+));
+
+$wp_admin_bar->add_menu( array(
+ 'parent' => 'options_advanced',
+ 'id' => 'options_advanced_woocommerce',
+ 'title' => 'WooCommerce',
+ 'href' =>  $advanced_url.'of-option-woocommerce'
 ));
 
 $wp_admin_bar->add_menu( array(
@@ -437,20 +496,29 @@ if(is_category() || is_home()){
 
 if(is_woocommerce_activated()) {
 
- if(is_checkout() || is_cart() ){
-         $wp_admin_bar->add_menu( array(
-             'parent' => 'customize',
-             'id' => 'admin_bar_helper',
-             'title' => 'Cart / Checkout layout',
-     		 'href' =>  $optionUrl_section.'cart-checkout'
-         ));
+  if(is_cart() ){
+     $wp_admin_bar->add_menu( array(
+         'parent' => 'customize',
+         'id' => 'admin_bar_helper',
+         'title' => 'Cart layout',
+ 		 'href' =>  $optionUrl_section.'cart-checkout'
+     ));
+  }
+
+  if(is_checkout()){
+     $wp_admin_bar->add_menu( array(
+         'parent' => 'customize',
+         'id' => 'admin_bar_helper',
+         'title' => 'Checkout layout',
+     'href' =>  $optionUrl_section.'woocommerce_checkout'
+     ));
   }
 
   if(is_product()){
          $wp_admin_bar->add_menu( array(
              'parent' => 'customize',
              'id' => 'admin_bar_helper',
-             'title' => 'Product Page',
+             'title' => __('Product Page','woocommerce'),
  			 'href' =>  $optionUrl_section.'product-page'
          ));
   }
@@ -469,8 +537,8 @@ if(is_woocommerce_activated()) {
           $wp_admin_bar->add_menu( array(
              'parent' => 'customize',
              'id' => 'admin_bar_helper_flatsome',
-             'title' => 'Category Page',
- 			'href' =>  $optionUrl_section.'category-page'
+             'title' => __('Product Catalog','woocommerce'),
+ 			'href' =>  $optionUrl_section.'woocommerce_product_catalog'
          ));
   	}
 

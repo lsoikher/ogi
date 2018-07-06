@@ -1,7 +1,7 @@
-<?php 
+<?php
 Flatsome_Option::add_section( 'catalog-mode', array(
 	'title'       => __( 'Catalog Mode', 'flatsome-admin' ),
-	'panel' => 'shop',
+	'panel' => 'woocommerce',
 	'description' => __( 'Enable Catalog Mode', 'flatsome-admin' ),
 ) );
 

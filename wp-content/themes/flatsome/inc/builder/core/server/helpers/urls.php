@@ -23,8 +23,8 @@ function ux_builder_asset( $path ) {
 /**
  * Renders a url for editing a post with the UX Builder.
  *
- * @param  number $post_id
- * @param  number $edit_post_id
+ * @param  number $post_id Post to preview.
+ * @param  number $edit_post_id Post to edit.
  * @param  string $mode
  * @return string
  */

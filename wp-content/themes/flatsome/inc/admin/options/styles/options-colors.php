@@ -4,11 +4,6 @@
  * Style & Colors
  *************/
 
-Flatsome_Option::add_panel( 'style', array(
-	'title'       => __( 'Style', 'flatsome-admin' ),
-) );
-
-
 Flatsome_Option::add_section( 'colors', array(
 	'title'       => __( 'Colors', 'flatsome-admin' ),
 	'panel'       => 'style',
@@ -30,7 +25,7 @@ Flatsome_Option::add_field( 'option',  array(
     'label'       => __( 'Primary Color', 'flatsome-admin' ),
     'description' => __('Change primary color.', 'flatsome-admin'),
     'section'     => 'colors',
-    'default'    => '#446084',
+    'default'    => Flatsome_Default::COLOR_PRIMARY,
     'transport' => $transport
 ));
 
@@ -40,7 +35,7 @@ Flatsome_Option::add_field( 'option',  array(
     'transport' => $transport,
     'label'       => __( 'Secondary Color', 'flatsome-admin' ),
     'description' => __('Change secondary color.', 'flatsome-admin'),
-    'default'     => '#d26e4b',
+    'default'     => Flatsome_Default::COLOR_SECONDARY,
     'section'     => 'colors',
 ));
 
@@ -51,7 +46,7 @@ Flatsome_Option::add_field( 'option',  array(
     'label'       => __( 'Success Color', 'flatsome-admin' ),
     'description' => __('Change the success color. Used for global success messages.', 'flatsome-admin'),
     'section'     => 'colors',
-    'default'     => '#7a9c59'
+    'default'     => Flatsome_Default::COLOR_SUCCESS,
 ));
 
 Flatsome_Option::add_field( 'option',  array(
@@ -61,9 +56,8 @@ Flatsome_Option::add_field( 'option',  array(
     'label'       => __( 'Alert Color', 'flatsome-admin' ),
     'description' => __('Change the alert color. Used for global error messages etc.', 'flatsome-admin'),
     'section'     => 'colors',
-    'default'     => '#b20000'
+    'default'     => Flatsome_Default::COLOR_ALERT
 ));
-#d26e4b
 
 Flatsome_Option::add_field( '', array(
     'type'        => 'custom',

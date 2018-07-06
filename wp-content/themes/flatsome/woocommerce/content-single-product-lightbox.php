@@ -13,7 +13,7 @@ do_action('wc_quick_view_before_single_product');
 ?>
 
 <div class="product-quick-view-container">
-<div class="row row-collapse mb-0" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+<div class="row row-collapse mb-0 product" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
   <div class="product-gallery large-6 col">
     <div class="slider slider-show-nav product-gallery-slider main-images mb-0">
@@ -22,7 +22,7 @@ do_action('wc_quick_view_before_single_product');
 
           $image_title = esc_attr( get_the_title( get_post_thumbnail_id() ) );
           $image_link  = wp_get_attachment_url( get_post_thumbnail_id() );
-          $image       = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array(
+          $image       = get_the_post_thumbnail( $post->ID, apply_filters( 'woocommerce_gallery_image_size', 'woocommerce_single' ), array(
             'title' => $image_title
             ) );
 
@@ -44,7 +44,7 @@ do_action('wc_quick_view_before_single_product');
 
               foreach ( $attachment_ids as $attachment_id ) {
                   $image_title  = esc_attr( get_the_title( $attachment_id ) );
-                  $image =  wp_get_attachment_image( $attachment_id, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array('title' => $image_title,'alt' => $image_title) );
+                  $image =  wp_get_attachment_image( $attachment_id, apply_filters( 'woocommerce_gallery_image_size', 'woocommerce_single' ), array('title' => $image_title,'alt' => $image_title) );
                   echo apply_filters( 'woocommerce_single_product_image_html',sprintf( '<div class="slide">%s</div>', $image ), $attachment_id);
               }
           }

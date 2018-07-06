@@ -29,21 +29,78 @@ class AjaxManager {
     add_action( 'wp_ajax_ux_builder_search_terms', array( $this->terms, 'search_terms' ) );
     add_action( 'wp_ajax_ux_builder_get_terms', array( $this->terms, 'get_terms' ) );
     add_action( 'wp_ajax_ux_builder_to_array', array( $this, 'to_array' ) );
+    add_action( 'wp_ajax_ux_builder_import_media', array( $this, 'import_media' ) );
 
     if ( ! array_key_exists( 'ux_builder_action', $_POST ) ) return;
 
     add_action( 'template_redirect', array( $this->do_shortcode, 'do_shortcode' ), 0 );
   }
 
+  /**
+   * Converts content or a template to an array.
+   * Used by the import function and template selector.
+   */
   public function to_array () {
-    $id = $_POST['id'];
-    $template = ux_builder_get_template( $id );
+    $content = '';
+
+    if ( array_key_exists( 'content', $_POST ) ) {
+      $content = stripslashes( $_POST['content'] );
+    } else if ( array_key_exists( 'id', $_POST ) ) {
+      $id = $_POST['id'];
+      $template = ux_builder_get_template( $id );
+      $content = $template['content'];
+    }
+
     $post_array = new PostArray( (object) array(
-      'post_content' => $template['content']
+      'post_content' => $content
     ) );
 
     return wp_send_json_success( array(
-      'content' => $post_array->create_array()
+      'content' => $post_array->get_array()
+    ) );
+  }
+
+  /**
+   * Importa external meda files.
+   */
+  public function import_media () {
+    $id = $_POST['id'];
+    $url = $_POST['url'];
+
+    // 1. Check if image is already imported by its ID.
+    $query = new \WP_Query( array(
+      'post_type' => 'attachment',
+      'post_status' => 'inherit',
+      'meta_query' => array(
+        array( 'key' => '_flatsome_studio_id', 'value' => $id, 'compare' => '=' )
+      )
+    ) );
+
+    if ( $query->have_posts() ) {
+      return wp_send_json_success( array(
+        'id' => $query->posts[0]->ID,
+      ) );
+    }
+
+    // 2. Download image from URL.
+    $file = array();
+    $file['name'] = basename( $url );
+    $file['tmp_name'] = download_url( $url );
+
+    if ( is_wp_error( $file['tmp_name'] ) ) {
+      @unlink( $file['tmp_name'] );
+      return new WP_Error( 'flatsome', 'Could not download image from Flatsome Studio.' );
+    }
+
+    // 3. Add image to media library.
+    $attachment_id = media_handle_sideload( $file, 0 );
+    $attach_data = wp_generate_attachment_metadata( $attachment_id,  get_attached_file( $attachment_id ) );
+    wp_update_attachment_metadata( $attachmentId,  $attach_data );
+    update_post_meta( $attachment_id, '_flatsome_studio_id', $id );
+
+    // 4. Return local ID and URL.
+    return wp_send_json_success( array(
+      'id' => $attachment_id,
     ) );
   }
 }

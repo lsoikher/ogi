@@ -1,4 +1,4 @@
-<?php 
+<?php
 // PAGE META OPTIONS
 include('meta/meta_box_framework.php');
 
@@ -7,8 +7,8 @@ function flatsome_custom_meta_boxes() {
         'id'         => 'flatsome_page_options2', // Meta box ID
         'title'      => 'Page Layout', // Meta box title
         'pages'      => array('page'), // Post types this meta box should be shown on
-        'context'    => 'normal', // Meta box context
-        'priority'   => 'high', // Meta box priority
+        'context'    => 'side', // Meta box context
+        'priority'   => 'core', // Meta box priority
         'fields' => array(
             array(
                 'id' => '_footer',
@@ -23,7 +23,7 @@ function flatsome_custom_meta_boxes() {
                     'transparent' => 'Transparent',
                     'disabled' => 'Hide',
                 )
-            ),        
+            ),
         )
     );
     dev7_add_meta_box( $meta_box );

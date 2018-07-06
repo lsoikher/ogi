@@ -29,7 +29,7 @@ function shortcode_latest_from_blog($atts, $content = null, $tag) {
    		'depth_hover' => '',
 
 		// posts
-		'posts' => '12',
+		'posts' => '8',
 		'ids' => false, // Custom IDs
 		'cat' => '',
 		'excerpt' => 'visible',
@@ -254,8 +254,9 @@ while ( $recentPosts->have_posts() ) : $recentPosts->the_post();
 					<div class="is-divider"></div>
 					<?php if($excerpt !== 'false') { ?>
 					<p class="from_the_blog_excerpt <?php if($excerpt !== 'visible'){ echo 'show-on-hover hover-'.$excerpt; } ?>"><?php
-					  $the_excerpt = get_the_excerpt();
-					  echo flatsome_string_limit_words($the_excerpt, $excerpt_length) . '[...]';
+					  $the_excerpt  = get_the_excerpt();
+					  $excerpt_more = apply_filters( 'excerpt_more', ' [...]' );
+					  echo flatsome_string_limit_words($the_excerpt, $excerpt_length) . $excerpt_more;
 					?>
 					</p>
 					<?php } ?>

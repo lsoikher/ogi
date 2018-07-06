@@ -3,7 +3,7 @@
 // Shortcode to display a single product
 add_ux_builder_shortcode( 'scroll_to', array(
     'name' => 'Scroll To',
-    'category' => __( 'Elements' ),
+    'category' => __( 'Content' ),
     'thumbnail' =>  flatsome_ux_builder_thumbnail( 'scroll_to' ),
     'info' => '{{ title }}',
     'wrap' => false,

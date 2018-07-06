@@ -2,6 +2,10 @@
 
 $presets = __DIR__ . '/shortcodes/presets/';
 
+$post = isset( $_GET['post_id'] )
+  ? get_post( $_GET['post_id'] )
+  : null;
+
 require_once __DIR__ . '/shortcodes/accordion.php';
 require_once __DIR__ . '/shortcodes/accordion_item.php';
 require_once __DIR__ . '/shortcodes/block.php';
@@ -45,9 +49,7 @@ require_once __DIR__ . '/shortcodes/ux_video.php';
 require_once __DIR__ . '/shortcodes/ux_sidebar.php';
 require_once __DIR__ . '/shortcodes/ux_nav.php';
 
-#require_once __DIR__ . '/shortcodes/page_meta.php';
-
-if(get_theme_mod('fl_portfolio', 1)){
+if ( get_theme_mod( 'fl_portfolio', 1 ) ) {
 	require_once __DIR__ . '/shortcodes/ux_portfolio.php';
 }
 
@@ -64,4 +66,18 @@ if ( class_exists( 'WooCommerce' ) ) {
   require_once __DIR__ . '/shortcodes/ux_product_categories.php';
   require_once __DIR__ . '/shortcodes/ux_products.php';
   require_once __DIR__ . '/shortcodes/ux_products_list.php';
+
+  // Custom product layout shortcodes should be included
+  // if main post in builder is a product and custom layout
+  // is active or whenever a shortcode is rendered for the
+  // builder or when the builder is saving.
+  $has_custom_layout = get_theme_mod( 'product_layout' ) == 'custom';
+  $is_product = is_object( $post ) && $post->post_type == 'product';
+  $is_uxbuilder = isset( $_POST['ux_builder_action'] );
+  $is_rendering = $is_uxbuilder && $_POST['ux_builder_action'] == 'do_shortcode';
+  $is_saving = isset( $_POST['action'] ) && $_POST['action'] == 'ux_builder_save';
+
+  if ( ( $has_custom_layout && $is_product ) || $is_rendering || $is_saving ) {
+    require_once __DIR__ . '/shortcodes/custom-product.php';
+  }
 }

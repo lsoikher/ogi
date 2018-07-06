@@ -10,6 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$wrapper_classes = array();
 $row_classes = array();
 $main_classes = array();
 $sidebar_classes = array();
@@ -24,9 +25,11 @@ if($layout == 'simple'){
   $sidebar_classes[] = 'is-well';
 }
 
+$wrapper_classes = implode(" ", $wrapper_classes);
 $row_classes = implode(" ", $row_classes);
 $main_classes = implode(" ", $main_classes);
 $sidebar_classes = implode(" ", $sidebar_classes);
+
 
 wc_print_notices(); ?>
 
@@ -41,7 +44,7 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 }
 
 // filter hook for include new pages inside the payment method
-$get_checkout_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_checkout_url() ); ?>
+$get_checkout_url = apply_filters( 'woocommerce_get_checkout_url', wc_get_checkout_url() ); ?>
 
 <?php
 // Social login
@@ -49,7 +52,7 @@ if(flatsome_option('facebook_login_checkout') && get_option('woocommerce_enable_
 	wc_get_template('checkout/social-login.php');
 } ?>
 
-<form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( $get_checkout_url ); ?>" enctype="multipart/form-data">
+<form name="checkout" method="post" class="checkout woocommerce-checkout <?php echo $wrapper_classes; ?>" action="<?php echo esc_url( $get_checkout_url ); ?>" enctype="multipart/form-data">
 
 	<div class="row pt-0 <?php echo $row_classes; ?>">
   	<div class="large-7 col  <?php echo $main_classes; ?>">
@@ -72,6 +75,11 @@ if(flatsome_option('facebook_login_checkout') && get_option('woocommerce_enable_
   	</div><!-- large-7 -->
 
   	<div class="large-5 col">
+      <?php if(get_theme_mod('checkout_sticky_sidebar', 0)) { ?>
+      <div class="is-sticky-column">
+      <div class="is-sticky-column__inner">
+      <?php } ?>
+
   		<div class="col-inner <?php echo $sidebar_classes; ?>">
   			<div class="checkout-sidebar sm-touch-scroll">
   				<h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
@@ -83,6 +91,11 @@ if(flatsome_option('facebook_login_checkout') && get_option('woocommerce_enable_
   				<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
   			</div>
   		</div>
+
+      <?php if(get_theme_mod('checkout_sticky_sidebar', 0)) { ?>
+      </div>
+      </div>
+      <?php } ?>
   	</div><!-- large-5 -->
 
 	</div><!-- row -->

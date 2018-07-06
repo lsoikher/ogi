@@ -31,7 +31,13 @@ do_action('flatsome_before_product_page');
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php wc_get_template_part( 'content', 'single-product' ); ?>
+			<?php
+          if(get_theme_mod('product_layout') == 'custom') {
+            wc_get_template_part( 'content', 'single-product-custom' );
+          } else {
+            wc_get_template_part( 'content', 'single-product' );
+          }
+      ?>
 
 		<?php endwhile; // end of the loop. ?>
 

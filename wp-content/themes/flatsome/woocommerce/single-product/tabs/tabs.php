@@ -45,9 +45,9 @@ $count_panel = 0;
 
 if ( ! empty( $tabs ) ) : ?>
 
-	<div class="woocommerce-tabs tabbed-content">
-		<ul class="product-tabs nav small-nav-collapse tabs <?php flatsome_product_tabs_classes() ?>">
-			<?php 
+	<div class="woocommerce-tabs container tabbed-content">
+		<ul class="product-tabs  nav small-nav-collapse tabs <?php flatsome_product_tabs_classes() ?>">
+			<?php
 				foreach ( $tabs as $key => $tab ) : ?>
 				<li class="<?php echo esc_attr( $key ); ?>_tab  <?php if($count_tabs == 0) echo 'active';?>">
 					<a href="#tab-<?php echo esc_attr( $key ); ?>"><?php echo apply_filters( 'woocommerce_product_' . $key . '_tab_title', esc_html( $tab['title'] ), $key ); ?></a>
@@ -58,6 +58,7 @@ if ( ! empty( $tabs ) ) : ?>
 		<?php foreach ( $tabs as $key => $tab ) : ?>
 
 			<div class="panel entry-content <?php if($count_panel == 0) echo 'active';?>" id="tab-<?php echo $key ?>">
+        <?php if($key == 'description' && ux_builder_is_active()) { echo flatsome_dummy_text(); } ?>
 				<?php call_user_func( $tab['callback'], $key, $tab ) ?>
 			</div>
 

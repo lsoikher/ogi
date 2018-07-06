@@ -4,6 +4,7 @@ function title_shortcode( $atts, $content = null ){
   extract( shortcode_atts( array(
     '_id' => 'title-'.rand(),
     'text' => '',
+    'tag_name' => 'h3',
     'sub_text' => '',
     'style' => 'normal',
     'size' => '100',
@@ -16,7 +17,6 @@ function title_shortcode( $atts, $content = null ){
     'color' => '',
     'width' => '',
     'icon' => '',
-    'tag'
   ), $atts ) );
 
   if(!$text && !$link_text) return;
@@ -50,8 +50,7 @@ function title_shortcode( $atts, $content = null ){
     $css_args_title[] = array( 'attribute' => 'color', 'value' => $color);
   }
 
-  return '<div class="container section-title-container" '.get_shortcode_inline_css($css_args).'><h3 class="section-title section-title-'.$style.'"><b></b><span class="section-title-main" '.get_shortcode_inline_css($css_args_title).'>'.$icon.$atts['text'].$small_text.'</span><b></b>'.$link_output.'</h3></div><!-- .section-title -->';
-
+  return '<div class="container section-title-container" '.get_shortcode_inline_css($css_args).'><'. $tag_name . ' class="section-title section-title-'.$style.'"><b></b><span class="section-title-main" '.get_shortcode_inline_css($css_args_title).'>'.$icon.$atts['text'].$small_text.'</span><b></b>'.$link_output.'</' . $tag_name .'></div><!-- .section-title -->';
 }
 add_shortcode('title', 'title_shortcode');
 

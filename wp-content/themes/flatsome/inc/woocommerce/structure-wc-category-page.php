@@ -10,11 +10,21 @@ remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_show_prod
 add_action( 'woocommerce_before_shop_loop_item', 'woocommerce_show_product_loop_sale_flash', 10);
 
 
-// Change product pr page if set.
-function flatsome_product_pr_page(){
-   return flatsome_option('products_pr_page');
+/**
+ * Gets products per page count from theme settings.
+ */
+function flatsome_product_pr_page() {
+	return get_theme_mod( 'products_pr_page', 12 );
 }
-add_filter( 'loop_shop_per_page', create_function( '$cols', "return flatsome_product_pr_page();" ), 20 );
+add_filter( 'loop_shop_per_page', 'flatsome_product_pr_page', 20 );
+
+/**
+ * Gets base desktop row count from theme settings.
+ */
+function flatsome_category_row_count() {
+	return get_theme_mod( 'category_row_count', 3 );
+}
+add_filter( 'loop_shop_columns', 'flatsome_category_row_count', 20 );
 
 
 /* Set WooCommerce product loop classes */
@@ -22,7 +32,6 @@ function flatsome_product_row_classes($cols = null){
     $classes = array('row','row-small');
 
     $category_grid_style = flatsome_option('category_grid_style');
-
 
     if($category_grid_style == 'masonry'){
       wp_enqueue_script('flatsome-masonry-js');
@@ -48,6 +57,11 @@ function flatsome_product_row_classes($cols = null){
     if($shadow || $shadow_hover) $classes[] = 'has-shadow';
     if($shadow) $classes[] = 'row-box-shadow-'.$shadow;
     if($shadow_hover) $classes[] = 'row-box-shadow-'.$shadow_hover.'-hover';
+
+    // Custom heights
+    if(get_theme_mod('category_force_image_height')) {
+      $classes[] = 'has-equal-box-heights';
+    }
 
     return implode(' ', $classes);
 }

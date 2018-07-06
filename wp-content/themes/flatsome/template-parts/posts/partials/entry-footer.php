@@ -4,7 +4,7 @@
 			/* translators: used between list items, there is a space after the comma */
 			$categories_list = get_the_category_list( __( ', ', 'flatsome' ) );
 		?>
-		<span class="cat-links pull-left">
+		<span class="cat-links">
 			<?php printf( __( 'Posted in %1$s', 'flatsome' ), $categories_list ); ?>
 		</span>
 

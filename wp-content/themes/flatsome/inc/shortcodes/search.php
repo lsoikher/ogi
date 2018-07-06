@@ -4,7 +4,7 @@
 function search_shortcode($atts) {
 	extract(shortcode_atts(array(
 		'size' => 'normal',
-		'style' => flatsome_option('header_search_form_style'),
+		'style' => '',
 	), $atts));
 
     ob_start();

@@ -4,8 +4,8 @@
 
 // Product Headers
 function flatsome_product_header(){
-    if(is_product() && flatsome_option('product_header')){
-       return wc_get_template_part('single-product/headers/header-product', flatsome_option('product_header'));
+    if(is_product() && get_theme_mod('product_header') && get_theme_mod('product_layout') !== 'custom'){
+       return wc_get_template_part('single-product/headers/header-product', get_theme_mod('product_header'));
     }
 }
 add_action('flatsome_after_header','flatsome_product_header', 10);

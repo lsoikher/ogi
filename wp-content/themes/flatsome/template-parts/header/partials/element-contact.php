@@ -13,7 +13,7 @@
 	<ul id="header-contact" class="nav <?php echo $nav; ?> header-contact">
 		<?php if(flatsome_option('contact_location')){ ?>
 			<li class="<?php echo $class; ?>">
-			  <a target="_blank" href="https://maps.google.com/?q=<?php echo flatsome_option('contact_location'); ?>" title="<?php echo flatsome_option('contact_location'); ?>" class="<?php echo $class_link;?>">
+			  <a target="_blank" rel="noopener noreferrer" href="https://maps.google.com/?q=<?php echo flatsome_option('contact_location'); ?>" title="<?php echo flatsome_option('contact_location'); ?>" class="<?php echo $class_link;?>">
 			  	 <?php echo get_flatsome_icon('icon-map-pin-fill',$icon_size); ?>
 			     <span>
 			     	<?php 

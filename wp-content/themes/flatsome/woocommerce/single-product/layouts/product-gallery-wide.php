@@ -30,12 +30,14 @@
 					</div>
 				</div>
 				<div class="large-5 col">
-					<div class="is-well add-to-cart-wrapper">
+					<div class="is-well add-to-cart-wrapper <?php flatsome_product_summary_classes( false, false, true );?>">
 						<?php
 
 							if(!flatsome_option('catalog_mode')){
 								woocommerce_template_single_price();
+								flatsome_before_add_to_cart_html();
 								woocommerce_template_single_add_to_cart();
+								flatsome_after_add_to_cart_html();
 							} else {
 								if(flatsome_option('catalog_mode_prices')){
 									woocommerce_template_single_price();

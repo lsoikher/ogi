@@ -7,12 +7,19 @@
   $custom_cart_content = flatsome_option('html_cart_header');
   $icon_style = flatsome_option('cart_icon_style');
   $icon = flatsome_option('cart_icon');
+  $disable_mini_cart = ( is_cart() || is_checkout() ) && apply_filters( 'flatsome_disable_mini_cart', true );
+  if ( $disable_mini_cart ) {
+    $cart_style = 'link';
+  }
 ?>
 <li class="cart-item has-icon">
 
 <?php if($icon_style && $icon_style !== 'plain') { ?><div class="header-button"><?php } ?>
-
-<a href="<?php echo $woocommerce->cart->get_cart_url(); ?>" class="header-cart-link off-canvas-toggle nav-top-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>" data-open="#cart-popup" data-class="off-canvas-cart" title="<?php _e('Cart', 'woocommerce'); ?>" data-pos="right">
+  <?php if ( $cart_style === 'link' ) : ?>
+    <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php _e('Cart', 'woocommerce'); ?>" class="header-cart-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>">
+  <?php else : ?>
+    <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-cart-link off-canvas-toggle nav-top-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>" data-open="#cart-popup" data-class="off-canvas-cart" title="<?php _e('Cart', 'woocommerce'); ?>" data-pos="right">
+  <?php endif; ?>
 
 <?php
 if(flatsome_option('custom_cart_icon')) { ?>

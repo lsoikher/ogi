@@ -12,34 +12,23 @@ function flatsome_register_required_plugins() {
 	 * If the source is NOT from the .org repo, then source is also required.
 	 */
 	$plugins = array(
-		
+
 		array(
-			'name'     				=> 'WooCommerce', 
+			'name'     				=> 'WooCommerce',
 			'slug'     				=> 'woocommerce',
-			'version' 				=> '2.6', 
+			'version' 				=> '2.6',
 			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/woocommerce.png',
 		),
 		array(
-			'name'     				=> 'Regenerate Thumbnails',
-			'slug'     				=> 'regenerate-thumbnails', 
-			'version' 				=> '2.2.4',
-			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/regenerate.png',
-		),
-		array(
-			'name'     				=> 'Unlimited Sidebars Woosidebars', 
-			'slug'     				=> 'woosidebars', 
-			'version' 				=> '1.3.1', 
+			'name'     				=> 'Unlimited Sidebars Woosidebars',
+			'slug'     				=> 'woosidebars',
+			'version' 				=> '1.3.1',
 			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/woo-sidebars.png',
 		),
 		array(
-			'name'     				=> 'Nextend Facebook Connect', // The plugin name
+			'name'     				=> 'Nextend Social Login', // The plugin name
 			'slug'     				=> 'nextend-facebook-connect', // The plugin slug (typically the folder name)
 			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/nextend-facebook.png',
-		),
-		array(
-			'name'     				=> 'Nextend Google Connect', // The plugin name
-			'slug'     				=> 'nextend-google-connect', // The plugin slug (typically the folder name)
-			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/nextend-google.png',
 		),
 		array(
 			'name'     				=> 'YITH WooCommerce Wishlist', // The plugin name
@@ -47,7 +36,7 @@ function flatsome_register_required_plugins() {
 			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/wishlist.png',
 		),
 		array(
-			'name'     				=> 'Contact Form 7', 
+			'name'     				=> 'Contact Form 7',
 			'slug'     				=> 'contact-form-7',
 			'version' 				=> '4.4.2',
 			'image_url' => get_template_directory_uri() . '/assets/admin/plugin-thumbs/contactform7.png',

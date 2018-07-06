@@ -28,7 +28,7 @@
 <?php } else { ?>
 <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>"
     class="nav-top-link nav-top-not-logged-in <?php if($icon_style && $icon_style !== 'image') echo get_flatsome_icon_class($icon_style, 'small'); ?>"
-    <?php if(get_theme_mod('account_login_style','lightbox') == 'lightbox') echo 'data-open="#login-form-popup"'; ?>
+    <?php if(!is_checkout() && get_theme_mod('account_login_style','lightbox') == 'lightbox') echo 'data-open="#login-form-popup"'; ?>
   >
   <?php if(get_theme_mod('header_account_title', 1)) { ?>
   <span>
@@ -56,5 +56,6 @@ if ( is_user_logged_in() ) { ?>
 
 </li>
 <?php } else {
-  echo '<li><a class="element-error tooltip" title="WooCommerce needed">-</a></li>'; }
+	fl_header_element_error( 'woocommerce' );
+}
 ?>

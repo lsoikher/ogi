@@ -1,51 +1,57 @@
-jQuery( document ).ready(function($) {
+Flatsome.behavior('wishlist', {
+  attach: function (context) {
+    jQuery('.wishlist-button', context).each(function (index, element) {
+      'use strict'
 
-	"use strict";
+      jQuery(element).on('click', function (e) {
+        if (jQuery(this).parent().find('.yith-wcwl-wishlistexistsbrowse').hasClass('show')) {
+          let link = jQuery(this).parent().find('.yith-wcwl-wishlistexistsbrowse a').attr('href')
+          window.location.href = link
+          return
+        }
 
-	$('.wishlist-button').on('click', function(e){
+        jQuery(this).addClass('loading')
+        jQuery(this).parent().find('.add_to_wishlist').click()
+        e.preventDefault()
+      })
+    })
+  }
+})
 
-		if($(this).parent().find('.yith-wcwl-wishlistexistsbrowse').hasClass('show')){
-			var link = $(this).parent().find('.yith-wcwl-wishlistexistsbrowse a').attr('href');
-			window.location.href = link;
-			return;
-		}
+jQuery(document).ready(function () {
+  let flatsomeAddToWishlist = function () {
+    jQuery('.wishlist-button').removeClass('loading')
+    jQuery('.wishlist-button').addClass('wishlist-added')
 
-		$(this).addClass('loading');
-		$(this).parent().find('.add_to_wishlist').click();
-		e.preventDefault();
-	});
+    jQuery.ajax({
+      beforeSend: function () {
 
-	var flatsome_add_to_wishlist = function() {
-		$('.wishlist-button').removeClass('loading');
-		$('.wishlist-button').addClass('wishlist-added');
+      },
+      complete: function () {
 
-		$.ajax({
-            beforeSend: function () {
- 
-            },
-            complete  : function () {
- 
-            },
-            data      : {
-                action: 'flatsome_update_wishlist_count'
-            },
-            success   : function (data) {
-				$('i.wishlist-icon').addClass('added');
-				if(data == 0){
-					$('i.wishlist-icon').removeAttr('data-icon-label');
-				} else if(data == 1){
-					$('i.wishlist-icon').attr('data-icon-label','1');
-				} else {
-					$('i.wishlist-icon').attr('data-icon-label',data);
-				}
-				setTimeout(function(){
-					$('i.wishlist-icon').removeClass('added');
-				}, 500);
-            },
+      },
+      data: {
+        action: 'flatsome_update_wishlist_count',
+      },
+      success: function (data) {
+        jQuery('i.wishlist-icon').addClass('added')
+        if (data == 0) {
+          jQuery('i.wishlist-icon').removeAttr('data-icon-label')
+        }
+        else if (data == 1) {
+          jQuery('i.wishlist-icon').attr('data-icon-label', '1')
+        }
+        else {
+          jQuery('i.wishlist-icon').attr('data-icon-label', data)
+        }
+        setTimeout(function () {
+          jQuery('i.wishlist-icon').removeClass('added')
+        }, 500)
+      },
 
-            url: yith_wcwl_l10n.ajax_url
-        });
-    };
+      url: yith_wcwl_l10n.ajax_url,
+    })
+  }
 
-    $('body').on( 'added_to_wishlist removed_from_wishlist', flatsome_add_to_wishlist);
-});
+  jQuery('body').on('added_to_wishlist removed_from_wishlist', flatsomeAddToWishlist)
+})

@@ -51,7 +51,7 @@ function ux_countdown_shortcode( $atts ){
 
     if($color == 'primary' && !isset($bg_color)){
       $color = false;
-      $atts['bg_color'] = get_theme_mod('color_primary','#446084');
+      $atts['bg_color'] = get_theme_mod('color_primary', Flatsome_Default::COLOR_PRIMARY );
     }
 
     $args = array(

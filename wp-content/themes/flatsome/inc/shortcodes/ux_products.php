@@ -4,6 +4,11 @@
 function ux_products($atts, $content = null, $tag) {
 	global $woocommerce;
 	$sliderrandomid = rand();
+
+  if ( ! is_array( $atts ) ) {
+    $atts = array();
+  }
+
 	extract(shortcode_atts(array(
 		'_id' => 'product-grid-'.rand(),
 		'title' => '',
@@ -45,6 +50,7 @@ function ux_products($atts, $content = null, $tag) {
 		'order' => '',
 		'tags' => '',
 		'show' => '', //featured, onsale
+		'out_of_stock' => '', // exclude.
 		// Box styles
 		'animate' => '',
 		'text_pos' => 'bottom',
@@ -266,7 +272,7 @@ function ux_products($atts, $content = null, $tag) {
 									<?php if($image_overlay){ ?><div class="overlay fill" style="background-color: <?php echo $image_overlay;?>"></div><?php } ?>
 									 <?php if($style == 'shade'){ ?><div class="shade"></div><?php } ?>
 								</div>
-								<div class="image-tools z-top top right show-on-hover">
+								<div class="image-tools top right show-on-hover">
 									<?php do_action('flatsome_product_box_tools_top'); ?>
 								</div>
 								<?php if($style !== 'shade' && $style !== 'overlay') { ?>

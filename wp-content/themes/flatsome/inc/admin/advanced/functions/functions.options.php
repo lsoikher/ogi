@@ -20,6 +20,15 @@ if ( ! function_exists( 'of_options' ) ) {
 			$of_pages[ $of_page->ID ] = $of_page->post_title;
 		}
 
+		// Access the Blocks via an Array.
+		$of_blocks = array( false => '-- None --' );
+		$of_blocks_obj  = flatsome_get_post_type_items( 'blocks' );
+		if ( $of_blocks_obj ) {
+			foreach ( $of_blocks_obj as $of_block ) {
+				$of_blocks[ $of_block->post_name ] = $of_block->post_title;
+			}
+		}
+
 		// Set the Options Array
 		global $of_options;
 		$of_options = array();
@@ -141,22 +150,61 @@ if ( ! function_exists( 'of_options' ) ) {
 		);
 
 		if ( is_woocommerce_activated() ) {
+
 			$of_options[] = array(
-				"name" => "Show Blog and pages in search results.",
+				"name" => "Show Blog and pages in search results",
 				"id"   => "search_result",
 				"desc" => "Enable blog and pages in search results",
 				"std"  => 1,
 				"type" => "checkbox"
 			);
-			$of_options[] = array(
-				"name" => "Search SKU",
+            
+       $of_options[] = array(
+        "name"    => "Search Products Order By",
+        "id"      => "search_products_order_by",
+        "type"    => "select",
+        "std"     => 'relevance',
+        "options" => array(
+          'relevance' => 'Relevance',
+          'title'     => "Title",
+          'price'     => "Price",
+        ),
+      );
+
+
+      $of_options[] = array(
+				"name" => "Search Product SKU",
 				"desc" => "Allow searching by SKU in live search.",
 				"id"   => "search_by_sku",
 				"std"  => 0,
 				"type" => "checkbox"
 			);
+     
+      
+      $of_options[] = array(
+				"name" => "Search Product Tag",
+				"desc" => "Allow searching by product tags in live search.",
+				"id"   => "search_by_product_tag",
+				"std"  => 0,
+				"type" => "checkbox"
+			);
 		}
 
+    // UX Builder
+    $of_options[] = array(
+      "name" => "UX Builder",
+      "type" => "heading",
+    );
+
+    $of_options[] = array(
+      "name" => "Flatsome Studio",
+      "id"   => "flatsome_studio",
+      "desc" => "Enable access to Flatsome Studio",
+      "std"  => 1,
+      "type" => "checkbox"
+    );
+
+    // Lazy loading
 		$of_options[] = array(
 			"name" => "Lazy Loading",
 			"type" => "heading",
@@ -246,6 +294,20 @@ if ( ! function_exists( 'of_options' ) ) {
 		);
 
 		$of_options[] = array(
+			"name" => "404 Page",
+			"type" => "heading",
+		);
+
+		$of_options[] = array(
+			"name"    => "Custom 404 Block",
+			"id"      => "404_block",
+			"desc"    => "Replace 404 page content with a Custom Block that you can edit in the Page Builder.",
+			"std"     => 0,
+			"type"    => "select",
+			"options" => $of_blocks,
+		);
+
+		$of_options[] = array(
 			"name" => "Custom Fonts",
 			"type" => "heading",
 		);
@@ -267,6 +329,14 @@ if ( ! function_exists( 'of_options' ) ) {
 				"name" => "Disable Reviews Global",
 				"id"   => "disable_reviews",
 				"desc" => "Disable reviews globally.",
+				"std"  => 0,
+				"type" => "checkbox"
+			);
+
+			$of_options[] = array(
+				"name" => "Enable default WooCommerce product gallery",
+				"id"   => "product_gallery_woocommerce",
+				"desc" => "Use the default WooCommerce gallery slider for plugin compatibility, such as \"Additional Variation Images\".",
 				"std"  => 0,
 				"type" => "checkbox"
 			);
@@ -352,7 +422,7 @@ if ( ! function_exists( 'of_options' ) ) {
 				"id"   => "catalog_mode_product",
 				"std"  => "",
 				"type" => "textarea",
-				"desc" => "Enter contact information or enquery form shortcode here."
+				"desc" => "Enter contact information or enquiry form shortcode here."
 			);
 
 			$of_options[] = array(
@@ -361,6 +431,40 @@ if ( ! function_exists( 'of_options' ) ) {
 				"std"  => "",
 				"type" => "textarea",
 				"desc" => "Enter text that will show in product quick view"
+			);
+
+			$of_options[] = array(
+				"name" => "Infinite Scroll",
+				"type" => "heading",
+			);
+
+			$of_options[] = array(
+				"name" => "Infinite scroll category/products",
+				"id"   => "flatsome_infinite_scroll",
+				"desc" => "Enable infinite scroll for WooCommerce category/product archive.",
+				"std"  => 0,
+				"type" => "checkbox"
+			);
+
+			$of_options[] = array(
+				"name"    => "Loading type",
+				"id"      => "infinite_scroll_loader_type",
+				"desc"    => "Select loading type animation or on button click.",
+				"std"     => "spinner",
+				"type"    => "select",
+				"options" => array(
+					'button' => 'Button (On click)',
+					'spinner' => 'Spinner',
+					'image' => 'Custom Image',
+				)
+			);
+
+			$of_options[] = array(
+				"name" => "Custom loader image",
+				"desc" => "Upload or choose a custom loader image (for loading type 'Custom Image').",
+				"id"   => "infinite_scroll_loader_img",
+				"std"  => "",
+				"type" => "upload",
 			);
 		}
 

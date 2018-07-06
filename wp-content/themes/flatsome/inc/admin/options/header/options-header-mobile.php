@@ -5,7 +5,7 @@
  *************/
 
 Flatsome_Option::add_section( 'header_mobile', array(
-	'title'       => __( 'Header Sidebar / Mobile', 'flatsome-admin' ),
+	'title'       => __( 'Header Mobile Menu / Overlay', 'flatsome-admin' ),
 	'panel'       => 'header',
 	//'description' => __( 'This is the section description', 'flatsome-admin' ),
 ) );
@@ -59,7 +59,7 @@ Flatsome_Option::add_field( 'option',  array(
 Flatsome_Option::add_field( 'option',  array(
 	'type'        => 'checkbox',
 	'settings'     => 'menu_icon_title',
-	'label'       => __( 'Show menu title', 'flatsome-admin' ),
+	'label'       => __( 'Show Menu title', 'flatsome-admin' ),
 	'section'     => 'header_mobile',
 	'transport' => $transport,
 	'default'     => 0,
@@ -68,7 +68,7 @@ Flatsome_Option::add_field( 'option',  array(
 Flatsome_Option::add_field( 'option', array(
 	'type'        => 'radio-image',
 	'settings'     => 'mobile_overlay',
-	'label'       => __( 'Mobile Overlay', 'flatsome-admin' ),
+	'label'       => __( 'Menu Overlay', 'flatsome-admin' ),
 	'section'     => 'header_mobile',
 	'transport'	  => $transport,
 	'default'     => 'left',
@@ -77,6 +77,17 @@ Flatsome_Option::add_field( 'option', array(
 		'right' => $image_url . 'overlay-right.svg',
 		'center' => $image_url . 'overlay-center.svg'
 	),
+));
+
+Flatsome_Option::add_field( 'option',  array(
+  'type'        => 'sortable',
+  'settings'     => 'mobile_sidebar',
+  'label'       => __( 'Menu Elements', 'flatsome-admin' ),
+  'section'     => 'header_mobile',
+  'transport'   => $transport,
+  'multiple' => 10,
+  'default'     => flatsome_header_mobile_sidebar(),
+  'choices'     => $nav_elements
 ));
 
 Flatsome_Option::add_field( 'option', array(
@@ -100,15 +111,4 @@ Flatsome_Option::add_field( 'option',  array(
 	'section'     => 'header_mobile',
 	'default'     => '',
 	'transport' => 'postMessage'
-));
-
-Flatsome_Option::add_field( 'option',  array(
-	'type'        => 'select',
-	'settings'     => 'mobile_sidebar',
-	'label'       => __( 'Elements', 'flatsome-admin' ),
-	'section'     => 'header_mobile',
-	'transport'	  => $transport,
-	'multiple' => 10,
-	'default'     => flatsome_header_mobile_sidebar(),
-	'choices'     => $nav_elements
 ));

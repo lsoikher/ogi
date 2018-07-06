@@ -13,6 +13,8 @@ function ux_gallery($atts) {
       // Layout
       'style' => 'overlay',
       'columns' => '4',
+      'columns__sm' => '',
+      'columns__md' => '',
       'col_spacing' => '',
       'type' => '', // slider, row, masonery, grid
       'width' => '',
@@ -48,8 +50,6 @@ function ux_gallery($atts) {
 
       ), $atts));
 
-      global $post;
-
       $classes_box = array('box','has-hover','gallery-box');
       $classes_image = array('box-image');
       $classes_text = array('box-text');
@@ -63,7 +63,7 @@ function ux_gallery($atts) {
         $current_grid = 0;
         $grid = flatsome_get_grid($grid);
         $grid_total = count($grid);
-        echo flatsome_get_grid_height($grid_height, $_id);
+        flatsome_get_grid_height($grid_height, $_id);
       }
       if($type == 'slider-full'){
         $columns = null;
@@ -97,15 +97,12 @@ function ux_gallery($atts) {
       $css_args_img = array(
         array( 'attribute' => 'border-radius', 'value' => $image_radius, 'unit' => '%'),
         array( 'attribute' => 'width', 'value' => $image_width, 'unit' => '%' ),
+        array( 'attribute' => 'padding-top', 'value' => $image_height),
       );
 
-      $css_args = array(
+	$css_args_text = array(
             array( 'attribute' => 'background-color', 'value' => $text_bg ),
             array( 'attribute' => 'padding', 'value' => $text_padding ),
-      );
-
-      $css_image_height = array(
-        array( 'attribute' => 'padding-top', 'value' => $image_height),
       );
 
       // Repeater options
@@ -121,6 +118,8 @@ function ux_gallery($atts) {
       $repater['row_spacing'] = $col_spacing;
       $repater['row_width'] = $width;
       $repater['columns'] = $columns;
+      $repater['columns__sm'] = $columns__sm;
+      $repater['columns__md'] = $columns__md;
 
       // Get attachments
       $_attachments = get_posts( array( 'include' => $ids, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby ) );
@@ -136,7 +135,7 @@ function ux_gallery($atts) {
 
       ob_start();
 
-      echo get_flatsome_repeater_start($repater);
+      get_flatsome_repeater_start($repater);
 
       foreach ( $attachments as $id => $attachment ) {
 
@@ -158,7 +157,8 @@ function ux_gallery($atts) {
 
         } else if( 'false' !== $lightbox) {
            $get_image = wp_get_attachment_image_src( $attachment->ID, 'large');
-           $link_start = '<a class="image-lightbox lightbox-gallery" href="'.$get_image[0].'" title="'.$attachment->post_excerpt.'">';
+           $image_titel = str_replace('"', '“',$attachment->post_excerpt);
+           $link_start = '<a class="image-lightbox lightbox-gallery" href="'.$get_image[0].'" title="'.$image_titel.'">';
            $link_end = '</a>';
         }
 
@@ -181,7 +181,7 @@ function ux_gallery($atts) {
           <div class="col-inner">
             <?php echo $link_start; ?>
             <div class="<?php echo implode(' ', $classes_box); ?>">
-              <div class="<?php echo implode(' ', $classes_image); ?>" <?php echo get_shortcode_inline_css($css_image_height); ?>>
+              <div class="<?php echo implode(' ', $classes_image); ?>" <?php echo get_shortcode_inline_css($css_args_img); ?>>
                 <?php echo $image_output; ?>
                 <?php if($image_overlay){ ?>
                   <div class="overlay fill"
@@ -199,7 +199,7 @@ function ux_gallery($atts) {
                     </div>
                 <?php } ?>
               </div><!-- .image -->
-              <div class="<?php echo implode(' ', $classes_text); ?>">
+              <div class="<?php echo implode(' ', $classes_text); ?>" <?php echo get_shortcode_inline_css($css_args_text); ?>>
                  <p><?php echo $attachment->post_excerpt; ?></p>
               </div><!-- .text -->
             </div><!-- .box -->
@@ -209,7 +209,7 @@ function ux_gallery($atts) {
          <?php
     } // Loop
 
-    echo get_flatsome_repeater_end($repater);
+    get_flatsome_repeater_end($repater);
 
     $content = ob_get_contents();
     ob_end_clean();

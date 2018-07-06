@@ -119,10 +119,10 @@ Flatsome_Option::add_field( 'option',  array(
   'choices'     => array(
      0   => 'Auto',
     '50%' => '1:2 (Wide)',
-    '75%' => '4:3 (Retangular)',
+    '75%' => '4:3 (Rectangular)',
     '56%' => '16:9 (Widescreen)',
     '100%' => '1:1 (Square)',
-    '125%' => 'Potrait',
+    '125%' => 'Portrait',
     '100%' => '2:1 (Tall)',
   ),
 ));
@@ -164,9 +164,9 @@ Flatsome_Option::add_field( 'option',  array(
 	'settings'     => 'portfolio_archive_filter',
 	'label'       => __( 'Filter Navigation', 'flatsome-admin' ),
 	'section'     => 'fl-portfolio',
-	'default'     => '',
+	'default'     => 'left',
 	'choices'     => array(
-		''		=> 'Left',
+		'left' => 'Left',
 		'center' => 'Center',
 		'disabled' => 'Disabled'
 	),

@@ -4,7 +4,7 @@ global $wc;
 
 Flatsome_Option::add_section( 'fl-my-account', array(
 	'title'       => __( 'My Account', 'flatsome-admin' ),
-	'panel' => 'shop'
+	'panel' => 'woocommerce'
 ) );
 
 Flatsome_Option::add_field( 'option',  array(
