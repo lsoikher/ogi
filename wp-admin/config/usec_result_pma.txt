@@ -1,3 +1,0 @@
-http://5.249.146.97:80/phpmyadmin/index.php
-http://185.58.227.116:80/phpmyadmin/index.php
-http://185.58.227.116:8080/phpmyadmin/index.php

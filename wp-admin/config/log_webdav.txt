@@ -1,2 +1,0 @@
-http://185.58.227.116:80/webdav Server: Apache/2.2.4 (Win32) DAV/2 mod_ssl/2.2.4 OpenSSL/0.9.8e PHP/5.2.3
-http://185.58.227.116:8080/webdav Server: Apache/2.2.4 (Win32) DAV/2 mod_ssl/2.2.4 OpenSSL/0.9.8e PHP/5.2.3

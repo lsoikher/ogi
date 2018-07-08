@@ -1,0 +1,5 @@
+1616.117 (1) Opened log file at time: Sat, 07 Jul 2018 08:34:43 +0000 on http://www.onlygoodnessinside.com
+1616.120 (1) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 2.13.12.22 WP: 4.9.7 PHP: 7.0.15-0ubuntu0.16.04.4 (fpm-fcgi, Linux instance-1 4.4.0-128-generic #154-Ubuntu SMP Fri May 25 14:15:18 UTC 2018 x86_64) MySQL: 5.7.22 WPLANG: en_US Server: nginx/1.10.3 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 9.3M | 6M) multisite: N openssl: OpenSSL 1.0.2g  1 Mar 2016 mcrypt: Y LANG:  ZipArchive::addFile: Y
+1616.121 (1) Free space on disk containing Updraft's temporary directory: 3483 MB
+1616.125 (1) Backup run: resumption=1, nonce=9a7a8d52b2b1, begun at=1530950867 (1616s ago), job type=backup, previous check-in=1244.8s
+1616.127 (1) Terminate: This backup job is already finished (1).
