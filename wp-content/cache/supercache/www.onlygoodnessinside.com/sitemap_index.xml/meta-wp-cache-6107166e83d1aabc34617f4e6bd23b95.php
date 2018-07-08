@@ -1,0 +1,1 @@
+<?php die(); ?>{"headers":{"Vary":"Vary: Accept-Encoding, Cookie","X-Robots-Tag":"X-Robots-Tag: noindex, follow","Content-Type":"Content-Type: text\/xml; charset=UTF-8","Last-Modified":"Last-Modified: Sun, 08 Jul 2018 02:12:18 GMT"},"uri":"www.onlygoodnessinside.com\/sitemap_index.xml","blog_id":1,"post":0,"key":"www.onlygoodnessinside.com80\/sitemap_index.xml"}

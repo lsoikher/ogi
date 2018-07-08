@@ -20,6 +20,8 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
+define( 'WPCACHEHOME', '/home/lidorsoikher012/ogi/wp-content/plugins/wp-super-cache/' );
+define('WP_CACHE', true);
 define('DB_NAME', 'ogidevDBpypjs');
 
 /** MySQL database username */
