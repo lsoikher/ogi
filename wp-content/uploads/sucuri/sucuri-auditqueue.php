@@ -4011,3 +4011,4 @@ exit(0);
 1531015596_3321:"Notice: goodness, 72.219.137.136; Page was updated; ID: 31032; name: Only Goodness Inside"
 1531015596_3488:"Notice: goodness, 72.219.137.136; Revision status has been changed; details: ID: 33519,Old status: new,New status: inherit,Title: Only Goodness Inside"
 1531016460_1026:"Notice: 72.219.144.212; User authentication succeeded: goodness"
+1531016580_2752:"Info: goodness, 72.219.137.136; Core file restored: (multiple entries): \/home\/lidorsoikher012\/ogi\/\/wp-admin\/includes\/class-wp-upgrader.php,\/home\/lidorsoikher012\/ogi\/\/wp-blog-header.php"
